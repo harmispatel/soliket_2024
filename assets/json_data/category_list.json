@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Clothing"
+  },
+  {
+    "id": 2,
+    "name": "Shoes"
+  },
+  {
+    "id": 3,
+    "name": "Jewellery"
+  },
+  {
+    "id": 4,
+    "name": "Watches"
+  },
+  {
+    "id": 5,
+    "name": "Handbags"
+  },
+  {
+    "id": 6,
+    "name": "Accessories"
+  },
+  {
+    "id": 7,
+    "name": "Hair"
+  },
+  {
+    "id": 8,
+    "name": "Skin"
+  },
+  {
+    "id": 9,
+    "name": "Makeup"
+  },
+  {
+    "id": 10,
+    "name": "Foot,Hand and Nail"
+  }
+]
