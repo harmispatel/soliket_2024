@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
+import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/profile/profile_view.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 
@@ -79,10 +80,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Padding(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
                 padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,38 +141,18 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 10,
-              ),
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: CommonTextField(
-                      hintText: "Search",
-                      isPrefixIconButton: true,
-                      suffixIcon: Icons.mic,
-                      isIconButton: true,
-                    ),
-                  ),
+              kCommonSpaceV15,
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: CommonTextField(
+                  hintText: "Search",
+                  isPrefixIconButton: true,
+                  suffixIcon: Icons.mic,
+                  isIconButton: true,
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: FittedBox(
                   child: Text(
@@ -181,14 +163,8 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: CarouselSlider.builder(
+              kCommonSpaceV15,
+              CarouselSlider.builder(
                 itemCount: imgList.length,
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
@@ -211,14 +187,8 @@ class _HomeState extends State<Home> {
                   viewportFraction: 1.0,
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   "Grocery",
@@ -226,14 +196,8 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -292,14 +256,8 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   "Dairy & Breakfast",
@@ -307,14 +265,8 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -373,14 +325,8 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   "Snacks & Drinks",
@@ -388,14 +334,8 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -453,14 +393,8 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Text(
                   "Beauty & Personal Care",
@@ -468,14 +402,8 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -533,14 +461,8 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
+              kCommonSpaceV15,
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -563,25 +485,224 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: ListView(
-                    children: <Widget>[
+              kCommonSpaceV15,
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
                       ProductContainer(),
+                      kCommonSpaceH10,
                       ProductContainer(),
+                      kCommonSpaceH10,
                       ProductContainer(),
+                      kCommonSpaceH10,
                       ProductContainer(),
                     ],
-                  )),
-            ),
-          ],
+                  ),
+                ),
+              ),
+              kCommonSpaceV15,
+              Stack(
+                children: [
+                  Image.asset(LocalImages.img_bg_cleaning),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 15, left: 15, top: 160),
+                    child: FittedBox(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                // Use Flexible to dynamically adjust height
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          // image: NetworkImage(images[index]),
+                                          image: NetworkImage(
+                                              "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 5), // Space between image and text
+
+                                // Text that wraps and adjusts based on content
+                                Text(
+                                  "Dry & Fruits",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w500, height: 1),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          kCommonSpaceH10,
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                // Use Flexible to dynamically adjust height
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          // image: NetworkImage(images[index]),
+                                          image: NetworkImage(
+                                              "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 5), // Space between image and text
+
+                                // Text that wraps and adjusts based on content
+                                Text(
+                                  "Dry & Fruits and Nuts",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w500, height: 1),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          kCommonSpaceH10,
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                // Use Flexible to dynamically adjust height
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          // image: NetworkImage(images[index]),
+                                          image: NetworkImage(
+                                              "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 5), // Space between image and text
+
+                                // Text that wraps and adjusts based on content
+                                Text(
+                                  "Dry & Fruits",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w500, height: 1),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          kCommonSpaceH10,
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                // Use Flexible to dynamically adjust height
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          // image: NetworkImage(images[index]),
+                                          image: NetworkImage(
+                                              "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 5), // Space between image and text
+
+                                // Text that wraps and adjusts based on content
+                                Text(
+                                  "Dry & Fruits",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w500, height: 1),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              kCommonSpaceV15,
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                        image: AssetImage(LocalImages.img_masala_banner),
+                        fit: BoxFit.fill),
+                  ),
+                ),
+              ),
+              kCommonSpaceV15,
+            ],
+          ),
         ),
       ),
     );
@@ -591,6 +712,7 @@ class _HomeState extends State<Home> {
 class ProductContainer extends StatefulWidget {
   final String? imgUrl;
   final String? productName;
+
   const ProductContainer({super.key, this.imgUrl, this.productName});
 
   @override
@@ -603,7 +725,9 @@ class _ProductContainerState extends State<ProductContainer> {
     return Container(
       width: 180,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Stack(
         children: [
           Padding(

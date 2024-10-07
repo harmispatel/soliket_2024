@@ -5,7 +5,6 @@ import 'package:pinput/pinput.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
-import '../../utils/local_images.dart';
 import '../../widget/common_appbar.dart';
 import '../../widget/primary_button.dart';
 import '../location/location_allow_view.dart';
@@ -70,11 +69,11 @@ class _OtpViewState extends State<OtpView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Image.asset(LocalImages.img_splash_logo),
-              ),
-              kCommonSpaceV80,
+              // Padding(
+              //   padding: const EdgeInsets.all(25.0),
+              //   child: Image.asset(LocalImages.img_splash_logo),
+              // ),
+              // kCommonSpaceV80,
               Text(
                 "Enter your code",
                 style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 20),
@@ -129,7 +128,7 @@ class _OtpViewState extends State<OtpView> {
               PrimaryButton(
                 height: 50,
                 label: "Verify and Proceed",
-                lblSize: 20,
+                lblSize: 18,
                 onPress: () {
                   requestLocationPermission();
                 },
@@ -211,5 +210,3 @@ class _OtpViewState extends State<OtpView> {
     // );
   }
 }
-
-///////.///////

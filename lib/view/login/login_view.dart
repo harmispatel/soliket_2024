@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/constant.dart';
-import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../widget/common_text_field.dart';
@@ -146,12 +145,12 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              kCommonSpaceV100,
-              kCommonSpaceV20,
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Image.asset(LocalImages.img_splash_logo),
-              ),
+              // kCommonSpaceV100,
+              // kCommonSpaceV20,
+              // Padding(
+              //   padding: const EdgeInsets.all(25.0),
+              //   child: Image.asset(LocalImages.img_splash_logo),
+              // ),
             ],
           ),
         ),

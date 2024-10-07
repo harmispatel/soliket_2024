@@ -356,7 +356,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
                               child: PrimaryButton(
                                 height: 55,
                                 label: "Confirm Location",
-                                lblSize: 20,
+                                lblSize: 18,
                                 onPress: () {
                                   pushAndRemoveUntil(HomeView());
                                 },
