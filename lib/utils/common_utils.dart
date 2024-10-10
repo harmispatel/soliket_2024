@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pinput/pinput.dart';
@@ -1641,27 +1639,27 @@ extension ExtendedString on String? {
   }
 }
 
-Future<void> saveNetworkImage(String? image) async {
-  if (image == null || image.isEmpty) return;
-
-  try {
-    Response response = await get(Uri.parse(image));
-    final result = await ImageGallerySaver.saveImage(
-      response.bodyBytes,
-      quality: 100,
-    );
-    print(result);
-
-    if (result != null && result.isNotEmpty) {
-      CommonUtils.showToastMessage("Image Saved");
-    } else {
-      CommonUtils.showSnackBar("Image not Saved");
-    }
-  } catch (e) {
-    print("Error saving image: $e");
-    CommonUtils.showSnackBar("Error saving image");
-  }
-}
+// Future<void> saveNetworkImage(String? image) async {
+//   if (image == null || image.isEmpty) return;
+//
+//   try {
+//     Response response = await get(Uri.parse(image));
+//     final result = await ImageGallerySaver.saveImage(
+//       response.bodyBytes,
+//       quality: 100,
+//     );
+//     print(result);
+//
+//     if (result != null && result.isNotEmpty) {
+//       CommonUtils.showToastMessage("Image Saved");
+//     } else {
+//       CommonUtils.showSnackBar("Image not Saved");
+//     }
+//   } catch (e) {
+//     print("Error saving image: $e");
+//     CommonUtils.showSnackBar("Error saving image");
+//   }
+// }
 
 // Future<void> shareNetworkImage(String? image) async {
 //   if (image == null || image.isEmpty) return;

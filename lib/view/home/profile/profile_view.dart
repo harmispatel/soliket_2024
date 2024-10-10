@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
+import 'package:solikat_2024/view/home/profile/save_address/save_address_view.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
+
+import '../../../utils/common_utils.dart';
+import '../../cart/cart_view.dart';
+import 'edit_account/edit_account_view.dart';
+import 'my_orders/my_orders_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -17,11 +23,12 @@ class _ProfileViewState extends State<ProfileView> {
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
         title: "Profile",
+        isShowShadow: true,
+        isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
+        padding: kCommonScreenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,8 +37,8 @@ class _ProfileViewState extends State<ProfileView> {
                 ClipOval(
                   child: Image.network(
                     'https://via.placeholder.com/150',
-                    width: 70,
-                    height: 70,
+                    width: 60,
+                    height: 60,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -46,7 +53,7 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    kCommonSpaceV5,
+                    kCommonSpaceV3,
                     Text(
                       "+91 1234567890",
                       style: getAppStyle(
@@ -59,11 +66,12 @@ class _ProfileViewState extends State<ProfileView> {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    debugPrint("On Tap Edit Profile Icon Button");
+                    push(EditAccountView());
                   },
                   child: const Icon(
-                    Icons.edit_rounded,
+                    Icons.edit_outlined,
                     color: Colors.grey,
+                    size: 21,
                   ),
                 ),
               ],
@@ -72,18 +80,30 @@ class _ProfileViewState extends State<ProfileView> {
             Text(
               "More Details",
               style: getAppStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black54),
             ),
             const ProfileOptionsView(),
             Center(
+              child: GestureDetector(
+                onTap: () {
+                  push(MyCartView());
+                },
+                child: Text(
+                  "See Cart Screen",
+                  style: getAppStyle(fontSize: 20, color: Colors.blueAccent),
+                ),
+              ),
+            ),
+            kCommonSpaceV20,
+            Center(
               child: Text(
-                "Version 2.6.1.5(198)",
+                "v2.6.1.5(198)",
                 style: getAppStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey,
                 ),
               ),
             ),
@@ -106,10 +126,10 @@ class ProfileOptionsView extends StatefulWidget {
 class _ProfileOptionsViewState extends State<ProfileOptionsView> {
   final List<Map<String, dynamic>> profileOptions = [
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
-    {'icon': Icons.bookmark_border_rounded, 'title': ' Save Addresses'},
+    {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
     {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
-    {'icon': Icons.language_outlined, 'title': ' Change Language'},
-    {'icon': Icons.star_rate_outlined, 'title': ' Rate Us'},
+    {'icon': Icons.translate, 'title': ' Change Language'},
+    {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
     {'icon': Icons.info_outline, 'title': ' About Us'},
     {'icon': Icons.logout_rounded, 'title': ' Logout'},
   ];
@@ -125,6 +145,11 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
             behavior: HitTestBehavior.translucent,
             onTap: () {
               print(index);
+              if (index == 0) {
+                push(MyOrdersView());
+              } else if (index == 1) {
+                push(SaveAddressView());
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -136,7 +161,7 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
                         ? Colors.red
                         : Colors.black,
                   ),
-                  kCommonSpaceV15,
+                  kCommonSpaceH10,
                   Text(
                     profileOptions[index]["title"],
                     style: getAppStyle(

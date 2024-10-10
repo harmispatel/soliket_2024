@@ -58,10 +58,12 @@ dependencies:
   #  firebase_core: ^2.24.2
   #  firebase_messaging: ^14.7.10
   #  flutter_local_notifications: ^16.3.2
-  image_gallery_saver: ^2.0.3
+  #  image_gallery_saver: ^2.0.3
   permission_handler: ^11.3.1
   google_maps_flutter: ^2.9.0
   flutter_screenutil: ^5.9.3
+  sticky_headers: ^0.3.0+2
+  smooth_page_indicator: ^1.2.0+3
 
 dependency_overrides:
   intl: ^0.19.0

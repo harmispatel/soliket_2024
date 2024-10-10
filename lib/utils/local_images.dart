@@ -12,6 +12,10 @@ class LocalImages {
   static const String img_party = 'assets/images/img_party.png';
   static const String img_masala_banner = 'assets/images/img_masala_banner.png';
   static const String img_bg_cleaning = 'assets/images/img_bg_cleaning.png';
+  static const String img_green = 'assets/images/img_green.png';
+  static const String img_coupon_bg = 'assets/images/img_coupon_bg.png';
+  static const String img_brand_spotlight =
+      'assets/images/img_brand_spotlight.png';
   static const String img_location_disable =
       'assets/images/img_location_disable.png';
 }

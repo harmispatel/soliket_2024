@@ -593,8 +593,10 @@ class LabeledTextField extends StatelessWidget {
             horizontal: 16,
             vertical: 16,
           ), // Adjusted vertical padding for spacing
-          floatingLabelBehavior: FloatingLabelBehavior
-              .auto, // Label will float on focus or when there is input
+          floatingLabelStyle: TextStyle(
+            color: CommonColors.primaryColor,
+            fontWeight: FontWeight.w500,
+          ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: BorderSide(color: CommonColors.primaryColor, width: 1),
@@ -603,6 +605,10 @@ class LabeledTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
             borderSide: BorderSide(color: CommonColors.primaryColor, width: 1),
           ),
+
+          floatingLabelBehavior: FloatingLabelBehavior
+              .auto, // Label will float on focus or when there is input
+
           labelText: hintText, // Label text
           labelStyle: TextStyle(
             color: CommonColors
