@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
@@ -93,6 +94,22 @@ class _HomeState extends State<Home> {
         setState(() {
           _isStickyVisible = false;
         });
+      }
+    });
+  }
+
+  int itemCount = 1;
+
+  void incrementItem(int index) {
+    setState(() {
+      itemCount++;
+    });
+  }
+
+  void decrementItem(int index) {
+    setState(() {
+      if (itemCount > 1) {
+        itemCount--;
       }
     });
   }
@@ -410,48 +427,615 @@ class _HomeState extends State<Home> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: 8,
                           itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-// Use Flexible to dynamically adjust height
-                                Flexible(
-                                  flex: 6,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.orange.shade100
-                                          .withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-// image: NetworkImage(images[index]),
-                                            image: NetworkImage(
-                                                "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
-                                            fit: BoxFit.contain,
+                            return GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  useSafeArea: true,
+                                  backgroundColor: Colors.white,
+                                  builder: (_) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.73,
+                                        child: SingleChildScrollView(
+                                          padding: const EdgeInsets.symmetric(
+                                                  horizontal: 20) +
+                                              const EdgeInsets.only(top: 10),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "Review Cart",
+                                                        style: getAppStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 13,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "15 Items",
+                                                            style: getAppStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height: 4,
+                                                            width: 4,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 8),
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                    Colors.grey,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4)),
+                                                          ),
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        6),
+                                                            child: Text(
+                                                              "Total",
+                                                              style:
+                                                                  getAppStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "₹250.0",
+                                                            style: getAppStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const Spacer(),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      height: 26,
+                                                      width: 26,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        color: Colors.white,
+                                                        boxShadow: const [
+                                                          BoxShadow(
+                                                            color: Colors.grey,
+                                                            blurRadius: 1,
+                                                            //spreadRadius: 0.001,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: const Center(
+                                                        child: Icon(
+                                                          Icons.close_rounded,
+                                                          color: Colors.grey,
+                                                          size: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const Divider(),
+                                              ListView.builder(
+                                                padding: const EdgeInsets.only(
+                                                    top: 12),
+                                                physics:
+                                                    const ClampingScrollPhysics(),
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: 10,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return Column(
+                                                    children: [
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          CachedNetworkImage(
+                                                            height: 80,
+                                                            width: 80,
+                                                            imageUrl:
+                                                                "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                            imageBuilder: (context,
+                                                                    imageProvider) =>
+                                                                Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image:
+                                                                      imageProvider,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                const Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          12.0),
+                                                              child: Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  strokeWidth:
+                                                                      2,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Center(
+                                                              child: Icon(
+                                                                Icons
+                                                                    .error_outline,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 14),
+                                                          Expanded(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                  maxLines: 2,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      getAppStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        13,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          vertical:
+                                                                              02),
+                                                                  child: Text(
+                                                                    "250 g",
+                                                                    style:
+                                                                        getAppStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 8),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        4,
+                                                                    vertical:
+                                                                        4),
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            4),
+                                                                height: 30,
+                                                                width: 80,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6),
+                                                                  color: Colors
+                                                                      .indigoAccent,
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: () =>
+                                                                          decrementItem(
+                                                                              index),
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .remove,
+                                                                        size:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      itemCount
+                                                                          .toString(),
+                                                                      style:
+                                                                          getAppStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            14,
+                                                                      ),
+                                                                    ),
+                                                                    GestureDetector(
+                                                                      onTap: () =>
+                                                                          incrementItem(
+                                                                              index),
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .add,
+                                                                        size:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "₹${"80.0"}",
+                                                                    style:
+                                                                        getAppStyle(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .lineThrough,
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          12,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      width: 4),
+                                                                  Text(
+                                                                    "₹${"250.0"}",
+                                                                    style:
+                                                                        getAppStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          13,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 10)
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                              const Divider(),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10, bottom: 20),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 42,
+                                                      width: 58,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      color: Colors.transparent,
+                                                      child: Stack(
+                                                        children: [
+                                                          Container(
+                                                            height: 42,
+                                                            width: 42,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .grey),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                            left: 8,
+                                                            child: Container(
+                                                              height: 42,
+                                                              width: 42,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                            left: 16,
+                                                            child: Container(
+                                                              height: 42,
+                                                              width: 42,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                height: 80,
+                                                                width: 80,
+                                                                imageUrl:
+                                                                    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                imageBuilder:
+                                                                    (context,
+                                                                            imageProvider) =>
+                                                                        Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    image:
+                                                                        DecorationImage(
+                                                                      image:
+                                                                          imageProvider,
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              12.0),
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      strokeWidth:
+                                                                          2,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    const Center(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .error_outline,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        print("OnTap");
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            "6 Item",
+                                                            style: getAppStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                          Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color: Colors
+                                                                  .blueAccent),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 20),
+                                                    Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          debugPrint(
+                                                              "On Tap Sub Product");
+                                                        },
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                            color: Colors
+                                                                .blueAccent,
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "View Cart",
+                                                              style:
+                                                                  getAppStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                                  },
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  // Use Flexible to dynamically adjust height
+                                  Flexible(
+                                    flex: 6,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange.shade100
+                                            .withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              // image: NetworkImage(images[index]),
+                                              image: NetworkImage(
+                                                  "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                    height: 5), // Space between image and text
+                                  SizedBox(
+                                      height:
+                                          5), // Space between image and text
 
-// Text that wraps and adjusts based on content
-                                Flexible(
-                                  flex: 2,
-                                  child: Text(
-                                    text[index],
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.w500, height: 1),
-                                    textAlign: TextAlign.center,
+                                  // Text that wraps and adjusts based on content
+                                  Flexible(
+                                    flex: 2,
+                                    child: Text(
+                                      text[index],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: getAppStyle(
+                                          fontWeight: FontWeight.w500,
+                                          height: 1),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             );
                           },
                         ),
