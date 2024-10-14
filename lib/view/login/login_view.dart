@@ -18,8 +18,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final TextEditingController phoneController = TextEditingController();
-  Color buttonColor = CommonColors.mGrey200; // Initial color
-  Color labelColor = Colors.black26; // Initial color
+  Color buttonColor = CommonColors.mGrey200;
+  Color labelColor = Colors.black26;
 
   @override
   void initState() {
@@ -61,9 +61,9 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Colors.white, // Status bar color
-        statusBarIconBrightness: Brightness.dark, // Status bar icon color
-        systemNavigationBarColor: Colors.white, // Navigation bar color
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white,
       ),
     );
     return SafeArea(

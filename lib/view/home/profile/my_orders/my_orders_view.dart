@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:solikat_2024/view/home/profile/my_orders/track_order/track_order_view.dart';
 
 import '../../../../utils/common_colors.dart';
+import '../../../../utils/common_utils.dart';
 import '../../../../widget/common_appbar.dart';
 
 class MyOrdersView extends StatefulWidget {
@@ -192,7 +194,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      debugPrint("OnTap Track Order Button");
+                      push(TrackOrderView());
                     },
                     child: Container(
                       height: 20,

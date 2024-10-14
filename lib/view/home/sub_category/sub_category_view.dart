@@ -488,7 +488,7 @@ class _SubProductViewState extends State<SubProductView> {
       backgroundColor: Colors.white,
       builder: (_) {
         return FractionallySizedBox(
-          heightFactor: 0.73,
+          heightFactor: 0.75,
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Padding(
