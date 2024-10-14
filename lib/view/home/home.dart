@@ -1,16 +1,14 @@
 import 'dart:math' as math;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/profile/profile_view.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view_2.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
-
+import 'package:solikat_2024/widget/primary_button.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 
@@ -59,6 +57,7 @@ class _HomeState extends State<Home> {
     'https://img.freepik.com/premium-photo/art-italian-dining-food-stock-photography_1036998-625.jpg',
     'https://img.freepik.com/premium-photo/italian-food_708558-399.jpg',
   ];
+
   final List<String> images = [
     'https://5.imimg.com/data5/SELLER/Default/2022/1/RY/QF/PW/120561215/aashirvaad-1kg-multi-grain-atta.jpg',
     'https://m.media-amazon.com/images/I/61Y1PZx5CZL.jpg',
@@ -69,6 +68,7 @@ class _HomeState extends State<Home> {
     'https://cdn.justgotochef.com/uploads/1572864347-DNV-Moong%20Udad%20Handmade%20Flavoured%20Spicy%20Special%20Masala%20Papad,%20100gm-Front.jpg',
     'https://www.jiomart.com/images/product/original/rvhnbrzv9i/naturoz-mixed-dry-fruits-200-g-pack-of-5-product-images-orvhnbrzv9i-p590318090-0-202212141041.jpg?im=Resize=(420,420)',
   ];
+
   final List<String> text = [
     "oil & ghee",
     "oil & ghee & sugar",
@@ -81,38 +81,47 @@ class _HomeState extends State<Home> {
   ];
 
   final ScrollController _scrollController = ScrollController();
-  bool _isStickyVisible = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 80 && !_isStickyVisible) {
-        setState(() {
-          _isStickyVisible = true;
-        });
-      } else if (_scrollController.offset <= 80 && _isStickyVisible) {
-        setState(() {
-          _isStickyVisible = false;
-        });
-      }
-    });
-  }
+  bool _isStickyVisible = false;
 
   int itemCount = 1;
 
   void incrementItem() {
-    setState(() {
-      itemCount++;
-    });
+    setState(
+      () {
+        itemCount++;
+      },
+    );
   }
 
   void decrementItem() {
-    setState(() {
-      if (itemCount > 0) {
-        itemCount--;
-      }
-    });
+    setState(
+      () {
+        if (itemCount > 0) {
+          itemCount--;
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(
+      () {
+        if (_scrollController.offset > 80 && !_isStickyVisible) {
+          setState(() {
+            _isStickyVisible = true;
+          });
+        } else if (_scrollController.offset <= 80 && _isStickyVisible) {
+          setState(
+            () {
+              _isStickyVisible = false;
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -135,7 +144,8 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -163,7 +173,7 @@ class _HomeState extends State<Home> {
                                               color: CommonColors.black54),
                                         ),
                                       ),
-                                      Icon(Icons.keyboard_arrow_down,
+                                      const Icon(Icons.keyboard_arrow_down,
                                           color: CommonColors.black54),
                                       kCommonSpaceH15,
                                     ],
@@ -173,15 +183,15 @@ class _HomeState extends State<Home> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                print("Profile icon tapped");
-                                push(ProfileView());
+                                debugPrint("Profile icon tapped");
+                                push(const ProfileView());
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: CommonColors.mGrey200),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.person_2_outlined,
                                     color: CommonColors.black54,
@@ -205,7 +215,7 @@ class _HomeState extends State<Home> {
                       ),
                       kCommonSpaceV15,
                       Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: FittedBox(
                           child: Text(
                             "🛵 Free Delivery on first 3 orders! Use Code: FREEDEL 🛍️",
@@ -222,10 +232,10 @@ class _HomeState extends State<Home> {
                         itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) {
                           return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10.0),
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  15.0), // Curve the corners
+                              borderRadius: BorderRadius.circular(15.0),
                               image: DecorationImage(
                                 image: NetworkImage(imgList[itemIndex]),
                                 fit: BoxFit.cover,
@@ -235,7 +245,7 @@ class _HomeState extends State<Home> {
                         },
                         options: CarouselOptions(
                           autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayInterval: const Duration(seconds: 3),
                           enlargeCenterPage: false,
                           viewportFraction: 1.0,
                         ),
@@ -256,7 +266,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: GridView.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4, // Number of items per row
                             crossAxisSpacing:
                                 12.0, // Horizontal spacing between items
@@ -266,12 +276,12 @@ class _HomeState extends State<Home> {
                                 0.7, // Aspect ratio for each item (adjust as needed)
                           ),
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: images.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
-                                push(SubCategoryViewRedesign());
+                                push(const SubCategoryViewRedesign());
                               },
                               child: Column(
                                 children: [
@@ -286,7 +296,7 @@ class _HomeState extends State<Home> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                   "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
@@ -297,10 +307,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      height:
-                                          5), // Space between image and text
-
+                                  const SizedBox(height: 5),
                                   // Text that wraps and adjusts based on content
                                   Flexible(
                                     flex: 2,
@@ -336,7 +343,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: GridView.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4, // Number of items per row
                             crossAxisSpacing:
                                 12.0, // Horizontal spacing between items
@@ -346,12 +353,12 @@ class _HomeState extends State<Home> {
                                 0.7, // Aspect ratio for each item (adjust as needed)
                           ),
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 4,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
-                                push(SubCategoryView());
+                                push(const SubCategoryView());
                               },
                               child: Column(
                                 children: [
@@ -366,7 +373,7 @@ class _HomeState extends State<Home> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                   "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
@@ -377,9 +384,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      height:
-                                          5), // Space between image and text
+                                  const SizedBox(height: 5),
                                   // // Text that wraps and adjusts based on content
                                   Flexible(
                                     flex: 2,
@@ -415,15 +420,14 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: GridView.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
                             crossAxisSpacing: 12.0,
                             mainAxisSpacing: 10.0,
-                            childAspectRatio:
-                                0.7, // Aspect ratio for each item (adjust as needed)
+                            childAspectRatio: 0.7,
                           ),
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 8,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
@@ -435,7 +439,7 @@ class _HomeState extends State<Home> {
                                   backgroundColor: Colors.white,
                                   builder: (_) {
                                     return FractionallySizedBox(
-                                      heightFactor: 0.73,
+                                      heightFactor: 0.75,
                                       child: StatefulBuilder(
                                         builder: (BuildContext context,
                                             StateSetter setState) {
@@ -445,120 +449,105 @@ class _HomeState extends State<Home> {
                                                 const EdgeInsets.only(top: 10),
                                             child: Column(
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "Review Cart",
-                                                          style: getAppStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 13,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              "15 Items",
-                                                              style:
-                                                                  getAppStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 12,
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              height: 4,
-                                                              width: 4,
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 8),
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              4)),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          6),
-                                                              child: Text(
-                                                                "Total",
-                                                                style:
-                                                                    getAppStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 12,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "₹250.0",
-                                                              style:
-                                                                  getAppStyle(
-                                                                color: Colors
-                                                                    .black,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12,
+                                                          right: 12,
+                                                          top: 12),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Review Cart',
+                                                            style: getAppStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 14,
+                                                                fontSize: 18),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                "3 Items • Total",
+                                                                style: getAppStyle(
+                                                                    color: CommonColors
+                                                                        .black54),
                                                               ),
+                                                              Text(
+                                                                " ₹542",
+                                                                style: getAppStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color:
+                                                                    Colors.grey,
+                                                                offset:
+                                                                    const Offset(
+                                                                  2.0,
+                                                                  2.0,
+                                                                ),
+                                                                blurRadius: 5.0,
+                                                                spreadRadius:
+                                                                    0.0,
+                                                              ), //BoxShadow
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .white,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0.0,
+                                                                        0.0),
+                                                                blurRadius: 0.0,
+                                                                spreadRadius:
+                                                                    0.0,
+                                                              ), //BoxShadow
+                                                            ],
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              size: 15,
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const Spacer(),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Container(
-                                                        height: 26,
-                                                        width: 26,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(30),
-                                                          color: Colors.white,
-                                                          boxShadow: const [
-                                                            BoxShadow(
-                                                              color:
-                                                                  Colors.grey,
-                                                              blurRadius: 1,
-                                                              //spreadRadius: 0.001,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        child: const Center(
-                                                          child: Icon(
-                                                            Icons.close_rounded,
-                                                            color: Colors.grey,
-                                                            size: 18,
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                                const Divider(),
+                                                kCommonSpaceV10,
+                                                kCommonSpaceV3,
+                                                Container(
+                                                  height: 3,
+                                                  color: CommonColors.mGrey300,
+                                                ),
                                                 SizedBox(
                                                   height: MediaQuery.of(context)
                                                           .size
@@ -775,7 +764,7 @@ class _HomeState extends State<Home> {
                                                                               12,
                                                                         ),
                                                                       ),
-                                                                      SizedBox(
+                                                                      const SizedBox(
                                                                           width:
                                                                               4),
                                                                       Text(
@@ -804,191 +793,1744 @@ class _HomeState extends State<Home> {
                                                   ),
                                                 ),
                                                 const Spacer(),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10, bottom: 20),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 42,
-                                                        width: 58,
-                                                        margin: const EdgeInsets
-                                                            .only(right: 10),
-                                                        color:
-                                                            Colors.transparent,
-                                                        child: Stack(
-                                                          children: [
-                                                            Container(
-                                                              height: 42,
-                                                              width: 42,
+                                                // Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.only(
+                                                //           top: 10, bottom: 20),
+                                                //   child: Row(
+                                                //     children: [
+                                                //       Container(
+                                                //         height: 42,
+                                                //         width: 58,
+                                                //         margin: const EdgeInsets
+                                                //             .only(right: 10),
+                                                //         color:
+                                                //             Colors.transparent,
+                                                //         child: Stack(
+                                                //           children: [
+                                                //             Container(
+                                                //               height: 42,
+                                                //               width: 42,
+                                                //               decoration:
+                                                //                   BoxDecoration(
+                                                //                 color: Colors
+                                                //                     .white,
+                                                //                 border: Border.all(
+                                                //                     color: Colors
+                                                //                         .grey),
+                                                //                 borderRadius:
+                                                //                     BorderRadius
+                                                //                         .circular(
+                                                //                             10),
+                                                //               ),
+                                                //             ),
+                                                //             Positioned(
+                                                //               left: 8,
+                                                //               child: Container(
+                                                //                 height: 42,
+                                                //                 width: 42,
+                                                //                 decoration:
+                                                //                     BoxDecoration(
+                                                //                   color: Colors
+                                                //                       .white,
+                                                //                   border: Border.all(
+                                                //                       color: Colors
+                                                //                           .grey),
+                                                //                   borderRadius:
+                                                //                       BorderRadius
+                                                //                           .circular(
+                                                //                               10),
+                                                //                 ),
+                                                //               ),
+                                                //             ),
+                                                //             Positioned(
+                                                //               left: 16,
+                                                //               child: Container(
+                                                //                 height: 42,
+                                                //                 width: 42,
+                                                //                 decoration:
+                                                //                     BoxDecoration(
+                                                //                   color: Colors
+                                                //                       .white,
+                                                //                   border: Border.all(
+                                                //                       color: Colors
+                                                //                           .grey),
+                                                //                   borderRadius:
+                                                //                       BorderRadius
+                                                //                           .circular(
+                                                //                               10),
+                                                //                 ),
+                                                //                 child:
+                                                //                     CachedNetworkImage(
+                                                //                   height: 80,
+                                                //                   width: 80,
+                                                //                   imageUrl:
+                                                //                       "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                //                   imageBuilder:
+                                                //                       (context,
+                                                //                               imageProvider) =>
+                                                //                           Container(
+                                                //                     decoration:
+                                                //                         BoxDecoration(
+                                                //                       image:
+                                                //                           DecorationImage(
+                                                //                         image:
+                                                //                             imageProvider,
+                                                //                         fit: BoxFit
+                                                //                             .contain,
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                   placeholder: (context,
+                                                //                           url) =>
+                                                //                       const Padding(
+                                                //                     padding:
+                                                //                         EdgeInsets.all(
+                                                //                             12.0),
+                                                //                     child:
+                                                //                         Center(
+                                                //                       child:
+                                                //                           CircularProgressIndicator(
+                                                //                         strokeWidth:
+                                                //                             2,
+                                                //                         color: Colors
+                                                //                             .black,
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                   errorWidget: (context,
+                                                //                           url,
+                                                //                           error) =>
+                                                //                       const Center(
+                                                //                     child: Icon(
+                                                //                       Icons
+                                                //                           .error_outline,
+                                                //                       color: Colors
+                                                //                           .red,
+                                                //                     ),
+                                                //                   ),
+                                                //                 ),
+                                                //               ),
+                                                //             ),
+                                                //           ],
+                                                //         ),
+                                                //       ),
+                                                //       InkWell(
+                                                //         onTap: () {
+                                                //           debugPrint("OnTap");
+                                                //         },
+                                                //         child: Row(
+                                                //           children: [
+                                                //             Text(
+                                                //               "6 Item",
+                                                //               style:
+                                                //                   getAppStyle(
+                                                //                 color: Colors
+                                                //                     .black,
+                                                //                 fontWeight:
+                                                //                     FontWeight
+                                                //                         .w500,
+                                                //                 fontSize: 12,
+                                                //               ),
+                                                //             ),
+                                                //             const Icon(
+                                                //                 Icons
+                                                //                     .arrow_drop_down,
+                                                //                 color: Colors
+                                                //                     .blueAccent),
+                                                //           ],
+                                                //         ),
+                                                //       ),
+                                                //       const SizedBox(width: 20),
+                                                //       Expanded(
+                                                //         child: GestureDetector(
+                                                //           onTap: () {
+                                                //             debugPrint(
+                                                //                 "On Tap Sub Product");
+                                                //           },
+                                                //           child: Container(
+                                                //             height: 40,
+                                                //             decoration:
+                                                //                 BoxDecoration(
+                                                //               borderRadius:
+                                                //                   BorderRadius
+                                                //                       .circular(
+                                                //                           6),
+                                                //               color: CommonColors
+                                                //                   .primaryColor,
+                                                //             ),
+                                                //             child: Center(
+                                                //               child: Text(
+                                                //                 "View Cart",
+                                                //                 style:
+                                                //                     getAppStyle(
+                                                //                   color: Colors
+                                                //                       .white,
+                                                //                   fontWeight:
+                                                //                       FontWeight
+                                                //                           .bold,
+                                                //                   fontSize: 14,
+                                                //                 ),
+                                                //               ),
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 48,
+                                                      width: 60,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 6),
+                                                      color: Colors.transparent,
+                                                      child: Stack(
+                                                        children: List.generate(
+                                                          3,
+                                                          (index) => Positioned(
+                                                            left: index * 6,
+                                                            child: Container(
+                                                              height: 48,
+                                                              width: 48,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          6,
+                                                                      vertical:
+                                                                          2),
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: Colors
                                                                     .white,
                                                                 border: Border.all(
-                                                                    color: Colors
-                                                                        .grey),
+                                                                    color: CommonColors
+                                                                        .mGrey500),
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            10),
+                                                                            8),
                                                               ),
-                                                            ),
-                                                            Positioned(
-                                                              left: 8,
-                                                              child: Container(
-                                                                height: 42,
-                                                                width: 42,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .grey),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Positioned(
-                                                              left: 16,
-                                                              child: Container(
-                                                                height: 42,
-                                                                width: 42,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .grey),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                ),
-                                                                child:
-                                                                    CachedNetworkImage(
-                                                                  height: 80,
-                                                                  width: 80,
-                                                                  imageUrl:
-                                                                      "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                                                                  imageBuilder:
-                                                                      (context,
-                                                                              imageProvider) =>
-                                                                          Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      image:
-                                                                          DecorationImage(
-                                                                        image:
-                                                                            imageProvider,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  placeholder: (context,
-                                                                          url) =>
-                                                                      const Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            12.0),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        strokeWidth:
-                                                                            2,
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl:
+                                                                    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                placeholder: (context, url) => const Center(
+                                                                    child: SizedBox(
+                                                                        height:
+                                                                            10,
+                                                                        width:
+                                                                            10,
+                                                                        child:
+                                                                            CircularProgressIndicator())),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    const Icon(
+                                                                        Icons
+                                                                            .error_outline,
                                                                         color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      const Center(
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .error_outline,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          print("OnTap");
-                                                        },
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                              "6 Item",
-                                                              style:
-                                                                  getAppStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 12,
-                                                              ),
-                                                            ),
-                                                            Icon(
-                                                                Icons
-                                                                    .arrow_drop_down,
-                                                                color: Colors
-                                                                    .blueAccent),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 20),
-                                                      Expanded(
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            debugPrint(
-                                                                "On Tap Sub Product");
-                                                          },
-                                                          child: Container(
-                                                            height: 40,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          6),
-                                                              color: CommonColors
-                                                                  .primaryColor,
-                                                            ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "View Cart",
-                                                                style:
-                                                                    getAppStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 14,
-                                                                ),
+                                                                            .red),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "${itemCount - 1} Items",
+                                                          style: getAppStyle(
+                                                            color: CommonColors
+                                                                .blackColor,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                        const Icon(
+                                                          Icons
+                                                              .arrow_drop_up_rounded,
+                                                          color: CommonColors
+                                                              .primaryColor,
+                                                          size: 30,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const SizedBox(width: 36),
+                                                    Expanded(
+                                                      child: PrimaryButton(
+                                                        height: 65,
+                                                        label: "View Cart",
+                                                        buttonColor:
+                                                            CommonColors
+                                                                .primaryColor,
+                                                        labelColor:
+                                                            Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(14),
+                                                        onPress: () {
+                                                          showModalBottomSheet(
+                                                            context: context,
+                                                            isScrollControlled:
+                                                                true,
+                                                            useSafeArea: true,
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            builder: (_) {
+                                                              return FractionallySizedBox(
+                                                                heightFactor:
+                                                                    0.75,
+                                                                child:
+                                                                    StatefulBuilder(
+                                                                  builder: (BuildContext
+                                                                          context,
+                                                                      StateSetter
+                                                                          setState) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal:
+                                                                                  20) +
+                                                                          const EdgeInsets
+                                                                              .only(
+                                                                              top: 10),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 12,
+                                                                                right: 12,
+                                                                                top: 12),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Column(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Review Cart',
+                                                                                      style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                    ),
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          "3 Items • Total",
+                                                                                          style: getAppStyle(color: CommonColors.black54),
+                                                                                        ),
+                                                                                        Text(
+                                                                                          " ₹542",
+                                                                                          style: getAppStyle(fontWeight: FontWeight.bold),
+                                                                                        ),
+                                                                                      ],
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                                InkWell(
+                                                                                  onTap: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                      shape: BoxShape.circle,
+                                                                                      boxShadow: [
+                                                                                        BoxShadow(
+                                                                                          color: Colors.grey,
+                                                                                          offset: const Offset(
+                                                                                            2.0,
+                                                                                            2.0,
+                                                                                          ),
+                                                                                          blurRadius: 5.0,
+                                                                                          spreadRadius: 0.0,
+                                                                                        ), //BoxShadow
+                                                                                        BoxShadow(
+                                                                                          color: Colors.white,
+                                                                                          offset: const Offset(0.0, 0.0),
+                                                                                          blurRadius: 0.0,
+                                                                                          spreadRadius: 0.0,
+                                                                                        ), //BoxShadow
+                                                                                      ],
+                                                                                    ),
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                      child: Icon(
+                                                                                        Icons.close,
+                                                                                        size: 15,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          kCommonSpaceV10,
+                                                                          kCommonSpaceV3,
+                                                                          Container(
+                                                                            height:
+                                                                                3,
+                                                                            color:
+                                                                                CommonColors.mGrey300,
+                                                                          ),
+                                                                          Container(
+                                                                            height:
+                                                                                MediaQuery.of(context).size.height / 1.88,
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 12),
+                                                                            margin:
+                                                                                const EdgeInsets.only(top: 12),
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              border: Border.all(color: CommonColors.mGrey300),
+                                                                              borderRadius: BorderRadius.circular(12),
+                                                                            ),
+                                                                            child:
+                                                                                SingleChildScrollView(
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      children: [
+                                                                                        Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              'Delivery in',
+                                                                                              style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                            ),
+                                                                                            const Icon(
+                                                                                              Icons.electric_bolt_rounded,
+                                                                                              color: CommonColors.primaryColor,
+                                                                                            ),
+                                                                                            Text(
+                                                                                              '11 Min',
+                                                                                              style: getAppStyle(color: CommonColors.primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                        Row(
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "From ",
+                                                                                              style: getAppStyle(color: CommonColors.black54),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "Soliket",
+                                                                                              style: getAppStyle(fontWeight: FontWeight.bold, color: CommonColors.blackColor),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              " • ",
+                                                                                              style: getAppStyle(color: CommonColors.blackColor),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              " 6 Items",
+                                                                                              style: getAppStyle(color: CommonColors.black54, fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              " • ",
+                                                                                              style: getAppStyle(color: CommonColors.blackColor),
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "Delivery 1",
+                                                                                              style: getAppStyle(color: CommonColors.black54, fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                          ],
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  ListView.builder(
+                                                                                    padding: const EdgeInsets.only(top: 12),
+                                                                                    physics: const ClampingScrollPhysics(),
+                                                                                    shrinkWrap: true,
+                                                                                    scrollDirection: Axis.vertical,
+                                                                                    itemCount: 15,
+                                                                                    itemBuilder: (BuildContext context, int index) {
+                                                                                      return Column(
+                                                                                        children: [
+                                                                                          Row(
+                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                            children: [
+                                                                                              CachedNetworkImage(
+                                                                                                height: 80,
+                                                                                                width: 80,
+                                                                                                imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                                imageBuilder: (context, imageProvider) => Container(
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    image: DecorationImage(
+                                                                                                      image: imageProvider,
+                                                                                                      fit: BoxFit.contain,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                placeholder: (context, url) => const Padding(
+                                                                                                  padding: EdgeInsets.all(12.0),
+                                                                                                  child: Center(
+                                                                                                    child: CircularProgressIndicator(
+                                                                                                      strokeWidth: 2,
+                                                                                                      color: Colors.black,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                errorWidget: (context, url, error) => const Center(
+                                                                                                  child: Icon(
+                                                                                                    Icons.error_outline,
+                                                                                                    color: Colors.red,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(width: 14),
+                                                                                              Expanded(
+                                                                                                child: Column(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                  children: [
+                                                                                                    Text(
+                                                                                                      "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                                                      maxLines: 2,
+                                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                                      style: getAppStyle(
+                                                                                                        color: Colors.black,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                        fontSize: 13,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                                                      child: Row(
+                                                                                                        children: [
+                                                                                                          Text(
+                                                                                                            "250 g",
+                                                                                                            style: getAppStyle(
+                                                                                                              color: Colors.grey,
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                              fontSize: 12,
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          Container(
+                                                                                                            margin: const EdgeInsets.only(left: 8),
+                                                                                                            padding: const EdgeInsets.only(left: 6, right: 8, top: 2, bottom: 2),
+                                                                                                            decoration: BoxDecoration(
+                                                                                                              borderRadius: BorderRadius.circular(2),
+                                                                                                              color: CommonColors.primaryColor.withOpacity(0.1),
+                                                                                                            ),
+                                                                                                            child: Row(
+                                                                                                              children: [
+                                                                                                                const Icon(
+                                                                                                                  Icons.percent_rounded,
+                                                                                                                  color: CommonColors.primaryColor,
+                                                                                                                  size: 14,
+                                                                                                                ),
+                                                                                                                Text(
+                                                                                                                  "Deal Applied",
+                                                                                                                  style: getAppStyle(
+                                                                                                                    color: CommonColors.primaryColor,
+                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                    fontSize: 10,
+                                                                                                                  ),
+                                                                                                                )
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                          )
+                                                                                                        ],
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(width: 8),
+                                                                                              Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                                                                                    margin: const EdgeInsets.only(bottom: 4),
+                                                                                                    height: 30,
+                                                                                                    width: 80,
+                                                                                                    decoration: BoxDecoration(
+                                                                                                      borderRadius: BorderRadius.circular(6),
+                                                                                                      color: CommonColors.primaryColor,
+                                                                                                    ),
+                                                                                                    child: Row(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                      children: [
+                                                                                                        GestureDetector(
+                                                                                                          onTap: () => decrementItem(),
+                                                                                                          child: const Icon(
+                                                                                                            Icons.remove,
+                                                                                                            size: 16,
+                                                                                                            color: Colors.white,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        Text(
+                                                                                                          itemCount.toString(),
+                                                                                                          style: getAppStyle(
+                                                                                                            color: Colors.white,
+                                                                                                            fontWeight: FontWeight.w500,
+                                                                                                            fontSize: 14,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        GestureDetector(
+                                                                                                          onTap: () => incrementItem(),
+                                                                                                          child: const Icon(
+                                                                                                            Icons.add,
+                                                                                                            size: 16,
+                                                                                                            color: Colors.white,
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Row(
+                                                                                                    children: [
+                                                                                                      Text(
+                                                                                                        "₹${"80.0"}",
+                                                                                                        style: getAppStyle(
+                                                                                                          decoration: TextDecoration.lineThrough,
+                                                                                                          color: Colors.grey,
+                                                                                                          fontWeight: FontWeight.w500,
+                                                                                                          fontSize: 12,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const SizedBox(width: 4),
+                                                                                                      Text(
+                                                                                                        "₹${"250.0"}",
+                                                                                                        style: getAppStyle(
+                                                                                                          color: Colors.black,
+                                                                                                          fontWeight: FontWeight.bold,
+                                                                                                          fontSize: 13,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                          const SizedBox(height: 10)
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          const Spacer(),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(bottom: 20),
+                                                                            child:
+                                                                                Row(
+                                                                              children: [
+                                                                                Container(
+                                                                                  height: 48,
+                                                                                  width: 60,
+                                                                                  margin: const EdgeInsets.only(right: 6),
+                                                                                  color: Colors.transparent,
+                                                                                  child: Stack(
+                                                                                    children: List.generate(
+                                                                                      itemCount - 1 > 3 ? 3 : itemCount - 1,
+                                                                                      (index) => Positioned(
+                                                                                        left: index * 6,
+                                                                                        child: Container(
+                                                                                          height: 48,
+                                                                                          width: 48,
+                                                                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: Colors.white,
+                                                                                            border: Border.all(color: CommonColors.mGrey500),
+                                                                                            borderRadius: BorderRadius.circular(8),
+                                                                                          ),
+                                                                                          child: CachedNetworkImage(
+                                                                                            imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                            fit: BoxFit.cover,
+                                                                                            placeholder: (context, url) => const Center(child: SizedBox(height: 10, width: 10, child: CircularProgressIndicator())),
+                                                                                            errorWidget: (context, url, error) => const Icon(Icons.error_outline, color: Colors.red),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      "${itemCount - 1} Items",
+                                                                                      style: getAppStyle(
+                                                                                        color: CommonColors.blackColor,
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        fontSize: 12,
+                                                                                      ),
+                                                                                    ),
+                                                                                    const Icon(
+                                                                                      Icons.arrow_drop_up_rounded,
+                                                                                      color: CommonColors.primaryColor,
+                                                                                      size: 30,
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                                const SizedBox(width: 36),
+                                                                                Expanded(
+                                                                                  child: PrimaryButton(
+                                                                                    height: 65,
+                                                                                    label: "View Cart",
+                                                                                    buttonColor: CommonColors.primaryColor,
+                                                                                    labelColor: Colors.white,
+                                                                                    borderRadius: BorderRadius.circular(14),
+                                                                                    onPress: () {
+                                                                                      showModalBottomSheet(
+                                                                                        context: context,
+                                                                                        isScrollControlled: true,
+                                                                                        useSafeArea: true,
+                                                                                        backgroundColor: Colors.white,
+                                                                                        builder: (_) {
+                                                                                          return FractionallySizedBox(
+                                                                                            heightFactor: 0.75,
+                                                                                            child: StatefulBuilder(
+                                                                                              builder: (BuildContext context, StateSetter setState) {
+                                                                                                return Padding(
+                                                                                                  padding: const EdgeInsets.symmetric(horizontal: 20) + const EdgeInsets.only(top: 10),
+                                                                                                  child: Column(
+                                                                                                    children: [
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                                                                                                        child: Row(
+                                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                          children: [
+                                                                                                            Column(
+                                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                              children: [
+                                                                                                                Text(
+                                                                                                                  'Review Cart',
+                                                                                                                  style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                                                ),
+                                                                                                                Row(
+                                                                                                                  children: [
+                                                                                                                    Text(
+                                                                                                                      "3 Items • Total",
+                                                                                                                      style: getAppStyle(color: CommonColors.black54),
+                                                                                                                    ),
+                                                                                                                    Text(
+                                                                                                                      " ₹542",
+                                                                                                                      style: getAppStyle(fontWeight: FontWeight.bold),
+                                                                                                                    ),
+                                                                                                                  ],
+                                                                                                                )
+                                                                                                              ],
+                                                                                                            ),
+                                                                                                            InkWell(
+                                                                                                              onTap: () {
+                                                                                                                Navigator.pop(context);
+                                                                                                              },
+                                                                                                              child: Container(
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                  shape: BoxShape.circle,
+                                                                                                                  boxShadow: [
+                                                                                                                    BoxShadow(
+                                                                                                                      color: Colors.grey,
+                                                                                                                      offset: const Offset(
+                                                                                                                        2.0,
+                                                                                                                        2.0,
+                                                                                                                      ),
+                                                                                                                      blurRadius: 5.0,
+                                                                                                                      spreadRadius: 0.0,
+                                                                                                                    ), //BoxShadow
+                                                                                                                    BoxShadow(
+                                                                                                                      color: Colors.white,
+                                                                                                                      offset: const Offset(0.0, 0.0),
+                                                                                                                      blurRadius: 0.0,
+                                                                                                                      spreadRadius: 0.0,
+                                                                                                                    ), //BoxShadow
+                                                                                                                  ],
+                                                                                                                ),
+                                                                                                                child: Padding(
+                                                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                                                  child: Icon(
+                                                                                                                    Icons.close,
+                                                                                                                    size: 15,
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      kCommonSpaceV10,
+                                                                                                      kCommonSpaceV3,
+                                                                                                      Container(
+                                                                                                        height: 3,
+                                                                                                        color: CommonColors.mGrey300,
+                                                                                                      ),
+                                                                                                      Container(
+                                                                                                        height: MediaQuery.of(context).size.height / 1.82,
+                                                                                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                                                                                        margin: const EdgeInsets.only(top: 12),
+                                                                                                        decoration: BoxDecoration(
+                                                                                                          color: Colors.red,
+                                                                                                          borderRadius: BorderRadius.circular(12),
+                                                                                                        ),
+                                                                                                        child: SingleChildScrollView(
+                                                                                                          child: ListView.builder(
+                                                                                                            padding: const EdgeInsets.only(top: 12),
+                                                                                                            physics: const ClampingScrollPhysics(),
+                                                                                                            shrinkWrap: true,
+                                                                                                            scrollDirection: Axis.vertical,
+                                                                                                            itemCount: 15,
+                                                                                                            itemBuilder: (BuildContext context, int index) {
+                                                                                                              return Column(
+                                                                                                                children: [
+                                                                                                                  Row(
+                                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                                    children: [
+                                                                                                                      CachedNetworkImage(
+                                                                                                                        height: 80,
+                                                                                                                        width: 80,
+                                                                                                                        imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                                                        imageBuilder: (context, imageProvider) => Container(
+                                                                                                                          decoration: BoxDecoration(
+                                                                                                                            image: DecorationImage(
+                                                                                                                              image: imageProvider,
+                                                                                                                              fit: BoxFit.contain,
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        placeholder: (context, url) => const Padding(
+                                                                                                                          padding: EdgeInsets.all(12.0),
+                                                                                                                          child: Center(
+                                                                                                                            child: CircularProgressIndicator(
+                                                                                                                              strokeWidth: 2,
+                                                                                                                              color: Colors.black,
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        errorWidget: (context, url, error) => const Center(
+                                                                                                                          child: Icon(
+                                                                                                                            Icons.error_outline,
+                                                                                                                            color: Colors.red,
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      const SizedBox(width: 14),
+                                                                                                                      Expanded(
+                                                                                                                        child: Column(
+                                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                                          children: [
+                                                                                                                            Text(
+                                                                                                                              "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                                                                              maxLines: 2,
+                                                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                                                              style: getAppStyle(
+                                                                                                                                color: Colors.black,
+                                                                                                                                fontWeight: FontWeight.w600,
+                                                                                                                                fontSize: 13,
+                                                                                                                              ),
+                                                                                                                            ),
+                                                                                                                            Padding(
+                                                                                                                              padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                                                                              child: Text(
+                                                                                                                                "250 g",
+                                                                                                                                style: getAppStyle(
+                                                                                                                                  color: Colors.grey,
+                                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                                  fontSize: 12,
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                            ),
+                                                                                                                          ],
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                      const SizedBox(width: 8),
+                                                                                                                      Column(
+                                                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                                        children: [
+                                                                                                                          Container(
+                                                                                                                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                                                                                                            margin: const EdgeInsets.only(bottom: 4),
+                                                                                                                            height: 30,
+                                                                                                                            width: 80,
+                                                                                                                            decoration: BoxDecoration(
+                                                                                                                              borderRadius: BorderRadius.circular(6),
+                                                                                                                              color: CommonColors.primaryColor,
+                                                                                                                            ),
+                                                                                                                            child: Row(
+                                                                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                                              children: [
+                                                                                                                                GestureDetector(
+                                                                                                                                  onTap: () => decrementItem(),
+                                                                                                                                  child: const Icon(
+                                                                                                                                    Icons.remove,
+                                                                                                                                    size: 16,
+                                                                                                                                    color: Colors.white,
+                                                                                                                                  ),
+                                                                                                                                ),
+                                                                                                                                Text(
+                                                                                                                                  itemCount.toString(),
+                                                                                                                                  style: getAppStyle(
+                                                                                                                                    color: Colors.white,
+                                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                                    fontSize: 14,
+                                                                                                                                  ),
+                                                                                                                                ),
+                                                                                                                                GestureDetector(
+                                                                                                                                  onTap: () => incrementItem(),
+                                                                                                                                  child: const Icon(
+                                                                                                                                    Icons.add,
+                                                                                                                                    size: 16,
+                                                                                                                                    color: Colors.white,
+                                                                                                                                  ),
+                                                                                                                                ),
+                                                                                                                              ],
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                          Row(
+                                                                                                                            children: [
+                                                                                                                              Text(
+                                                                                                                                "₹${"80.0"}",
+                                                                                                                                style: getAppStyle(
+                                                                                                                                  decoration: TextDecoration.lineThrough,
+                                                                                                                                  color: Colors.grey,
+                                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                                  fontSize: 12,
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                              const SizedBox(width: 4),
+                                                                                                                              Text(
+                                                                                                                                "₹${"250.0"}",
+                                                                                                                                style: getAppStyle(
+                                                                                                                                  color: Colors.black,
+                                                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                                                  fontSize: 13,
+                                                                                                                                ),
+                                                                                                                              ),
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        ],
+                                                                                                                      ),
+                                                                                                                    ],
+                                                                                                                  ),
+                                                                                                                  const SizedBox(height: 10)
+                                                                                                                ],
+                                                                                                              );
+                                                                                                            },
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const Spacer(),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                                                                                                        child: Row(
+                                                                                                          children: [
+                                                                                                            Container(
+                                                                                                              height: 42,
+                                                                                                              width: 58,
+                                                                                                              margin: const EdgeInsets.only(right: 10),
+                                                                                                              color: Colors.transparent,
+                                                                                                              child: Stack(
+                                                                                                                children: [
+                                                                                                                  Container(
+                                                                                                                    height: 42,
+                                                                                                                    width: 42,
+                                                                                                                    decoration: BoxDecoration(
+                                                                                                                      color: Colors.white,
+                                                                                                                      border: Border.all(color: Colors.grey),
+                                                                                                                      borderRadius: BorderRadius.circular(10),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Positioned(
+                                                                                                                    left: 8,
+                                                                                                                    child: Container(
+                                                                                                                      height: 42,
+                                                                                                                      width: 42,
+                                                                                                                      decoration: BoxDecoration(
+                                                                                                                        color: Colors.white,
+                                                                                                                        border: Border.all(color: Colors.grey),
+                                                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  Positioned(
+                                                                                                                    left: 16,
+                                                                                                                    child: Container(
+                                                                                                                      height: 42,
+                                                                                                                      width: 42,
+                                                                                                                      decoration: BoxDecoration(
+                                                                                                                        color: Colors.white,
+                                                                                                                        border: Border.all(color: Colors.grey),
+                                                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                                                      ),
+                                                                                                                      child: CachedNetworkImage(
+                                                                                                                        height: 80,
+                                                                                                                        width: 80,
+                                                                                                                        imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                                                        imageBuilder: (context, imageProvider) => Container(
+                                                                                                                          decoration: BoxDecoration(
+                                                                                                                            image: DecorationImage(
+                                                                                                                              image: imageProvider,
+                                                                                                                              fit: BoxFit.contain,
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        placeholder: (context, url) => const Padding(
+                                                                                                                          padding: EdgeInsets.all(12.0),
+                                                                                                                          child: Center(
+                                                                                                                            child: CircularProgressIndicator(
+                                                                                                                              strokeWidth: 2,
+                                                                                                                              color: Colors.black,
+                                                                                                                            ),
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        errorWidget: (context, url, error) => const Center(
+                                                                                                                          child: Icon(
+                                                                                                                            Icons.error_outline,
+                                                                                                                            color: Colors.red,
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            InkWell(
+                                                                                                              onTap: () {
+                                                                                                                debugPrint("OnTap");
+                                                                                                              },
+                                                                                                              child: Row(
+                                                                                                                children: [
+                                                                                                                  Text(
+                                                                                                                    "6 Item",
+                                                                                                                    style: getAppStyle(
+                                                                                                                      color: Colors.black,
+                                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                                      fontSize: 12,
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                  const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                                                                                                                ],
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            const SizedBox(width: 20),
+                                                                                                            Expanded(
+                                                                                                              child: GestureDetector(
+                                                                                                                onTap: () {
+                                                                                                                  debugPrint("On Tap Sub Product");
+                                                                                                                },
+                                                                                                                child: Container(
+                                                                                                                  height: 40,
+                                                                                                                  decoration: BoxDecoration(
+                                                                                                                    borderRadius: BorderRadius.circular(6),
+                                                                                                                    color: CommonColors.primaryColor,
+                                                                                                                  ),
+                                                                                                                  child: Center(
+                                                                                                                    child: Text(
+                                                                                                                      "View Cart",
+                                                                                                                      style: getAppStyle(
+                                                                                                                        color: Colors.white,
+                                                                                                                        fontWeight: FontWeight.bold,
+                                                                                                                        fontSize: 14,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                );
+                                                                                              },
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+
+                                                                                      // showModalBottomSheet(
+                                                                                      //   context: context,
+                                                                                      //   builder: (BuildContext context) {
+                                                                                      //     return Padding(
+                                                                                      //       padding: const EdgeInsets.all(8.0),
+                                                                                      //       child: Column(
+                                                                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      //         children: [
+                                                                                      //           Padding(
+                                                                                      //             padding: const EdgeInsets.only(
+                                                                                      //                 left: 12, right: 12, top: 12),
+                                                                                      //             child: Row(
+                                                                                      //               mainAxisAlignment:
+                                                                                      //                   MainAxisAlignment.spaceBetween,
+                                                                                      //               children: [
+                                                                                      //                 Column(
+                                                                                      //                   crossAxisAlignment:
+                                                                                      //                       CrossAxisAlignment.start,
+                                                                                      //                   children: [
+                                                                                      //                     Text(
+                                                                                      //                       'Review Cart',
+                                                                                      //                       style: getAppStyle(
+                                                                                      //                           fontWeight: FontWeight.bold,
+                                                                                      //                           fontSize: 18),
+                                                                                      //                     ),
+                                                                                      //                     Row(
+                                                                                      //                       children: [
+                                                                                      //                         Text(
+                                                                                      //                           "3 Items • Total",
+                                                                                      //                           style: getAppStyle(
+                                                                                      //                               color: CommonColors
+                                                                                      //                                   .black54),
+                                                                                      //                         ),
+                                                                                      //                         Text(
+                                                                                      //                           " ₹542",
+                                                                                      //                           style: getAppStyle(
+                                                                                      //                               fontWeight:
+                                                                                      //                                   FontWeight.bold),
+                                                                                      //                         ),
+                                                                                      //                       ],
+                                                                                      //                     )
+                                                                                      //                   ],
+                                                                                      //                 ),
+                                                                                      //                 InkWell(
+                                                                                      //                   onTap: () {
+                                                                                      //                     Navigator.pop(context);
+                                                                                      //                   },
+                                                                                      //                   child: Container(
+                                                                                      //                     decoration: BoxDecoration(
+                                                                                      //                       shape: BoxShape.circle,
+                                                                                      //                       boxShadow: [
+                                                                                      //                         BoxShadow(
+                                                                                      //                           color: Colors.grey,
+                                                                                      //                           offset: const Offset(
+                                                                                      //                             2.0,
+                                                                                      //                             2.0,
+                                                                                      //                           ),
+                                                                                      //                           blurRadius: 5.0,
+                                                                                      //                           spreadRadius: 0.0,
+                                                                                      //                         ), //BoxShadow
+                                                                                      //                         BoxShadow(
+                                                                                      //                           color: Colors.white,
+                                                                                      //                           offset:
+                                                                                      //                               const Offset(0.0, 0.0),
+                                                                                      //                           blurRadius: 0.0,
+                                                                                      //                           spreadRadius: 0.0,
+                                                                                      //                         ), //BoxShadow
+                                                                                      //                       ],
+                                                                                      //                     ),
+                                                                                      //                     child: Padding(
+                                                                                      //                       padding:
+                                                                                      //                           const EdgeInsets.all(8.0),
+                                                                                      //                       child: Icon(
+                                                                                      //                         Icons.close,
+                                                                                      //                         size: 15,
+                                                                                      //                       ),
+                                                                                      //                     ),
+                                                                                      //                   ),
+                                                                                      //                 ),
+                                                                                      //               ],
+                                                                                      //             ),
+                                                                                      //           ),
+                                                                                      //           kCommonSpaceV10,
+                                                                                      //           kCommonSpaceV3,
+                                                                                      //           Container(
+                                                                                      //             height: 3,
+                                                                                      //             color: CommonColors.mGrey300,
+                                                                                      //           ),
+                                                                                      //           Container(
+                                                                                      //             height:
+                                                                                      //                 MediaQuery.of(context).size.height /
+                                                                                      //                     1.77,
+                                                                                      //             padding: const EdgeInsets.symmetric(
+                                                                                      //                 horizontal: 12),
+                                                                                      //             margin: const EdgeInsets.only(
+                                                                                      //                 top: 12),
+                                                                                      //             decoration: BoxDecoration(
+                                                                                      //               color: Colors.red,
+                                                                                      //               borderRadius: BorderRadius.circular(12),
+                                                                                      //             ),
+                                                                                      //             child: SingleChildScrollView(
+                                                                                      //               child: ListView.builder(
+                                                                                      //                 padding:
+                                                                                      //                     const EdgeInsets.only(top: 12),
+                                                                                      //                 physics:
+                                                                                      //                     const ClampingScrollPhysics(),
+                                                                                      //                 shrinkWrap: true,
+                                                                                      //                 scrollDirection: Axis.vertical,
+                                                                                      //                 itemCount: 15,
+                                                                                      //                 itemBuilder: (BuildContext context,
+                                                                                      //                     int index) {
+                                                                                      //                   return Column(
+                                                                                      //                     children: [
+                                                                                      //                       Row(
+                                                                                      //                         crossAxisAlignment:
+                                                                                      //                             CrossAxisAlignment.start,
+                                                                                      //                         children: [
+                                                                                      //                           CachedNetworkImage(
+                                                                                      //                             height: 80,
+                                                                                      //                             width: 80,
+                                                                                      //                             imageUrl:
+                                                                                      //                                 "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                      //                             imageBuilder: (context,
+                                                                                      //                                     imageProvider) =>
+                                                                                      //                                 Container(
+                                                                                      //                               decoration:
+                                                                                      //                                   BoxDecoration(
+                                                                                      //                                 image:
+                                                                                      //                                     DecorationImage(
+                                                                                      //                                   image:
+                                                                                      //                                       imageProvider,
+                                                                                      //                                   fit: BoxFit.contain,
+                                                                                      //                                 ),
+                                                                                      //                               ),
+                                                                                      //                             ),
+                                                                                      //                             placeholder:
+                                                                                      //                                 (context, url) =>
+                                                                                      //                                     const Padding(
+                                                                                      //                               padding: EdgeInsets.all(
+                                                                                      //                                   12.0),
+                                                                                      //                               child: Center(
+                                                                                      //                                 child:
+                                                                                      //                                     CircularProgressIndicator(
+                                                                                      //                                   strokeWidth: 2,
+                                                                                      //                                   color: Colors.black,
+                                                                                      //                                 ),
+                                                                                      //                               ),
+                                                                                      //                             ),
+                                                                                      //                             errorWidget: (context,
+                                                                                      //                                     url, error) =>
+                                                                                      //                                 const Center(
+                                                                                      //                               child: Icon(
+                                                                                      //                                 Icons.error_outline,
+                                                                                      //                                 color: Colors.red,
+                                                                                      //                               ),
+                                                                                      //                             ),
+                                                                                      //                           ),
+                                                                                      //                           const SizedBox(width: 14),
+                                                                                      //                           Expanded(
+                                                                                      //                             child: Column(
+                                                                                      //                               crossAxisAlignment:
+                                                                                      //                                   CrossAxisAlignment
+                                                                                      //                                       .start,
+                                                                                      //                               mainAxisAlignment:
+                                                                                      //                                   MainAxisAlignment
+                                                                                      //                                       .start,
+                                                                                      //                               children: [
+                                                                                      //                                 Text(
+                                                                                      //                                   "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                                      //                                   maxLines: 2,
+                                                                                      //                                   overflow:
+                                                                                      //                                       TextOverflow
+                                                                                      //                                           .ellipsis,
+                                                                                      //                                   style: getAppStyle(
+                                                                                      //                                     color:
+                                                                                      //                                         Colors.black,
+                                                                                      //                                     fontWeight:
+                                                                                      //                                         FontWeight
+                                                                                      //                                             .w600,
+                                                                                      //                                     fontSize: 13,
+                                                                                      //                                   ),
+                                                                                      //                                 ),
+                                                                                      //                                 Padding(
+                                                                                      //                                   padding:
+                                                                                      //                                       const EdgeInsets
+                                                                                      //                                           .symmetric(
+                                                                                      //                                           vertical:
+                                                                                      //                                               02),
+                                                                                      //                                   child: Text(
+                                                                                      //                                     "250 g",
+                                                                                      //                                     style:
+                                                                                      //                                         getAppStyle(
+                                                                                      //                                       color:
+                                                                                      //                                           Colors.grey,
+                                                                                      //                                       fontWeight:
+                                                                                      //                                           FontWeight
+                                                                                      //                                               .w500,
+                                                                                      //                                       fontSize: 12,
+                                                                                      //                                     ),
+                                                                                      //                                   ),
+                                                                                      //                                 ),
+                                                                                      //                               ],
+                                                                                      //                             ),
+                                                                                      //                           ),
+                                                                                      //                           const SizedBox(width: 8),
+                                                                                      //                           Column(
+                                                                                      //                             crossAxisAlignment:
+                                                                                      //                                 CrossAxisAlignment
+                                                                                      //                                     .start,
+                                                                                      //                             mainAxisAlignment:
+                                                                                      //                                 MainAxisAlignment
+                                                                                      //                                     .start,
+                                                                                      //                             children: [
+                                                                                      //                               Container(
+                                                                                      //                                 padding:
+                                                                                      //                                     const EdgeInsets
+                                                                                      //                                         .symmetric(
+                                                                                      //                                         horizontal: 4,
+                                                                                      //                                         vertical: 4),
+                                                                                      //                                 margin:
+                                                                                      //                                     const EdgeInsets
+                                                                                      //                                         .only(
+                                                                                      //                                         bottom: 4),
+                                                                                      //                                 height: 30,
+                                                                                      //                                 width: 80,
+                                                                                      //                                 decoration:
+                                                                                      //                                     BoxDecoration(
+                                                                                      //                                   borderRadius:
+                                                                                      //                                       BorderRadius
+                                                                                      //                                           .circular(
+                                                                                      //                                               6),
+                                                                                      //                                   color: CommonColors
+                                                                                      //                                       .primaryColor,
+                                                                                      //                                 ),
+                                                                                      //                                 child: Row(
+                                                                                      //                                   mainAxisAlignment:
+                                                                                      //                                       MainAxisAlignment
+                                                                                      //                                           .spaceAround,
+                                                                                      //                                   children: [
+                                                                                      //                                     GestureDetector(
+                                                                                      //                                       onTap: () =>
+                                                                                      //                                           decrementItem(),
+                                                                                      //                                       child:
+                                                                                      //                                           const Icon(
+                                                                                      //                                         Icons.remove,
+                                                                                      //                                         size: 16,
+                                                                                      //                                         color: Colors
+                                                                                      //                                             .white,
+                                                                                      //                                       ),
+                                                                                      //                                     ),
+                                                                                      //                                     Text(
+                                                                                      //                                       itemCount
+                                                                                      //                                           .toString(),
+                                                                                      //                                       style:
+                                                                                      //                                           getAppStyle(
+                                                                                      //                                         color: Colors
+                                                                                      //                                             .white,
+                                                                                      //                                         fontWeight:
+                                                                                      //                                             FontWeight
+                                                                                      //                                                 .w500,
+                                                                                      //                                         fontSize: 14,
+                                                                                      //                                       ),
+                                                                                      //                                     ),
+                                                                                      //                                     GestureDetector(
+                                                                                      //                                       onTap: () =>
+                                                                                      //                                           incrementItem(),
+                                                                                      //                                       child:
+                                                                                      //                                           const Icon(
+                                                                                      //                                         Icons.add,
+                                                                                      //                                         size: 16,
+                                                                                      //                                         color: Colors
+                                                                                      //                                             .white,
+                                                                                      //                                       ),
+                                                                                      //                                     ),
+                                                                                      //                                   ],
+                                                                                      //                                 ),
+                                                                                      //                               ),
+                                                                                      //                               Row(
+                                                                                      //                                 children: [
+                                                                                      //                                   Text(
+                                                                                      //                                     "₹${"80.0"}",
+                                                                                      //                                     style:
+                                                                                      //                                         getAppStyle(
+                                                                                      //                                       decoration:
+                                                                                      //                                           TextDecoration
+                                                                                      //                                               .lineThrough,
+                                                                                      //                                       color:
+                                                                                      //                                           Colors.grey,
+                                                                                      //                                       fontWeight:
+                                                                                      //                                           FontWeight
+                                                                                      //                                               .w500,
+                                                                                      //                                       fontSize: 12,
+                                                                                      //                                     ),
+                                                                                      //                                   ),
+                                                                                      //                                   const SizedBox(
+                                                                                      //                                       width: 4),
+                                                                                      //                                   Text(
+                                                                                      //                                     "₹${"250.0"}",
+                                                                                      //                                     style:
+                                                                                      //                                         getAppStyle(
+                                                                                      //                                       color: Colors
+                                                                                      //                                           .black,
+                                                                                      //                                       fontWeight:
+                                                                                      //                                           FontWeight
+                                                                                      //                                               .bold,
+                                                                                      //                                       fontSize: 13,
+                                                                                      //                                     ),
+                                                                                      //                                   ),
+                                                                                      //                                 ],
+                                                                                      //                               ),
+                                                                                      //                             ],
+                                                                                      //                           ),
+                                                                                      //                         ],
+                                                                                      //                       ),
+                                                                                      //                       const SizedBox(height: 10)
+                                                                                      //                     ],
+                                                                                      //                   );
+                                                                                      //                 },
+                                                                                      //               ),
+                                                                                      //             ),
+                                                                                      //           ),
+                                                                                      //         ],
+                                                                                      //       ),
+                                                                                      //     );
+                                                                                      //   },
+                                                                                      // );
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+
+                                                          // showModalBottomSheet(
+                                                          //   context: context,
+                                                          //   builder: (BuildContext context) {
+                                                          //     return Padding(
+                                                          //       padding: const EdgeInsets.all(8.0),
+                                                          //       child: Column(
+                                                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                                                          //         children: [
+                                                          //           Padding(
+                                                          //             padding: const EdgeInsets.only(
+                                                          //                 left: 12, right: 12, top: 12),
+                                                          //             child: Row(
+                                                          //               mainAxisAlignment:
+                                                          //                   MainAxisAlignment.spaceBetween,
+                                                          //               children: [
+                                                          //                 Column(
+                                                          //                   crossAxisAlignment:
+                                                          //                       CrossAxisAlignment.start,
+                                                          //                   children: [
+                                                          //                     Text(
+                                                          //                       'Review Cart',
+                                                          //                       style: getAppStyle(
+                                                          //                           fontWeight: FontWeight.bold,
+                                                          //                           fontSize: 18),
+                                                          //                     ),
+                                                          //                     Row(
+                                                          //                       children: [
+                                                          //                         Text(
+                                                          //                           "3 Items • Total",
+                                                          //                           style: getAppStyle(
+                                                          //                               color: CommonColors
+                                                          //                                   .black54),
+                                                          //                         ),
+                                                          //                         Text(
+                                                          //                           " ₹542",
+                                                          //                           style: getAppStyle(
+                                                          //                               fontWeight:
+                                                          //                                   FontWeight.bold),
+                                                          //                         ),
+                                                          //                       ],
+                                                          //                     )
+                                                          //                   ],
+                                                          //                 ),
+                                                          //                 InkWell(
+                                                          //                   onTap: () {
+                                                          //                     Navigator.pop(context);
+                                                          //                   },
+                                                          //                   child: Container(
+                                                          //                     decoration: BoxDecoration(
+                                                          //                       shape: BoxShape.circle,
+                                                          //                       boxShadow: [
+                                                          //                         BoxShadow(
+                                                          //                           color: Colors.grey,
+                                                          //                           offset: const Offset(
+                                                          //                             2.0,
+                                                          //                             2.0,
+                                                          //                           ),
+                                                          //                           blurRadius: 5.0,
+                                                          //                           spreadRadius: 0.0,
+                                                          //                         ), //BoxShadow
+                                                          //                         BoxShadow(
+                                                          //                           color: Colors.white,
+                                                          //                           offset:
+                                                          //                               const Offset(0.0, 0.0),
+                                                          //                           blurRadius: 0.0,
+                                                          //                           spreadRadius: 0.0,
+                                                          //                         ), //BoxShadow
+                                                          //                       ],
+                                                          //                     ),
+                                                          //                     child: Padding(
+                                                          //                       padding:
+                                                          //                           const EdgeInsets.all(8.0),
+                                                          //                       child: Icon(
+                                                          //                         Icons.close,
+                                                          //                         size: 15,
+                                                          //                       ),
+                                                          //                     ),
+                                                          //                   ),
+                                                          //                 ),
+                                                          //               ],
+                                                          //             ),
+                                                          //           ),
+                                                          //           kCommonSpaceV10,
+                                                          //           kCommonSpaceV3,
+                                                          //           Container(
+                                                          //             height: 3,
+                                                          //             color: CommonColors.mGrey300,
+                                                          //           ),
+                                                          //           Container(
+                                                          //             height:
+                                                          //                 MediaQuery.of(context).size.height /
+                                                          //                     1.77,
+                                                          //             padding: const EdgeInsets.symmetric(
+                                                          //                 horizontal: 12),
+                                                          //             margin: const EdgeInsets.only(
+                                                          //                 top: 12),
+                                                          //             decoration: BoxDecoration(
+                                                          //               color: Colors.red,
+                                                          //               borderRadius: BorderRadius.circular(12),
+                                                          //             ),
+                                                          //             child: SingleChildScrollView(
+                                                          //               child: ListView.builder(
+                                                          //                 padding:
+                                                          //                     const EdgeInsets.only(top: 12),
+                                                          //                 physics:
+                                                          //                     const ClampingScrollPhysics(),
+                                                          //                 shrinkWrap: true,
+                                                          //                 scrollDirection: Axis.vertical,
+                                                          //                 itemCount: 15,
+                                                          //                 itemBuilder: (BuildContext context,
+                                                          //                     int index) {
+                                                          //                   return Column(
+                                                          //                     children: [
+                                                          //                       Row(
+                                                          //                         crossAxisAlignment:
+                                                          //                             CrossAxisAlignment.start,
+                                                          //                         children: [
+                                                          //                           CachedNetworkImage(
+                                                          //                             height: 80,
+                                                          //                             width: 80,
+                                                          //                             imageUrl:
+                                                          //                                 "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                          //                             imageBuilder: (context,
+                                                          //                                     imageProvider) =>
+                                                          //                                 Container(
+                                                          //                               decoration:
+                                                          //                                   BoxDecoration(
+                                                          //                                 image:
+                                                          //                                     DecorationImage(
+                                                          //                                   image:
+                                                          //                                       imageProvider,
+                                                          //                                   fit: BoxFit.contain,
+                                                          //                                 ),
+                                                          //                               ),
+                                                          //                             ),
+                                                          //                             placeholder:
+                                                          //                                 (context, url) =>
+                                                          //                                     const Padding(
+                                                          //                               padding: EdgeInsets.all(
+                                                          //                                   12.0),
+                                                          //                               child: Center(
+                                                          //                                 child:
+                                                          //                                     CircularProgressIndicator(
+                                                          //                                   strokeWidth: 2,
+                                                          //                                   color: Colors.black,
+                                                          //                                 ),
+                                                          //                               ),
+                                                          //                             ),
+                                                          //                             errorWidget: (context,
+                                                          //                                     url, error) =>
+                                                          //                                 const Center(
+                                                          //                               child: Icon(
+                                                          //                                 Icons.error_outline,
+                                                          //                                 color: Colors.red,
+                                                          //                               ),
+                                                          //                             ),
+                                                          //                           ),
+                                                          //                           const SizedBox(width: 14),
+                                                          //                           Expanded(
+                                                          //                             child: Column(
+                                                          //                               crossAxisAlignment:
+                                                          //                                   CrossAxisAlignment
+                                                          //                                       .start,
+                                                          //                               mainAxisAlignment:
+                                                          //                                   MainAxisAlignment
+                                                          //                                       .start,
+                                                          //                               children: [
+                                                          //                                 Text(
+                                                          //                                   "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                          //                                   maxLines: 2,
+                                                          //                                   overflow:
+                                                          //                                       TextOverflow
+                                                          //                                           .ellipsis,
+                                                          //                                   style: getAppStyle(
+                                                          //                                     color:
+                                                          //                                         Colors.black,
+                                                          //                                     fontWeight:
+                                                          //                                         FontWeight
+                                                          //                                             .w600,
+                                                          //                                     fontSize: 13,
+                                                          //                                   ),
+                                                          //                                 ),
+                                                          //                                 Padding(
+                                                          //                                   padding:
+                                                          //                                       const EdgeInsets
+                                                          //                                           .symmetric(
+                                                          //                                           vertical:
+                                                          //                                               02),
+                                                          //                                   child: Text(
+                                                          //                                     "250 g",
+                                                          //                                     style:
+                                                          //                                         getAppStyle(
+                                                          //                                       color:
+                                                          //                                           Colors.grey,
+                                                          //                                       fontWeight:
+                                                          //                                           FontWeight
+                                                          //                                               .w500,
+                                                          //                                       fontSize: 12,
+                                                          //                                     ),
+                                                          //                                   ),
+                                                          //                                 ),
+                                                          //                               ],
+                                                          //                             ),
+                                                          //                           ),
+                                                          //                           const SizedBox(width: 8),
+                                                          //                           Column(
+                                                          //                             crossAxisAlignment:
+                                                          //                                 CrossAxisAlignment
+                                                          //                                     .start,
+                                                          //                             mainAxisAlignment:
+                                                          //                                 MainAxisAlignment
+                                                          //                                     .start,
+                                                          //                             children: [
+                                                          //                               Container(
+                                                          //                                 padding:
+                                                          //                                     const EdgeInsets
+                                                          //                                         .symmetric(
+                                                          //                                         horizontal: 4,
+                                                          //                                         vertical: 4),
+                                                          //                                 margin:
+                                                          //                                     const EdgeInsets
+                                                          //                                         .only(
+                                                          //                                         bottom: 4),
+                                                          //                                 height: 30,
+                                                          //                                 width: 80,
+                                                          //                                 decoration:
+                                                          //                                     BoxDecoration(
+                                                          //                                   borderRadius:
+                                                          //                                       BorderRadius
+                                                          //                                           .circular(
+                                                          //                                               6),
+                                                          //                                   color: CommonColors
+                                                          //                                       .primaryColor,
+                                                          //                                 ),
+                                                          //                                 child: Row(
+                                                          //                                   mainAxisAlignment:
+                                                          //                                       MainAxisAlignment
+                                                          //                                           .spaceAround,
+                                                          //                                   children: [
+                                                          //                                     GestureDetector(
+                                                          //                                       onTap: () =>
+                                                          //                                           decrementItem(),
+                                                          //                                       child:
+                                                          //                                           const Icon(
+                                                          //                                         Icons.remove,
+                                                          //                                         size: 16,
+                                                          //                                         color: Colors
+                                                          //                                             .white,
+                                                          //                                       ),
+                                                          //                                     ),
+                                                          //                                     Text(
+                                                          //                                       itemCount
+                                                          //                                           .toString(),
+                                                          //                                       style:
+                                                          //                                           getAppStyle(
+                                                          //                                         color: Colors
+                                                          //                                             .white,
+                                                          //                                         fontWeight:
+                                                          //                                             FontWeight
+                                                          //                                                 .w500,
+                                                          //                                         fontSize: 14,
+                                                          //                                       ),
+                                                          //                                     ),
+                                                          //                                     GestureDetector(
+                                                          //                                       onTap: () =>
+                                                          //                                           incrementItem(),
+                                                          //                                       child:
+                                                          //                                           const Icon(
+                                                          //                                         Icons.add,
+                                                          //                                         size: 16,
+                                                          //                                         color: Colors
+                                                          //                                             .white,
+                                                          //                                       ),
+                                                          //                                     ),
+                                                          //                                   ],
+                                                          //                                 ),
+                                                          //                               ),
+                                                          //                               Row(
+                                                          //                                 children: [
+                                                          //                                   Text(
+                                                          //                                     "₹${"80.0"}",
+                                                          //                                     style:
+                                                          //                                         getAppStyle(
+                                                          //                                       decoration:
+                                                          //                                           TextDecoration
+                                                          //                                               .lineThrough,
+                                                          //                                       color:
+                                                          //                                           Colors.grey,
+                                                          //                                       fontWeight:
+                                                          //                                           FontWeight
+                                                          //                                               .w500,
+                                                          //                                       fontSize: 12,
+                                                          //                                     ),
+                                                          //                                   ),
+                                                          //                                   const SizedBox(
+                                                          //                                       width: 4),
+                                                          //                                   Text(
+                                                          //                                     "₹${"250.0"}",
+                                                          //                                     style:
+                                                          //                                         getAppStyle(
+                                                          //                                       color: Colors
+                                                          //                                           .black,
+                                                          //                                       fontWeight:
+                                                          //                                           FontWeight
+                                                          //                                               .bold,
+                                                          //                                       fontSize: 13,
+                                                          //                                     ),
+                                                          //                                   ),
+                                                          //                                 ],
+                                                          //                               ),
+                                                          //                             ],
+                                                          //                           ),
+                                                          //                         ],
+                                                          //                       ),
+                                                          //                       const SizedBox(height: 10)
+                                                          //                     ],
+                                                          //                   );
+                                                          //                 },
+                                                          //               ),
+                                                          //             ),
+                                                          //           ),
+                                                          //         ],
+                                                          //       ),
+                                                          //     );
+                                                          //   },
+                                                          // );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
@@ -1012,7 +2554,7 @@ class _HomeState extends State<Home> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                   "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
@@ -1058,14 +2600,14 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: GridView.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
                             crossAxisSpacing: 12.0,
                             mainAxisSpacing: 10.0,
                             childAspectRatio: 0.7,
                           ),
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: 8,
                           itemBuilder: (BuildContext context, int index) {
                             return Column(
@@ -1081,7 +2623,7 @@ class _HomeState extends State<Home> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           image: DecorationImage(
 // image: NetworkImage(images[index]),
                                             image: NetworkImage(
@@ -1093,7 +2635,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                     height: 5), // Space between image and text
 
 // Text that wraps and adjusts based on content
@@ -1171,13 +2713,14 @@ class _HomeState extends State<Home> {
                       Container(
                           height: 300,
                           width: kDeviceWidth,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage(
-                              LocalImages.img_bg_cleaning,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                LocalImages.img_bg_cleaning,
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
-                          )),
+                          ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: FittedBox(
@@ -1190,7 +2733,6 @@ class _HomeState extends State<Home> {
                                       width: 100,
                                       child: Column(
                                         children: [
-// Use Flexible to dynamically adjust height
                                           Container(
                                             height: 100,
                                             width: 100,
@@ -1203,9 +2745,8 @@ class _HomeState extends State<Home> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   image: DecorationImage(
-// image: NetworkImage(images[index]),
                                                     image: NetworkImage(
                                                         "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
                                                     fit: BoxFit.contain,
@@ -1214,10 +2755,7 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
-// Space between image and text
-
-// Text that wraps and adjusts based on content
+                                          const SizedBox(height: 5),
                                           Text(
                                             "Dry & Fruits",
                                             maxLines: 2,
@@ -1235,7 +2773,6 @@ class _HomeState extends State<Home> {
                                       width: 100,
                                       child: Column(
                                         children: [
-// Use Flexible to dynamically adjust height
                                           Container(
                                             height: 100,
                                             width: 100,
@@ -1248,9 +2785,8 @@ class _HomeState extends State<Home> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   image: DecorationImage(
-// image: NetworkImage(images[index]),
                                                     image: NetworkImage(
                                                         "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
                                                     fit: BoxFit.contain,
@@ -1259,10 +2795,7 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
-// Space between image and text
-
-// Text that wraps and adjusts based on content
+                                          const SizedBox(height: 5),
                                           Text(
                                             "Dry & Fruits and Nuts",
                                             maxLines: 2,
@@ -1280,7 +2813,6 @@ class _HomeState extends State<Home> {
                                       width: 100,
                                       child: Column(
                                         children: [
-// Use Flexible to dynamically adjust height
                                           Container(
                                             height: 100,
                                             width: 100,
@@ -1293,9 +2825,8 @@ class _HomeState extends State<Home> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   image: DecorationImage(
-// image: NetworkImage(images[index]),
                                                     image: NetworkImage(
                                                         "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
                                                     fit: BoxFit.contain,
@@ -1304,9 +2835,7 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
-// Space between image and text
-// Text that wraps and adjusts based on content
+                                          const SizedBox(height: 5),
                                           Text(
                                             "Dry & Fruits",
                                             maxLines: 2,
@@ -1324,7 +2853,6 @@ class _HomeState extends State<Home> {
                                       width: 100,
                                       child: Column(
                                         children: [
-// Use Flexible to dynamically adjust height
                                           Container(
                                             height: 100,
                                             width: 100,
@@ -1337,9 +2865,8 @@ class _HomeState extends State<Home> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   image: DecorationImage(
-// image: NetworkImage(images[index]),
                                                     image: NetworkImage(
                                                         "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
                                                     fit: BoxFit.contain,
@@ -1348,10 +2875,7 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(height: 5),
-// Space between image and text
-
-// Text that wraps and adjusts based on content
+                                          const SizedBox(height: 5),
                                           Text(
                                             "Dry & Fruits",
                                             maxLines: 2,
@@ -1620,9 +3144,9 @@ class _HomeState extends State<Home> {
                                         "Fruits &  Flowers",
                                         style: getAppStyle(
                                             fontSize: 18,
-                                            color: Color(0xff45461b),
+                                            color: const Color(0xff45461b),
                                             fontWeight: FontWeight.w500),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1652,7 +3176,7 @@ class _HomeState extends State<Home> {
                                         "Vegitables",
                                         style: getAppStyle(
                                             fontSize: 18,
-                                            color: Color(0xff45461b),
+                                            color: const Color(0xff45461b),
                                             fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -1692,116 +3216,1749 @@ class _HomeState extends State<Home> {
               ),
           ],
         ),
-        bottomNavigationBar: itemCount > 0
+        bottomNavigationBar: itemCount > 1
             ? Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15) +
+                    const EdgeInsets.only(top: 14, bottom: 5),
                 child: Row(
                   children: [
                     Container(
-                      height: 42,
-                      width: 58,
-                      margin: const EdgeInsets.only(right: 10),
+                      height: 48,
+                      width: 60,
+                      margin: const EdgeInsets.only(right: 6),
                       color: Colors.transparent,
                       child: Stack(
-                        children: [
-                          Container(
-                            height: 42,
-                            width: 42,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          Positioned(
-                            left: 8,
+                        children: List.generate(
+                          itemCount - 1 > 3 ? 3 : itemCount - 1,
+                          (index) => Positioned(
+                            left: index * 6,
                             child: Container(
-                              height: 42,
-                              width: 42,
+                              height: 48,
+                              width: 48,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 16,
-                            child: Container(
-                              height: 42,
-                              width: 42,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey),
+                                border:
+                                    Border.all(color: CommonColors.mGrey500),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: CachedNetworkImage(
-                                height: 80,
-                                width: 80,
                                 imageUrl:
                                     "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) => const Padding(
-                                  padding: EdgeInsets.all(12.0),
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => const Center(
+                                    child: SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child: CircularProgressIndicator())),
                                 errorWidget: (context, url, error) =>
-                                    const Center(
-                                  child: Icon(
-                                    Icons.error_outline,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      "$itemCount Item${itemCount > 1 ? 's' : ''}",
-                      style: getAppStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          debugPrint("On Tap View Cart");
-                        },
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: Colors.blue,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "View Cart",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                    const Icon(Icons.error_outline,
+                                        color: Colors.red),
                               ),
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "${itemCount - 1} Items",
+                          style: getAppStyle(
+                            color: CommonColors.blackColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_drop_up_rounded,
+                          color: CommonColors.primaryColor,
+                          size: 30,
+                        )
+                      ],
+                    ),
+                    const SizedBox(width: 36),
+                    Expanded(
+                      child: PrimaryButton(
+                        height: 65,
+                        label: "View Cart",
+                        buttonColor: CommonColors.primaryColor,
+                        labelColor: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        onPress: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            useSafeArea: true,
+                            backgroundColor: Colors.white,
+                            builder: (_) {
+                              return FractionallySizedBox(
+                                heightFactor: 0.75,
+                                child: StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                              horizontal: 20) +
+                                          const EdgeInsets.only(top: 10),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 12, right: 12, top: 12),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Review Cart',
+                                                      style: getAppStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "3 Items • Total",
+                                                          style: getAppStyle(
+                                                              color:
+                                                                  CommonColors
+                                                                      .black54),
+                                                        ),
+                                                        Text(
+                                                          " ₹542",
+                                                          style: getAppStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey,
+                                                          offset: const Offset(
+                                                            2.0,
+                                                            2.0,
+                                                          ),
+                                                          blurRadius: 5.0,
+                                                          spreadRadius: 0.0,
+                                                        ), //BoxShadow
+                                                        BoxShadow(
+                                                          color: Colors.white,
+                                                          offset: const Offset(
+                                                              0.0, 0.0),
+                                                          blurRadius: 0.0,
+                                                          spreadRadius: 0.0,
+                                                        ), //BoxShadow
+                                                      ],
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          kCommonSpaceV10,
+                                          kCommonSpaceV3,
+                                          Container(
+                                            height: 3,
+                                            color: CommonColors.mGrey300,
+                                          ),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                1.88,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12),
+                                            margin:
+                                                const EdgeInsets.only(top: 12),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: CommonColors.mGrey300),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 12,
+                                                            right: 12,
+                                                            top: 12),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'Delivery in',
+                                                              style: getAppStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18),
+                                                            ),
+                                                            const Icon(
+                                                              Icons
+                                                                  .electric_bolt_rounded,
+                                                              color: CommonColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            Text(
+                                                              '11 Min',
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .primaryColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "From ",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .black54),
+                                                            ),
+                                                            Text(
+                                                              "Soliket",
+                                                              style: getAppStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: CommonColors
+                                                                      .blackColor),
+                                                            ),
+                                                            Text(
+                                                              " • ",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .blackColor),
+                                                            ),
+                                                            Text(
+                                                              " 6 Items",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .black54,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                            Text(
+                                                              " • ",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .blackColor),
+                                                            ),
+                                                            Text(
+                                                              "Delivery 1",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .black54,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  ListView.builder(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 12),
+                                                    physics:
+                                                        const ClampingScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    itemCount: 15,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CachedNetworkImage(
+                                                                height: 80,
+                                                                width: 80,
+                                                                imageUrl:
+                                                                    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                imageBuilder:
+                                                                    (context,
+                                                                            imageProvider) =>
+                                                                        Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    image:
+                                                                        DecorationImage(
+                                                                      image:
+                                                                          imageProvider,
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              12.0),
+                                                                  child: Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      strokeWidth:
+                                                                          2,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    const Center(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .error_outline,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 14),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                      maxLines:
+                                                                          2,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style:
+                                                                          getAppStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            13,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              02),
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "250 g",
+                                                                            style:
+                                                                                getAppStyle(
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            margin:
+                                                                                const EdgeInsets.only(left: 8),
+                                                                            padding: const EdgeInsets.only(
+                                                                                left: 6,
+                                                                                right: 8,
+                                                                                top: 2,
+                                                                                bottom: 2),
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(2),
+                                                                              color: CommonColors.primaryColor.withOpacity(0.1),
+                                                                            ),
+                                                                            child:
+                                                                                Row(
+                                                                              children: [
+                                                                                const Icon(
+                                                                                  Icons.percent_rounded,
+                                                                                  color: CommonColors.primaryColor,
+                                                                                  size: 14,
+                                                                                ),
+                                                                                Text(
+                                                                                  "Deal Applied",
+                                                                                  style: getAppStyle(
+                                                                                    color: CommonColors.primaryColor,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontSize: 10,
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            4,
+                                                                        vertical:
+                                                                            4),
+                                                                    margin: const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            4),
+                                                                    height: 30,
+                                                                    width: 80,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6),
+                                                                      color: CommonColors
+                                                                          .primaryColor,
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceAround,
+                                                                      children: [
+                                                                        GestureDetector(
+                                                                          onTap: () =>
+                                                                              decrementItem(),
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.remove,
+                                                                            size:
+                                                                                16,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          itemCount
+                                                                              .toString(),
+                                                                          style:
+                                                                              getAppStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                14,
+                                                                          ),
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () =>
+                                                                              incrementItem(),
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.add,
+                                                                            size:
+                                                                                16,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        "₹${"80.0"}",
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          decoration:
+                                                                              TextDecoration.lineThrough,
+                                                                          color:
+                                                                              Colors.grey,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontSize:
+                                                                              12,
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              4),
+                                                                      Text(
+                                                                        "₹${"250.0"}",
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              13,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 10)
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 20),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: 48,
+                                                  width: 60,
+                                                  margin: const EdgeInsets.only(
+                                                      right: 6),
+                                                  color: Colors.transparent,
+                                                  child: Stack(
+                                                    children: List.generate(
+                                                      itemCount - 1 > 3
+                                                          ? 3
+                                                          : itemCount - 1,
+                                                      (index) => Positioned(
+                                                        left: index * 6,
+                                                        child: Container(
+                                                          height: 48,
+                                                          width: 48,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal: 6,
+                                                                  vertical: 2),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            border: Border.all(
+                                                                color: CommonColors
+                                                                    .mGrey500),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl:
+                                                                "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                            fit: BoxFit.cover,
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                const Center(
+                                                                    child: SizedBox(
+                                                                        height:
+                                                                            10,
+                                                                        width:
+                                                                            10,
+                                                                        child:
+                                                                            CircularProgressIndicator())),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(
+                                                                    Icons
+                                                                        .error_outline,
+                                                                    color: Colors
+                                                                        .red),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "${itemCount - 1} Items",
+                                                      style: getAppStyle(
+                                                        color: CommonColors
+                                                            .blackColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                    const Icon(
+                                                      Icons
+                                                          .arrow_drop_up_rounded,
+                                                      color: CommonColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    )
+                                                  ],
+                                                ),
+                                                const SizedBox(width: 36),
+                                                Expanded(
+                                                  child: PrimaryButton(
+                                                    height: 65,
+                                                    label: "View Cart",
+                                                    buttonColor: CommonColors
+                                                        .primaryColor,
+                                                    labelColor: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            14),
+                                                    onPress: () {
+                                                      showModalBottomSheet(
+                                                        context: context,
+                                                        isScrollControlled:
+                                                            true,
+                                                        useSafeArea: true,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        builder: (_) {
+                                                          return FractionallySizedBox(
+                                                            heightFactor: 0.75,
+                                                            child:
+                                                                StatefulBuilder(
+                                                              builder: (BuildContext
+                                                                      context,
+                                                                  StateSetter
+                                                                      setState) {
+                                                                return Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              20) +
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          top:
+                                                                              10),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            left:
+                                                                                12,
+                                                                            right:
+                                                                                12,
+                                                                            top:
+                                                                                12),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Review Cart',
+                                                                                  style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      "3 Items • Total",
+                                                                                      style: getAppStyle(color: CommonColors.black54),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      " ₹542",
+                                                                                      style: getAppStyle(fontWeight: FontWeight.bold),
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: Container(
+                                                                                decoration: BoxDecoration(
+                                                                                  shape: BoxShape.circle,
+                                                                                  boxShadow: [
+                                                                                    BoxShadow(
+                                                                                      color: Colors.grey,
+                                                                                      offset: const Offset(
+                                                                                        2.0,
+                                                                                        2.0,
+                                                                                      ),
+                                                                                      blurRadius: 5.0,
+                                                                                      spreadRadius: 0.0,
+                                                                                    ), //BoxShadow
+                                                                                    BoxShadow(
+                                                                                      color: Colors.white,
+                                                                                      offset: const Offset(0.0, 0.0),
+                                                                                      blurRadius: 0.0,
+                                                                                      spreadRadius: 0.0,
+                                                                                    ), //BoxShadow
+                                                                                  ],
+                                                                                ),
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: Icon(
+                                                                                    Icons.close,
+                                                                                    size: 15,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      kCommonSpaceV10,
+                                                                      kCommonSpaceV3,
+                                                                      Container(
+                                                                        height:
+                                                                            3,
+                                                                        color: CommonColors
+                                                                            .mGrey300,
+                                                                      ),
+                                                                      Container(
+                                                                        height: MediaQuery.of(context).size.height /
+                                                                            1.82,
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                12),
+                                                                        margin: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                12),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Colors.red,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(12),
+                                                                        ),
+                                                                        child:
+                                                                            SingleChildScrollView(
+                                                                          child:
+                                                                              ListView.builder(
+                                                                            padding:
+                                                                                const EdgeInsets.only(top: 12),
+                                                                            physics:
+                                                                                const ClampingScrollPhysics(),
+                                                                            shrinkWrap:
+                                                                                true,
+                                                                            scrollDirection:
+                                                                                Axis.vertical,
+                                                                            itemCount:
+                                                                                15,
+                                                                            itemBuilder:
+                                                                                (BuildContext context, int index) {
+                                                                              return Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      CachedNetworkImage(
+                                                                                        height: 80,
+                                                                                        width: 80,
+                                                                                        imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                        imageBuilder: (context, imageProvider) => Container(
+                                                                                          decoration: BoxDecoration(
+                                                                                            image: DecorationImage(
+                                                                                              image: imageProvider,
+                                                                                              fit: BoxFit.contain,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        placeholder: (context, url) => const Padding(
+                                                                                          padding: EdgeInsets.all(12.0),
+                                                                                          child: Center(
+                                                                                            child: CircularProgressIndicator(
+                                                                                              strokeWidth: 2,
+                                                                                              color: Colors.black,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        errorWidget: (context, url, error) => const Center(
+                                                                                          child: Icon(
+                                                                                            Icons.error_outline,
+                                                                                            color: Colors.red,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      const SizedBox(width: 14),
+                                                                                      Expanded(
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                                          children: [
+                                                                                            Text(
+                                                                                              "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                                              maxLines: 2,
+                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                              style: getAppStyle(
+                                                                                                color: Colors.black,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                fontSize: 13,
+                                                                                              ),
+                                                                                            ),
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                                              child: Text(
+                                                                                                "250 g",
+                                                                                                style: getAppStyle(
+                                                                                                  color: Colors.grey,
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                  fontSize: 12,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      const SizedBox(width: 8),
+                                                                                      Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                                                                            margin: const EdgeInsets.only(bottom: 4),
+                                                                                            height: 30,
+                                                                                            width: 80,
+                                                                                            decoration: BoxDecoration(
+                                                                                              borderRadius: BorderRadius.circular(6),
+                                                                                              color: CommonColors.primaryColor,
+                                                                                            ),
+                                                                                            child: Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                              children: [
+                                                                                                GestureDetector(
+                                                                                                  onTap: () => decrementItem(),
+                                                                                                  child: const Icon(
+                                                                                                    Icons.remove,
+                                                                                                    size: 16,
+                                                                                                    color: Colors.white,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  itemCount.toString(),
+                                                                                                  style: getAppStyle(
+                                                                                                    color: Colors.white,
+                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                    fontSize: 14,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                GestureDetector(
+                                                                                                  onTap: () => incrementItem(),
+                                                                                                  child: const Icon(
+                                                                                                    Icons.add,
+                                                                                                    size: 16,
+                                                                                                    color: Colors.white,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          Row(
+                                                                                            children: [
+                                                                                              Text(
+                                                                                                "₹${"80.0"}",
+                                                                                                style: getAppStyle(
+                                                                                                  decoration: TextDecoration.lineThrough,
+                                                                                                  color: Colors.grey,
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                  fontSize: 12,
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(width: 4),
+                                                                                              Text(
+                                                                                                "₹${"250.0"}",
+                                                                                                style: getAppStyle(
+                                                                                                  color: Colors.black,
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontSize: 13,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                  const SizedBox(height: 10)
+                                                                                ],
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      const Spacer(),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                10,
+                                                                            bottom:
+                                                                                20),
+                                                                        child:
+                                                                            Row(
+                                                                          children: [
+                                                                            Container(
+                                                                              height: 42,
+                                                                              width: 58,
+                                                                              margin: const EdgeInsets.only(right: 10),
+                                                                              color: Colors.transparent,
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    height: 42,
+                                                                                    width: 42,
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.white,
+                                                                                      border: Border.all(color: Colors.grey),
+                                                                                      borderRadius: BorderRadius.circular(10),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Positioned(
+                                                                                    left: 8,
+                                                                                    child: Container(
+                                                                                      height: 42,
+                                                                                      width: 42,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: Colors.white,
+                                                                                        border: Border.all(color: Colors.grey),
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Positioned(
+                                                                                    left: 16,
+                                                                                    child: Container(
+                                                                                      height: 42,
+                                                                                      width: 42,
+                                                                                      decoration: BoxDecoration(
+                                                                                        color: Colors.white,
+                                                                                        border: Border.all(color: Colors.grey),
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                      ),
+                                                                                      child: CachedNetworkImage(
+                                                                                        height: 80,
+                                                                                        width: 80,
+                                                                                        imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                                        imageBuilder: (context, imageProvider) => Container(
+                                                                                          decoration: BoxDecoration(
+                                                                                            image: DecorationImage(
+                                                                                              image: imageProvider,
+                                                                                              fit: BoxFit.contain,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        placeholder: (context, url) => const Padding(
+                                                                                          padding: EdgeInsets.all(12.0),
+                                                                                          child: Center(
+                                                                                            child: CircularProgressIndicator(
+                                                                                              strokeWidth: 2,
+                                                                                              color: Colors.black,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        errorWidget: (context, url, error) => const Center(
+                                                                                          child: Icon(
+                                                                                            Icons.error_outline,
+                                                                                            color: Colors.red,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            InkWell(
+                                                                              onTap: () {
+                                                                                debugPrint("OnTap");
+                                                                              },
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    "6 Item",
+                                                                                    style: getAppStyle(
+                                                                                      color: Colors.black,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      fontSize: 12,
+                                                                                    ),
+                                                                                  ),
+                                                                                  const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            const SizedBox(width: 20),
+                                                                            Expanded(
+                                                                              child: GestureDetector(
+                                                                                onTap: () {
+                                                                                  debugPrint("On Tap Sub Product");
+                                                                                },
+                                                                                child: Container(
+                                                                                  height: 40,
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(6),
+                                                                                    color: CommonColors.primaryColor,
+                                                                                  ),
+                                                                                  child: Center(
+                                                                                    child: Text(
+                                                                                      "View Cart",
+                                                                                      style: getAppStyle(
+                                                                                        color: Colors.white,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontSize: 14,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+
+                                                      // showModalBottomSheet(
+                                                      //   context: context,
+                                                      //   builder: (BuildContext context) {
+                                                      //     return Padding(
+                                                      //       padding: const EdgeInsets.all(8.0),
+                                                      //       child: Column(
+                                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                                      //         children: [
+                                                      //           Padding(
+                                                      //             padding: const EdgeInsets.only(
+                                                      //                 left: 12, right: 12, top: 12),
+                                                      //             child: Row(
+                                                      //               mainAxisAlignment:
+                                                      //                   MainAxisAlignment.spaceBetween,
+                                                      //               children: [
+                                                      //                 Column(
+                                                      //                   crossAxisAlignment:
+                                                      //                       CrossAxisAlignment.start,
+                                                      //                   children: [
+                                                      //                     Text(
+                                                      //                       'Review Cart',
+                                                      //                       style: getAppStyle(
+                                                      //                           fontWeight: FontWeight.bold,
+                                                      //                           fontSize: 18),
+                                                      //                     ),
+                                                      //                     Row(
+                                                      //                       children: [
+                                                      //                         Text(
+                                                      //                           "3 Items • Total",
+                                                      //                           style: getAppStyle(
+                                                      //                               color: CommonColors
+                                                      //                                   .black54),
+                                                      //                         ),
+                                                      //                         Text(
+                                                      //                           " ₹542",
+                                                      //                           style: getAppStyle(
+                                                      //                               fontWeight:
+                                                      //                                   FontWeight.bold),
+                                                      //                         ),
+                                                      //                       ],
+                                                      //                     )
+                                                      //                   ],
+                                                      //                 ),
+                                                      //                 InkWell(
+                                                      //                   onTap: () {
+                                                      //                     Navigator.pop(context);
+                                                      //                   },
+                                                      //                   child: Container(
+                                                      //                     decoration: BoxDecoration(
+                                                      //                       shape: BoxShape.circle,
+                                                      //                       boxShadow: [
+                                                      //                         BoxShadow(
+                                                      //                           color: Colors.grey,
+                                                      //                           offset: const Offset(
+                                                      //                             2.0,
+                                                      //                             2.0,
+                                                      //                           ),
+                                                      //                           blurRadius: 5.0,
+                                                      //                           spreadRadius: 0.0,
+                                                      //                         ), //BoxShadow
+                                                      //                         BoxShadow(
+                                                      //                           color: Colors.white,
+                                                      //                           offset:
+                                                      //                               const Offset(0.0, 0.0),
+                                                      //                           blurRadius: 0.0,
+                                                      //                           spreadRadius: 0.0,
+                                                      //                         ), //BoxShadow
+                                                      //                       ],
+                                                      //                     ),
+                                                      //                     child: Padding(
+                                                      //                       padding:
+                                                      //                           const EdgeInsets.all(8.0),
+                                                      //                       child: Icon(
+                                                      //                         Icons.close,
+                                                      //                         size: 15,
+                                                      //                       ),
+                                                      //                     ),
+                                                      //                   ),
+                                                      //                 ),
+                                                      //               ],
+                                                      //             ),
+                                                      //           ),
+                                                      //           kCommonSpaceV10,
+                                                      //           kCommonSpaceV3,
+                                                      //           Container(
+                                                      //             height: 3,
+                                                      //             color: CommonColors.mGrey300,
+                                                      //           ),
+                                                      //           Container(
+                                                      //             height:
+                                                      //                 MediaQuery.of(context).size.height /
+                                                      //                     1.77,
+                                                      //             padding: const EdgeInsets.symmetric(
+                                                      //                 horizontal: 12),
+                                                      //             margin: const EdgeInsets.only(
+                                                      //                 top: 12),
+                                                      //             decoration: BoxDecoration(
+                                                      //               color: Colors.red,
+                                                      //               borderRadius: BorderRadius.circular(12),
+                                                      //             ),
+                                                      //             child: SingleChildScrollView(
+                                                      //               child: ListView.builder(
+                                                      //                 padding:
+                                                      //                     const EdgeInsets.only(top: 12),
+                                                      //                 physics:
+                                                      //                     const ClampingScrollPhysics(),
+                                                      //                 shrinkWrap: true,
+                                                      //                 scrollDirection: Axis.vertical,
+                                                      //                 itemCount: 15,
+                                                      //                 itemBuilder: (BuildContext context,
+                                                      //                     int index) {
+                                                      //                   return Column(
+                                                      //                     children: [
+                                                      //                       Row(
+                                                      //                         crossAxisAlignment:
+                                                      //                             CrossAxisAlignment.start,
+                                                      //                         children: [
+                                                      //                           CachedNetworkImage(
+                                                      //                             height: 80,
+                                                      //                             width: 80,
+                                                      //                             imageUrl:
+                                                      //                                 "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                      //                             imageBuilder: (context,
+                                                      //                                     imageProvider) =>
+                                                      //                                 Container(
+                                                      //                               decoration:
+                                                      //                                   BoxDecoration(
+                                                      //                                 image:
+                                                      //                                     DecorationImage(
+                                                      //                                   image:
+                                                      //                                       imageProvider,
+                                                      //                                   fit: BoxFit.contain,
+                                                      //                                 ),
+                                                      //                               ),
+                                                      //                             ),
+                                                      //                             placeholder:
+                                                      //                                 (context, url) =>
+                                                      //                                     const Padding(
+                                                      //                               padding: EdgeInsets.all(
+                                                      //                                   12.0),
+                                                      //                               child: Center(
+                                                      //                                 child:
+                                                      //                                     CircularProgressIndicator(
+                                                      //                                   strokeWidth: 2,
+                                                      //                                   color: Colors.black,
+                                                      //                                 ),
+                                                      //                               ),
+                                                      //                             ),
+                                                      //                             errorWidget: (context,
+                                                      //                                     url, error) =>
+                                                      //                                 const Center(
+                                                      //                               child: Icon(
+                                                      //                                 Icons.error_outline,
+                                                      //                                 color: Colors.red,
+                                                      //                               ),
+                                                      //                             ),
+                                                      //                           ),
+                                                      //                           const SizedBox(width: 14),
+                                                      //                           Expanded(
+                                                      //                             child: Column(
+                                                      //                               crossAxisAlignment:
+                                                      //                                   CrossAxisAlignment
+                                                      //                                       .start,
+                                                      //                               mainAxisAlignment:
+                                                      //                                   MainAxisAlignment
+                                                      //                                       .start,
+                                                      //                               children: [
+                                                      //                                 Text(
+                                                      //                                   "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                      //                                   maxLines: 2,
+                                                      //                                   overflow:
+                                                      //                                       TextOverflow
+                                                      //                                           .ellipsis,
+                                                      //                                   style: getAppStyle(
+                                                      //                                     color:
+                                                      //                                         Colors.black,
+                                                      //                                     fontWeight:
+                                                      //                                         FontWeight
+                                                      //                                             .w600,
+                                                      //                                     fontSize: 13,
+                                                      //                                   ),
+                                                      //                                 ),
+                                                      //                                 Padding(
+                                                      //                                   padding:
+                                                      //                                       const EdgeInsets
+                                                      //                                           .symmetric(
+                                                      //                                           vertical:
+                                                      //                                               02),
+                                                      //                                   child: Text(
+                                                      //                                     "250 g",
+                                                      //                                     style:
+                                                      //                                         getAppStyle(
+                                                      //                                       color:
+                                                      //                                           Colors.grey,
+                                                      //                                       fontWeight:
+                                                      //                                           FontWeight
+                                                      //                                               .w500,
+                                                      //                                       fontSize: 12,
+                                                      //                                     ),
+                                                      //                                   ),
+                                                      //                                 ),
+                                                      //                               ],
+                                                      //                             ),
+                                                      //                           ),
+                                                      //                           const SizedBox(width: 8),
+                                                      //                           Column(
+                                                      //                             crossAxisAlignment:
+                                                      //                                 CrossAxisAlignment
+                                                      //                                     .start,
+                                                      //                             mainAxisAlignment:
+                                                      //                                 MainAxisAlignment
+                                                      //                                     .start,
+                                                      //                             children: [
+                                                      //                               Container(
+                                                      //                                 padding:
+                                                      //                                     const EdgeInsets
+                                                      //                                         .symmetric(
+                                                      //                                         horizontal: 4,
+                                                      //                                         vertical: 4),
+                                                      //                                 margin:
+                                                      //                                     const EdgeInsets
+                                                      //                                         .only(
+                                                      //                                         bottom: 4),
+                                                      //                                 height: 30,
+                                                      //                                 width: 80,
+                                                      //                                 decoration:
+                                                      //                                     BoxDecoration(
+                                                      //                                   borderRadius:
+                                                      //                                       BorderRadius
+                                                      //                                           .circular(
+                                                      //                                               6),
+                                                      //                                   color: CommonColors
+                                                      //                                       .primaryColor,
+                                                      //                                 ),
+                                                      //                                 child: Row(
+                                                      //                                   mainAxisAlignment:
+                                                      //                                       MainAxisAlignment
+                                                      //                                           .spaceAround,
+                                                      //                                   children: [
+                                                      //                                     GestureDetector(
+                                                      //                                       onTap: () =>
+                                                      //                                           decrementItem(),
+                                                      //                                       child:
+                                                      //                                           const Icon(
+                                                      //                                         Icons.remove,
+                                                      //                                         size: 16,
+                                                      //                                         color: Colors
+                                                      //                                             .white,
+                                                      //                                       ),
+                                                      //                                     ),
+                                                      //                                     Text(
+                                                      //                                       itemCount
+                                                      //                                           .toString(),
+                                                      //                                       style:
+                                                      //                                           getAppStyle(
+                                                      //                                         color: Colors
+                                                      //                                             .white,
+                                                      //                                         fontWeight:
+                                                      //                                             FontWeight
+                                                      //                                                 .w500,
+                                                      //                                         fontSize: 14,
+                                                      //                                       ),
+                                                      //                                     ),
+                                                      //                                     GestureDetector(
+                                                      //                                       onTap: () =>
+                                                      //                                           incrementItem(),
+                                                      //                                       child:
+                                                      //                                           const Icon(
+                                                      //                                         Icons.add,
+                                                      //                                         size: 16,
+                                                      //                                         color: Colors
+                                                      //                                             .white,
+                                                      //                                       ),
+                                                      //                                     ),
+                                                      //                                   ],
+                                                      //                                 ),
+                                                      //                               ),
+                                                      //                               Row(
+                                                      //                                 children: [
+                                                      //                                   Text(
+                                                      //                                     "₹${"80.0"}",
+                                                      //                                     style:
+                                                      //                                         getAppStyle(
+                                                      //                                       decoration:
+                                                      //                                           TextDecoration
+                                                      //                                               .lineThrough,
+                                                      //                                       color:
+                                                      //                                           Colors.grey,
+                                                      //                                       fontWeight:
+                                                      //                                           FontWeight
+                                                      //                                               .w500,
+                                                      //                                       fontSize: 12,
+                                                      //                                     ),
+                                                      //                                   ),
+                                                      //                                   const SizedBox(
+                                                      //                                       width: 4),
+                                                      //                                   Text(
+                                                      //                                     "₹${"250.0"}",
+                                                      //                                     style:
+                                                      //                                         getAppStyle(
+                                                      //                                       color: Colors
+                                                      //                                           .black,
+                                                      //                                       fontWeight:
+                                                      //                                           FontWeight
+                                                      //                                               .bold,
+                                                      //                                       fontSize: 13,
+                                                      //                                     ),
+                                                      //                                   ),
+                                                      //                                 ],
+                                                      //                               ),
+                                                      //                             ],
+                                                      //                           ),
+                                                      //                         ],
+                                                      //                       ),
+                                                      //                       const SizedBox(height: 10)
+                                                      //                     ],
+                                                      //                   );
+                                                      //                 },
+                                                      //               ),
+                                                      //             ),
+                                                      //           ),
+                                                      //         ],
+                                                      //       ),
+                                                      //     );
+                                                      //   },
+                                                      // );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          );
+
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   builder: (BuildContext context) {
+                          //     return Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           Padding(
+                          //             padding: const EdgeInsets.only(
+                          //                 left: 12, right: 12, top: 12),
+                          //             child: Row(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.spaceBetween,
+                          //               children: [
+                          //                 Column(
+                          //                   crossAxisAlignment:
+                          //                       CrossAxisAlignment.start,
+                          //                   children: [
+                          //                     Text(
+                          //                       'Review Cart',
+                          //                       style: getAppStyle(
+                          //                           fontWeight: FontWeight.bold,
+                          //                           fontSize: 18),
+                          //                     ),
+                          //                     Row(
+                          //                       children: [
+                          //                         Text(
+                          //                           "3 Items • Total",
+                          //                           style: getAppStyle(
+                          //                               color: CommonColors
+                          //                                   .black54),
+                          //                         ),
+                          //                         Text(
+                          //                           " ₹542",
+                          //                           style: getAppStyle(
+                          //                               fontWeight:
+                          //                                   FontWeight.bold),
+                          //                         ),
+                          //                       ],
+                          //                     )
+                          //                   ],
+                          //                 ),
+                          //                 InkWell(
+                          //                   onTap: () {
+                          //                     Navigator.pop(context);
+                          //                   },
+                          //                   child: Container(
+                          //                     decoration: BoxDecoration(
+                          //                       shape: BoxShape.circle,
+                          //                       boxShadow: [
+                          //                         BoxShadow(
+                          //                           color: Colors.grey,
+                          //                           offset: const Offset(
+                          //                             2.0,
+                          //                             2.0,
+                          //                           ),
+                          //                           blurRadius: 5.0,
+                          //                           spreadRadius: 0.0,
+                          //                         ), //BoxShadow
+                          //                         BoxShadow(
+                          //                           color: Colors.white,
+                          //                           offset:
+                          //                               const Offset(0.0, 0.0),
+                          //                           blurRadius: 0.0,
+                          //                           spreadRadius: 0.0,
+                          //                         ), //BoxShadow
+                          //                       ],
+                          //                     ),
+                          //                     child: Padding(
+                          //                       padding:
+                          //                           const EdgeInsets.all(8.0),
+                          //                       child: Icon(
+                          //                         Icons.close,
+                          //                         size: 15,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //           kCommonSpaceV10,
+                          //           kCommonSpaceV3,
+                          //           Container(
+                          //             height: 3,
+                          //             color: CommonColors.mGrey300,
+                          //           ),
+                          //           Container(
+                          //             height:
+                          //                 MediaQuery.of(context).size.height /
+                          //                     1.77,
+                          //             padding: const EdgeInsets.symmetric(
+                          //                 horizontal: 12),
+                          //             margin: const EdgeInsets.only(
+                          //                 top: 12),
+                          //             decoration: BoxDecoration(
+                          //               color: Colors.red,
+                          //               borderRadius: BorderRadius.circular(12),
+                          //             ),
+                          //             child: SingleChildScrollView(
+                          //               child: ListView.builder(
+                          //                 padding:
+                          //                     const EdgeInsets.only(top: 12),
+                          //                 physics:
+                          //                     const ClampingScrollPhysics(),
+                          //                 shrinkWrap: true,
+                          //                 scrollDirection: Axis.vertical,
+                          //                 itemCount: 15,
+                          //                 itemBuilder: (BuildContext context,
+                          //                     int index) {
+                          //                   return Column(
+                          //                     children: [
+                          //                       Row(
+                          //                         crossAxisAlignment:
+                          //                             CrossAxisAlignment.start,
+                          //                         children: [
+                          //                           CachedNetworkImage(
+                          //                             height: 80,
+                          //                             width: 80,
+                          //                             imageUrl:
+                          //                                 "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                          //                             imageBuilder: (context,
+                          //                                     imageProvider) =>
+                          //                                 Container(
+                          //                               decoration:
+                          //                                   BoxDecoration(
+                          //                                 image:
+                          //                                     DecorationImage(
+                          //                                   image:
+                          //                                       imageProvider,
+                          //                                   fit: BoxFit.contain,
+                          //                                 ),
+                          //                               ),
+                          //                             ),
+                          //                             placeholder:
+                          //                                 (context, url) =>
+                          //                                     const Padding(
+                          //                               padding: EdgeInsets.all(
+                          //                                   12.0),
+                          //                               child: Center(
+                          //                                 child:
+                          //                                     CircularProgressIndicator(
+                          //                                   strokeWidth: 2,
+                          //                                   color: Colors.black,
+                          //                                 ),
+                          //                               ),
+                          //                             ),
+                          //                             errorWidget: (context,
+                          //                                     url, error) =>
+                          //                                 const Center(
+                          //                               child: Icon(
+                          //                                 Icons.error_outline,
+                          //                                 color: Colors.red,
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                           const SizedBox(width: 14),
+                          //                           Expanded(
+                          //                             child: Column(
+                          //                               crossAxisAlignment:
+                          //                                   CrossAxisAlignment
+                          //                                       .start,
+                          //                               mainAxisAlignment:
+                          //                                   MainAxisAlignment
+                          //                                       .start,
+                          //                               children: [
+                          //                                 Text(
+                          //                                   "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                          //                                   maxLines: 2,
+                          //                                   overflow:
+                          //                                       TextOverflow
+                          //                                           .ellipsis,
+                          //                                   style: getAppStyle(
+                          //                                     color:
+                          //                                         Colors.black,
+                          //                                     fontWeight:
+                          //                                         FontWeight
+                          //                                             .w600,
+                          //                                     fontSize: 13,
+                          //                                   ),
+                          //                                 ),
+                          //                                 Padding(
+                          //                                   padding:
+                          //                                       const EdgeInsets
+                          //                                           .symmetric(
+                          //                                           vertical:
+                          //                                               02),
+                          //                                   child: Text(
+                          //                                     "250 g",
+                          //                                     style:
+                          //                                         getAppStyle(
+                          //                                       color:
+                          //                                           Colors.grey,
+                          //                                       fontWeight:
+                          //                                           FontWeight
+                          //                                               .w500,
+                          //                                       fontSize: 12,
+                          //                                     ),
+                          //                                   ),
+                          //                                 ),
+                          //                               ],
+                          //                             ),
+                          //                           ),
+                          //                           const SizedBox(width: 8),
+                          //                           Column(
+                          //                             crossAxisAlignment:
+                          //                                 CrossAxisAlignment
+                          //                                     .start,
+                          //                             mainAxisAlignment:
+                          //                                 MainAxisAlignment
+                          //                                     .start,
+                          //                             children: [
+                          //                               Container(
+                          //                                 padding:
+                          //                                     const EdgeInsets
+                          //                                         .symmetric(
+                          //                                         horizontal: 4,
+                          //                                         vertical: 4),
+                          //                                 margin:
+                          //                                     const EdgeInsets
+                          //                                         .only(
+                          //                                         bottom: 4),
+                          //                                 height: 30,
+                          //                                 width: 80,
+                          //                                 decoration:
+                          //                                     BoxDecoration(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               6),
+                          //                                   color: CommonColors
+                          //                                       .primaryColor,
+                          //                                 ),
+                          //                                 child: Row(
+                          //                                   mainAxisAlignment:
+                          //                                       MainAxisAlignment
+                          //                                           .spaceAround,
+                          //                                   children: [
+                          //                                     GestureDetector(
+                          //                                       onTap: () =>
+                          //                                           decrementItem(),
+                          //                                       child:
+                          //                                           const Icon(
+                          //                                         Icons.remove,
+                          //                                         size: 16,
+                          //                                         color: Colors
+                          //                                             .white,
+                          //                                       ),
+                          //                                     ),
+                          //                                     Text(
+                          //                                       itemCount
+                          //                                           .toString(),
+                          //                                       style:
+                          //                                           getAppStyle(
+                          //                                         color: Colors
+                          //                                             .white,
+                          //                                         fontWeight:
+                          //                                             FontWeight
+                          //                                                 .w500,
+                          //                                         fontSize: 14,
+                          //                                       ),
+                          //                                     ),
+                          //                                     GestureDetector(
+                          //                                       onTap: () =>
+                          //                                           incrementItem(),
+                          //                                       child:
+                          //                                           const Icon(
+                          //                                         Icons.add,
+                          //                                         size: 16,
+                          //                                         color: Colors
+                          //                                             .white,
+                          //                                       ),
+                          //                                     ),
+                          //                                   ],
+                          //                                 ),
+                          //                               ),
+                          //                               Row(
+                          //                                 children: [
+                          //                                   Text(
+                          //                                     "₹${"80.0"}",
+                          //                                     style:
+                          //                                         getAppStyle(
+                          //                                       decoration:
+                          //                                           TextDecoration
+                          //                                               .lineThrough,
+                          //                                       color:
+                          //                                           Colors.grey,
+                          //                                       fontWeight:
+                          //                                           FontWeight
+                          //                                               .w500,
+                          //                                       fontSize: 12,
+                          //                                     ),
+                          //                                   ),
+                          //                                   const SizedBox(
+                          //                                       width: 4),
+                          //                                   Text(
+                          //                                     "₹${"250.0"}",
+                          //                                     style:
+                          //                                         getAppStyle(
+                          //                                       color: Colors
+                          //                                           .black,
+                          //                                       fontWeight:
+                          //                                           FontWeight
+                          //                                               .bold,
+                          //                                       fontSize: 13,
+                          //                                     ),
+                          //                                   ),
+                          //                                 ],
+                          //                               ),
+                          //                             ],
+                          //                           ),
+                          //                         ],
+                          //                       ),
+                          //                       const SizedBox(height: 10)
+                          //                     ],
+                          //                   );
+                          //                 },
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     );
+                          //   },
+                          // );
+                        },
                       ),
                     ),
                   ],
@@ -1838,7 +4995,7 @@ class _ProductContainerState extends State<ProductContainer> {
     setState(() {
       itemCount++;
     });
-    widget.onIncrement!(); // Notify the parent without passing an argument
+    widget.onIncrement!();
   }
 
   void decrementItem() {
@@ -1846,7 +5003,7 @@ class _ProductContainerState extends State<ProductContainer> {
       setState(() {
         itemCount--;
       });
-      widget.onDecrement!(); // Notify the parent without passing an argument
+      widget.onDecrement!();
     }
   }
 
@@ -2015,205 +5172,6 @@ class _ProductContainerState extends State<ProductContainer> {
     );
   }
 }
-
-// class ProductContainer extends StatefulWidget {
-//   final String? imgUrl;
-//   final String? productName;
-//
-//
-//   const ProductContainer({super.key, this.imgUrl, this.productName});
-//
-//   @override
-//   State<ProductContainer> createState() => _ProductContainerState();
-// }
-//
-// class _ProductContainerState extends State<ProductContainer> {
-//
-//   int itemCount = 0;
-//
-//   void incrementItem() {
-//     setState(
-//       () {
-//         itemCount++;
-//       },
-//     );
-//   }
-//
-//   void decrementItem() {
-//     setState(
-//       () {
-//         if (itemCount > 0) {
-//           itemCount--;
-//         }
-//       },
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 170,
-//       clipBehavior: Clip.antiAlias,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(10),
-//       ),
-//       child: Stack(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(bottom: 8),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Image.network(
-//                   widget.imgUrl ??
-//                       "https://www.consciousfood.com/cdn/shop/products/split_bengal_gram_chana_dal_i_1920.jpg?v=1684915570&width=1946",
-//                 ),
-//                 const SizedBox(height: 5),
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 8),
-//                   child: Text(
-//                     widget.productName ?? "Chana dal Loose 2 kg",
-//                     maxLines: 2,
-//                     overflow: TextOverflow.ellipsis,
-//                     style:
-//                         getAppStyle(fontSize: 14, fontWeight: FontWeight.bold),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 5),
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 8),
-//                   child: Text(
-//                     "1 Kg",
-//                     style: getAppStyle(
-//                       fontSize: 14,
-//                       color: Colors.black54,
-//                       fontWeight: FontWeight.w500,
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 10),
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 8),
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           Text(
-//                             "₹450",
-//                             style: getAppStyle(
-//                               fontSize: 14,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                           Text(
-//                             "₹59",
-//                             style: getAppStyle(
-//                               color: Colors.black54,
-//                               fontSize: 12,
-//                               decoration: TextDecoration.lineThrough,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                       itemCount > 0
-//                           ? Container(
-//                               padding: const EdgeInsets.symmetric(
-//                                   horizontal: 4, vertical: 4),
-//                               margin: const EdgeInsets.only(bottom: 4),
-//                               height: 30,
-//                               width: 80,
-//                               decoration: BoxDecoration(
-//                                 borderRadius: BorderRadius.circular(6),
-//                                 color: CommonColors.primaryColor,
-//                               ),
-//                               child: Row(
-//                                 mainAxisAlignment:
-//                                     MainAxisAlignment.spaceAround,
-//                                 children: [
-//                                   GestureDetector(
-//                                     onTap: decrementItem,
-//                                     child: const Icon(
-//                                       Icons.remove,
-//                                       size: 16,
-//                                       color: Colors.white,
-//                                     ),
-//                                   ),
-//                                   Text(
-//                                     itemCount.toString(),
-//                                     style: getAppStyle(
-//                                       color: Colors.white,
-//                                       fontWeight: FontWeight.w500,
-//                                       fontSize: 14,
-//                                     ),
-//                                   ),
-//                                   GestureDetector(
-//                                     onTap: incrementItem,
-//                                     child: const Icon(
-//                                       Icons.add,
-//                                       size: 16,
-//                                       color: Colors.white,
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                             )
-//                           : InkWell(
-//                               onTap: incrementItem,
-//                               child: Container(
-//                                 width: 100,
-//                                 height: 35,
-//                                 decoration: BoxDecoration(
-//                                   color: Colors.white,
-//                                   borderRadius: BorderRadius.circular(8),
-//                                   border: Border.all(
-//                                       color: Colors.indigo, width: 1),
-//                                 ),
-//                                 child: Center(
-//                                   child: Text(
-//                                     "Add",
-//                                     style: getAppStyle(
-//                                       color: Colors.indigo,
-//                                       fontSize: 16,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(5.0),
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 color: Colors.amber,
-//                 border: Border.all(color: Colors.white, width: 2),
-//                 borderRadius: BorderRadius.circular(20),
-//               ),
-//               child: Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-//                 child: Text(
-//                   "24% off",
-//                   style: getAppStyle(
-//                     fontWeight: FontWeight.bold,
-//                     fontSize: 12,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 /// down side stickey header search bar full code
 
