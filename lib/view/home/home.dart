@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/profile/profile_view.dart';
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
     "oil & ghee",
   ];
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _isStickyVisible = false;
 
   @override
@@ -100,15 +101,15 @@ class _HomeState extends State<Home> {
 
   int itemCount = 1;
 
-  void incrementItem(int index) {
+  void incrementItem() {
     setState(() {
       itemCount++;
     });
   }
 
-  void decrementItem(int index) {
+  void decrementItem() {
     setState(() {
-      if (itemCount > 1) {
+      if (itemCount > 0) {
         itemCount--;
       }
     });
@@ -193,7 +194,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       kCommonSpaceV15,
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 15, right: 15),
                         child: CommonTextField(
                           hintText: "Search",
@@ -415,11 +416,9 @@ class _HomeState extends State<Home> {
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, // Number of items per row
-                            crossAxisSpacing:
-                                12.0, // Horizontal spacing between items
-                            mainAxisSpacing:
-                                10.0, // Vertical spacing between items
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 12.0,
+                            mainAxisSpacing: 10.0,
                             childAspectRatio:
                                 0.7, // Aspect ratio for each item (adjust as needed)
                           ),
@@ -435,68 +434,37 @@ class _HomeState extends State<Home> {
                                   useSafeArea: true,
                                   backgroundColor: Colors.white,
                                   builder: (_) {
-                                    return StatefulBuilder(builder:
-                                        (BuildContext context,
+                                    return FractionallySizedBox(
+                                      heightFactor: 0.73,
+                                      child: StatefulBuilder(
+                                        builder: (BuildContext context,
                                             StateSetter setState) {
-                                      return FractionallySizedBox(
-                                        heightFactor: 0.73,
-                                        child: SingleChildScrollView(
-                                          padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20) +
-                                              const EdgeInsets.only(top: 10),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Review Cart",
-                                                        style: getAppStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 13,
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                    horizontal: 20) +
+                                                const EdgeInsets.only(top: 10),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Review Cart",
+                                                          style: getAppStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 13,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            "15 Items",
-                                                            style: getAppStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: 4,
-                                                            width: 4,
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 8),
-                                                            decoration: BoxDecoration(
-                                                                color:
-                                                                    Colors.grey,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            4)),
-                                                          ),
-                                                          Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        6),
-                                                            child: Text(
-                                                              "Total",
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "15 Items",
                                                               style:
                                                                   getAppStyle(
                                                                 color:
@@ -507,366 +475,116 @@ class _HomeState extends State<Home> {
                                                                 fontSize: 12,
                                                               ),
                                                             ),
-                                                          ),
-                                                          Text(
-                                                            "₹250.0",
-                                                            style: getAppStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Container(
-                                                      height: 26,
-                                                      width: 26,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        color: Colors.white,
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                            color: Colors.grey,
-                                                            blurRadius: 1,
-                                                            //spreadRadius: 0.001,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: const Center(
-                                                        child: Icon(
-                                                          Icons.close_rounded,
-                                                          color: Colors.grey,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Divider(),
-                                              ListView.builder(
-                                                padding: const EdgeInsets.only(
-                                                    top: 12),
-                                                physics:
-                                                    const ClampingScrollPhysics(),
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: 10,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          CachedNetworkImage(
-                                                            height: 80,
-                                                            width: 80,
-                                                            imageUrl:
-                                                                "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                                                            imageBuilder: (context,
-                                                                    imageProvider) =>
-                                                                Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image:
-                                                                      imageProvider,
-                                                                  fit: BoxFit
-                                                                      .contain,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            placeholder: (context,
-                                                                    url) =>
-                                                                const Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          12.0),
-                                                              child: Center(
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  strokeWidth:
-                                                                      2,
+                                                            Container(
+                                                              height: 4,
+                                                              width: 4,
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left: 8),
+                                                              decoration: BoxDecoration(
                                                                   color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            errorWidget: (context,
-                                                                    url,
-                                                                    error) =>
-                                                                const Center(
-                                                              child: Icon(
-                                                                Icons
-                                                                    .error_outline,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 14),
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-                                                                  maxLines: 2,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style:
-                                                                      getAppStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        13,
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsets
-                                                                      .symmetric(
-                                                                          vertical:
-                                                                              02),
-                                                                  child: Text(
-                                                                    "250 g",
-                                                                    style:
-                                                                        getAppStyle(
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          12,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Container(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        4,
-                                                                    vertical:
-                                                                        4),
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            4),
-                                                                height: 30,
-                                                                width: 80,
-                                                                decoration:
-                                                                    BoxDecoration(
+                                                                      .grey,
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                              6),
+                                                                              4)),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          6),
+                                                              child: Text(
+                                                                "Total",
+                                                                style:
+                                                                    getAppStyle(
                                                                   color: Colors
-                                                                      .indigoAccent,
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceAround,
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () =>
-                                                                          decrementItem(
-                                                                              index),
-                                                                      child:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        size:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      itemCount
-                                                                          .toString(),
-                                                                      style:
-                                                                          getAppStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontSize:
-                                                                            14,
-                                                                      ),
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () =>
-                                                                          incrementItem(
-                                                                              index),
-                                                                      child:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .add,
-                                                                        size:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                    ),
-                                                                  ],
+                                                                      .grey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 12,
                                                                 ),
                                                               ),
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "₹${"80.0"}",
-                                                                    style:
-                                                                        getAppStyle(
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .lineThrough,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          12,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                      width: 4),
-                                                                  Text(
-                                                                    "₹${"250.0"}",
-                                                                    style:
-                                                                        getAppStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          13,
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                            ),
+                                                            Text(
+                                                              "₹250.0",
+                                                              style:
+                                                                  getAppStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14,
                                                               ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(height: 10)
-                                                    ],
-                                                  );
-                                                },
-                                              ),
-                                              const Divider(),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10, bottom: 20),
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      height: 42,
-                                                      width: 58,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 10),
-                                                      color: Colors.transparent,
-                                                      child: Stack(
-                                                        children: [
-                                                          Container(
-                                                            height: 42,
-                                                            width: 42,
-                                                            decoration:
-                                                                BoxDecoration(
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        height: 26,
+                                                        width: 26,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          color: Colors.white,
+                                                          boxShadow: const [
+                                                            BoxShadow(
                                                               color:
-                                                                  Colors.white,
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .grey),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
+                                                                  Colors.grey,
+                                                              blurRadius: 1,
+                                                              //spreadRadius: 0.001,
                                                             ),
+                                                          ],
+                                                        ),
+                                                        child: const Center(
+                                                          child: Icon(
+                                                            Icons.close_rounded,
+                                                            color: Colors.grey,
+                                                            size: 18,
                                                           ),
-                                                          Positioned(
-                                                            left: 8,
-                                                            child: Container(
-                                                              height: 42,
-                                                              width: 42,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .grey),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            left: 16,
-                                                            child: Container(
-                                                              height: 42,
-                                                              width: 42,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                border: Border.all(
-                                                                    color: Colors
-                                                                        .grey),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child:
-                                                                  CachedNetworkImage(
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Divider(),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      1.77,
+                                                  child: ListView.builder(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 12),
+                                                    physics:
+                                                        const ClampingScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    itemCount: 15,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              CachedNetworkImage(
                                                                 height: 80,
                                                                 width: 80,
                                                                 imageUrl:
@@ -915,85 +633,374 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                              const SizedBox(
+                                                                  width: 14),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                                                                      maxLines:
+                                                                          2,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style:
+                                                                          getAppStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            13,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              02),
+                                                                      child:
+                                                                          Text(
+                                                                        "250 g",
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          color:
+                                                                              Colors.grey,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontSize:
+                                                                              12,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            4,
+                                                                        vertical:
+                                                                            4),
+                                                                    margin: const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            4),
+                                                                    height: 30,
+                                                                    width: 80,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              6),
+                                                                      color: CommonColors
+                                                                          .primaryColor,
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceAround,
+                                                                      children: [
+                                                                        GestureDetector(
+                                                                          onTap: () =>
+                                                                              decrementItem(),
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.remove,
+                                                                            size:
+                                                                                16,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          itemCount
+                                                                              .toString(),
+                                                                          style:
+                                                                              getAppStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                14,
+                                                                          ),
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () =>
+                                                                              incrementItem(),
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.add,
+                                                                            size:
+                                                                                16,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        "₹${"80.0"}",
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          decoration:
+                                                                              TextDecoration.lineThrough,
+                                                                          color:
+                                                                              Colors.grey,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontSize:
+                                                                              12,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              4),
+                                                                      Text(
+                                                                        "₹${"250.0"}",
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              13,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
                                                           ),
+                                                          const SizedBox(
+                                                              height: 10)
                                                         ],
-                                                      ),
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        print("OnTap");
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                            "6 Item",
-                                                            style: getAppStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 12,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10, bottom: 20),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        height: 42,
+                                                        width: 58,
+                                                        margin: const EdgeInsets
+                                                            .only(right: 10),
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Stack(
+                                                          children: [
+                                                            Container(
+                                                              height: 42,
+                                                              width: 42,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
                                                             ),
-                                                          ),
-                                                          Icon(
-                                                              Icons
-                                                                  .arrow_drop_down,
-                                                              color: Colors
-                                                                  .blueAccent),
-                                                        ],
+                                                            Positioned(
+                                                              left: 8,
+                                                              child: Container(
+                                                                height: 42,
+                                                                width: 42,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              left: 16,
+                                                              child: Container(
+                                                                height: 42,
+                                                                width: 42,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  height: 80,
+                                                                  width: 80,
+                                                                  imageUrl:
+                                                                      "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                                                  imageBuilder:
+                                                                      (context,
+                                                                              imageProvider) =>
+                                                                          Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image:
+                                                                            imageProvider,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  placeholder: (context,
+                                                                          url) =>
+                                                                      const Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            12.0),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        strokeWidth:
+                                                                            2,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      const Center(
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .error_outline,
+                                                                      color: Colors
+                                                                          .red,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    const SizedBox(width: 20),
-                                                    Expanded(
-                                                      child: GestureDetector(
+                                                      InkWell(
                                                         onTap: () {
-                                                          debugPrint(
-                                                              "On Tap Sub Product");
+                                                          print("OnTap");
                                                         },
-                                                        child: Container(
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        6),
-                                                            color: Colors
-                                                                .blueAccent,
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "View Cart",
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              "6 Item",
                                                               style:
                                                                   getAppStyle(
                                                                 color: Colors
-                                                                    .white,
+                                                                    .black,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold,
-                                                                fontSize: 14,
+                                                                        .w500,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                            Icon(
+                                                                Icons
+                                                                    .arrow_drop_down,
+                                                                color: Colors
+                                                                    .blueAccent),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 20),
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            debugPrint(
+                                                                "On Tap Sub Product");
+                                                          },
+                                                          child: Container(
+                                                            height: 40,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6),
+                                                              color: CommonColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                "View Cart",
+                                                                style:
+                                                                    getAppStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 14,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    });
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
                                   },
                                 );
                               },
                               child: Column(
                                 children: [
-                                  // Use Flexible to dynamically adjust height
                                   Flexible(
                                     flex: 6,
                                     child: Container(
@@ -1007,7 +1014,6 @@ class _HomeState extends State<Home> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
-                                              // image: NetworkImage(images[index]),
                                               image: NetworkImage(
                                                   "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
                                               fit: BoxFit.contain,
@@ -1017,11 +1023,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                      height:
-                                          5), // Space between image and text
-
-                                  // Text that wraps and adjusts based on content
+                                  const SizedBox(height: 5),
                                   Flexible(
                                     flex: 2,
                                     child: Text(
@@ -1057,13 +1059,10 @@ class _HomeState extends State<Home> {
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, // Number of items per row
-                            crossAxisSpacing:
-                                12.0, // Horizontal spacing between items
-                            mainAxisSpacing:
-                                10.0, // Vertical spacing between items
-                            childAspectRatio:
-                                0.7, // Aspect ratio for each item (adjust as needed)
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 12.0,
+                            mainAxisSpacing: 10.0,
+                            childAspectRatio: 0.7,
                           ),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -1071,7 +1070,6 @@ class _HomeState extends State<Home> {
                           itemBuilder: (BuildContext context, int index) {
                             return Column(
                               children: [
-// Use Flexible to dynamically adjust height
                                 Flexible(
                                   flex: 6,
                                   child: Container(
@@ -1146,13 +1144,25 @@ class _HomeState extends State<Home> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              ProductContainer(),
+                              ProductContainer(
+                                onIncrement: incrementItem,
+                                onDecrement: decrementItem,
+                              ),
                               kCommonSpaceH10,
-                              ProductContainer(),
+                              ProductContainer(
+                                onIncrement: incrementItem,
+                                onDecrement: decrementItem,
+                              ),
                               kCommonSpaceH10,
-                              ProductContainer(),
+                              ProductContainer(
+                                onIncrement: incrementItem,
+                                onDecrement: decrementItem,
+                              ),
                               kCommonSpaceH10,
-                              ProductContainer(),
+                              ProductContainer(
+                                onIncrement: incrementItem,
+                                onDecrement: decrementItem,
+                              ),
                             ],
                           ),
                         ),
@@ -1514,16 +1524,28 @@ class _HomeState extends State<Home> {
                                 children: [
                                   kCommonSpaceH10,
                                   kCommonSpaceH5,
-                                  ProductContainer(),
+                                  ProductContainer(
+                                    onIncrement: incrementItem,
+                                    onDecrement: decrementItem,
+                                  ),
                                   kCommonSpaceH10,
                                   kCommonSpaceH3,
-                                  ProductContainer(),
+                                  ProductContainer(
+                                    onIncrement: incrementItem,
+                                    onDecrement: decrementItem,
+                                  ),
                                   kCommonSpaceH10,
                                   kCommonSpaceH3,
-                                  ProductContainer(),
+                                  ProductContainer(
+                                    onIncrement: incrementItem,
+                                    onDecrement: decrementItem,
+                                  ),
                                   kCommonSpaceH10,
                                   kCommonSpaceH3,
-                                  ProductContainer(),
+                                  ProductContainer(
+                                    onIncrement: incrementItem,
+                                    onDecrement: decrementItem,
+                                  ),
                                   kCommonSpaceH10,
                                   kCommonSpaceH5,
                                 ],
@@ -1652,7 +1674,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Container(
                     color: Colors.white,
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.only(left: 15, right: 15, bottom: 4),
                       child: CommonTextField(
                         hintText: "Search",
@@ -1670,6 +1692,122 @@ class _HomeState extends State<Home> {
               ),
           ],
         ),
+        bottomNavigationBar: itemCount > 0
+            ? Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 42,
+                      width: 58,
+                      margin: const EdgeInsets.only(right: 10),
+                      color: Colors.transparent,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 42,
+                            width: 42,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          Positioned(
+                            left: 8,
+                            child: Container(
+                              height: 42,
+                              width: 42,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 16,
+                            child: Container(
+                              height: 42,
+                              width: 42,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: CachedNetworkImage(
+                                height: 80,
+                                width: 80,
+                                imageUrl:
+                                    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) => const Padding(
+                                  padding: EdgeInsets.all(12.0),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Center(
+                                  child: Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      "$itemCount Item${itemCount > 1 ? 's' : ''}",
+                      style: getAppStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          debugPrint("On Tap View Cart");
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: Colors.blue,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "View Cart",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -1678,14 +1816,40 @@ class _HomeState extends State<Home> {
 class ProductContainer extends StatefulWidget {
   final String? imgUrl;
   final String? productName;
+  final Function? onIncrement;
+  final Function? onDecrement;
 
-  const ProductContainer({super.key, this.imgUrl, this.productName});
+  const ProductContainer({
+    super.key,
+    this.imgUrl,
+    this.productName,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
 
   @override
   State<ProductContainer> createState() => _ProductContainerState();
 }
 
 class _ProductContainerState extends State<ProductContainer> {
+  int itemCount = 0;
+
+  void incrementItem() {
+    setState(() {
+      itemCount++;
+    });
+    widget.onIncrement!(); // Notify the parent without passing an argument
+  }
+
+  void decrementItem() {
+    if (itemCount > 0) {
+      setState(() {
+        itemCount--;
+      });
+      widget.onDecrement!(); // Notify the parent without passing an argument
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1702,34 +1866,36 @@ class _ProductContainerState extends State<ProductContainer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(widget.imgUrl ??
-                    "https://www.consciousfood.com/cdn/shop/products/split_bengal_gram_chana_dal_i_1920.jpg?v=1684915570&width=1946"),
-                kCommonSpaceV5,
+                Image.network(
+                  widget.imgUrl ??
+                      "https://www.consciousfood.com/cdn/shop/products/split_bengal_gram_chana_dal_i_1920.jpg?v=1684915570&width=1946",
+                ),
+                const SizedBox(height: 5),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    widget.productName ?? "Chana dal Loose 2 kg with ",
+                    widget.productName ?? "Chana dal Loose 2 kg",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: getAppStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold, height: 1.1),
+                    style:
+                        getAppStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
-                kCommonSpaceV5,
+                const SizedBox(height: 5),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
                     "1 Kg",
                     style: getAppStyle(
-                        fontSize: 14,
-                        color: CommonColors.black54,
-                        fontWeight: FontWeight.w500,
-                        height: 1.1),
+                      fontSize: 14,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-                kCommonSpaceV10,
+                const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1739,37 +1905,85 @@ class _ProductContainerState extends State<ProductContainer> {
                           Text(
                             "₹450",
                             style: getAppStyle(
-                                height: 1,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             "₹59",
                             style: getAppStyle(
-                                color: CommonColors.black54,
-                                fontSize: 12,
-                                decoration: TextDecoration.lineThrough),
+                              color: Colors.black54,
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                            ),
                           ),
                         ],
                       ),
-                      Container(
-                        width: 100,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.indigo, width: 1),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Add",
-                            style: getAppStyle(
-                                color: Colors.indigo,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                      itemCount > 0
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              margin: const EdgeInsets.only(bottom: 4),
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: Colors.blue,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  GestureDetector(
+                                    onTap: decrementItem,
+                                    child: const Icon(
+                                      Icons.remove,
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    itemCount.toString(),
+                                    style: getAppStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: incrementItem,
+                                    child: const Icon(
+                                      Icons.add,
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : InkWell(
+                              onTap: incrementItem,
+                              child: Container(
+                                width: 100,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: Colors.indigo, width: 1),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Add",
+                                    style: getAppStyle(
+                                      color: Colors.indigo,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -1780,25 +1994,226 @@ class _ProductContainerState extends State<ProductContainer> {
             padding: const EdgeInsets.all(5.0),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.amber,
-                  border: Border.all(color: CommonColors.mWhite, width: 2),
-                  borderRadius: BorderRadius.circular(20)),
+                color: Colors.amber,
+                border: Border.all(color: Colors.white, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Text(
                   "24% off",
                   style: getAppStyle(
-                      fontWeight: FontWeight.bold, height: 1, fontSize: 12),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
+
+// class ProductContainer extends StatefulWidget {
+//   final String? imgUrl;
+//   final String? productName;
+//
+//
+//   const ProductContainer({super.key, this.imgUrl, this.productName});
+//
+//   @override
+//   State<ProductContainer> createState() => _ProductContainerState();
+// }
+//
+// class _ProductContainerState extends State<ProductContainer> {
+//
+//   int itemCount = 0;
+//
+//   void incrementItem() {
+//     setState(
+//       () {
+//         itemCount++;
+//       },
+//     );
+//   }
+//
+//   void decrementItem() {
+//     setState(
+//       () {
+//         if (itemCount > 0) {
+//           itemCount--;
+//         }
+//       },
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 170,
+//       clipBehavior: Clip.antiAlias,
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(10),
+//       ),
+//       child: Stack(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.only(bottom: 8),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Image.network(
+//                   widget.imgUrl ??
+//                       "https://www.consciousfood.com/cdn/shop/products/split_bengal_gram_chana_dal_i_1920.jpg?v=1684915570&width=1946",
+//                 ),
+//                 const SizedBox(height: 5),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8),
+//                   child: Text(
+//                     widget.productName ?? "Chana dal Loose 2 kg",
+//                     maxLines: 2,
+//                     overflow: TextOverflow.ellipsis,
+//                     style:
+//                         getAppStyle(fontSize: 14, fontWeight: FontWeight.bold),
+//                   ),
+//                 ),
+//                 const SizedBox(height: 5),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8),
+//                   child: Text(
+//                     "1 Kg",
+//                     style: getAppStyle(
+//                       fontSize: 14,
+//                       color: Colors.black54,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                   ),
+//                 ),
+//                 const SizedBox(height: 10),
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 8),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             "₹450",
+//                             style: getAppStyle(
+//                               fontSize: 14,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                           Text(
+//                             "₹59",
+//                             style: getAppStyle(
+//                               color: Colors.black54,
+//                               fontSize: 12,
+//                               decoration: TextDecoration.lineThrough,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       itemCount > 0
+//                           ? Container(
+//                               padding: const EdgeInsets.symmetric(
+//                                   horizontal: 4, vertical: 4),
+//                               margin: const EdgeInsets.only(bottom: 4),
+//                               height: 30,
+//                               width: 80,
+//                               decoration: BoxDecoration(
+//                                 borderRadius: BorderRadius.circular(6),
+//                                 color: CommonColors.primaryColor,
+//                               ),
+//                               child: Row(
+//                                 mainAxisAlignment:
+//                                     MainAxisAlignment.spaceAround,
+//                                 children: [
+//                                   GestureDetector(
+//                                     onTap: decrementItem,
+//                                     child: const Icon(
+//                                       Icons.remove,
+//                                       size: 16,
+//                                       color: Colors.white,
+//                                     ),
+//                                   ),
+//                                   Text(
+//                                     itemCount.toString(),
+//                                     style: getAppStyle(
+//                                       color: Colors.white,
+//                                       fontWeight: FontWeight.w500,
+//                                       fontSize: 14,
+//                                     ),
+//                                   ),
+//                                   GestureDetector(
+//                                     onTap: incrementItem,
+//                                     child: const Icon(
+//                                       Icons.add,
+//                                       size: 16,
+//                                       color: Colors.white,
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             )
+//                           : InkWell(
+//                               onTap: incrementItem,
+//                               child: Container(
+//                                 width: 100,
+//                                 height: 35,
+//                                 decoration: BoxDecoration(
+//                                   color: Colors.white,
+//                                   borderRadius: BorderRadius.circular(8),
+//                                   border: Border.all(
+//                                       color: Colors.indigo, width: 1),
+//                                 ),
+//                                 child: Center(
+//                                   child: Text(
+//                                     "Add",
+//                                     style: getAppStyle(
+//                                       color: Colors.indigo,
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.bold,
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.all(5.0),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 color: Colors.amber,
+//                 border: Border.all(color: Colors.white, width: 2),
+//                 borderRadius: BorderRadius.circular(20),
+//               ),
+//               child: Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+//                 child: Text(
+//                   "24% off",
+//                   style: getAppStyle(
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 12,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 /// down side stickey header search bar full code
 

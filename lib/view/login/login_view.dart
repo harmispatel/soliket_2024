@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
     );
     return SafeArea(
       child: Scaffold(
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "SOLIKET",
           isTitleBold: true,
         ),
@@ -86,7 +86,7 @@ class _LoginViewState extends State<LoginView> {
                 hintText: "Phone Number",
                 inputType: TextInputType.number,
                 maxLength: 14,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 controller: phoneController,
                 inputFormatters: [
                   // This formatter ensures "+91 " cannot be deleted
@@ -101,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
                 labelColor: labelColor,
                 onPress: () {
                   if (phoneController.text.length == 14) {
-                    push(OtpView());
+                    push(const OtpView());
                   }
                 },
               ),
