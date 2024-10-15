@@ -16,6 +16,7 @@ class CommonColors {
   static const bgColor = Color(0xFFFFF59D);
   static const black54 = Colors.black54;
   static const black12 = Colors.black12;
+  static final grayShade200 = Colors.grey.shade200;
   static const black45 = Colors.black45;
   static const textColor = Color(0xFF2D2D2D);
 }

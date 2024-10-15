@@ -60,11 +60,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.white,
-      ),
+      SystemUiOverlayStyle(
+          statusBarColor: CommonColors.grayShade200,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: CommonColors.grayShade200),
     );
     return SafeArea(
       child: Scaffold(

@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:solikat_2024/utils/constant.dart';
 
 import '../../../utils/common_colors.dart';
+import '../../../utils/constant.dart';
 import '../../../widget/common_appbar.dart';
+import '../home.dart';
 
 class SubCategoryViewRedesign extends StatefulWidget {
-  const SubCategoryViewRedesign({super.key});
+  SubCategoryViewRedesign({super.key});
 
   @override
   State<SubCategoryViewRedesign> createState() =>
@@ -24,15 +24,15 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
         title: "Sub Category name",
         isShowShadow: true,
         isTitleBold: true,
-        iconTheme: const IconThemeData(color: CommonColors.blackColor),
+        iconTheme: IconThemeData(color: CommonColors.blackColor),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 20),
+            padding: EdgeInsets.only(left: 8, right: 20),
             child: GestureDetector(
               onTap: () {
                 debugPrint("On Tap Search");
               },
-              child: const Icon(
+              child: Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -40,7 +40,7 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
           ),
         ],
       ),
-      body: const Row(
+      body: Row(
         children: [
           Column(
             children: [
@@ -64,7 +64,7 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
 // * Sub Category ListView * //
 
 class SubCategoryListView extends StatefulWidget {
-  const SubCategoryListView({super.key});
+  SubCategoryListView({super.key});
 
   @override
   State<SubCategoryListView> createState() => _SubCategoryListViewState();
@@ -77,8 +77,8 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        width: 90,
-        decoration: const BoxDecoration(
+        width: 100,
+        decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -89,7 +89,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
           ],
         ),
         child: ListView.builder(
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: 12, bottom: 12),
           scrollDirection: Axis.vertical,
           itemCount: 10,
           itemBuilder: (context, index) {
@@ -105,11 +105,11 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                   Row(
                     children: [
                       Container(
-                        height: 60,
-                        width: 60,
-                        margin: const EdgeInsets.symmetric(horizontal: 10) +
-                            const EdgeInsets.only(left: 6),
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        height: 70,
+                        width: 70,
+                        margin: EdgeInsets.symmetric(horizontal: 10) +
+                            EdgeInsets.only(left: 6),
+                        padding: EdgeInsets.symmetric(horizontal: 6),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomRight,
@@ -135,7 +135,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                               ),
                             ),
                           ),
-                          placeholder: (context, url) => const Padding(
+                          placeholder: (context, url) => Padding(
                             padding: EdgeInsets.all(12.0),
                             child: Center(
                               child: CircularProgressIndicator(
@@ -144,7 +144,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                               ),
                             ),
                           ),
-                          errorWidget: (context, url, error) => const Center(
+                          errorWidget: (context, url, error) => Center(
                             child: Icon(
                               Icons.error_outline,
                               color: Colors.red,
@@ -156,7 +156,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                         height: 70,
                         width: 4,
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
+                          borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             topLeft: Radius.circular(10),
                           ),
@@ -172,7 +172,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 2, bottom: 12, left: 8),
+                    padding: EdgeInsets.only(top: 2, bottom: 12, left: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -180,10 +180,8 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                           width: 80,
                           child: Text(
                             "Item Name",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: getAppStyle(
                               fontSize: 12,
                               color: _selectedIndex == index
                                   ? Colors.orange
@@ -208,7 +206,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
 // * Sub Category Product GridView List * //
 
 class SubProductView extends StatefulWidget {
-  const SubProductView({super.key});
+  SubProductView({super.key});
 
   @override
   State<SubProductView> createState() => _SubProductViewState();
@@ -247,235 +245,29 @@ class _SubProductViewState extends State<SubProductView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.63,
-          crossAxisSpacing: 0,
-          mainAxisSpacing: 5,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15, right: 5),
+        child: GridView.builder(
+          padding: EdgeInsets.zero,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.6,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 5,
+          ),
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                productDetailsBottomSheet();
+              },
+              child: ProductContainer(
+                onIncrement: null,
+                onDecrement: null,
+              ),
+            );
+          },
         ),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              productDetailsBottomSheet();
-            },
-            child: Container(
-              height: 50,
-              width: 50,
-              margin: const EdgeInsets.only(right: 5),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        height: 85,
-                        child: CarouselSlider(
-                          items: imageUrls.map((image) {
-                            return CachedNetworkImage(
-                              imageUrl: image,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              placeholder: (context, url) => const Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Center(
-                                child: Icon(
-                                  Icons.error_outline,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          options: CarouselOptions(
-                            height: 360,
-                            viewportFraction: 1.0,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, reason) =>
-                                _onPageChanged(index),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 6),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: const Text(
-                          "₹10 Off",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 75,
-                        left: 95,
-                        child: SmoothPageIndicator(
-                          controller: _pageController,
-                          count: imageUrls.length,
-                          effect: const WormEffect(
-                              dotHeight: 3,
-                              dotWidth: 3,
-                              spacing: 2,
-                              type: WormType.thinUnderground,
-                              activeDotColor: Colors.red),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 18,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
-                    margin: const EdgeInsets.only(right: 16),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.orangeAccent.withOpacity(0.2)),
-                    child: RichText(
-                      overflow: TextOverflow.clip,
-                      textAlign: TextAlign.end,
-                      textDirection: TextDirection.rtl,
-                      softWrap: true,
-                      maxLines: 1,
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '11',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10,
-                              color: Colors.orangeAccent,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "Min",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10,
-                              color: Colors.orangeAccent,
-                            ),
-                          ),
-                          WidgetSpan(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 2, right: 2),
-                              child: Icon(
-                                Icons.electric_bolt_rounded,
-                                size: 10,
-                                color: Colors.orangeAccent,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 3),
-                    child: Text(
-                      "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  const Text(
-                    "5 kg",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "₹250.0",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            "₹250.0",
-                            style: TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            debugPrint("On Tap Sub Product");
-                          },
-                          child: Container(
-                            height: 32,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color: Colors.blueAccent,
-                              ),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Add",
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -492,8 +284,8 @@ class _SubProductViewState extends State<SubProductView> {
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20) +
-                    const EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20) +
+                    EdgeInsets.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -512,11 +304,11 @@ class _SubProductViewState extends State<SubProductView> {
                                 child: Container(
                                   height: 26,
                                   width: 26,
-                                  margin: const EdgeInsets.only(top: 10),
+                                  margin: EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: Colors.white,
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey,
                                         blurRadius: 1,
@@ -524,7 +316,7 @@ class _SubProductViewState extends State<SubProductView> {
                                       ),
                                     ],
                                   ),
-                                  child: const Center(
+                                  child: Center(
                                     child: Icon(
                                       Icons.close_rounded,
                                       color: Colors.grey,
@@ -543,11 +335,11 @@ class _SubProductViewState extends State<SubProductView> {
                                 child: Container(
                                   height: 26,
                                   width: 26,
-                                  margin: const EdgeInsets.only(top: 10),
+                                  margin: EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: Colors.white,
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey,
                                         blurRadius: 1,
@@ -563,12 +355,11 @@ class _SubProductViewState extends State<SubProductView> {
                                 ),
                               ),
                             ),
-                            const ProductImgSliderWidget(),
+                            ProductImgSliderWidget(),
                             Container(
                               height: 20,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
-                              margin: const EdgeInsets.only(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              margin: EdgeInsets.only(
                                   right: 16, top: 10, bottom: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
@@ -579,11 +370,11 @@ class _SubProductViewState extends State<SubProductView> {
                                 textDirection: TextDirection.rtl,
                                 softWrap: true,
                                 maxLines: 1,
-                                text: const TextSpan(
+                                text: TextSpan(
                                   children: [
                                     TextSpan(
                                       text: 'Delivery in ',
-                                      style: TextStyle(
+                                      style: getAppStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.orangeAccent,
@@ -591,7 +382,7 @@ class _SubProductViewState extends State<SubProductView> {
                                     ),
                                     TextSpan(
                                       text: "11 Min",
-                                      style: TextStyle(
+                                      style: getAppStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12,
                                         color: Colors.orangeAccent,
@@ -608,17 +399,17 @@ class _SubProductViewState extends State<SubProductView> {
                                 ),
                               ),
                             ),
-                            const Text(
+                            Text(
                               "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
                               ),
                             ),
-                            const Text(
+                            Text(
                               "1 unit",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
@@ -627,26 +418,26 @@ class _SubProductViewState extends State<SubProductView> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   "₹${"80.0"}",
-                                  style: TextStyle(
+                                  style: getAppStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                   ),
                                 ),
-                                const SizedBox(width: 8),
-                                const Text(
+                                SizedBox(width: 8),
+                                Text(
                                   "₹${"80.0"}",
-                                  style: TextStyle(
+                                  style: getAppStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(left: 8),
-                                  padding: const EdgeInsets.symmetric(
+                                  margin: EdgeInsets.only(left: 8),
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 4, vertical: 2),
                                   decoration: BoxDecoration(
                                     color: Colors.orangeAccent,
@@ -654,9 +445,9 @@ class _SubProductViewState extends State<SubProductView> {
                                     border: Border.all(
                                         color: Colors.white, width: 2),
                                   ),
-                                  child: const Text(
+                                  child: Text(
                                     "₹10 Off",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -664,18 +455,18 @@ class _SubProductViewState extends State<SubProductView> {
                                 ),
                               ],
                             ),
-                            const Divider(),
+                            Divider(),
                             GestureDetector(
                               onTap: () {
                                 setState(() {
                                   isExpanded = !isExpanded;
                                 });
                               },
-                              child: const Row(
+                              child: Row(
                                 children: [
                                   Text(
                                     "More Details",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
                                         color: Colors.blueAccent),
@@ -691,153 +482,153 @@ class _SubProductViewState extends State<SubProductView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 if (isExpanded) ...[
-                                  const Text(
+                                  Text(
                                     "Packaging Type",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "Blister",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Shelf Life",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "3 years",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Unit",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "1 Unit",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Marketed By",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "Procter & Gamble",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Country of Origin",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "India",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Return Policy",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Customer Care Details",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "support@log2retail.in",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Return Policy",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const SizedBox(height: 6),
-                                  const Text(
+                                  SizedBox(height: 6),
+                                  Text(
                                     "Type",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     "Call",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 12,
@@ -853,11 +644,11 @@ class _SubProductViewState extends State<SubProductView> {
                                         isExpanded = !isExpanded;
                                       });
                                     },
-                                    child: const Row(
+                                    child: Row(
                                       children: [
                                         Text(
                                           "Less Details",
-                                          style: TextStyle(
+                                          style: getAppStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12,
                                               color: Colors.blueAccent),
@@ -869,23 +660,23 @@ class _SubProductViewState extends State<SubProductView> {
                                       ],
                                     ),
                                   )
-                                : const SizedBox.shrink(),
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    const Divider(),
+                    Spacer(),
+                    Divider(),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 20),
+                      padding: EdgeInsets.only(top: 10, bottom: 20),
                       child: Row(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "1 Unit",
-                                style: TextStyle(
+                                style: getAppStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
@@ -893,18 +684,18 @@ class _SubProductViewState extends State<SubProductView> {
                               ),
                               Row(
                                 children: [
-                                  const Text(
+                                  Text(
                                     "₹250.0",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  const Text(
+                                  SizedBox(width: 10),
+                                  Text(
                                     "₹250.0",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       decoration: TextDecoration.lineThrough,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w500,
@@ -912,8 +703,8 @@ class _SubProductViewState extends State<SubProductView> {
                                     ),
                                   ),
                                   Container(
-                                    margin: const EdgeInsets.only(left: 8),
-                                    padding: const EdgeInsets.symmetric(
+                                    margin: EdgeInsets.only(left: 8),
+                                    padding: EdgeInsets.symmetric(
                                         horizontal: 4, vertical: 2),
                                     decoration: BoxDecoration(
                                       color: Colors.orangeAccent,
@@ -921,9 +712,9 @@ class _SubProductViewState extends State<SubProductView> {
                                       border: Border.all(
                                           color: Colors.white, width: 2),
                                     ),
-                                    child: const Text(
+                                    child: Text(
                                       "₹10 Off",
-                                      style: TextStyle(
+                                      style: getAppStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -933,7 +724,7 @@ class _SubProductViewState extends State<SubProductView> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 30),
+                          SizedBox(width: 30),
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
@@ -945,10 +736,10 @@ class _SubProductViewState extends State<SubProductView> {
                                   borderRadius: BorderRadius.circular(6),
                                   color: Colors.blueAccent,
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Text(
                                     "Add to Cart",
-                                    style: TextStyle(
+                                    style: getAppStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -980,7 +771,7 @@ class _SubProductViewState extends State<SubProductView> {
     //       return FractionallySizedBox(
     //         heightFactor: 0.73,
     //         child: SingleChildScrollView(
-    //           padding: const EdgeInsets.symmetric(horizontal: 20),
+    //           padding:   EdgeInsets.symmetric(horizontal: 20),
     //           child: Column(
     //             crossAxisAlignment: CrossAxisAlignment.start,
     //             mainAxisSize: MainAxisSize.min,
@@ -994,11 +785,11 @@ class _SubProductViewState extends State<SubProductView> {
     //                   child: Container(
     //                     height: 26,
     //                     width: 26,
-    //                     margin: const EdgeInsets.only(top: 10),
+    //                     margin:   EdgeInsets.only(top: 10),
     //                     decoration: BoxDecoration(
     //                       borderRadius: BorderRadius.circular(30),
     //                       color: Colors.white,
-    //                       boxShadow: const [
+    //                       boxShadow:   [
     //                         BoxShadow(
     //                           color: Colors.grey,
     //                           blurRadius: 1,
@@ -1006,7 +797,7 @@ class _SubProductViewState extends State<SubProductView> {
     //                         ),
     //                       ],
     //                     ),
-    //                     child: const Center(
+    //                     child:   Center(
     //                       child: Icon(
     //                         Icons.close_rounded,
     //                         color: Colors.grey,
@@ -1025,11 +816,11 @@ class _SubProductViewState extends State<SubProductView> {
     //                   child: Container(
     //                     height: 26,
     //                     width: 26,
-    //                     margin: const EdgeInsets.only(top: 10),
+    //                     margin:   EdgeInsets.only(top: 10),
     //                     decoration: BoxDecoration(
     //                       borderRadius: BorderRadius.circular(30),
     //                       color: Colors.white,
-    //                       boxShadow: const [
+    //                       boxShadow:   [
     //                         BoxShadow(
     //                           color: Colors.grey,
     //                           blurRadius: 1,
@@ -1048,9 +839,9 @@ class _SubProductViewState extends State<SubProductView> {
     //               ProductImgSliderWidget(imgList: imageUrls),
     //               Container(
     //                 height: 20,
-    //                 padding: const EdgeInsets.symmetric(horizontal: 4),
+    //                 padding:   EdgeInsets.symmetric(horizontal: 4),
     //                 margin:
-    //                     const EdgeInsets.only(right: 16, top: 10, bottom: 10),
+    //                       EdgeInsets.only(right: 16, top: 10, bottom: 10),
     //                 decoration: BoxDecoration(
     //                     borderRadius: BorderRadius.circular(4),
     //                     color: Colors.orangeAccent.withOpacity(0.2)),
@@ -1060,11 +851,11 @@ class _SubProductViewState extends State<SubProductView> {
     //                   textDirection: TextDirection.rtl,
     //                   softWrap: true,
     //                   maxLines: 1,
-    //                   text: const TextSpan(
+    //                   text:   TextSpan(
     //                     children: [
     //                       TextSpan(
     //                         text: 'Delivery in ',
-    //                         style: TextStyle(
+    //                         style: getAppStyle(
     //                           fontWeight: FontWeight.w400,
     //                           fontSize: 12,
     //                           color: Colors.orangeAccent,
@@ -1072,7 +863,7 @@ class _SubProductViewState extends State<SubProductView> {
     //                       ),
     //                       TextSpan(
     //                         text: "11 Min",
-    //                         style: TextStyle(
+    //                         style: getAppStyle(
     //                           fontWeight: FontWeight.bold,
     //                           fontSize: 12,
     //                           color: Colors.orangeAccent,
@@ -1089,19 +880,19 @@ class _SubProductViewState extends State<SubProductView> {
     //                   ),
     //                 ),
     //               ),
-    //               const Flexible(
+    //                 Flexible(
     //                 child: Text(
     //                   "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-    //                   style: TextStyle(
+    //                   style: getAppStyle(
     //                     color: Colors.black,
     //                     fontWeight: FontWeight.w500,
     //                     fontSize: 14,
     //                   ),
     //                 ),
     //               ),
-    //               const Text(
+    //                 Text(
     //                 "1 unit",
-    //                 style: TextStyle(
+    //                 style: getAppStyle(
     //                   color: Colors.grey,
     //                   fontWeight: FontWeight.w400,
     //                   fontSize: 12,
@@ -1110,35 +901,35 @@ class _SubProductViewState extends State<SubProductView> {
     //               Row(
     //                 crossAxisAlignment: CrossAxisAlignment.center,
     //                 children: [
-    //                   const Text(
+    //                     Text(
     //                     "₹${"80.0"}",
-    //                     style: TextStyle(
+    //                     style: getAppStyle(
     //                       color: Colors.black,
     //                       fontWeight: FontWeight.w500,
     //                       fontSize: 14,
     //                     ),
     //                   ),
-    //                   const SizedBox(width: 8),
-    //                   const Text(
+    //                     SizedBox(width: 8),
+    //                     Text(
     //                     "₹${"80.0"}",
-    //                     style: TextStyle(
+    //                     style: getAppStyle(
     //                       color: Colors.grey,
     //                       fontWeight: FontWeight.w400,
     //                       fontSize: 12,
     //                     ),
     //                   ),
     //                   Container(
-    //                     margin: const EdgeInsets.only(left: 8),
-    //                     padding: const EdgeInsets.symmetric(
+    //                     margin:   EdgeInsets.only(left: 8),
+    //                     padding:   EdgeInsets.symmetric(
     //                         horizontal: 4, vertical: 2),
     //                     decoration: BoxDecoration(
     //                       color: Colors.orangeAccent,
     //                       borderRadius: BorderRadius.circular(20),
     //                       border: Border.all(color: Colors.white, width: 2),
     //                     ),
-    //                     child: const Text(
+    //                     child:   Text(
     //                       "₹10 Off",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         fontSize: 10,
     //                         fontWeight: FontWeight.bold,
     //                       ),
@@ -1146,18 +937,18 @@ class _SubProductViewState extends State<SubProductView> {
     //                   ),
     //                 ],
     //               ),
-    //               const Divider(),
+    //                 Divider(),
     //               GestureDetector(
     //                 onTap: () {
     //                   setState(() {
     //                     isExpanded = !isExpanded;
     //                   });
     //                 },
-    //                 child: const Row(
+    //                 child:   Row(
     //                   children: [
     //                     Text(
     //                       "More Details",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                           fontWeight: FontWeight.w500,
     //                           fontSize: 12,
     //                           color: Colors.blueAccent),
@@ -1173,153 +964,153 @@ class _SubProductViewState extends State<SubProductView> {
     //                 crossAxisAlignment: CrossAxisAlignment.start,
     //                 children: [
     //                   if (isExpanded) ...[
-    //                     const Text(
+    //                       Text(
     //                       "Packaging Type",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "Blister",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Shelf Life",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "3 years",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Unit",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "1 Unit",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Marketed By",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "Procter & Gamble",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Country of Origin",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "India",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Return Policy",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Customer Care Details",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "support@log2retail.in",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Return Policy",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const SizedBox(height: 6),
-    //                     const Text(
+    //                       SizedBox(height: 6),
+    //                       Text(
     //                       "Type",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.black,
     //                         fontWeight: FontWeight.w500,
     //                         fontSize: 12,
     //                       ),
     //                     ),
-    //                     const Text(
+    //                       Text(
     //                       "Call",
-    //                       style: TextStyle(
+    //                       style: getAppStyle(
     //                         color: Colors.grey,
     //                         fontWeight: FontWeight.w400,
     //                         fontSize: 12,
@@ -1335,11 +1126,11 @@ class _SubProductViewState extends State<SubProductView> {
     //                           isExpanded = !isExpanded;
     //                         });
     //                       },
-    //                       child: const Row(
+    //                       child:   Row(
     //                         children: [
     //                           Text(
     //                             "Less Details",
-    //                             style: TextStyle(
+    //                             style: getAppStyle(
     //                                 fontWeight: FontWeight.w500,
     //                                 fontSize: 12,
     //                                 color: Colors.blueAccent),
@@ -1351,18 +1142,18 @@ class _SubProductViewState extends State<SubProductView> {
     //                         ],
     //                       ),
     //                     )
-    //                   : const SizedBox.shrink(),
-    //               const Divider(),
+    //                   :   SizedBox.shrink(),
+    //                 Divider(),
     //               Padding(
-    //                 padding: const EdgeInsets.only(top: 10, bottom: 20),
+    //                 padding:   EdgeInsets.only(top: 10, bottom: 20),
     //                 child: Row(
     //                   children: [
     //                     Column(
     //                       crossAxisAlignment: CrossAxisAlignment.start,
     //                       children: [
-    //                         const Text(
+    //                           Text(
     //                           "1 Unit",
-    //                           style: TextStyle(
+    //                           style: getAppStyle(
     //                             color: Colors.grey,
     //                             fontWeight: FontWeight.w400,
     //                             fontSize: 12,
@@ -1370,18 +1161,18 @@ class _SubProductViewState extends State<SubProductView> {
     //                         ),
     //                         Row(
     //                           children: [
-    //                             const Text(
+    //                               Text(
     //                               "₹250.0",
-    //                               style: TextStyle(
+    //                               style: getAppStyle(
     //                                 color: Colors.black,
     //                                 fontWeight: FontWeight.bold,
     //                                 fontSize: 14,
     //                               ),
     //                             ),
-    //                             const SizedBox(width: 10),
-    //                             const Text(
+    //                               SizedBox(width: 10),
+    //                               Text(
     //                               "₹250.0",
-    //                               style: TextStyle(
+    //                               style: getAppStyle(
     //                                 decoration: TextDecoration.lineThrough,
     //                                 color: Colors.grey,
     //                                 fontWeight: FontWeight.w500,
@@ -1389,8 +1180,8 @@ class _SubProductViewState extends State<SubProductView> {
     //                               ),
     //                             ),
     //                             Container(
-    //                               margin: const EdgeInsets.only(left: 8),
-    //                               padding: const EdgeInsets.symmetric(
+    //                               margin:   EdgeInsets.only(left: 8),
+    //                               padding:   EdgeInsets.symmetric(
     //                                   horizontal: 4, vertical: 2),
     //                               decoration: BoxDecoration(
     //                                 color: Colors.orangeAccent,
@@ -1398,9 +1189,9 @@ class _SubProductViewState extends State<SubProductView> {
     //                                 border: Border.all(
     //                                     color: Colors.white, width: 2),
     //                               ),
-    //                               child: const Text(
+    //                               child:   Text(
     //                                 "₹10 Off",
-    //                                 style: TextStyle(
+    //                                 style: getAppStyle(
     //                                   fontSize: 10,
     //                                   fontWeight: FontWeight.bold,
     //                                 ),
@@ -1410,7 +1201,7 @@ class _SubProductViewState extends State<SubProductView> {
     //                         ),
     //                       ],
     //                     ),
-    //                     const SizedBox(width: 30),
+    //                       SizedBox(width: 30),
     //                     Expanded(
     //                       child: GestureDetector(
     //                         onTap: () {
@@ -1422,10 +1213,10 @@ class _SubProductViewState extends State<SubProductView> {
     //                             borderRadius: BorderRadius.circular(6),
     //                             color: Colors.blueAccent,
     //                           ),
-    //                           child: const Center(
+    //                           child:   Center(
     //                             child: Text(
     //                               "Add to Cart",
-    //                               style: TextStyle(
+    //                               style: getAppStyle(
     //                                 color: Colors.white,
     //                                 fontWeight: FontWeight.bold,
     //                                 fontSize: 14,
@@ -1449,7 +1240,7 @@ class _SubProductViewState extends State<SubProductView> {
 }
 
 class ProductImgSliderWidget extends StatefulWidget {
-  const ProductImgSliderWidget({super.key});
+  ProductImgSliderWidget({super.key});
 
   @override
   _ProductImgSliderWidgetState createState() => _ProductImgSliderWidgetState();
@@ -1471,10 +1262,10 @@ class _ProductImgSliderWidgetState extends State<ProductImgSliderWidget> {
       return CachedNetworkImage(
         imageUrl: item,
         fit: BoxFit.cover,
-        placeholder: (context, url) => const Center(
+        placeholder: (context, url) => Center(
           child: CircularProgressIndicator(),
         ),
-        errorWidget: (context, url, error) => const Icon(Icons.image),
+        errorWidget: (context, url, error) => Icon(Icons.image),
       );
     }).toList();
 
@@ -1499,10 +1290,10 @@ class _ProductImgSliderWidgetState extends State<ProductImgSliderWidget> {
           children: imgUrls.asMap().entries.map((entry) {
             int index = entry.key;
             return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
+              duration: Duration(milliseconds: 300),
               height: 6.0,
               width: 6.0,
-              margin: const EdgeInsets.symmetric(horizontal: 2.0),
+              margin: EdgeInsets.symmetric(horizontal: 2.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _current == index ? Colors.black : Colors.grey,

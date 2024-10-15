@@ -11,7 +11,7 @@ import 'package:solikat_2024/utils/constant.dart';
 import '../../utils/common_colors.dart';
 import '../../widget/common_appbar.dart';
 import '../../widget/primary_button.dart';
-import '../home/home_view.dart';
+import '../common_view/bottom_navbar/bottom_navbar_view.dart';
 
 class LocationAllowView extends StatefulWidget {
   final LatLng? selectedPlace;
@@ -358,7 +358,8 @@ class _LocationAllowViewState extends State<LocationAllowView> {
                                 label: "Confirm Location",
                                 lblSize: 18,
                                 onPress: () {
-                                  pushAndRemoveUntil(HomeView());
+                                  // pushAndRemoveUntil(HomeView());
+                                  pushAndRemoveUntil(BottomNavBarView());
                                 },
                               ),
                             ),

@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:solikat_2024/utils/constant.dart';
 
 import '../../../utils/common_colors.dart';
+import '../../../utils/constant.dart';
 import '../../../widget/common_appbar.dart';
 
 class SubCategoryView extends StatefulWidget {
-  const SubCategoryView({super.key});
+  SubCategoryView({super.key});
 
   @override
   State<SubCategoryView> createState() => _SubCategoryViewState();
@@ -26,12 +26,12 @@ class _SubCategoryViewState extends State<SubCategoryView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 20),
+            padding: EdgeInsets.only(left: 8, right: 20),
             child: GestureDetector(
               onTap: () {
                 debugPrint("On Tap Search");
               },
-              child: const Icon(
+              child: Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -39,7 +39,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
           ),
         ],
       ),
-      body: const Column(
+      body: Column(
         children: [
           kCommonSpaceV15,
           SubCategoryListView(),
@@ -54,7 +54,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
 // * Sub Category ListView * //
 
 class SubCategoryListView extends StatefulWidget {
-  const SubCategoryListView({super.key});
+  SubCategoryListView({super.key});
 
   @override
   State<SubCategoryListView> createState() => _SubCategoryListViewState();
@@ -68,7 +68,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
     return SizedBox(
       height: 91,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 08),
+        padding: EdgeInsets.symmetric(horizontal: 08),
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
@@ -79,15 +79,15 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
               });
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: 60,
                     width: 60,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
                       // border: Border.all(
                       //     color: _selectedIndex == index
@@ -114,7 +114,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Padding(
+                      placeholder: (context, url) => Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Center(
                           child: CircularProgressIndicator(
@@ -123,7 +123,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                           ),
                         ),
                       ),
-                      errorWidget: (context, url, error) => const Center(
+                      errorWidget: (context, url, error) => Center(
                         child: Icon(
                           Icons.error_outline,
                           color: Colors.red,
@@ -131,7 +131,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 2, bottom: 3),
                     child: SizedBox(
                       width: 80,
@@ -140,7 +140,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: getAppStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -151,7 +151,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
                     height: 4,
                     width: 80,
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
@@ -177,7 +177,7 @@ class _SubCategoryListViewState extends State<SubCategoryListView> {
 // * Sub Category Product GridView List * //
 
 class SubProductView extends StatefulWidget {
-  const SubProductView({super.key});
+  SubProductView({super.key});
 
   @override
   State<SubProductView> createState() => _SubProductViewState();
@@ -216,8 +216,8 @@ class _SubProductViewState extends State<SubProductView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        padding: EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 0.699,
           crossAxisSpacing: 0,
@@ -228,12 +228,12 @@ class _SubProductViewState extends State<SubProductView> {
           return Container(
             height: 60,
             width: 60,
-            margin: const EdgeInsets.symmetric(horizontal: 5),
+            margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               //border: Border.all(color: Colors.red),
               borderRadius: BorderRadius.circular(10),
             ),
-            padding: const EdgeInsets.all(5),
+            padding: EdgeInsets.all(5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -253,7 +253,7 @@ class _SubProductViewState extends State<SubProductView> {
                                 ),
                               ),
                             ),
-                            placeholder: (context, url) => const Padding(
+                            placeholder: (context, url) => Padding(
                               padding: EdgeInsets.all(12.0),
                               child: Center(
                                 child: CircularProgressIndicator(
@@ -262,7 +262,7 @@ class _SubProductViewState extends State<SubProductView> {
                                 ),
                               ),
                             ),
-                            errorWidget: (context, url, error) => const Center(
+                            errorWidget: (context, url, error) => Center(
                               child: Icon(
                                 Icons.error_outline,
                                 color: Colors.red,
@@ -280,17 +280,16 @@ class _SubProductViewState extends State<SubProductView> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 6),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 2),
+                      margin: EdgeInsets.only(top: 6),
+                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                       decoration: BoxDecoration(
                         color: Colors.orangeAccent,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.white, width: 2),
                       ),
-                      child: const Text(
+                      child: Text(
                         "₹10 Off",
-                        style: TextStyle(
+                        style: getAppStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
@@ -302,7 +301,7 @@ class _SubProductViewState extends State<SubProductView> {
                       child: SmoothPageIndicator(
                         controller: _pageController,
                         count: imageUrls.length,
-                        effect: const WormEffect(
+                        effect: WormEffect(
                             dotHeight: 4,
                             dotWidth: 4,
                             spacing: 4,
@@ -314,8 +313,8 @@ class _SubProductViewState extends State<SubProductView> {
                 ),
                 Container(
                   height: 20,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  margin: const EdgeInsets.only(right: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  margin: EdgeInsets.only(right: 16),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: Colors.orangeAccent.withOpacity(0.2)),
@@ -326,11 +325,11 @@ class _SubProductViewState extends State<SubProductView> {
                       textDirection: TextDirection.rtl,
                       softWrap: true,
                       maxLines: 1,
-                      text: const TextSpan(
+                      text: TextSpan(
                         children: [
                           TextSpan(
                             text: 'Delivery in ',
-                            style: TextStyle(
+                            style: getAppStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.orangeAccent,
@@ -338,7 +337,7 @@ class _SubProductViewState extends State<SubProductView> {
                           ),
                           TextSpan(
                             text: "11 Min",
-                            style: TextStyle(
+                            style: getAppStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                               color: Colors.orangeAccent,
@@ -356,36 +355,36 @@ class _SubProductViewState extends State<SubProductView> {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(vertical: 3),
                   child: Text(
                     "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250 Cashew Nuts 250",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: getAppStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                     ),
                   ),
                 ),
-                const Text(
+                Text(
                   "5 kg",
-                  style: TextStyle(
+                  style: getAppStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Row(
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "₹250.0",
-                          style: TextStyle(
+                          style: getAppStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -393,7 +392,7 @@ class _SubProductViewState extends State<SubProductView> {
                         ),
                         Text(
                           "₹250.0",
-                          style: TextStyle(
+                          style: getAppStyle(
                             decoration: TextDecoration.lineThrough,
                             color: Colors.grey,
                             fontWeight: FontWeight.w500,
@@ -402,7 +401,7 @@ class _SubProductViewState extends State<SubProductView> {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 20),
+                    SizedBox(width: 20),
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
@@ -416,10 +415,10 @@ class _SubProductViewState extends State<SubProductView> {
                               color: Colors.blueAccent,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               "Add",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.blueAccent,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,

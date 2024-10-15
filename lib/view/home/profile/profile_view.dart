@@ -36,7 +36,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 ClipOval(
                   child: Image.network(
-                    'https://via.placeholder.com/150',
+                    'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
                     width: 60,
                     height: 60,
                     fit: BoxFit.cover,
