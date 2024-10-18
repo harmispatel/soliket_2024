@@ -7,6 +7,7 @@ import '../../home/home.dart';
 import '../../home/profile/my_orders/my_orders_view.dart';
 
 class BottomNavBarView extends StatefulWidget {
+  const BottomNavBarView({super.key});
   @override
   State<BottomNavBarView> createState() => _BottomNavBarViewState();
 }

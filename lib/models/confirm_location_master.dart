@@ -1,10 +1,11 @@
-class CommonMaster {
+class ConfirmLocationMaster {
   bool? _status;
   int? _statusCode;
   String? _message;
   String? _data;
 
-  CommonMaster({bool? status, int? statusCode, String? message, String? data}) {
+  ConfirmLocationMaster(
+      {bool? status, int? statusCode, String? message, String? data}) {
     if (status != null) {
       this._status = status;
     }
@@ -28,7 +29,7 @@ class CommonMaster {
   String? get data => _data;
   set data(String? data) => _data = data;
 
-  CommonMaster.fromJson(Map<String, dynamic> json) {
+  ConfirmLocationMaster.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
     _statusCode = json['status_code'];
     _message = json['message'];

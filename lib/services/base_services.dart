@@ -1,14 +1,21 @@
+import 'package:solikat_2024/models/otp_master.dart';
 
+import '../models/common_master.dart';
+import '../models/confirm_location_master.dart';
+import '../models/login_master.dart';
 
 abstract class BaseServices {
-  // Future<UploadMaster?> uploadPhotoOrVideo({
-  //   required Map<String, String> param,
-  //   required File file,
-  //   void Function(int, int)? onProgress,
-  // });
-  //
-  // Future<AlbumMaster?> getAlbumList({required Map<String, dynamic> param});
-  //
-  // Future<SupportTicketDetailsMaster?> getSupportTicketDetails(
-  //     {required Map<String, dynamic> param});
-  }
+  Future<LoginMaster?> login({
+    required Map<String, dynamic> params,
+  });
+  Future<OtpMaster?> verifyOtp({
+    required Map<String, dynamic> params,
+  });
+  Future<OtpMaster?> resendOtp({
+    required Map<String, dynamic> params,
+  });
+  Future<ConfirmLocationMaster?> confirmLocation({
+    required Map<String, dynamic> params,
+  });
+  Future<CommonMaster?> logOut();
+}

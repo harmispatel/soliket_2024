@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "921695559318",
+    "project_id": "soliket-df75a",
+    "storage_bucket": "soliket-df75a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921695559318:android:8938fa00a81d1a78946cb7",
+        "android_client_info": {
+          "package_name": "com.example.solikat2024"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921695559318:android:97d1fdfdd8893728946cb7",
+        "android_client_info": {
+          "package_name": "com.soliket.customerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921695559318:android:9983050700066fca946cb7",
+        "android_client_info": {
+          "package_name": "com.soliket.deliveryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

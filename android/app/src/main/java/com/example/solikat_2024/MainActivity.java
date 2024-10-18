@@ -1,4 +1,4 @@
-package com.example.solikat_2024;
+package com.example.solikat2024;
 
 import io.flutter.embedding.android.FlutterActivity;
 

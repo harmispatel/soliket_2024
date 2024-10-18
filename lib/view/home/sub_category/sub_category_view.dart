@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/constant.dart';
 import '../../../widget/common_appbar.dart';
-import '../home.dart';
 
 class SubCategoryViewRedesign extends StatefulWidget {
   SubCategoryViewRedesign({super.key});
@@ -223,6 +222,23 @@ class _SubProductViewState extends State<SubProductView> {
   late final PageController _pageController;
   int currentPageIndex = 0;
   bool isExpanded = false;
+  int itemCount = 0;
+
+  void incrementItem() {
+    setState(() {
+      itemCount++;
+    });
+    // widget.onIncrement!();
+  }
+
+  void decrementItem() {
+    if (itemCount > 0) {
+      setState(() {
+        itemCount--;
+      });
+      // widget.onDecrement!();
+    }
+  }
 
   @override
   void initState() {
@@ -249,23 +265,202 @@ class _SubProductViewState extends State<SubProductView> {
         padding: const EdgeInsets.only(top: 15, right: 5),
         child: GridView.builder(
           padding: EdgeInsets.zero,
+          shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.6,
+            childAspectRatio: 0.5,
             crossAxisSpacing: 2,
             mainAxisSpacing: 5,
           ),
           itemCount: 10,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {
-                productDetailsBottomSheet();
-              },
-              child: ProductContainer(
-                onIncrement: null,
-                onDecrement: null,
-              ),
-            );
+                onTap: () {
+                  productDetailsBottomSheet();
+                },
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.network(
+                              "https://www.consciousfood.com/cdn/shop/products/split_bengal_gram_chana_dal_i_1920.jpg?v=1684915570&width=1946",
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: FittedBox(
+                                child: Text(
+                                  "Chana dal Loose 2 kg",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: FittedBox(
+                                child: Text(
+                                  "1 Kg",
+                                  style: getAppStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                        child: Text(
+                                          "₹450",
+                                          style: getAppStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      FittedBox(
+                                        child: Text(
+                                          "₹59",
+                                          style: getAppStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  itemCount > 0
+                                      ? Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4, vertical: 4),
+                                          margin:
+                                              const EdgeInsets.only(bottom: 4),
+                                          height: 35,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: CommonColors.primaryColor,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: decrementItem,
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  size: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                itemCount.toString(),
+                                                style: getAppStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: incrementItem,
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  size: 16,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : InkWell(
+                                          onTap: incrementItem,
+                                          child: Container(
+                                            width: 65,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                  color:
+                                                      CommonColors.primaryColor,
+                                                  width: 1),
+                                            ),
+                                            child: Center(
+                                              child: FittedBox(
+                                                child: Text(
+                                                  "Add",
+                                                  style: getAppStyle(
+                                                    color: CommonColors
+                                                        .primaryColor,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.amber,
+                            border: Border.all(color: Colors.white, width: 2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 5),
+                            child: Text(
+                              "24% off",
+                              style: getAppStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ));
           },
         ),
       ),

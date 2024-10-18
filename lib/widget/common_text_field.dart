@@ -606,16 +606,13 @@ class LabeledTextField extends StatelessWidget {
             borderSide: BorderSide(color: CommonColors.primaryColor, width: 1),
           ),
 
-          floatingLabelBehavior: FloatingLabelBehavior
-              .auto, // Label will float on focus or when there is input
-
           labelText: hintText, // Label text
           labelStyle: TextStyle(
-            color: CommonColors
-                .primaryColor, // Primary color for label when floating
+            color: Colors.grey.shade400,
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
+
           hintText: hintText, // Placeholder text
           hintStyle: TextStyle(
             color: Colors.grey.shade400, // Gray color for hint text

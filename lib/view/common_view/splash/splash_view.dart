@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/view/common_view/splash/splash_view_model.dart';
 
+import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 
 class SplashView extends StatefulWidget {
@@ -22,7 +26,26 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      getDeviceDetails();
     });
+  }
+
+  Future<void> getDeviceDetails() async {
+    try {
+      deviceToken = await FirebaseMessaging.instance.getToken();
+      if (Platform.isAndroid) {
+        deviceType = 'android';
+      } else if (Platform.isIOS) {
+        deviceType = 'iOS';
+      } else {
+        deviceType = 'Unknown';
+        deviceToken = 'Unknown';
+      }
+      print("..............Device Type :: $deviceType");
+      print("..............Device Token ::  $deviceToken");
+    } catch (e) {
+      print("Error getting FCM token: $e");
+    }
   }
 
   @override

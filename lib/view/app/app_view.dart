@@ -15,6 +15,10 @@ import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
+import '../home/profile/profile_view_model.dart';
+import '../location/location_view_model.dart';
+import '../login/login_view_model.dart';
+import '../otp/otp_view_model.dart';
 import 'app_model.dart';
 
 class App extends StatefulWidget {
@@ -209,14 +213,20 @@ class AppState extends State<App> {
             providers: [
               ChangeNotifierProvider<SplashViewModel>(
                   create: (_) => SplashViewModel()),
+              ChangeNotifierProvider<LoginViewModel>(
+                  create: (_) => LoginViewModel()),
+              ChangeNotifierProvider<OtpViewModel>(
+                  create: (_) => OtpViewModel()),
+              ChangeNotifierProvider<LocationViewModel>(
+                  create: (_) => LocationViewModel()),
+              ChangeNotifierProvider<ProfileViewModel>(
+                  create: (_) => ProfileViewModel()),
             ],
             child: Builder(
               builder: (context) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: 1.0,
-                    // devicePixelRatio: 1.0,
-                  ),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: TextScaler.noScaling),
                   child: MaterialApp(
                     debugShowCheckedModeBanner: false,
                     color: CommonColors.primaryColor,

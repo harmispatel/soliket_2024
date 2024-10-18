@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
+import '../../utils/global_variables.dart';
 import '../../widget/common_appbar.dart';
 import '../../widget/primary_button.dart';
-import '../location/location_allow_view.dart';
-import '../location/location_donNot_allow_view.dart';
+import 'otp_view_model.dart';
 
 class OtpView extends StatefulWidget {
   const OtpView({super.key});
@@ -18,44 +18,21 @@ class OtpView extends StatefulWidget {
 }
 
 class _OtpViewState extends State<OtpView> {
-  Future<void> requestLocationPermission() async {
-    var status = await Permission.location.status;
+  late OtpViewModel mViewModel;
+  final TextEditingController otpController = TextEditingController();
 
-    print(status);
-
-    if (status.isGranted) {
-      print("Location permission already granted.");
-      push(LocationAllowView());
-    } else if (status.isPermanentlyDenied) {
-      // Show a message and prompt the user to open settings
-      // CommonUtils.showSnackBar(
-      //   "Location permission is required to proceed. Please enable it in settings.",
-      //   color: CommonColors.mRed,
-      // );
-
-      push(LocationDonNotAllowView());
-
-      // Optionally, open the app settings
-      await openAppSettings();
-    } else {
-      // Request permission
-      var result = await Permission.location.request();
-
-      if (result.isGranted) {
-        print("Location permission granted.");
-        push(LocationAllowView());
-      } else {
-        // CommonUtils.showSnackBar(
-        //   "Location permission is required to proceed.",
-        //   color: CommonColors.mRed,
-        // );
-        push(LocationDonNotAllowView());
-      }
-    }
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<OtpViewModel>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: CommonAppBar(
@@ -107,30 +84,64 @@ class _OtpViewState extends State<OtpView> {
               kCommonSpaceV20,
               Center(child: otpPinWidget()),
               kCommonSpaceV30,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Code resent After: ",
-                    style:
-                        getAppStyle(fontWeight: FontWeight.w500, fontSize: 16),
-                  ),
-                  Text(
-                    "59",
-                    style: getAppStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: CommonColors.primaryColor),
-                  ),
-                ],
-              ),
+              mViewModel.second == 0
+                  ? Center(
+                      child: InkWell(
+                        onTap: () {
+                          mViewModel
+                              .reSendOtpApi(user_id: gUserId)
+                              .whenComplete(() => mViewModel.startTimer());
+                        },
+                        child: Text(
+                          "Resend OTP",
+                          style: getAppStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: CommonColors.primaryColor),
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Request for new OTP in",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: CommonColors.blackColor,
+                          ),
+                        ),
+                        Text(
+                          " ${mViewModel.second} seconds",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: CommonColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
               kCommonSpaceV50,
               PrimaryButton(
                 height: 50,
                 label: "Verify and Proceed",
                 lblSize: 18,
                 onPress: () {
-                  requestLocationPermission();
+                  if (otpController.text.length != 6) {
+                    CommonUtils.showSnackBar(
+                      "Please enter 6 digits otp",
+                      color: CommonColors.mRed,
+                    );
+                  } else if (otpController.text.length == 6) {
+                    mViewModel.otpVerifyApi(
+                        user_id: gUserId,
+                        otp: otpController.text.toString(),
+                        device_token: deviceToken ?? 'no device',
+                        device_type: deviceType);
+                  }
                 },
               ),
               kCommonSpaceV30
@@ -170,7 +181,7 @@ class _OtpViewState extends State<OtpView> {
     );
 
     return Pinput(
-      // controller: otpFieldController,
+      controller: otpController,
       // androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusedPinTheme,

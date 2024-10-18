@@ -44,6 +44,8 @@ class LocationDonNotAllowView extends StatefulWidget {
 class _LocationDonNotAllowViewState extends State<LocationDonNotAllowView>
     with WidgetsBindingObserver {
   final TextEditingController searchController = TextEditingController();
+  var status;
+  bool isHavePermission = false;
 
   @override
   void initState() {
@@ -74,7 +76,10 @@ class _LocationDonNotAllowViewState extends State<LocationDonNotAllowView>
 
     if (status.isGranted) {
       // Navigate to the next screen if permission is granted
-      push(LocationAllowView());
+      // push(LocationAllowView());
+      isHavePermission = true;
+    } else {
+      isHavePermission = false;
     }
     // else {
     //   // Handle cases where permission is not granted
@@ -86,7 +91,7 @@ class _LocationDonNotAllowViewState extends State<LocationDonNotAllowView>
   }
 
   Future<void> requestLocationPermission() async {
-    var status = await Permission.location.status;
+    status = await Permission.location.status;
 
     print(status);
 
@@ -178,48 +183,83 @@ class _LocationDonNotAllowViewState extends State<LocationDonNotAllowView>
               color: CommonColors.mGrey200.withOpacity(0.5),
             ),
             kCommonSpaceV15,
-            Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
-              child: Container(
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.my_location,
-                      color: CommonColors.primaryColor,
+            isHavePermission
+                ? GestureDetector(
+                    onTap: () {
+                      push(LocationAllowView());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 15, left: 15),
+                      child: Container(
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.my_location,
+                              color: CommonColors.primaryColor,
+                            ),
+                            kCommonSpaceH10,
+                            Text(
+                              "Use current location",
+                              style: getAppStyle(
+                                  color: CommonColors.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15),
+                            ),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: CommonColors.primaryColor,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    kCommonSpaceH10,
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(right: 15, left: 15),
+                    child: Container(
+                      color: Colors.white,
+                      child: Row(
                         children: [
-                          Text(
-                            "Location Permission is off",
-                            style: getAppStyle(
-                                color: CommonColors.primaryColor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15),
+                          Icon(
+                            Icons.my_location,
+                            color: CommonColors.primaryColor,
                           ),
-                          Text(
-                            "please location permission for the best delivery experience",
-                            style: getAppStyle(height: 1),
+                          kCommonSpaceH10,
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Location Permission is off",
+                                  style: getAppStyle(
+                                      color: CommonColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15),
+                                ),
+                                Text(
+                                  "please location permission for the best delivery experience",
+                                  style: getAppStyle(height: 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                          kCommonSpaceH10,
+                          PrimaryButton(
+                            height: 35,
+                            width: 90,
+                            label: "Grant",
+                            onPress: () {
+                              _showAlertDialog(context);
+                            },
                           ),
                         ],
                       ),
                     ),
-                    kCommonSpaceH10,
-                    PrimaryButton(
-                      height: 35,
-                      width: 90,
-                      label: "Grant",
-                      onPress: () {
-                        _showAlertDialog(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             kCommonSpaceV15,
             Container(
               height: 4,

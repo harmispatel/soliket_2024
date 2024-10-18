@@ -8,14 +8,16 @@ import 'database/app_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyBrFgGr8-QaZhUrWQF3lIny7FgrZblWGMk",
-      appId: "1:919834426763:android:053c5935e55e2dfa67438e",
-      messagingSenderId: "919834426763",
-      projectId: "activeecommerce-8ec99",
+      apiKey: "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc",
+      appId: "1:921695559318:android:97d1fdfdd8893728946cb7",
+      messagingSenderId: "921695559318",
+      projectId: "soliket-df75a",
     ),
   );
+
   Provider.debugCheckInvalidValueType = null;
 
   SystemChrome.setPreferredOrientations(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
+import 'package:solikat_2024/view/home/profile/profile_view_model.dart';
 import 'package:solikat_2024/view/home/profile/save_address/save_address_view.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 
@@ -17,8 +19,20 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  late ProfileViewModel mViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<ProfileViewModel>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
@@ -124,6 +138,8 @@ class ProfileOptionsView extends StatefulWidget {
 }
 
 class _ProfileOptionsViewState extends State<ProfileOptionsView> {
+  late ProfileViewModel mViewModel;
+
   final List<Map<String, dynamic>> profileOptions = [
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
     {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
@@ -133,8 +149,11 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
     {'icon': Icons.info_outline, 'title': ' About Us'},
     {'icon': Icons.logout_rounded, 'title': ' Logout'},
   ];
+
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<ProfileViewModel>(context);
+
     return Expanded(
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 10),
@@ -149,6 +168,8 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
                 push(MyOrdersView());
               } else if (index == 1) {
                 push(SaveAddressView());
+              } else if (index == 6) {
+                mViewModel.logOutApi();
               }
             },
             child: Padding(

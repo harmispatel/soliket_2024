@@ -5,13 +5,15 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
 import '../../utils/common_colors.dart';
 import '../../widget/common_appbar.dart';
 import '../../widget/primary_button.dart';
-import '../common_view/bottom_navbar/bottom_navbar_view.dart';
+import 'location_donNot_allow_view.dart';
+import 'location_view_model.dart';
 
 class LocationAllowView extends StatefulWidget {
   final LatLng? selectedPlace;
@@ -29,6 +31,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
   bool _isLoading = true;
   String _currentAddress = 'Fetching address...';
   String _mainArea = 'Fetching area...';
+  late LocationViewModel mViewModel;
 
   LatLng? _mapCenter;
   String _locationError = '';
@@ -37,12 +40,16 @@ class _LocationAllowViewState extends State<LocationAllowView> {
   @override
   void initState() {
     super.initState();
-    if (widget.selectedPlace != null) {
-      _currentPosition = widget.selectedPlace;
-      _mapCenter = _currentPosition;
-    } else {
-      _getUserLocation();
-    }
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+      // phoneController.text = "+91 ";
+      if (widget.selectedPlace != null) {
+        _currentPosition = widget.selectedPlace;
+        _mapCenter = _currentPosition;
+      } else {
+        _getUserLocation();
+      }
+    });
   }
 
   Future<void> _getUserLocation() async {
@@ -128,6 +135,8 @@ class _LocationAllowViewState extends State<LocationAllowView> {
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<LocationViewModel>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: CommonAppBar(
@@ -297,27 +306,39 @@ class _LocationAllowViewState extends State<LocationAllowView> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: CommonColors.mWhite,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: CommonColors.primaryColor
-                                            .withOpacity(0.3),
-                                        width: 1.0,
+                                  GestureDetector(
+                                    onTap: () async {
+                                      var status =
+                                          await Permission.location.status;
+                                      bool isHavePermission = false;
+
+                                      if (status.isGranted) {
+                                        isHavePermission = true;
+                                      }
+                                      push(LocationDonNotAllowView());
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: CommonColors.mWhite,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: CommonColors.primaryColor
+                                              .withOpacity(0.3),
+                                          width: 1.0,
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 5,
-                                          bottom: 5),
-                                      child: Text(
-                                        "Change",
-                                        style: getAppStyle(
-                                            color: CommonColors.primaryColor,
-                                            fontWeight: FontWeight.w500),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text(
+                                          "Change",
+                                          style: getAppStyle(
+                                              color: CommonColors.primaryColor,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -358,8 +379,14 @@ class _LocationAllowViewState extends State<LocationAllowView> {
                                 label: "Confirm Location",
                                 lblSize: 18,
                                 onPress: () {
-                                  // pushAndRemoveUntil(HomeView());
-                                  pushAndRemoveUntil(BottomNavBarView());
+                                  mViewModel.confirmLocationApi(
+                                      latitude: _currentPosition?.latitude
+                                              .toString() ??
+                                          '',
+                                      longitude: _currentPosition?.longitude
+                                              .toString() ??
+                                          '',
+                                      location: _currentAddress);
                                 },
                               ),
                             ),
