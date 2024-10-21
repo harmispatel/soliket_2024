@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/confirm_location_master.dart';
 
+import '../../database/app_preferences.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
@@ -39,7 +40,10 @@ class LocationViewModel with ChangeNotifier {
     } else if (!master.status! &&
         master.message ==
             "SOLIKET is not available at this location, We will be soon there.") {
-      gUserLocation = location;
+      AppPreferences.instance.setUserLocation(location);
+      AppPreferences.instance.setUserLat(latitude);
+      AppPreferences.instance.setUserLong(longitude);
+      gUserLocation = await AppPreferences.instance.getUserLocation();
       pushAndRemoveUntil(HomeView());
     } else if (!master.status!) {
       CommonUtils.showSnackBar(
@@ -48,7 +52,10 @@ class LocationViewModel with ChangeNotifier {
       );
     } else if (master.status!) {
       log("Success :: true");
-      gUserLocation = location;
+      AppPreferences.instance.setUserLocation(location);
+      AppPreferences.instance.setUserLat(latitude);
+      AppPreferences.instance.setUserLong(longitude);
+      gUserLocation = await AppPreferences.instance.getUserLocation();
       pushAndRemoveUntil(BottomNavBarView());
     }
     notifyListeners();

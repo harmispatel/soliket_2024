@@ -2,9 +2,9 @@ class OtpMaster {
   bool? _status;
   int? _statusCode;
   String? _message;
-  OtpData? _data;
+  UserData? _data;
 
-  OtpMaster({bool? status, int? statusCode, String? message, OtpData? data}) {
+  OtpMaster({bool? status, int? statusCode, String? message, UserData? data}) {
     if (status != null) {
       this._status = status;
     }
@@ -25,14 +25,14 @@ class OtpMaster {
   set statusCode(int? statusCode) => _statusCode = statusCode;
   String? get message => _message;
   set message(String? message) => _message = message;
-  OtpData? get data => _data;
-  set data(OtpData? data) => _data = data;
+  UserData? get data => _data;
+  set data(UserData? data) => _data = data;
 
   OtpMaster.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
     _statusCode = json['status_code'];
     _message = json['message'];
-    _data = json['data'] != null ? new OtpData.fromJson(json['data']) : null;
+    _data = json['data'] != null ? new UserData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -47,8 +47,8 @@ class OtpMaster {
   }
 }
 
-class OtpData {
-  String? _userId;
+class UserData {
+  int? _userId;
   String? _name;
   String? _email;
   String? _mobile;
@@ -57,8 +57,8 @@ class OtpData {
   String? _isProfileComplete;
   String? _token;
 
-  OtpData(
-      {String? userId,
+  UserData(
+      {int? userId,
       String? name,
       String? email,
       String? mobile,
@@ -92,8 +92,8 @@ class OtpData {
     }
   }
 
-  String? get userId => _userId;
-  set userId(String? userId) => _userId = userId;
+  int? get userId => _userId;
+  set userId(int? userId) => _userId = userId;
   String? get name => _name;
   set name(String? name) => _name = name;
   String? get email => _email;
@@ -110,7 +110,7 @@ class OtpData {
   String? get token => _token;
   set token(String? token) => _token = token;
 
-  OtpData.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     _userId = json['user_id'];
     _name = json['name'];
     _email = json['email'];

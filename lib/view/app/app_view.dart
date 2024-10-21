@@ -13,8 +13,10 @@ import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
+import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
+import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
@@ -221,6 +223,10 @@ class AppState extends State<App> {
                   create: (_) => LocationViewModel()),
               ChangeNotifierProvider<ProfileViewModel>(
                   create: (_) => ProfileViewModel()),
+              ChangeNotifierProvider<EditAccountViewModel>(
+                  create: (_) => EditAccountViewModel()),
+              ChangeNotifierProvider<BottomNavbarViewModel>(
+                  create: (_) => BottomNavbarViewModel()),
             ],
             child: Builder(
               builder: (context) {

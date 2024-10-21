@@ -7,4 +7,8 @@ class ApiParams {
   static const String device_type = "device_type";
   static const String latitude = "latitude";
   static const String longitude = "longitude";
+  static const String name = "name";
+  static const String email = "email";
+  static const String birthday = "birthday";
+  static const String profile = "profile";
 }

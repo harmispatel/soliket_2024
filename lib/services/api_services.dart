@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
@@ -100,6 +101,30 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<OtpMaster?> updateProfile({
+    required Map<String, dynamic> params,
+    required String picture,
+    String? fileKey,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.UPDATE_PROFILE,
+      postParams: params,
+      images: picture.isNotEmpty ? [File(picture)] : [],
+      fileKey: fileKey,
+    );
+    if (response != null) {
+      try {
+        return OtpMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

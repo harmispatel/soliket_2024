@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.dart';
+import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view_2.dart';
 import 'package:solikat_2024/view/home/view_all_products_view.dart';
@@ -13,9 +19,11 @@ import 'package:solikat_2024/widget/primary_button.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
+import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 
 class Home extends StatefulWidget {
   final String? location;
+
   const Home({super.key, this.location});
 
   @override
@@ -53,7 +61,13 @@ class _HomeState extends State<Home> {
   ];
 
   final ScrollController _scrollController = ScrollController();
-  int _selectedIndex = 0;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+  File? selectedImage;
+  String imagePath = "";
+  DateTime? selectedDate;
+  late EditAccountViewModel mProfileViewModel;
 
   bool _isStickyVisible = false;
 
@@ -80,21 +94,51 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(
-      () {
-        if (_scrollController.offset > 80 && !_isStickyVisible) {
-          setState(() {
-            _isStickyVisible = true;
-          });
-        } else if (_scrollController.offset <= 80 && _isStickyVisible) {
-          setState(
-            () {
-              _isStickyVisible = false;
-            },
-          );
-        }
-      },
+    Future.delayed(Duration.zero, () {
+      mProfileViewModel.attachedContext(context);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {});
+        checkProfileDone();
+      });
+      _scrollController.addListener(
+        () {
+          if (_scrollController.offset > 80 && !_isStickyVisible) {
+            setState(() {
+              _isStickyVisible = true;
+            });
+          } else if (_scrollController.offset <= 80 && _isStickyVisible) {
+            setState(
+              () {
+                _isStickyVisible = false;
+              },
+            );
+          }
+        },
+      );
+    });
+  }
+
+  void checkProfileDone() {
+    if (globalUserMaster?.isProfileComplete == "n") {
+      profileDialog(context);
+    }
+  }
+
+  Future<void> selectBirthDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? now,
+      firstDate: DateTime(1950),
+      lastDate: now,
     );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        birthDateController.text = DateFormat('dd-MM-yyyy').format(picked);
+      });
+    }
   }
 
   @override
@@ -104,59 +148,130 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> profileDialog(BuildContext context) {
-    return showDialog<void>(
+    return showGeneralDialog(
       context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Padding(
-            padding: kCommonScreenPadding,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                kCommonSpaceV15,
-                ClipOval(
-                  child: Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
+      barrierDismissible: false,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.transparent,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext context, Animation animation,
+          Animation secondaryAnimation) {
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Center(
+                  child: Dialog(
+                    child: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              color: CommonColors.mWhite.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(26)),
+                          child: Padding(
+                            padding: kCommonScreenPadding,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                kCommonSpaceV15,
+                                GestureDetector(
+                                  onTap: () async {
+                                    final image = await pickSinglePhoto();
+                                    if (image != null) {
+                                      setState(() {
+                                        selectedImage = image;
+                                        imagePath = image.path;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    width: 110,
+                                    height: 110,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      color: CommonColors.primaryColor
+                                          .withOpacity(0.3),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: (() {
+                                      if (selectedImage != null) {
+                                        // Display the selected image if available
+                                        return Image.file(
+                                          selectedImage!,
+                                          fit: BoxFit.contain,
+                                        );
+                                      } else if (globalUserMaster?.profile !=
+                                          null) {
+                                        // Display the user's stored image if available
+                                        return Image.network(
+                                          globalUserMaster!.profile!,
+                                          fit: BoxFit.contain,
+                                        );
+                                      }
+                                      // else {
+                                      //   // Display a default icon if no image is available
+                                      //   return const Icon(
+                                      //     Icons.collections,
+                                      //     size: 30,
+                                      //     color: CommonColors.primaryColor,
+                                      //   );
+                                      // }
+                                    })(),
+                                  ),
+                                ),
+                                kCommonSpaceV20,
+                                TextFormFieldCustom(
+                                  textInputType: TextInputType.emailAddress,
+                                  controller: nameController,
+                                  hintText: "Your Name",
+                                  labelText: "Your Name",
+                                ),
+                                kCommonSpaceV10,
+                                TextFormFieldCustom(
+                                  textInputType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                  hintText: "Email",
+                                  labelText: "Email",
+                                ),
+                                kCommonSpaceV10,
+                                TextFormFieldCustom(
+                                  onTap: () {
+                                    selectBirthDate(context);
+                                  },
+                                  textInputType: TextInputType.emailAddress,
+                                  controller: birthDateController,
+                                  hintText: "Birth Date",
+                                  labelText: "Birth Date",
+                                  readOnly: true,
+                                ),
+                                kCommonSpaceV30,
+                                PrimaryButton(
+                                  label: "Update",
+                                  onPress: () {
+                                    if (isValid()) {
+                                      mProfileViewModel.updateProfileApi(
+                                          name: nameController.text,
+                                          email: emailController.text,
+                                          birthday: birthDateController.text,
+                                          profile: imagePath);
+                                    }
+                                  },
+                                ),
+                                kCommonSpaceV15,
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                kCommonSpaceV20,
-                TextFormFieldCustom(
-                  // controller: edEmailController,
-                  textInputType: TextInputType.emailAddress,
-                  hintText: "Your Name",
-                  labelText: "Your Name",
-                ),
-                kCommonSpaceV10,
-                TextFormFieldCustom(
-                  // controller: edYourNameController,
-                  textInputType: TextInputType.name,
-                  hintText: "Email",
-                  labelText: "Email",
-                ),
-                kCommonSpaceV10,
-                TextFormFieldCustom(
-                  // controller: edEmailController,
-                  textInputType: TextInputType.emailAddress,
-                  hintText: "Mobile No.",
-                  labelText: "Mobile No.",
-                ),
-                kCommonSpaceV10,
-                TextFormFieldCustom(
-                  // controller: edEmailController,
-                  textInputType: TextInputType.emailAddress,
-                  hintText: "Birth Date",
-                  labelText: "Birth Date",
-                ),
-                kCommonSpaceV30,
-                PrimaryButton(
-                  label: "Update",
-                  onPress: () {},
-                ),
-                kCommonSpaceV15,
-              ],
+              ),
             ),
           ),
         );
@@ -164,8 +279,27 @@ class _HomeState extends State<Home> {
     );
   }
 
+  bool isValid() {
+    if (nameController.text.trim().isEmpty) {
+      CommonUtils.showSnackBar(
+        "Please enter name",
+        color: CommonColors.mRed,
+      );
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    mProfileViewModel = Provider.of<EditAccountViewModel>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: CommonColors.grayShade200,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: CommonColors.grayShade200),
+    );
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -217,7 +351,10 @@ class _HomeState extends State<Home> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                profileDialog(context);
+                                // profileDialog(context);
+                                mainNavKey.currentContext!
+                                    .read<BottomNavbarViewModel>()
+                                    .onMenuTapped(1);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -996,13 +1133,15 @@ class _HomeState extends State<Home> {
                                                                                           ),
                                                                                           blurRadius: 5.0,
                                                                                           spreadRadius: 0.0,
-                                                                                        ), //BoxShadow
+                                                                                        ),
+                                                                                        //BoxShadow
                                                                                         BoxShadow(
                                                                                           color: Colors.white,
                                                                                           offset: const Offset(0.0, 0.0),
                                                                                           blurRadius: 0.0,
                                                                                           spreadRadius: 0.0,
-                                                                                        ), //BoxShadow
+                                                                                        ),
+                                                                                        //BoxShadow
                                                                                       ],
                                                                                     ),
                                                                                     child: Padding(
@@ -1390,13 +1529,15 @@ class _HomeState extends State<Home> {
                                                                                                                       ),
                                                                                                                       blurRadius: 5.0,
                                                                                                                       spreadRadius: 0.0,
-                                                                                                                    ), //BoxShadow
+                                                                                                                    ),
+                                                                                                                    //BoxShadow
                                                                                                                     BoxShadow(
                                                                                                                       color: Colors.white,
                                                                                                                       offset: const Offset(0.0, 0.0),
                                                                                                                       blurRadius: 0.0,
                                                                                                                       spreadRadius: 0.0,
-                                                                                                                    ), //BoxShadow
+                                                                                                                    ),
+                                                                                                                    //BoxShadow
                                                                                                                   ],
                                                                                                                 ),
                                                                                                                 child: Padding(
@@ -2483,9 +2624,8 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                      height:
-                                          5), // Space between image and text
+                                  const SizedBox(height: 5),
+                                  // Space between image and text
 
                                   // Text that wraps and adjusts based on content
                                   Flexible(
@@ -3802,13 +3942,15 @@ class _HomeState extends State<Home> {
                                                                                       ),
                                                                                       blurRadius: 5.0,
                                                                                       spreadRadius: 0.0,
-                                                                                    ), //BoxShadow
+                                                                                    ),
+                                                                                    //BoxShadow
                                                                                     BoxShadow(
                                                                                       color: Colors.white,
                                                                                       offset: const Offset(0.0, 0.0),
                                                                                       blurRadius: 0.0,
                                                                                       spreadRadius: 0.0,
-                                                                                    ), //BoxShadow
+                                                                                    ),
+                                                                                    //BoxShadow
                                                                                   ],
                                                                                 ),
                                                                                 child: Padding(
@@ -4164,12 +4306,6 @@ class _HomeState extends State<Home> {
             : null,
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 

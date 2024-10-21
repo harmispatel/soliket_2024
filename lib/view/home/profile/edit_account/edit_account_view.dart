@@ -81,6 +81,7 @@ class _EditAccountViewState extends State<EditAccountView> {
 
 class TextFormFieldCustom extends StatelessWidget {
   final TextEditingController? controller;
+  final GestureTapCallback? onTap;
   final String? hintText;
   final String? labelText;
   final TextInputAction? textInputAction;
@@ -88,10 +89,12 @@ class TextFormFieldCustom extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final Widget? suffixIcon;
+  final bool readOnly;
 
   const TextFormFieldCustom({
     super.key,
     this.controller,
+    this.onTap,
     this.hintText,
     this.textInputAction,
     this.textInputType,
@@ -99,6 +102,7 @@ class TextFormFieldCustom extends StatelessWidget {
     this.maxLines,
     this.labelText,
     this.suffixIcon,
+    this.readOnly = false,
   });
 
   @override
@@ -106,12 +110,14 @@ class TextFormFieldCustom extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: TextFormField(
+        onTap: onTap,
         maxLines: maxLines,
         maxLength: maxLength,
         controller: controller,
         textInputAction: textInputAction ?? TextInputAction.next,
         keyboardType: textInputType ?? TextInputType.text,
         cursorColor: Colors.black,
+        readOnly: readOnly,
         style: const TextStyle(
             color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
         decoration: InputDecoration(

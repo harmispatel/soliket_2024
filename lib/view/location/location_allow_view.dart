@@ -315,7 +315,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
                                       if (status.isGranted) {
                                         isHavePermission = true;
                                       }
-                                      push(LocationDonNotAllowView());
+                                      push(LocationDoNotAllowView());
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(

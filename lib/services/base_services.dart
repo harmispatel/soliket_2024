@@ -8,14 +8,24 @@ abstract class BaseServices {
   Future<LoginMaster?> login({
     required Map<String, dynamic> params,
   });
+
   Future<OtpMaster?> verifyOtp({
     required Map<String, dynamic> params,
   });
+
   Future<OtpMaster?> resendOtp({
     required Map<String, dynamic> params,
   });
+
   Future<ConfirmLocationMaster?> confirmLocation({
     required Map<String, dynamic> params,
   });
+
   Future<CommonMaster?> logOut();
+
+  Future<OtpMaster?> updateProfile({
+    required Map<String, dynamic> params,
+    required String picture,
+    String? fileKey,
+  });
 }

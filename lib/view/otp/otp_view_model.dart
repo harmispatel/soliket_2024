@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
+import '../../utils/global_variables.dart';
 import '../location/location_allow_view.dart';
 import '../location/location_donNot_allow_view.dart';
 
@@ -68,7 +70,11 @@ class OtpViewModel with ChangeNotifier {
     } else if (master.status!) {
       log("Success :: true");
       log("Access Token :: ${master.data?.token}");
+
       AppPreferences.instance.setAccessToken(master.data?.token ?? '');
+      AppPreferences.instance.setUserDetails(jsonEncode(master.data));
+      globalUserMaster = AppPreferences.instance.getUserDetails();
+
       CommonUtils.showSnackBar(
         master.message,
         color: CommonColors.greenColor,
@@ -113,7 +119,7 @@ class OtpViewModel with ChangeNotifier {
 
     if (status.isGranted) {
       print("Location permission already granted.");
-      push(LocationAllowView());
+      pushAndRemoveUntil(LocationAllowView());
     } else if (status.isPermanentlyDenied) {
       // Show a message and prompt the user to open settings
       // CommonUtils.showSnackBar(
@@ -121,7 +127,7 @@ class OtpViewModel with ChangeNotifier {
       //   color: CommonColors.mRed,
       // );
 
-      push(LocationDonNotAllowView());
+      pushAndRemoveUntil(LocationDoNotAllowView());
 
       // Optionally, open the app settings
       await openAppSettings();
@@ -131,13 +137,13 @@ class OtpViewModel with ChangeNotifier {
 
       if (result.isGranted) {
         print("Location permission granted.");
-        push(LocationAllowView());
+        pushAndRemoveUntil(LocationAllowView());
       } else {
         // CommonUtils.showSnackBar(
         //   "Location permission is required to proceed.",
         //   color: CommonColors.mRed,
         // );
-        push(LocationDonNotAllowView());
+        pushAndRemoveUntil(LocationDoNotAllowView());
       }
     }
   }

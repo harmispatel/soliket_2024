@@ -33,15 +33,14 @@ class PlacesService {
   }
 }
 
-class LocationDonNotAllowView extends StatefulWidget {
-  const LocationDonNotAllowView({super.key});
+class LocationDoNotAllowView extends StatefulWidget {
+  const LocationDoNotAllowView({super.key});
 
   @override
-  State<LocationDonNotAllowView> createState() =>
-      _LocationDonNotAllowViewState();
+  State<LocationDoNotAllowView> createState() => _LocationDoNotAllowViewState();
 }
 
-class _LocationDonNotAllowViewState extends State<LocationDonNotAllowView>
+class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
     with WidgetsBindingObserver {
   final TextEditingController searchController = TextEditingController();
   var status;

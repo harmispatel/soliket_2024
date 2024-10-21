@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/constant.dart';
@@ -18,15 +19,24 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: CommonColors.grayShade200,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: CommonColors.grayShade200),
+    );
     return SafeArea(
       child: Scaffold(
-        // appBar: CommonAppBar(
-        //   title: 'Home',
-        //   isTitleBold: false,
-        //   iconTheme: IconThemeData(color: CommonCo
-        //   lors.blackColor),
-        // ),
         body: Padding(
           padding: kCommonScreenPadding,
           child: Column(
@@ -112,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
                 lblSize: 16,
                 label: "Try Different Location",
                 onPress: () {
-                  push(LocationDonNotAllowView());
+                  push(LocationDoNotAllowView());
                 },
               ),
               Spacer(),

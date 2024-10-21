@@ -11,6 +11,7 @@ import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../database/app_preferences.dart';
 import '../generated/i18n.dart';
+import 'api_para.dart';
 
 class AppBaseClient {
   Future<dynamic> getApiCall({
@@ -217,11 +218,14 @@ class AppBaseClient {
 
   Future<dynamic> postFormDataApiCall({
     required String url,
+    List<File>? images,
+    String? fileKey,
     Map<String, dynamic>? postParams,
   }) async {
     String accessToken = AppPreferences.instance.getAccessToken();
     log('access token :: $accessToken');
     log('API URL :: $url');
+    log("PARAMETER :: ${jsonEncode(postParams)}");
     if (connectivity) {
       try {
         http.MultipartRequest request =
@@ -235,6 +239,19 @@ class AppBaseClient {
           postParams.forEach((key, value) {
             request.fields[key] = value;
           });
+        }
+
+        if (images != null && images.isNotEmpty) {
+          for (var element in images) {
+            request.files.add(
+              http.MultipartFile(
+                fileKey ?? ApiParams.profile,
+                File(element.path).readAsBytes().asStream(),
+                File(element.path).lengthSync(),
+                filename: File(element.path).path.split('/').last,
+              ),
+            );
+          }
         }
 
         http.StreamedResponse streamedResponse = await request.send();

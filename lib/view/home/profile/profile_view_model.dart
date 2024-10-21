@@ -34,7 +34,6 @@ class ProfileViewModel with ChangeNotifier {
       log("Success :: true");
       await AppPreferences.instance.clear();
       gUserId = '';
-      gUserLocation = '';
       pushAndRemoveUntil(const LoginView());
     }
     notifyListeners();
