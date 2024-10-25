@@ -2,6 +2,7 @@ import 'package:solikat_2024/models/otp_master.dart';
 
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
+import '../models/home_master.dart';
 import '../models/login_master.dart';
 
 abstract class BaseServices {
@@ -27,5 +28,9 @@ abstract class BaseServices {
     required Map<String, dynamic> params,
     required String picture,
     String? fileKey,
+  });
+
+  Future<HomeMaster?> getHomePageApi({
+    required Map<String, dynamic> params,
   });
 }

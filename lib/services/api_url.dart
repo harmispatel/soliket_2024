@@ -10,6 +10,7 @@ class ApiUrl {
   static const String LOGIN = "${BASE_URL}login";
   static const String LOGOUT = "${BASE_URL}logout";
   static const String CONFIRM_LOCATION = "${BASE_URL}confirm_location";
+  static const String GET_HOMEPAGE = "${BASE_URL}get_homepage";
   static const String UPDATE_PROFILE = "${BASE_URL}update_profile";
 }
 

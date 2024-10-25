@@ -10,7 +10,7 @@ import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/global_variables.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view.dart';
-import '../home/home_view.dart';
+import '../home/soliket_not_available_view.dart';
 
 class LocationViewModel with ChangeNotifier {
   late BuildContext context;
@@ -44,7 +44,7 @@ class LocationViewModel with ChangeNotifier {
       AppPreferences.instance.setUserLat(latitude);
       AppPreferences.instance.setUserLong(longitude);
       gUserLocation = await AppPreferences.instance.getUserLocation();
-      pushAndRemoveUntil(HomeView());
+      pushAndRemoveUntil(SoliketNotAvailableView());
     } else if (!master.status!) {
       CommonUtils.showSnackBar(
         master.message,
@@ -56,6 +56,10 @@ class LocationViewModel with ChangeNotifier {
       AppPreferences.instance.setUserLat(latitude);
       AppPreferences.instance.setUserLong(longitude);
       gUserLocation = await AppPreferences.instance.getUserLocation();
+      String userLat = await AppPreferences.instance.getUserLat();
+      String userLong = await AppPreferences.instance.getUserLong();
+      gUserLat = userLat;
+      gUserLong = userLong;
       pushAndRemoveUntil(BottomNavBarView());
     }
     notifyListeners();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/common_colors.dart';
 import '../../widget/common_appbar.dart';
-import 'home.dart';
+import 'home_view.dart';
 
 class ViewAllProductsView extends StatefulWidget {
   const ViewAllProductsView({super.key});

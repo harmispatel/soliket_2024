@@ -11,7 +11,7 @@ import '../../../services/index.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
-import '../../home/home_view.dart';
+import '../../home/soliket_not_available_view.dart';
 import '../../location/location_donNot_allow_view.dart';
 import '../../login/login_view.dart';
 import '../bottom_navbar/bottom_navbar_view.dart';
@@ -32,11 +32,13 @@ class SplashViewModel with ChangeNotifier {
       String userLat = await AppPreferences.instance.getUserLat();
       String userLong = await AppPreferences.instance.getUserLong();
       globalUserMaster = AppPreferences.instance.getUserDetails();
-      log("Stored User Details :: ${jsonEncode(AppPreferences.instance.getAccessToken())}");
+      gUserLat = userLat;
+      gUserLong = userLong;
+      log("Stored User Details :: ${jsonEncode(AppPreferences.instance.getUserDetails())}");
       log('access token :: $accessToken');
       log('user location :: $gUserLocation');
-      log('user lat :: $userLat');
-      log('user long :: $userLong');
+      log('user lat :: $gUserLat');
+      log('user long :: $gUserLong');
       log('user profile done :: ${globalUserMaster?.isProfileComplete}');
       if (accessToken.isEmpty) {
         pushAndRemoveUntil(LoginView());
@@ -67,7 +69,7 @@ class SplashViewModel with ChangeNotifier {
     } else if (!master.status! &&
         master.message ==
             "SOLIKET is not available at this location, We will be soon there.") {
-      pushAndRemoveUntil(HomeView());
+      pushAndRemoveUntil(SoliketNotAvailableView());
     } else if (!master.status!) {
       CommonUtils.showSnackBar(
         master.message,

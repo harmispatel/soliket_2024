@@ -9,5 +9,7 @@ String gUserId = "";
 String gUserLocation = "";
 String? deviceToken = "";
 String deviceType = "";
+String gUserLat = "";
+String gUserLong = "";
 UserData? globalUserMaster;
 // DUserDetails? globalDUserMaster;

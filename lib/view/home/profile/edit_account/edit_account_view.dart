@@ -79,7 +79,7 @@ class _EditAccountViewState extends State<EditAccountView> {
   }
 }
 
-class TextFormFieldCustom extends StatelessWidget {
+class TextFormFieldCustom extends StatefulWidget {
   final TextEditingController? controller;
   final GestureTapCallback? onTap;
   final String? hintText;
@@ -90,51 +90,92 @@ class TextFormFieldCustom extends StatelessWidget {
   final int? maxLines;
   final Widget? suffixIcon;
   final bool readOnly;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   const TextFormFieldCustom({
     super.key,
     this.controller,
     this.onTap,
     this.hintText,
+    this.labelText,
     this.textInputAction,
     this.textInputType,
     this.maxLength,
     this.maxLines,
-    this.labelText,
     this.suffixIcon,
     this.readOnly = false,
+    this.validator,
+    this.onChanged,
   });
 
   @override
+  _TextFormFieldCustomState createState() => _TextFormFieldCustomState();
+}
+
+class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
+  final FocusNode _focusNode = FocusNode();
+  Color _labelColor = Colors.black.withOpacity(0.5);
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _validateField() {
+    if (widget.validator != null) {
+      String? error = widget.validator!(widget.controller?.text);
+      if (error != null) {
+        _focusNode.requestFocus(); // Open the keyboard on error
+        setState(() {
+          _labelColor = Colors.red; // Change label color to red on error
+        });
+      } else {
+        setState(() {
+          _labelColor = Colors.black.withOpacity(0.5); // Reset label color
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
+    return Container(
+      height: 60,
       child: TextFormField(
-        onTap: onTap,
-        maxLines: maxLines,
-        maxLength: maxLength,
-        controller: controller,
-        textInputAction: textInputAction ?? TextInputAction.next,
-        keyboardType: textInputType ?? TextInputType.text,
+        focusNode: _focusNode,
+        onTap: widget.onTap,
+        validator: (value) {
+          _validateField();
+          return widget.validator?.call(value);
+        },
+        onChanged: widget.onChanged,
+        maxLines: widget.maxLines,
+        maxLength: widget.maxLength,
+        controller: widget.controller,
+        textInputAction: widget.textInputAction ?? TextInputAction.next,
+        keyboardType: widget.textInputType ?? TextInputType.text,
         cursorColor: Colors.black,
-        readOnly: readOnly,
-        style: const TextStyle(
+        readOnly: widget.readOnly,
+        style: getAppStyle(
             color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
         decoration: InputDecoration(
           counterText: "",
-          hintText: hintText ?? "",
+          hintText: widget.hintText ?? "",
           filled: true,
-          labelText: labelText ?? "",
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          labelStyle: TextStyle(
+          labelText: widget.labelText ?? "",
+          labelStyle: getAppStyle(
             color: Colors.black.withOpacity(0.5),
             fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
-          floatingLabelStyle: TextStyle(
-            color: Colors.grey,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          floatingLabelStyle: getAppStyle(
+            color: _labelColor,
             fontWeight: FontWeight.w500,
           ),
           focusedBorder: OutlineInputBorder(
@@ -148,12 +189,27 @@ class TextFormFieldCustom extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
             ),
           ),
-          hintStyle: TextStyle(
+          errorStyle: getAppStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.w500,
+            height: 1,
+            fontSize: 12,
+          ),
+          errorMaxLines: 1,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide(color: Colors.red, width: 1),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide(color: Colors.red, width: 1),
+          ),
+          hintStyle: getAppStyle(
             color: Colors.black.withOpacity(0.5),
             fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
-          suffixIcon: suffixIcon,
+          suffixIcon: widget.suffixIcon,
           fillColor: Colors.transparent,
         ),
       ),

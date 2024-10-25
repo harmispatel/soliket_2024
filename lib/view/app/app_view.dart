@@ -16,6 +16,7 @@ import '../../utils/global_variables.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
+import '../home/home_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../location/location_view_model.dart';
@@ -227,6 +228,8 @@ class AppState extends State<App> {
                   create: (_) => EditAccountViewModel()),
               ChangeNotifierProvider<BottomNavbarViewModel>(
                   create: (_) => BottomNavbarViewModel()),
+              ChangeNotifierProvider<HomeViewModel>(
+                  create: (_) => HomeViewModel()),
             ],
             child: Builder(
               builder: (context) {

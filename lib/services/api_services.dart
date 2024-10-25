@@ -6,6 +6,7 @@ import 'package:solikat_2024/services/api_url.dart';
 
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
+import '../models/home_master.dart';
 import '../models/login_master.dart';
 import 'base_client.dart';
 import 'base_services.dart';
@@ -125,6 +126,26 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return OtpMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<HomeMaster?> getHomePageApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_HOMEPAGE,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return HomeMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

@@ -4,7 +4,7 @@ import 'package:solikat_2024/view/home/profile/profile_view.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../cart/cart_view.dart';
-import '../../home/home.dart';
+import '../../home/home_view.dart';
 import '../../home/profile/my_orders/my_orders_view.dart';
 import 'bottom_navbar_view_model.dart';
 
@@ -18,7 +18,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   late BottomNavbarViewModel mViewModel;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    Home(),
+    HomeView(),
     ProfileView(),
     MyOrdersView(),
     MyCartView(),
