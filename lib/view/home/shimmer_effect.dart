@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
-class ShimmerDemoView extends StatefulWidget {
-  const ShimmerDemoView({super.key});
+class ShimmerEffect extends StatefulWidget {
+  const ShimmerEffect({super.key});
 
   @override
-  State<ShimmerDemoView> createState() => _ShimmerDemoViewState();
+  State<ShimmerEffect> createState() => _ShimmerEffectState();
 }
 
-class _ShimmerDemoViewState extends State<ShimmerDemoView> {
+class _ShimmerEffectState extends State<ShimmerEffect> {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(

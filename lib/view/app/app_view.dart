@@ -17,8 +17,11 @@ import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
 import '../home/home_view_model.dart';
+import '../home/profile/add_address/add_address_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/profile_view_model.dart';
+import '../home/profile/save_address/saved_address_view_model.dart';
+import '../home/sub_category/sub_category_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
 import '../otp/otp_view_model.dart';
@@ -230,12 +233,19 @@ class AppState extends State<App> {
                   create: (_) => BottomNavbarViewModel()),
               ChangeNotifierProvider<HomeViewModel>(
                   create: (_) => HomeViewModel()),
+              ChangeNotifierProvider<SubCategoryViewModel>(
+                  create: (_) => SubCategoryViewModel()),
+              ChangeNotifierProvider<SavedAddressViewModel>(
+                  create: (_) => SavedAddressViewModel()),
+              ChangeNotifierProvider<AddAddressViewModel>(
+                  create: (_) => AddAddressViewModel()),
             ],
             child: Builder(
               builder: (context) {
                 return MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: TextScaler.noScaling),
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: TextScaler.noScaling,
+                  ),
                   child: MaterialApp(
                     debugShowCheckedModeBanner: false,
                     color: CommonColors.primaryColor,

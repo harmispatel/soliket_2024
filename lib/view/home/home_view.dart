@@ -6,15 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
-import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.dart';
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
-import 'package:solikat_2024/view/home/shimmer%20demo.dart';
+import 'package:solikat_2024/view/home/shimmer_effect.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
 
+import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
@@ -143,8 +143,8 @@ class _HomeViewState extends State<HomeView> {
         !mViewModel.isPageFinish) {
       // Trigger pagination
       mViewModel.getHomePageApi(
-        latitude: '0.0', // Pass your actual latitude
-        longitude: '0.0', // Pass your actual longitude
+        latitude: gUserLat,
+        longitude: gUserLong,
       );
     }
   }
@@ -172,12 +172,12 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    mViewModel.resetPage();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // _scrollController.dispose();
+  //   // mViewModel.resetPage();
+  //   super.dispose();
+  // }
 
   Future<void> profileDialog(BuildContext context) {
     return showGeneralDialog(
@@ -408,7 +408,7 @@ class _HomeViewState extends State<HomeView> {
                           ],
                         ),
                       ),
-                      kCommonSpaceV15,
+                      kCommonSpaceV10,
                       const Padding(
                         padding: EdgeInsets.only(left: 15, right: 15),
                         child: CommonTextField(
@@ -418,448 +418,11 @@ class _HomeViewState extends State<HomeView> {
                           isIconButton: true,
                         ),
                       ),
-                      kCommonSpaceV15,
-                      if (mViewModel.isInitialLoading) ShimmerDemoView(),
+                      kCommonSpaceV10,
+                      if (mViewModel.isInitialLoading) ShimmerEffect(),
                       if (!mViewModel.isInitialLoading) ...[
-                        if (mViewModel.section10Text.isNotEmpty) ...[
-                          Section10(title: mViewModel.section10Text),
-                        ],
-                        kCommonSpaceV15,
-                        if (mViewModel.section2DataList.isNotEmpty) ...[
-                          if (mViewModel.section2Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section2Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section2(section2: mViewModel.section2DataList),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section3DataList.isNotEmpty) ...[
-                          if (mViewModel.section3Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section3Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section3(
-                            section3: mViewModel.section3DataList,
-                          ),
-                        ],
-                        kCommonSpaceV15,
-                        if (mViewModel.section1DataList.isNotEmpty) ...[
-                          if (mViewModel.section1Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section1Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section1(
-                            section1: mViewModel.section1DataList,
-                          ),
-                        ],
-
-                        kCommonSpaceV15,
-                        if (mViewModel.section4DataList.isNotEmpty) ...[
-                          if (mViewModel.section4Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    mViewModel.section4Title,
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        height: 1.2),
-                                  ),
-                                  Text(
-                                    "View All >",
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        height: 1.2,
-                                        color: Colors.indigo),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section4(section4: mViewModel.section4DataList),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section5DataList.isNotEmpty) ...[
-                          if (mViewModel.section5Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section5Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section5(
-                            section5: mViewModel.section5DataList,
-                          ),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section6DataList.isNotEmpty) ...[
-                          if (mViewModel.section6Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section6Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section6(
-                            section6: mViewModel.section6DataList,
-                          ),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section7DataList.isNotEmpty) ...[
-                          if (mViewModel.section7Title.isNotEmpty) ...[
-                            Image.asset(LocalImages.img_brand_spotlight),
-                            kCommonSpaceV20,
-                          ],
-                          Section7(section7: mViewModel.section7DataList),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section8DataList.isNotEmpty) ...[
-                          if (mViewModel.section8Title.isNotEmpty) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Text(
-                                mViewModel.section8Title,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 1.2),
-                              ),
-                            ),
-                            kCommonSpaceV15,
-                          ],
-                          Section8(section8: mViewModel.section8DataList),
-                        ],
-                        kCommonSpaceV15,
-
-                        if (mViewModel.section9DataList.isNotEmpty) ...[
-                          Section9(section9: mViewModel.section9DataList),
-                          Container(
-                            color: Color(0xff346627),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10, bottom: 10, right: 10, left: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "View All Products",
-                                    style: getAppStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: Text(
-                        //     "Grocery",
-                        //     style: getAppStyle(
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 18,
-                        //         height: 1.2),
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: GridView.builder(
-                        //     gridDelegate:
-                        //         const SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 4, // Number of items per row
-                        //       crossAxisSpacing:
-                        //           12.0, // Horizontal spacing between items
-                        //       mainAxisSpacing:
-                        //           10.0, // Vertical spacing between items
-                        //       childAspectRatio:
-                        //           0.7, // Aspect ratio for each item (adjust as needed)
-                        //     ),
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     itemCount: images.length,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return GestureDetector(
-                        //         onTap: () {},
-                        //         child: Column(
-                        //           children: [
-                        //             Flexible(
-                        //               flex: 6,
-                        //               child: Container(
-                        //                 decoration: BoxDecoration(
-                        //                   color: Colors.blueAccent.shade100
-                        //                       .withOpacity(0.1),
-                        //                   borderRadius: BorderRadius.circular(8),
-                        //                 ),
-                        //                 child: Padding(
-                        //                   padding: const EdgeInsets.all(8.0),
-                        //                   child: Container(
-                        //                     decoration: const BoxDecoration(
-                        //                       image: DecorationImage(
-                        //                         image: NetworkImage(
-                        //                             "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
-                        //                         fit: BoxFit.contain,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             const SizedBox(height: 5),
-                        //             // Text that wraps and adjusts based on content
-                        //             Flexible(
-                        //               flex: 2,
-                        //               child: Text(
-                        //                 text[index],
-                        //                 maxLines: 2,
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 style: getAppStyle(
-                        //                     fontWeight: FontWeight.w500,
-                        //                     height: 1),
-                        //                 textAlign: TextAlign.center,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: Text(
-                        //     "Dairy & Breakfast",
-                        //     style: getAppStyle(
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 18,
-                        //         height: 1.2),
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: GridView.builder(
-                        //     gridDelegate:
-                        //         const SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 4, // Number of items per row
-                        //       crossAxisSpacing:
-                        //           12.0, // Horizontal spacing between items
-                        //       mainAxisSpacing:
-                        //           10.0, // Vertical spacing between items
-                        //       childAspectRatio:
-                        //           0.7, // Aspect ratio for each item (adjust as needed)
-                        //     ),
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     itemCount: 4,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return GestureDetector(
-                        //         onTap: () {
-                        //           push(SubCategoryView());
-                        //         },
-                        //         child: Column(
-                        //           children: [
-                        //             Flexible(
-                        //               flex: 6,
-                        //               child: Container(
-                        //                 decoration: BoxDecoration(
-                        //                   color: Colors.blueAccent.shade100
-                        //                       .withOpacity(0.1),
-                        //                   borderRadius: BorderRadius.circular(8),
-                        //                 ),
-                        //                 child: Padding(
-                        //                   padding: const EdgeInsets.all(8.0),
-                        //                   child: Container(
-                        //                     decoration: const BoxDecoration(
-                        //                       image: DecorationImage(
-                        //                         image: NetworkImage(
-                        //                             "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
-                        //                         fit: BoxFit.contain,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             const SizedBox(height: 5),
-                        //             // // Text that wraps and adjusts based on content
-                        //             Flexible(
-                        //               flex: 2,
-                        //               child: Text(
-                        //                 text[index],
-                        //                 maxLines: 2,
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 style: getAppStyle(
-                        //                     fontWeight: FontWeight.w500,
-                        //                     height: 1),
-                        //                 textAlign: TextAlign.center,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: Text(
-                        //     "Beauty & Personal Care",
-                        //     style: getAppStyle(
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 18,
-                        //         height: 1.2),
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: GridView.builder(
-                        //     gridDelegate:
-                        //         const SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 4,
-                        //       crossAxisSpacing: 12.0,
-                        //       mainAxisSpacing: 10.0,
-                        //       childAspectRatio: 0.7,
-                        //     ),
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     itemCount: 8,
-                        //     itemBuilder: (BuildContext context, int index) {
-                        //       return GestureDetector(
-                        //         onTap: () {
-                        //           push(ViewAllProductsView());
-                        //         },
-                        //         child: Column(
-                        //           children: [
-                        //             Flexible(
-                        //               flex: 6,
-                        //               child: Container(
-                        //                 decoration: BoxDecoration(
-                        //                   color: Colors.yellow.shade100
-                        //                       .withOpacity(0.4),
-                        //                   borderRadius: BorderRadius.circular(8),
-                        //                 ),
-                        //                 child: Padding(
-                        //                   padding: const EdgeInsets.all(8.0),
-                        //                   child: Container(
-                        //                     decoration: const BoxDecoration(
-                        //                       image: DecorationImage(
-                        //                         // image: NetworkImage(images[index]),
-                        //                         image: NetworkImage(
-                        //                             "https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg"),
-                        //                         fit: BoxFit.contain,
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             const SizedBox(height: 5),
-                        //             // Space between image and text
-                        //
-                        //             // Text that wraps and adjusts based on content
-                        //             Flexible(
-                        //               flex: 2,
-                        //               child: Text(
-                        //                 text[index],
-                        //                 maxLines: 2,
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 style: getAppStyle(
-                        //                     fontWeight: FontWeight.w500,
-                        //                     height: 1),
-                        //                 textAlign: TextAlign.center,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                        // kCommonSpaceV15,
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 15, right: 15),
-                        //   child: Container(
-                        //     height: 120,
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(15),
-                        //       image: DecorationImage(
-                        //           image:
-                        //               AssetImage(LocalImages.img_masala_banner),
-                        //           fit: BoxFit.fill),
-                        //     ),
-                        //   ),
-                        // ),
-                        kCommonSpaceV20,
+                        for (var section in mViewModel.homePageData)
+                          buildSection(section),
                       ]
                     ],
                   ),
@@ -921,10 +484,11 @@ class _HomeViewState extends State<HomeView> {
                                     "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) => const Center(
-                                    child: SizedBox(
-                                        height: 10,
-                                        width: 10,
-                                        child: CircularProgressIndicator())),
+                                  child: SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: CircularProgressIndicator()),
+                                ),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error_outline,
                                         color: Colors.red),
@@ -1988,6 +1552,73 @@ class _HomeViewState extends State<HomeView> {
             : null,
       ),
     );
+  }
+
+  Widget buildSection(Section sectionData) {
+    switch (sectionData.type) {
+      case 'section_10':
+        return Section10(title: mViewModel.section10Text);
+
+      case 'section_1':
+        return Section1(
+          section1: sectionData.data,
+        );
+
+      case 'section_2':
+        return Section2(
+          section2: sectionData.data,
+          section2Title: sectionData.sectionTitle,
+        );
+
+      case 'section_3':
+        return Section3(
+          section3: sectionData.data,
+          section3Title: sectionData.sectionTitle,
+        );
+
+      case 'section_4':
+        return Section4(
+          section4: sectionData.data,
+          section4Title: sectionData.sectionTitle,
+        );
+
+      case 'section_5':
+        return Section5(
+          section5: sectionData.data,
+        );
+
+      case 'section_6':
+        if (sectionData.data is Section6Data) {
+          var section6Data = sectionData.data;
+          return Section6(
+            section6: [section6Data],
+          );
+        }
+        break;
+
+      case 'section_7':
+        return Section7(
+          section7: sectionData.data,
+          section7Title: sectionData.sectionTitle,
+        );
+
+      case 'section_8':
+        return Section8(
+          section8: sectionData.data,
+          section8Title: sectionData.sectionTitle,
+        );
+
+      case 'section_9':
+        if (sectionData.data is Section9Data) {
+          var section9Data = sectionData.data;
+          return Section9(
+            section9: [section9Data],
+          );
+        }
+        break;
+    }
+
+    return Container();
   }
 }
 

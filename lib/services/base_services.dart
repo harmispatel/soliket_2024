@@ -1,9 +1,12 @@
 import 'package:solikat_2024/models/otp_master.dart';
 
+import '../models/address_master.dart';
+import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
+import '../models/product_master.dart';
 
 abstract class BaseServices {
   Future<LoginMaster?> login({
@@ -31,6 +34,22 @@ abstract class BaseServices {
   });
 
   Future<HomeMaster?> getHomePageApi({
+    required Map<String, dynamic> params,
+  });
+
+  Future<GetCategoryProductMaster?> getCategoryProductApi({
+    required Map<String, dynamic> params,
+  });
+
+  Future<ProfileMaster?> getProfileApi();
+
+  Future<AddressMaster?> getAddressApi();
+
+  Future<CommonMaster?> deleteAddressApi({
+    required Map<String, dynamic> params,
+  });
+
+  Future<CommonMaster?> addAddressApi({
     required Map<String, dynamic> params,
   });
 }

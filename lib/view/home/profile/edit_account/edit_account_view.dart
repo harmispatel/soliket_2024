@@ -1,12 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../../../utils/common_colors.dart';
+import '../../../../utils/common_utils.dart';
 import '../../../../widget/primary_button.dart';
+import 'edit_account_view_model.dart';
 
 class EditAccountView extends StatefulWidget {
-  const EditAccountView({super.key});
+  final String? phone;
+  final String? name;
+  final String? email;
+  final String? birthDate;
+  final String? profileImage;
+  EditAccountView(
+      {super.key,
+      this.phone,
+      this.name,
+      this.email,
+      this.birthDate,
+      this.profileImage});
 
   @override
   State<EditAccountView> createState() => _EditAccountViewState();
@@ -16,8 +33,47 @@ class _EditAccountViewState extends State<EditAccountView> {
   TextEditingController edPhoneNumberController = TextEditingController();
   TextEditingController edYourNameController = TextEditingController();
   TextEditingController edEmailController = TextEditingController();
+  TextEditingController edBirthDateController = TextEditingController();
+  late EditAccountViewModel mViewModel;
+  DateTime? selectedDate;
+  File? selectedImage;
+  String imagePath = "";
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+      edPhoneNumberController.text = widget.phone ?? '';
+      edYourNameController.text = widget.name ?? '';
+      edEmailController.text = widget.email ?? '';
+      edBirthDateController.text = widget.birthDate ?? '';
+    });
+  }
+
+  Future<void> selectBirthDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? now,
+      firstDate: DateTime(1950),
+      lastDate: now,
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        edBirthDateController.text = DateFormat('dd-MM-yyyy').format(picked);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<EditAccountViewModel>(context);
+
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -32,46 +88,103 @@ class _EditAccountViewState extends State<EditAccountView> {
         ),
         body: Padding(
           padding: kCommonScreenPadding,
-          child: Column(
-            children: [
-              kCommonSpaceV20,
-              TextFormFieldCustom(
-                maxLength: 10,
-                controller: edPhoneNumberController,
-                textInputType: TextInputType.number,
-                hintText: "Phone Number",
-                labelText: "Phone Number",
-              ),
-              kCommonSpaceV20,
-              TextFormFieldCustom(
-                controller: edYourNameController,
-                textInputType: TextInputType.name,
-                hintText: "Your Name",
-                labelText: "Your Name",
-              ),
-              kCommonSpaceV20,
-              TextFormFieldCustom(
-                controller: edEmailController,
-                textInputType: TextInputType.emailAddress,
-                hintText: "Email",
-                labelText: "Email",
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: PrimaryButton(
-                      height: 50,
-                      label: "Save Changes",
-                      lblSize: 18,
-                      borderRadius: BorderRadius.circular(16),
-                      onPress: () {},
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                kCommonSpaceV20,
+                GestureDetector(
+                  onTap: () async {
+                    final image = await pickSinglePhoto();
+                    if (image != null) {
+                      setState(() {
+                        selectedImage = image;
+                        imagePath = image.path;
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: 110,
+                    height: 110,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: CommonColors.primaryColor.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: (() {
+                      if (selectedImage != null) {
+                        return Image.file(
+                          selectedImage!,
+                          fit: BoxFit.contain,
+                        );
+                      } else {
+                        return Image.network(
+                          widget.profileImage ?? '',
+                          fit: BoxFit.contain,
+                        );
+                      }
+                    })(),
+                  ),
+                ),
+                kCommonSpaceV20,
+                TextFormFieldCustom(
+                  maxLength: 10,
+                  controller: edPhoneNumberController,
+                  textInputType: TextInputType.number,
+                  readOnly: true,
+                  hintText: "Phone Number",
+                  labelText: "Phone Number",
+                ),
+                kCommonSpaceV20,
+                TextFormFieldCustom(
+                  controller: edYourNameController,
+                  textInputType: TextInputType.name,
+                  hintText: "Your Name",
+                  labelText: "Your Name",
+                ),
+                kCommonSpaceV20,
+                TextFormFieldCustom(
+                  controller: edEmailController,
+                  textInputType: TextInputType.emailAddress,
+                  hintText: "Email",
+                  labelText: "Email",
+                ),
+                kCommonSpaceV20,
+                TextFormFieldCustom(
+                  onTap: () {
+                    selectBirthDate(context);
+                  },
+                  textInputType: TextInputType.emailAddress,
+                  controller: edBirthDateController,
+                  hintText: "Birth Date",
+                  labelText: "Birth Date",
+                  readOnly: true,
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: PrimaryButton(
+                        height: 50,
+                        label: "Save Changes",
+                        lblSize: 18,
+                        borderRadius: BorderRadius.circular(16),
+                        onPress: () {
+                          if (_formKey.currentState!.validate()) {
+                            mViewModel.updateProfileApi(
+                                name: edYourNameController.text,
+                                email: edEmailController.text,
+                                birthday: edBirthDateController.text,
+                                profile: imagePath);
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -114,20 +227,20 @@ class TextFormFieldCustom extends StatefulWidget {
 }
 
 class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
-  final FocusNode _focusNode = FocusNode();
+  // final FocusNode _focusNode = FocusNode();
   Color _labelColor = Colors.black.withOpacity(0.5);
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _focusNode.dispose();
+  //   super.dispose();
+  // }
 
   void _validateField() {
     if (widget.validator != null) {
       String? error = widget.validator!(widget.controller?.text);
       if (error != null) {
-        _focusNode.requestFocus(); // Open the keyboard on error
+        // _focusNode.requestFocus(); // Open the keyboard on error
         setState(() {
           _labelColor = Colors.red; // Change label color to red on error
         });
@@ -144,7 +257,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
     return Container(
       height: 60,
       child: TextFormField(
-        focusNode: _focusNode,
+        // focusNode: _focusNode,
         onTap: widget.onTap,
         validator: (value) {
           _validateField();

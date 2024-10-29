@@ -12,4 +12,10 @@ class ApiParams {
   static const String birthday = "birthday";
   static const String profile = "profile";
   static const String page = "page";
+  static const String category_id = "category_id";
+  static const String address_id = "address_id";
+  static const String landmark = "landmark";
+  static const String address = "address";
+  static const String house_no = "house_no";
+  static const String type = "type";
 }

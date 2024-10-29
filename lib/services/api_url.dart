@@ -11,7 +11,13 @@ class ApiUrl {
   static const String LOGOUT = "${BASE_URL}logout";
   static const String CONFIRM_LOCATION = "${BASE_URL}confirm_location";
   static const String GET_HOMEPAGE = "${BASE_URL}get_homepage";
+  static const String GET_PRODUCT_BY_CATEGORY =
+      "${BASE_URL}get_product_by_category";
   static const String UPDATE_PROFILE = "${BASE_URL}update_profile";
+  static const String GET_PROFILE = "${BASE_URL}get_profile";
+  static const String GET_ADDRESS = "${BASE_URL}get_address";
+  static const String ADD_ADDRESS = "${BASE_URL}add_address";
+  static const String DELETE_ADDRESS = "${BASE_URL}delete_address";
 }
 
 class DomainApiUrl {

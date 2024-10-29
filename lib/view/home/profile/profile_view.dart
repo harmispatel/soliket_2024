@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/home/profile/profile_view_model.dart';
-import 'package:solikat_2024/view/home/profile/save_address/save_address_view.dart';
+import 'package:solikat_2024/view/home/profile/save_address/saved_address_view.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../../utils/common_utils.dart';
@@ -26,6 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      mViewModel.getProfileApi();
     });
   }
 
@@ -46,50 +48,98 @@ class _ProfileViewState extends State<ProfileView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                ClipOval(
-                  child: Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                kCommonSpaceH15,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "User Name",
-                      style: getAppStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            !mViewModel.isInitialLoading
+                ? Row(
+                    children: [
+                      ClipOval(
+                        child: Image.network(
+                          // mViewModel.profileData?.profile ?? '',
+                          'https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg',
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      kCommonSpaceH15,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            mViewModel.profileData?.name ?? '',
+                            style: getAppStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          kCommonSpaceV3,
+                          Text(
+                            "+91 ${mViewModel.profileData?.mobile}",
+                            style: getAppStyle(
+                                fontSize: 14,
+                                color: Colors.grey.withOpacity(0.5),
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          push(
+                            EditAccountView(
+                              name: mViewModel.profileData?.name,
+                              email: mViewModel.profileData?.email,
+                              phone: mViewModel.profileData?.mobile,
+                              birthDate: mViewModel.profileData?.birthday,
+                              profileImage:
+                                  "https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg",
+                              // profileImage: mViewModel.profileData?.profile,
+                            ),
+                          ).then((_) {
+                            mViewModel.getProfileApi();
+                          });
+                        },
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          color: Colors.grey,
+                          size: 21,
+                        ),
+                      ),
+                    ],
+                  )
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    enabled: true,
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              kCommonSpaceH15,
+                              Expanded(
+                                child: Container(
+                                  height: 50.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    kCommonSpaceV3,
-                    Text(
-                      "+91 1234567890",
-                      style: getAppStyle(
-                          fontSize: 14,
-                          color: Colors.grey.withOpacity(0.5),
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    push(EditAccountView());
-                  },
-                  child: const Icon(
-                    Icons.edit_outlined,
-                    color: Colors.grey,
-                    size: 21,
                   ),
-                ),
-              ],
-            ),
             kCommonSpaceV30,
             Text(
               "More Details",
