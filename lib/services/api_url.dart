@@ -18,6 +18,7 @@ class ApiUrl {
   static const String GET_ADDRESS = "${BASE_URL}get_address";
   static const String ADD_ADDRESS = "${BASE_URL}add_address";
   static const String DELETE_ADDRESS = "${BASE_URL}delete_address";
+  static const String UPDATE_ADDRESS = "${BASE_URL}update_address";
 }
 
 class DomainApiUrl {

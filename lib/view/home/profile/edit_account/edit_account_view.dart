@@ -193,6 +193,8 @@ class _EditAccountViewState extends State<EditAccountView> {
 }
 
 class TextFormFieldCustom extends StatefulWidget {
+  final double? height;
+  final double? verticalPadding;
   final TextEditingController? controller;
   final GestureTapCallback? onTap;
   final String? hintText;
@@ -220,6 +222,8 @@ class TextFormFieldCustom extends StatefulWidget {
     this.readOnly = false,
     this.validator,
     this.onChanged,
+    this.height,
+    this.verticalPadding,
   });
 
   @override
@@ -240,13 +244,13 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
     if (widget.validator != null) {
       String? error = widget.validator!(widget.controller?.text);
       if (error != null) {
-        // _focusNode.requestFocus(); // Open the keyboard on error
+        // _focusNode.requestFocus();
         setState(() {
-          _labelColor = Colors.red; // Change label color to red on error
+          _labelColor = Colors.red;
         });
       } else {
         setState(() {
-          _labelColor = Colors.black.withOpacity(0.5); // Reset label color
+          _labelColor = Colors.black.withOpacity(0.5);
         });
       }
     }
@@ -254,8 +258,8 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
+    return SizedBox(
+      // height: widget.height ?? 60,
       child: TextFormField(
         // focusNode: _focusNode,
         onTap: widget.onTap,
@@ -283,9 +287,9 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
             fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
-          contentPadding: const EdgeInsets.symmetric(
+          contentPadding: EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: 12,
+            vertical: widget.verticalPadding ?? 12,
           ),
           floatingLabelStyle: getAppStyle(
             color: _labelColor,

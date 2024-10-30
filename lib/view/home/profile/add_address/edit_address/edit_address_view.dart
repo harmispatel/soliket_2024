@@ -1,39 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:solikat_2024/utils/constant.dart';
-import 'package:solikat_2024/view/home/profile/add_address/select_address/select_address_map_view.dart';
 
-import '../../../../utils/common_colors.dart';
-import '../../../../utils/common_utils.dart';
-import '../../../../utils/global_variables.dart';
-import '../../../../widget/common_appbar.dart';
-import '../../../../widget/primary_button.dart';
-import '../edit_account/edit_account_view.dart';
-import 'add_address_view_model.dart';
+import '../../../../../utils/common_colors.dart';
+import '../../../../../utils/common_utils.dart';
+import '../../../../../utils/constant.dart';
+import '../../../../../utils/global_variables.dart';
+import '../../../../../widget/common_appbar.dart';
+import '../../../../../widget/primary_button.dart';
+import '../../edit_account/edit_account_view.dart';
+import '../select_address/select_address_map_view.dart';
+import 'edit_address_view_model.dart';
 
-class AddAddressView extends StatefulWidget {
+class EditAddressView extends StatefulWidget {
   final double latitude;
   final double longitude;
   final String currentAddress;
-
-  const AddAddressView(
+  final String addressType;
+  final String houseNo;
+  final String roadName;
+  const EditAddressView(
       {super.key,
       required this.latitude,
       required this.longitude,
-      required this.currentAddress});
+      required this.currentAddress,
+      required this.addressType,
+      required this.houseNo,
+      required this.roadName});
 
   @override
-  State<AddAddressView> createState() => _AddAddressViewState();
+  State<EditAddressView> createState() => _EditAddressViewState();
 }
 
-class _AddAddressViewState extends State<AddAddressView> {
+class _EditAddressViewState extends State<EditAddressView> {
   TextEditingController edHouseNoController = TextEditingController();
   TextEditingController edRoadNameController = TextEditingController();
   TextEditingController edNameController = TextEditingController();
   TextEditingController edPhoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   int selectedIndex = 0;
   String selectedAddressType = 'Home';
 
@@ -45,7 +49,7 @@ class _AddAddressViewState extends State<AddAddressView> {
     Icons.location_on
   ];
 
-  late AddAddressViewModel mViewModel;
+  late EditAddressViewModel mViewModel;
 
   @override
   void initState() {
@@ -54,12 +58,25 @@ class _AddAddressViewState extends State<AddAddressView> {
       mViewModel.attachedContext(context);
       edNameController.text = globalUserMaster?.name ?? '';
       edPhoneNumberController.text = globalUserMaster?.mobile ?? '';
+      edHouseNoController.text = widget.houseNo ?? '';
+      edRoadNameController.text = widget.roadName ?? '';
+
+      if (widget.addressType == 'Home') {
+        selectedIndex = 0;
+        selectedAddressType = 'Home';
+      } else if (widget.addressType == 'Work') {
+        selectedIndex = 1;
+        selectedAddressType = 'Work';
+      } else if (widget.addressType == 'Other') {
+        selectedIndex = 2;
+        selectedAddressType = 'Other';
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    mViewModel = Provider.of<AddAddressViewModel>(context);
+    mViewModel = Provider.of<EditAddressViewModel>(context);
 
     return GestureDetector(
       onTap: () {
@@ -68,7 +85,7 @@ class _AddAddressViewState extends State<AddAddressView> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonAppBar(
-          title: "Add Address",
+          title: "Edit Address",
           isShowShadow: true,
           isTitleBold: true,
           iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -79,7 +96,7 @@ class _AddAddressViewState extends State<AddAddressView> {
               // Address change container
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                height: 60,
+                height: 55,
                 width: double.infinity,
                 color: Color(0xffe1ecfe),
                 child: Row(
@@ -95,8 +112,10 @@ class _AddAddressViewState extends State<AddAddressView> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xff195dc0)),
                       ),
-                      child: Icon(Icons.location_on_rounded,
-                          color: Color(0xff195dc0)),
+                      child: Icon(
+                        Icons.location_on_rounded,
+                        color: Color(0xff195dc0),
+                      ),
                     ),
                     Flexible(
                       child: Text(
@@ -311,14 +330,12 @@ class _AddAddressViewState extends State<AddAddressView> {
           padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
           child: PrimaryButton(
             height: 40,
-            label: "Save and Continue",
+            label: "Update and Continue",
             lblSize: 16,
-            // buttonColor: Color(0xff195dc0),
-            buttonColor: CommonColors.primaryColor,
             borderRadius: BorderRadius.circular(6),
             onPress: () {
               if (_formKey.currentState!.validate()) {
-                mViewModel.addAddressApi(
+                mViewModel.updateAddressApi(
                     latitude: widget.latitude.toString(),
                     longitude: widget.longitude.toString(),
                     name: edNameController.text,

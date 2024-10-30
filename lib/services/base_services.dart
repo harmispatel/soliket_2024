@@ -52,4 +52,8 @@ abstract class BaseServices {
   Future<CommonMaster?> addAddressApi({
     required Map<String, dynamic> params,
   });
+
+  Future<CommonMaster?> updateAddressApi({
+    required Map<String, dynamic> params,
+  });
 }

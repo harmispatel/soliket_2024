@@ -14,8 +14,8 @@ class ApiParams {
   static const String page = "page";
   static const String category_id = "category_id";
   static const String address_id = "address_id";
-  static const String landmark = "landmark";
+  static const String area = "area";
   static const String address = "address";
-  static const String house_no = "house_no";
+  static const String house_name = "house_name";
   static const String type = "type";
 }

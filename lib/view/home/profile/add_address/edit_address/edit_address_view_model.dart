@@ -2,15 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 
-import '../../../../models/common_master.dart';
-import '../../../../services/api_para.dart';
-import '../../../../services/index.dart';
-import '../../../../utils/common_colors.dart';
-import '../../../../utils/common_utils.dart';
-import '../save_address/saved_address_view.dart';
-import '../save_address/saved_address_view_model.dart';
+import '../../../../../models/common_master.dart';
+import '../../../../../services/api_para.dart';
+import '../../../../../services/index.dart';
+import '../../../../../utils/common_colors.dart';
+import '../../../../../utils/common_utils.dart';
+import '../../save_address/saved_address_view.dart';
+import '../../save_address/saved_address_view_model.dart';
 
-class AddAddressViewModel with ChangeNotifier {
+class EditAddressViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
 
@@ -19,7 +19,7 @@ class AddAddressViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addAddressApi({
+  Future<void> updateAddressApi({
     required String latitude,
     required String longitude,
     required String name,
@@ -43,7 +43,8 @@ class AddAddressViewModel with ChangeNotifier {
 
     log("Parameter : ${params}");
 
-    CommonMaster? master = await _services.api!.addAddressApi(params: params);
+    CommonMaster? master =
+        await _services.api!.updateAddressApi(params: params);
     CommonUtils.hideProgressDialog();
 
     if (master == null) {

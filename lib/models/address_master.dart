@@ -62,13 +62,21 @@ class AddressData {
   String? _address;
   String? _name;
   String? _mobile;
+  String? _latitude;
+  String? _longitude;
+  String? _area;
+  String? _houseName;
 
   AddressData(
       {int? addressId,
       String? type,
       String? address,
       String? name,
-      String? mobile}) {
+      String? mobile,
+      String? latitude,
+      String? longitude,
+      String? area,
+      String? houseName}) {
     if (addressId != null) {
       this._addressId = addressId;
     }
@@ -84,6 +92,18 @@ class AddressData {
     if (mobile != null) {
       this._mobile = mobile;
     }
+    if (latitude != null) {
+      this._latitude = latitude;
+    }
+    if (longitude != null) {
+      this._longitude = longitude;
+    }
+    if (area != null) {
+      this._area = area;
+    }
+    if (houseName != null) {
+      this._houseName = houseName;
+    }
   }
 
   int? get addressId => _addressId;
@@ -96,6 +116,14 @@ class AddressData {
   set name(String? name) => _name = name;
   String? get mobile => _mobile;
   set mobile(String? mobile) => _mobile = mobile;
+  String? get latitude => _latitude;
+  set latitude(String? latitude) => _latitude = latitude;
+  String? get longitude => _longitude;
+  set longitude(String? longitude) => _longitude = longitude;
+  String? get area => _area;
+  set area(String? area) => _area = area;
+  String? get houseName => _houseName;
+  set houseName(String? houseName) => _houseName = houseName;
 
   AddressData.fromJson(Map<String, dynamic> json) {
     _addressId = json['address_id'];
@@ -103,6 +131,10 @@ class AddressData {
     _address = json['address'];
     _name = json['name'];
     _mobile = json['mobile'];
+    _latitude = json['latitude'];
+    _longitude = json['longitude'];
+    _area = json['area'];
+    _houseName = json['house_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -112,6 +144,10 @@ class AddressData {
     data['address'] = this._address;
     data['name'] = this._name;
     data['mobile'] = this._mobile;
+    data['latitude'] = this._latitude;
+    data['longitude'] = this._longitude;
+    data['area'] = this._area;
+    data['house_name'] = this._houseName;
     return data;
   }
 }

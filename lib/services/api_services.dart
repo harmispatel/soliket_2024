@@ -251,4 +251,24 @@ class ApiServices extends BaseServices {
       return null;
     }
   }
+
+  @override
+  Future<CommonMaster?> updateAddressApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.UPDATE_ADDRESS,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }

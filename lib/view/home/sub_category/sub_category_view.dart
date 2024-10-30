@@ -288,126 +288,186 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
                             itemCount: mViewModel.categoryProductList.length,
                             itemBuilder: (context, index) {
                               return FittedBox(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    productDetailsBottomSheet();
-                                  },
-                                  child: Padding(
-                                    padding: mViewModel.subCategoryList.isEmpty
-                                        ? EdgeInsets.all(0)
-                                        : EdgeInsets.only(right: 10),
-                                    child: Container(
-                                      width: 170,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Center(
-                                                  child: Image.network(
-                                                    mViewModel
-                                                            .categoryProductList[
-                                                                index]
-                                                            .image ??
-                                                        '',
-                                                    fit: BoxFit.contain,
-                                                    height: 170,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                SizedBox(
-                                                  height: 40,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8),
-                                                    child: Text(
-                                                      mViewModel
-                                                              .categoryProductList[
-                                                                  index]
-                                                              .productName ??
-                                                          '',
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: getAppStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Container(
+                                    width: 170,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  if (mViewModel
+                                                          .categoryProductList[
+                                                              index]
+                                                          .stock !=
+                                                      0)
+                                                    Center(
+                                                      child: Image.network(
+                                                        mViewModel
+                                                                .categoryProductList[
+                                                                    index]
+                                                                .image ??
+                                                            '',
+                                                        fit: BoxFit.contain,
+                                                        height: 170,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Padding(
+                                                  if (mViewModel
+                                                          .categoryProductList[
+                                                              index]
+                                                          .stock ==
+                                                      0)
+                                                    Center(
+                                                      child: ColorFiltered(
+                                                        colorFilter:
+                                                            ColorFilter.mode(
+                                                          Colors.white
+                                                              .withOpacity(0.5),
+                                                          BlendMode
+                                                              .srcOver, // Blend mode for overlay
+                                                        ),
+                                                        child: Image.network(
+                                                          mViewModel
+                                                                  .categoryProductList[
+                                                                      index]
+                                                                  .image ??
+                                                              '',
+                                                          fit: BoxFit.contain,
+                                                          height: 170,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
+                                              SizedBox(
+                                                height: 40,
+                                                child: Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(horizontal: 8),
                                                   child: Text(
                                                     mViewModel
                                                             .categoryProductList[
                                                                 index]
-                                                            .variantName ??
+                                                            .productName ??
                                                         '',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: getAppStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.black54,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                                        fontSize: 14,
+                                                        color: mViewModel
+                                                                    .categoryProductList[
+                                                                        index]
+                                                                    .stock ==
+                                                                0
+                                                            ? Colors.grey[400]
+                                                            : Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 ),
-                                                const SizedBox(height: 10),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            mViewModel
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Text(
+                                                  mViewModel
+                                                          .categoryProductList[
+                                                              index]
+                                                          .variantName ??
+                                                      '',
+                                                  style: getAppStyle(
+                                                    fontSize: 14,
+                                                    color: mViewModel
                                                                 .categoryProductList[
                                                                     index]
-                                                                .discountPrice
-                                                                .toString(),
-                                                            style: getAppStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
+                                                                .stock ==
+                                                            0
+                                                        ? Colors.grey[400]
+                                                        : Colors.black54,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          mViewModel
+                                                              .categoryProductList[
+                                                                  index]
+                                                              .discountPrice
+                                                              .toString(),
+                                                          style: getAppStyle(
+                                                            fontSize: 14,
+                                                            color: mViewModel
+                                                                        .categoryProductList[
+                                                                            index]
+                                                                        .stock ==
+                                                                    0
+                                                                ? Colors
+                                                                    .grey[400]
+                                                                : Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                           ),
-                                                          Text(
-                                                            mViewModel
-                                                                .categoryProductList[
-                                                                    index]
-                                                                .productPrice
-                                                                .toString(),
-                                                            style: getAppStyle(
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontSize: 12,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                            ),
+                                                        ),
+                                                        Text(
+                                                          mViewModel
+                                                              .categoryProductList[
+                                                                  index]
+                                                              .productPrice
+                                                              .toString(),
+                                                          style: getAppStyle(
+                                                            color: mViewModel
+                                                                        .categoryProductList[
+                                                                            index]
+                                                                        .stock ==
+                                                                    0
+                                                                ? Colors
+                                                                    .grey[400]
+                                                                : Colors
+                                                                    .black54,
+                                                            fontSize: 12,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    if (mViewModel
+                                                            .categoryProductList[
+                                                                index]
+                                                            .stock !=
+                                                        0) ...[
                                                       itemCount > 0
                                                           ? Container(
                                                               padding:
@@ -514,12 +574,21 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
                                                                 ),
                                                               ),
                                                             ),
-                                                    ],
-                                                  ),
+                                                    ]
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
+                                        ),
+                                        if (mViewModel
+                                                    .categoryProductList[index]
+                                                    .discountPer !=
+                                                0 &&
+                                            mViewModel
+                                                    .categoryProductList[index]
+                                                    .stock !=
+                                                0)
                                           Padding(
                                             padding: const EdgeInsets.all(5.0),
                                             child: Container(
@@ -546,8 +615,58 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        if (mViewModel
+                                                .categoryProductList[index]
+                                                .stock ==
+                                            0)
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 18, vertical: 100),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                color: CommonColors.primaryColor
+                                                    .withOpacity(0.2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: const Offset(
+                                                      2.0,
+                                                      4.0,
+                                                    ),
+                                                    blurRadius: 5.0,
+                                                    spreadRadius: 0.5,
+                                                  ), //BoxShadow
+                                                  BoxShadow(
+                                                    color: Colors.white,
+                                                    offset:
+                                                        const Offset(0.0, 0.0),
+                                                    blurRadius: 0.0,
+                                                    spreadRadius: 0.0,
+                                                  ), //BoxShadow
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 3),
+                                                child: Text(
+                                                  "Sorry, this item is sold out",
+                                                  textAlign: TextAlign.center,
+                                                  style: getAppStyle(
+                                                      color: CommonColors
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                      height: 1.2),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                      ],
                                     ),
                                   ),
                                 ),

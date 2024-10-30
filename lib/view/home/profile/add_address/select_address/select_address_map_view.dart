@@ -123,6 +123,10 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
   void _onCameraIdle() {
     if (_mapCenter != null) {
       _getAddressFromLatLng(_mapCenter!);
+      // Update _currentPosition to the new map center when the camera stops moving
+      setState(() {
+        _currentPosition = _mapCenter;
+      });
     }
   }
 
@@ -382,15 +386,15 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                 onPress: () {
                                   if (_currentPosition != null) {
                                     print(
-                                        "Latitude: ${widget.selectedPlace!.latitude}");
+                                        "Latitude: ${_currentPosition?.latitude}");
                                     print(
-                                        "Longitude: ${widget.selectedPlace!.longitude}");
+                                        "Longitude: ${_currentPosition?.longitude}");
                                     print("Landmark (Main Area): $_mainArea");
                                     print("Full Address: $_currentAddress");
                                     push(AddAddressView(
-                                      latitude: widget.selectedPlace!.latitude,
+                                      latitude: _currentPosition?.latitude ?? 0,
                                       longitude:
-                                          widget.selectedPlace!.longitude,
+                                          _currentPosition?.longitude ?? 0,
                                       currentAddress: _currentAddress,
                                     ));
                                   } else {

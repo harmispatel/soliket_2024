@@ -18,6 +18,7 @@ import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
 import '../home/home_view_model.dart';
 import '../home/profile/add_address/add_address_view_model.dart';
+import '../home/profile/add_address/edit_address/edit_address_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
@@ -239,6 +240,8 @@ class AppState extends State<App> {
                   create: (_) => SavedAddressViewModel()),
               ChangeNotifierProvider<AddAddressViewModel>(
                   create: (_) => AddAddressViewModel()),
+              ChangeNotifierProvider<EditAddressViewModel>(
+                  create: (_) => EditAddressViewModel()),
             ],
             child: Builder(
               builder: (context) {
