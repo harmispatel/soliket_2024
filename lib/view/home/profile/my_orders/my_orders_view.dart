@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/view/home/profile/my_orders/track_order/track_order_view.dart';
+import 'package:solikat_2024/widget/primary_button.dart';
 
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
+import '../../../../utils/constant.dart';
 import '../../../../widget/common_appbar.dart';
 
 class MyOrdersView extends StatefulWidget {
@@ -81,7 +83,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                             height: 40,
                           ),
                           const SizedBox(width: 20),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -89,7 +91,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                                   "Online",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: getAppStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
@@ -97,7 +99,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                                 ),
                                 Text(
                                   "19 Sep 2024 - 11:46 PM",
-                                  style: TextStyle(
+                                  style: getAppStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12,
@@ -125,16 +127,16 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                           children: [
                             Text(
                               "Order No.",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
                               ),
                             ),
                             const SizedBox(height: 2),
-                            const Text(
+                            Text(
                               "1-900082",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -146,16 +148,16 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                           children: [
                             Text(
                               "Order No.",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
                               ),
                             ),
                             const SizedBox(height: 2),
-                            const Text(
+                            Text(
                               "₹${"800.0"}",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -167,16 +169,16 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                           children: [
                             Text(
                               "Order No.",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
                               ),
                             ),
                             const SizedBox(height: 2),
-                            const Text(
+                            Text(
                               "Order Placed",
-                              style: TextStyle(
+                              style: getAppStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -186,40 +188,35 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      push(TrackOrderView());
-                    },
-                    child: Container(
-                      height: 20,
-                      margin: const EdgeInsets.only(top: 8),
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      decoration: const BoxDecoration(
-                        color: CommonColors.primaryColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(10),
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Track Order",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
+                    kCommonSpaceV20,
+                    kCommonSpaceV10,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: PrimaryButton(
+                            height: 46,
+                            label: "Tracking",
+                            buttonColor: Colors.transparent,
+                            borderColor: CommonColors.primaryColor,
+                            labelColor: CommonColors.primaryColor,
+                            onPress: () {},
                           ),
                         ),
-                      ),
+                        kCommonSpaceH15,
+                        Expanded(
+                          child: PrimaryButton(
+                            height: 46,
+                            label: "View Details",
+                            buttonColor: CommonColors.primaryColor,
+                            labelColor: CommonColors.mWhite,
+                            onPress: () {},
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    kCommonSpaceV15,
+                  ],
+                ),
               ),
             ],
           ),

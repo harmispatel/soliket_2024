@@ -7,6 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final String? label;
   final Color? labelColor;
   final Color? buttonColor;
+  final Color? borderColor;
   final Color? shadowColor;
   final void Function()? onPress;
   final double? lblSize;
@@ -22,6 +23,7 @@ class PrimaryButton extends StatelessWidget {
     this.shadowColor,
     this.lblSize,
     this.height,
+    this.borderColor,
     this.borderRadius,
     this.width,
     super.key,
@@ -37,6 +39,7 @@ class PrimaryButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: buttonColor ?? CommonColors.primaryColor,
         borderRadius: borderRadius ?? BorderRadius.circular(6.0),
+        border: Border.all(color: borderColor ?? Colors.transparent,)
         /* boxShadow: [
           BoxShadow(
             offset: const Offset(0, 1),
