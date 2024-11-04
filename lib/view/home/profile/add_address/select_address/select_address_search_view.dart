@@ -35,7 +35,16 @@ class PlacesService {
 }
 
 class SelectAddressSearchView extends StatefulWidget {
-  const SelectAddressSearchView({super.key});
+  final bool isFromEdit;
+  final String? addressType;
+  final String? houseNo;
+  final String? roadName;
+  const SelectAddressSearchView(
+      {super.key,
+      required this.isFromEdit,
+      this.addressType,
+      this.houseNo,
+      this.roadName});
 
   @override
   State<SelectAddressSearchView> createState() =>
@@ -98,7 +107,9 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
 
     if (status.isGranted) {
       print("Location permission already granted.");
-      SelectAddressMapView();
+      SelectAddressMapView(
+        isFromEdit: false,
+      );
     } else if (status.isPermanentlyDenied) {
       await openAppSettings();
     } else {
@@ -106,7 +117,9 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
 
       if (result.isGranted) {
         print("Location permission granted.");
-        SelectAddressMapView();
+        SelectAddressMapView(
+          isFromEdit: false,
+        );
       }
     }
   }
@@ -302,8 +315,15 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
                                   location['lat'],
                                   location['lng'],
                                 );
-                                push(SelectAddressMapView(
-                                    selectedPlace: latLng));
+                                push(
+                                  SelectAddressMapView(
+                                    selectedPlace: latLng,
+                                    isFromEdit: widget.isFromEdit,
+                                    roadName: widget.roadName,
+                                    houseNo: widget.houseNo,
+                                    addressType: widget.addressType,
+                                  ),
+                                );
                               } else {
                                 // Handle case where location data is still missing
                                 print(

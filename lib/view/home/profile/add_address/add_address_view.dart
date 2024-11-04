@@ -36,7 +36,6 @@ class _AddAddressViewState extends State<AddAddressView> {
 
   int selectedIndex = 0;
   String selectedAddressType = 'Home';
-
   final List<String> addressTypes = ["Home", "Work", "Other"];
 
   final List<IconData> addressIcons = [
@@ -119,7 +118,10 @@ class _AddAddressViewState extends State<AddAddressView> {
                         );
                         print(latLng.latitude);
                         print(latLng.longitude);
-                        push(SelectAddressMapView(selectedPlace: latLng));
+                        push(SelectAddressMapView(
+                          selectedPlace: latLng,
+                          isFromEdit: false,
+                        ));
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

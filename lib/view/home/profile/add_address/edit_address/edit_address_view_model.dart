@@ -20,6 +20,7 @@ class EditAddressViewModel with ChangeNotifier {
   }
 
   Future<void> updateAddressApi({
+    required String addressId,
     required String latitude,
     required String longitude,
     required String name,
@@ -31,6 +32,7 @@ class EditAddressViewModel with ChangeNotifier {
   }) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.address_id: addressId,
       ApiParams.latitude: latitude,
       ApiParams.longitude: longitude,
       ApiParams.name: name,

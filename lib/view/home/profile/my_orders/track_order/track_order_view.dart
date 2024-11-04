@@ -189,7 +189,7 @@ class _TrackOrderViewState extends State<TrackOrderView> {
             Padding(
               padding: const EdgeInsets.only(left: 5, right: 5),
               child: Divider(
-                color: CommonColors.mGrey500,
+                color: CommonColors.mGrey300,
                 thickness: 4,
               ),
             ),
@@ -448,7 +448,7 @@ class _TrackOrderViewState extends State<TrackOrderView> {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Divider(
-                color: CommonColors.mGrey500,
+                color: CommonColors.mGrey300,
                 thickness: 4,
               ),
             ),

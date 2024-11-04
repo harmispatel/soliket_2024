@@ -53,7 +53,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
-      itemCount: 1,
+      itemCount: 3,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           width: double.infinity,
@@ -64,7 +64,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
             color: Colors.white,
             border: Border.all(
               color: CommonColors.primaryColor.withOpacity(0.4),
-              width: 2,
+              width: 0.8,
             ),
           ),
           child: Column(
@@ -94,7 +94,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                                   style: getAppStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 Text(
@@ -102,7 +102,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                                   style: getAppStyle(
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],
@@ -110,7 +110,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                           ),
                           const Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: 18,
+                            size: 22,
                             color: CommonColors.primaryColor,
                           ),
                         ],
@@ -118,7 +118,9 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 4),
-                      child: Divider(),
+                      child: Divider(
+                        color: CommonColors.mGrey,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +132,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                               style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 14,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -139,7 +141,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                               style: getAppStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -147,11 +149,11 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                         Column(
                           children: [
                             Text(
-                              "Order No.",
+                              "Total",
                               style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 14,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -160,7 +162,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                               style: getAppStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -168,11 +170,11 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                         Column(
                           children: [
                             Text(
-                              "Order No.",
+                              "Status",
                               style: getAppStyle(
                                 color: Colors.grey.withOpacity(0.6),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 14,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -181,7 +183,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                               style: getAppStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -209,7 +211,9 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                             label: "View Details",
                             buttonColor: CommonColors.primaryColor,
                             labelColor: CommonColors.mWhite,
-                            onPress: () {},
+                            onPress: () {
+                              push(TrackOrderView());
+                            },
                           ),
                         ),
                       ],

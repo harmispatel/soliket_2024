@@ -37,10 +37,11 @@ class PrimaryButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       width: width ?? double.infinity,
       decoration: BoxDecoration(
-        color: buttonColor ?? CommonColors.primaryColor,
-        borderRadius: borderRadius ?? BorderRadius.circular(6.0),
-        border: Border.all(color: borderColor ?? Colors.transparent,)
-        /* boxShadow: [
+          color: buttonColor ?? CommonColors.primaryColor,
+          borderRadius: borderRadius ?? BorderRadius.circular(6.0),
+          border:
+              Border.all(color: borderColor ?? Colors.transparent, width: 0.5)
+          /* boxShadow: [
           BoxShadow(
             offset: const Offset(0, 1),
             blurRadius: 6,
@@ -49,7 +50,7 @@ class PrimaryButton extends StatelessWidget {
                 CommonColors.primaryColor.withOpacity(0.4),
           )
         ],*/
-      ),
+          ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

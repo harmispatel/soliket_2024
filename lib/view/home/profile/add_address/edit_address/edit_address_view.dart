@@ -13,20 +13,23 @@ import '../select_address/select_address_map_view.dart';
 import 'edit_address_view_model.dart';
 
 class EditAddressView extends StatefulWidget {
+  final String? addressId;
   final double latitude;
   final double longitude;
   final String currentAddress;
-  final String addressType;
-  final String houseNo;
-  final String roadName;
+  final String? addressType;
+  final String? houseNo;
+  final String? roadName;
+
   const EditAddressView(
       {super.key,
       required this.latitude,
       required this.longitude,
       required this.currentAddress,
-      required this.addressType,
-      required this.houseNo,
-      required this.roadName});
+      this.addressType,
+      this.houseNo,
+      this.roadName,
+      this.addressId});
 
   @override
   State<EditAddressView> createState() => _EditAddressViewState();
@@ -138,7 +141,15 @@ class _EditAddressViewState extends State<EditAddressView> {
                         );
                         print(latLng.latitude);
                         print(latLng.longitude);
-                        push(SelectAddressMapView(selectedPlace: latLng));
+                        push(
+                          SelectAddressMapView(
+                            selectedPlace: latLng,
+                            isFromEdit: true,
+                            addressType: widget.addressType,
+                            houseNo: edHouseNoController.text,
+                            roadName: edRoadNameController.text,
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -343,7 +354,8 @@ class _EditAddressViewState extends State<EditAddressView> {
                     area: edRoadNameController.text,
                     address: widget.currentAddress,
                     houseName: edHouseNoController.text,
-                    type: selectedAddressType);
+                    type: selectedAddressType,
+                    addressId: widget.addressId ?? '');
               }
             },
           ),

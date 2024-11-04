@@ -15,11 +15,21 @@ import '../../../../../widget/common_appbar.dart';
 import '../../../../../widget/primary_button.dart';
 import '../../../../location/location_view_model.dart';
 import '../add_address_view.dart';
+import '../edit_address/edit_address_view.dart';
 
 class SelectAddressMapView extends StatefulWidget {
+  late final bool isFromEdit;
   final LatLng? selectedPlace;
+  final String? addressType;
+  final String? houseNo;
+  final String? roadName;
 
-  SelectAddressMapView({this.selectedPlace});
+  SelectAddressMapView(
+      {this.selectedPlace,
+      required this.isFromEdit,
+      this.addressType,
+      this.houseNo,
+      this.roadName});
 
   @override
   _SelectAddressMapViewState createState() => _SelectAddressMapViewState();
@@ -51,6 +61,12 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
         _getUserLocation();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    widget.isFromEdit = false;
+    super.dispose();
   }
 
   Future<void> _getUserLocation() async {
@@ -320,7 +336,14 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                       if (status.isGranted) {
                                         isHavePermission = true;
                                       }
-                                      push(SelectAddressSearchView());
+                                      push(
+                                        SelectAddressSearchView(
+                                          isFromEdit: widget.isFromEdit,
+                                          roadName: widget.roadName,
+                                          houseNo: widget.houseNo,
+                                          addressType: widget.addressType,
+                                        ),
+                                      );
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -384,7 +407,8 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                 label: "Confirm Location",
                                 lblSize: 18,
                                 onPress: () {
-                                  if (_currentPosition != null) {
+                                  if (_currentPosition != null &&
+                                      widget.isFromEdit != true) {
                                     print(
                                         "Latitude: ${_currentPosition?.latitude}");
                                     print(
@@ -397,8 +421,26 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                           _currentPosition?.longitude ?? 0,
                                       currentAddress: _currentAddress,
                                     ));
-                                  } else {
-                                    print("No location selected");
+                                  } else if (_currentPosition != null &&
+                                      widget.isFromEdit != false) {
+                                    print(
+                                        "Latitude: ${_currentPosition?.latitude}");
+                                    print(
+                                        "Longitude: ${_currentPosition?.longitude}");
+                                    print("Landmark (Main Area): $_mainArea");
+                                    print("Full Address: $_currentAddress");
+                                    push(
+                                      EditAddressView(
+                                        latitude:
+                                            _currentPosition?.latitude ?? 0,
+                                        longitude:
+                                            _currentPosition?.longitude ?? 0,
+                                        currentAddress: _currentAddress,
+                                        addressType: widget.addressType,
+                                        houseNo: widget.houseNo,
+                                        roadName: widget.roadName,
+                                      ),
+                                    );
                                   }
                                 },
                               ),

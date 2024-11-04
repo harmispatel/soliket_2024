@@ -176,7 +176,10 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                           );
                           print(latLng.latitude);
                           print(latLng.longitude);
-                          push(SelectAddressMapView(selectedPlace: latLng));
+                          push(SelectAddressMapView(
+                            selectedPlace: latLng,
+                            isFromEdit: false,
+                          ));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -290,6 +293,9 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                                             roadName: mViewModel
                                                     .addressList[index].area ??
                                                 '',
+                                            addressId: mViewModel
+                                                .addressList[index].addressId
+                                                .toString(),
                                           ),
                                         );
                                       },
@@ -354,7 +360,10 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                   );
                   print(latLng.latitude);
                   print(latLng.longitude);
-                  push(SelectAddressMapView(selectedPlace: latLng));
+                  push(SelectAddressMapView(
+                    selectedPlace: latLng,
+                    isFromEdit: false,
+                  ));
 
                   // push(
                   //   SelectAddressMapView(
