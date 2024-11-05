@@ -296,6 +296,7 @@ class _HomeViewState extends State<HomeView> {
                                     labelText: "Birth Date",
                                     readOnly: true,
                                   ),
+                                  kCommonSpaceV10,
                                   PrimaryButton(
                                     label: "Update",
                                     onPress: () {

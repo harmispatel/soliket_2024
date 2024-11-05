@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
-
+import 'package:solikat_2024/view/cart/cart_view_model.dart';
+import '../../models/get_cart_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../widget/common_appbar.dart';
@@ -16,29 +19,109 @@ class MyCartView extends StatefulWidget {
 }
 
 class _MyCartViewState extends State<MyCartView> {
+  late CartViewModel mViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<CartViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonAppBar(
+      appBar: const CommonAppBar(
         title: "My Cart",
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
-      body: const SingleChildScrollView(
-        padding: kCommonScreenPadding,
-        child: Column(
-          children: [
-            MyCartList(),
-            ApplyCouponView(),
-            SizedBox(height: 10),
-            BillDetailsView(),
-            SizedBox(height: 20)
-          ],
-        ),
-      ),
-      bottomNavigationBar: const BottomSheetView(),
+      body: mViewModel.isInitialLoading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: CommonColors.primaryColor,
+              ),
+            )
+          : mViewModel.cartList.isEmpty
+              ? Center(
+                  child: Text(
+                    "Cart Data Empty",
+                    style: getAppStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  ),
+                )
+              : SingleChildScrollView(
+                  padding: kCommonScreenPadding,
+                  child: Column(
+                    children: [
+                      mViewModel.isInitialLoading
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              enabled: true,
+                              child: SingleChildScrollView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 13,
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    kCommonSpaceV15,
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 80,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        kCommonSpaceH15,
+                                        Expanded(
+                                          child: Container(
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : MyCartList(
+                              cartList: mViewModel.cartList,
+                            ),
+                      SizedBox(height: 14),
+                      ApplyCouponView(),
+                      SizedBox(height: 10),
+                      BillDetailsView(),
+                      SizedBox(height: 20)
+                    ],
+                  ),
+                ),
+      bottomNavigationBar:
+          mViewModel.cartList.isEmpty ? null : const BottomSheetView(),
     );
   }
 }
@@ -46,7 +129,8 @@ class _MyCartViewState extends State<MyCartView> {
 // * My Cart List View * //
 
 class MyCartList extends StatefulWidget {
-  const MyCartList({super.key});
+  final List<CartData> cartList;
+  const MyCartList({super.key, required this.cartList});
 
   @override
   State<MyCartList> createState() => _MyCartListState();
@@ -56,17 +140,21 @@ class _MyCartListState extends State<MyCartList> {
   int itemCount = 1;
 
   void incrementItem(int index) {
-    setState(() {
-      itemCount++;
-    });
+    setState(
+      () {
+        itemCount++;
+      },
+    );
   }
 
   void decrementItem(int index) {
-    setState(() {
-      if (itemCount > 1) {
-        itemCount--;
-      }
-    });
+    setState(
+      () {
+        if (itemCount > 1) {
+          itemCount--;
+        }
+      },
+    );
   }
 
   @override
@@ -75,7 +163,7 @@ class _MyCartListState extends State<MyCartList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Review Items (15)",
+          "Review Items (${widget.cartList.length.toString()})",
           style: getAppStyle(
             color: Colors.grey.withOpacity(0.5),
             fontSize: 14,
@@ -87,8 +175,9 @@ class _MyCartListState extends State<MyCartList> {
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: 10,
+          itemCount: widget.cartList.length,
           itemBuilder: (BuildContext context, int index) {
+            var cartListDate = widget.cartList[index];
             return Column(
               children: [
                 Row(
@@ -97,8 +186,7 @@ class _MyCartListState extends State<MyCartList> {
                     CachedNetworkImage(
                       height: 80,
                       width: 80,
-                      imageUrl:
-                          "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                      imageUrl: cartListDate.image ?? "",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -123,14 +211,14 @@ class _MyCartListState extends State<MyCartList> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    kCommonSpaceH15,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                            cartListDate.productName ?? "",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: getAppStyle(
@@ -140,9 +228,9 @@ class _MyCartListState extends State<MyCartList> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 02),
+                            padding: const EdgeInsets.symmetric(vertical: 02),
                             child: Text(
-                              "250 g",
+                              cartListDate.variantName ?? "",
                               style: getAppStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
@@ -153,7 +241,8 @@ class _MyCartListState extends State<MyCartList> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    kCommonSpaceH15,
+                    kCommonSpaceH3,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -201,7 +290,7 @@ class _MyCartListState extends State<MyCartList> {
                         Row(
                           children: [
                             Text(
-                              "₹${"80.0"}",
+                              "₹${cartListDate.productPrice ?? ""}",
                               style: getAppStyle(
                                 decoration: TextDecoration.lineThrough,
                                 color: Colors.grey,
@@ -209,13 +298,13 @@ class _MyCartListState extends State<MyCartList> {
                                 fontSize: 12,
                               ),
                             ),
-                            SizedBox(width: 4),
+                            kCommonSpaceH5,
                             Text(
-                              "₹${"250.0"}",
+                              "₹${cartListDate.discountPrice ?? ""}",
                               style: getAppStyle(
-                                color: Colors.black,
+                                color: CommonColors.blackColor,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize: 14,
                               ),
                             ),
                           ],

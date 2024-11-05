@@ -8,6 +8,7 @@ import '../models/address_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
+import '../models/get_cart_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/product_master.dart';
@@ -283,6 +284,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<GetCartMaster?> getCartApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_CART,
+    );
+    if (response != null) {
+      try {
+        return GetCartMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

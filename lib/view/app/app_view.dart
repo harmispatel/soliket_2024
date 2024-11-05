@@ -13,6 +13,7 @@ import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
+import '../cart/cart_view_model.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
@@ -242,6 +243,8 @@ class AppState extends State<App> {
                   create: (_) => AddAddressViewModel()),
               ChangeNotifierProvider<EditAddressViewModel>(
                   create: (_) => EditAddressViewModel()),
+              ChangeNotifierProvider<CartViewModel>(
+                  create: (_) => CartViewModel()),
             ],
             child: Builder(
               builder: (context) {
