@@ -290,17 +290,17 @@ class Section7Data {
 
 class Section8Data {
   String image;
-  String categoryId;
+  int offerId;
 
   Section8Data({
     required this.image,
-    required this.categoryId,
+    required this.offerId,
   });
 
   factory Section8Data.fromJson(Map<String, dynamic> json) {
     return Section8Data(
       image: json['image'],
-      categoryId: json['product_id'],
+      offerId: json['offer_id'],
     );
   }
 }
