@@ -160,6 +160,8 @@ class Section3Data {
 }
 
 class Section4Data {
+  int productId;
+  int variantId;
   String productName;
   String variantName;
   dynamic productPrice;
@@ -171,6 +173,8 @@ class Section4Data {
   int cartCount;
 
   Section4Data({
+    required this.productId,
+    required this.variantId,
     required this.productName,
     required this.variantName,
     required this.productPrice,
@@ -184,6 +188,8 @@ class Section4Data {
 
   factory Section4Data.fromJson(Map<String, dynamic> json) {
     return Section4Data(
+      productId: json['product_id'],
+      variantId: json['variant_id'],
       productName: json['product_name'],
       variantName: json['variant_name'],
       productPrice: json['product_price'],

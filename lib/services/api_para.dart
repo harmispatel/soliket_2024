@@ -18,4 +18,5 @@ class ApiParams {
   static const String address = "address";
   static const String house_name = "house_name";
   static const String type = "type";
+  static const String variant_id = "variant_id";
 }

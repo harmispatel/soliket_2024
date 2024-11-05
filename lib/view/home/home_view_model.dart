@@ -168,6 +168,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/home_master.dart';
 
+import '../../models/common_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
@@ -301,7 +302,39 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // Reset pagination and clear data
+  Future<void> addToCartApi({
+    required String variantId,
+    required String type,
+  }) async {
+    CommonUtils.showProgressDialog();
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.variant_id: variantId,
+      ApiParams.type: type,
+    };
+
+    log("Parameter : ${params}");
+
+    CommonMaster? master = await services.api!.addToCartApi(params: params);
+    CommonUtils.hideProgressDialog();
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      return;
+    }
+
+    if (master.status == false) {
+      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      return;
+    }
+
+    if (master.status == true) {
+      log("Success :: true");
+      // push(SaveAddressView());
+      // SavedAddressViewModel().getAddressApi();
+    }
+    notifyListeners();
+  }
+
   void resetPage() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       currentPage = 1;

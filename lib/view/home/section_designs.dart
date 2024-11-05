@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/widget/common_product_container_view.dart';
+
 import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
@@ -2134,7 +2135,6 @@ class Section4 extends StatefulWidget {
   final String section4Title;
   final Function onAddItem;
   final Function onRemoveItem;
-  final int itemCount;
 
   const Section4({
     super.key,
@@ -2142,7 +2142,6 @@ class Section4 extends StatefulWidget {
     required this.section4Title,
     required this.onAddItem,
     required this.onRemoveItem,
-    required this.itemCount,
   });
 
   @override
@@ -2150,21 +2149,27 @@ class Section4 extends StatefulWidget {
 }
 
 class _Section4State extends State<Section4> {
-  int localItemCount = 0;
-
-  void incrementItem() {
-    setState(() {
-      localItemCount++;
-    });
-    widget.onAddItem();
+  void incrementItem(int index) {
+    if (widget.section4[index].cartCount < widget.section4[index].stock) {
+      setState(() {
+        widget.section4[index].cartCount++;
+      });
+      widget.onAddItem(widget.section4[index].variantId);
+    } else {
+      print(
+          ".......Sorry this product have only ${widget.section4[index].stock} in a stock......");
+      String msg =
+          "Only ${widget.section4[index].stock} product available in stock";
+      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+    }
   }
 
-  void decrementItem() {
-    if (localItemCount > 0) {
+  void decrementItem(int index) {
+    if (widget.section4[index].cartCount > 0) {
       setState(() {
-        localItemCount--;
+        widget.section4[index].cartCount--;
       });
-      widget.onRemoveItem();
+      widget.onRemoveItem(widget.section4[index].variantId);
     }
   }
 
@@ -2212,14 +2217,14 @@ class _Section4State extends State<Section4> {
                     child: ProductContainer(
                       imgUrl: widget.section4[index].image,
                       productName: widget.section4[index].productName,
-                      onIncrement: incrementItem,
-                      onDecrement: decrementItem,
+                      onIncrement: () => incrementItem(index),
+                      onDecrement: () => decrementItem(index),
                       stock: widget.section4[index].stock,
                       variantName: widget.section4[index].variantName,
                       discountPrice: widget.section4[index].discountPrice,
                       productPrice: widget.section4[index].productPrice,
                       discountPer: widget.section4[index].discountPer,
-                      itemCount: widget.itemCount,
+                      cartCount: widget.section4[index].cartCount,
                     ),
                   ),
                 );

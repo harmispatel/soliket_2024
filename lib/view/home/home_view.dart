@@ -74,25 +74,7 @@ class _HomeViewState extends State<HomeView> {
 
   bool _isStickyVisible = false;
 
-  int itemCount = 1;
-
-  void incrementItem() {
-    setState(
-      () {
-        itemCount++;
-      },
-    );
-  }
-
-  void decrementItem() {
-    setState(
-      () {
-        if (itemCount > 0) {
-          itemCount--;
-        }
-      },
-    );
-  }
+  int itemCount = 0;
 
   @override
   void initState() {
@@ -124,6 +106,24 @@ class _HomeViewState extends State<HomeView> {
         },
       );
     });
+  }
+
+  void incrementItem() {
+    setState(
+      () {
+        itemCount++;
+      },
+    );
+  }
+
+  void decrementItem() {
+    setState(
+      () {
+        if (itemCount > 0) {
+          itemCount--;
+        }
+      },
+    );
   }
 
   // void _scrollListener() {
@@ -1582,9 +1582,16 @@ class _HomeViewState extends State<HomeView> {
         return Section4(
           section4: sectionData.data,
           section4Title: sectionData.sectionTitle,
-          onAddItem: incrementItem,
-          onRemoveItem: decrementItem,
-          itemCount: itemCount,
+          // onAddItem: incrementItem,
+          // onRemoveItem: decrementItem,
+          onAddItem: (variantId) async {
+            await mViewModel.addToCartApi(
+                variantId: variantId.toString(), type: 'p');
+          },
+          onRemoveItem: (variantId) async {
+            await mViewModel.addToCartApi(
+                variantId: variantId.toString(), type: 'm');
+          },
         );
 
       case 'section_5':

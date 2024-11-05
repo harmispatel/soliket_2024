@@ -11,9 +11,9 @@ class ProductContainer extends StatefulWidget {
   final int discountPrice;
   final int productPrice;
   final double? width;
-  final Function onIncrement;
-  final Function onDecrement;
-  final int itemCount;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
+  final int cartCount;
 
   const ProductContainer({
     super.key,
@@ -27,7 +27,7 @@ class ProductContainer extends StatefulWidget {
     required this.discountPrice,
     required this.productPrice,
     required this.discountPer,
-    required this.itemCount,
+    required this.cartCount,
   });
 
   @override
@@ -35,24 +35,6 @@ class ProductContainer extends StatefulWidget {
 }
 
 class _ProductContainerState extends State<ProductContainer> {
-  int itemCount = 0;
-
-  void incrementItem() {
-    setState(() {
-      itemCount++;
-    });
-    widget.onIncrement();
-  }
-
-  void decrementItem() {
-    if (itemCount > 0) {
-      setState(() {
-        itemCount--;
-      });
-      widget.onDecrement();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -158,7 +140,7 @@ class _ProductContainerState extends State<ProductContainer> {
                         ],
                       ),
                       if (widget.stock != 0) ...[
-                        widget.itemCount > 1
+                        widget.cartCount > 0
                             ? Container(
                                 // padding: const EdgeInsets.symmetric(
                                 //     horizontal: 4, vertical: 4),
@@ -174,7 +156,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     GestureDetector(
-                                      onTap: decrementItem,
+                                      onTap: widget.onDecrement,
                                       child: const Icon(
                                         Icons.remove,
                                         size: 16,
@@ -182,7 +164,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                       ),
                                     ),
                                     Text(
-                                      (widget.itemCount - 1).toString(),
+                                      widget.cartCount.toString(),
                                       style: getAppStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
@@ -190,7 +172,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: incrementItem,
+                                      onTap: widget.onIncrement,
                                       child: const Icon(
                                         Icons.add,
                                         size: 16,
@@ -201,7 +183,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                 ),
                               )
                             : InkWell(
-                                onTap: incrementItem,
+                                onTap: widget.onIncrement,
                                 child: Container(
                                   width: 100,
                                   height: 35,
