@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
-
+import 'package:solikat_2024/widget/common_product_container_view.dart';
 import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
@@ -2132,30 +2132,39 @@ class Section3 extends StatelessWidget {
 class Section4 extends StatefulWidget {
   final List<Section4Data> section4;
   final String section4Title;
+  final Function onAddItem;
+  final Function onRemoveItem;
+  final int itemCount;
 
-  const Section4(
-      {super.key, required this.section4, required this.section4Title});
+  const Section4({
+    super.key,
+    required this.section4,
+    required this.section4Title,
+    required this.onAddItem,
+    required this.onRemoveItem,
+    required this.itemCount,
+  });
 
   @override
   State<Section4> createState() => _Section4State();
 }
 
 class _Section4State extends State<Section4> {
-  int itemCount = 0;
+  int localItemCount = 0;
 
   void incrementItem() {
     setState(() {
-      itemCount++;
+      localItemCount++;
     });
-    // widget.onIncrement!();
+    widget.onAddItem();
   }
 
   void decrementItem() {
-    if (itemCount > 0) {
+    if (localItemCount > 0) {
       setState(() {
-        itemCount--;
+        localItemCount--;
       });
-      // widget.onDecrement!();
+      widget.onRemoveItem();
     }
   }
 
@@ -2200,278 +2209,17 @@ class _Section4State extends State<Section4> {
                 return FittedBox(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: 170,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    if (widget.section4[index].stock != 0)
-                                      Center(
-                                        child: Image.network(
-                                          widget.section4[index].image,
-                                          fit: BoxFit.contain,
-                                          height: 170,
-                                        ),
-                                      ),
-                                    if (widget.section4[index].stock == 0)
-                                      Center(
-                                        child: ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            Colors.white.withOpacity(0.5),
-                                            BlendMode
-                                                .srcOver, // Blend mode for overlay
-                                          ),
-                                          child: Image.network(
-                                            widget.section4[index].image,
-                                            fit: BoxFit.contain,
-                                            height: 170,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Text(
-                                      widget.section4[index].productName,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: getAppStyle(
-                                          fontSize: 14,
-                                          color:
-                                              widget.section4[index].stock == 0
-                                                  ? Colors.grey[400]
-                                                  : Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text(
-                                    widget.section4[index].variantName,
-                                    style: getAppStyle(
-                                      fontSize: 14,
-                                      color: widget.section4[index].stock == 0
-                                          ? Colors.grey[400]
-                                          : Colors.black54,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            widget.section4[index].discountPrice
-                                                .toString(),
-                                            style: getAppStyle(
-                                              fontSize: 14,
-                                              color: widget.section4[index]
-                                                          .stock ==
-                                                      0
-                                                  ? Colors.grey[400]
-                                                  : Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            widget.section4[index].productPrice
-                                                .toString(),
-                                            style: getAppStyle(
-                                              color: widget.section4[index]
-                                                          .stock ==
-                                                      0
-                                                  ? Colors.grey[400]
-                                                  : Colors.black54,
-                                              fontSize: 12,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      if (widget.section4[index].stock !=
-                                          0) ...[
-                                        itemCount > 0
-                                            ? Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4,
-                                                        vertical: 4),
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 4),
-                                                height: 35,
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color:
-                                                      CommonColors.primaryColor,
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: decrementItem,
-                                                      child: const Icon(
-                                                        Icons.remove,
-                                                        size: 16,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      itemCount.toString(),
-                                                      style: getAppStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: incrementItem,
-                                                      child: const Icon(
-                                                        Icons.add,
-                                                        size: 16,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            : InkWell(
-                                                onTap: incrementItem,
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 35,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    border: Border.all(
-                                                        color: CommonColors
-                                                            .primaryColor,
-                                                        width: 1),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Add",
-                                                      style: getAppStyle(
-                                                        color: CommonColors
-                                                            .primaryColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                      ]
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          if (widget.section4[index].discountPer != 0 &&
-                              widget.section4[index].stock != 0)
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  border:
-                                      Border.all(color: Colors.white, width: 2),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 5),
-                                  child: Text(
-                                    "${widget.section4[index].discountPer}% off",
-                                    style: getAppStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          if (widget.section4[index].stock == 0)
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 18, vertical: 100),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.2),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: const Offset(
-                                        2.0,
-                                        4.0,
-                                      ),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 0.5,
-                                    ), //BoxShadow
-                                    BoxShadow(
-                                      color: Colors.white,
-                                      offset: const Offset(0.0, 0.0),
-                                      blurRadius: 0.0,
-                                      spreadRadius: 0.0,
-                                    ), //BoxShadow
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 3),
-                                  child: Text(
-                                    "Sorry, this item is sold out",
-                                    textAlign: TextAlign.center,
-                                    style: getAppStyle(
-                                        color: CommonColors.primaryColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        height: 1.2),
-                                  ),
-                                ),
-                              ),
-                            )
-                        ],
-                      ),
+                    child: ProductContainer(
+                      imgUrl: widget.section4[index].image,
+                      productName: widget.section4[index].productName,
+                      onIncrement: incrementItem,
+                      onDecrement: decrementItem,
+                      stock: widget.section4[index].stock,
+                      variantName: widget.section4[index].variantName,
+                      discountPrice: widget.section4[index].discountPrice,
+                      productPrice: widget.section4[index].productPrice,
+                      discountPer: widget.section4[index].discountPer,
+                      itemCount: widget.itemCount,
                     ),
                   ),
                 );

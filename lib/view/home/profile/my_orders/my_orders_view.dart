@@ -26,7 +26,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: const SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
             MyOrderListView(),
@@ -58,7 +58,7 @@ class _MyOrderListViewState extends State<MyOrderListView> {
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.only(top: 16),
-          margin: const EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: Colors.white,

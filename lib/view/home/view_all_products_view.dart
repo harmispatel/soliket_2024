@@ -47,10 +47,13 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {},
-            child: ProductContainer(
-              onIncrement: null,
-              onDecrement: null,
+            child: Center(
+              child: Text("Demo........."),
             ),
+            // child: ProductContainer(
+            //   onIncrement: null,
+            //   onDecrement: null,
+            // ),
           );
         },
       ),
