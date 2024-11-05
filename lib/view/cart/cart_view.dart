@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/cart/cart_view_model.dart';
+import 'package:solikat_2024/view/home/home_view_model.dart';
 import '../../models/get_cart_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
@@ -20,6 +21,7 @@ class MyCartView extends StatefulWidget {
 
 class _MyCartViewState extends State<MyCartView> {
   late CartViewModel mViewModel;
+  late HomeViewModel mHomeViewModel;
 
   @override
   void initState() {
@@ -32,6 +34,7 @@ class _MyCartViewState extends State<MyCartView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<CartViewModel>(context);
+    mHomeViewModel = Provider.of<HomeViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CommonAppBar(
@@ -111,6 +114,14 @@ class _MyCartViewState extends State<MyCartView> {
                             )
                           : MyCartList(
                               cartList: mViewModel.cartList,
+                              onAddItem: (variantId) async {
+                                await mHomeViewModel.addToCartApi(
+                                    variantId: variantId.toString(), type: 'p');
+                              },
+                              onRemoveItem: (variantId) async {
+                                await mHomeViewModel.addToCartApi(
+                                    variantId: variantId.toString(), type: 'm');
+                              },
                             ),
                       SizedBox(height: 14),
                       ApplyCouponView(),
@@ -130,31 +141,51 @@ class _MyCartViewState extends State<MyCartView> {
 
 class MyCartList extends StatefulWidget {
   final List<CartData> cartList;
-  const MyCartList({super.key, required this.cartList});
+  final Function onAddItem;
+  final Function onRemoveItem;
+  const MyCartList({
+    super.key,
+    required this.cartList,
+    required this.onAddItem,
+    required this.onRemoveItem,
+  });
 
   @override
   State<MyCartList> createState() => _MyCartListState();
 }
 
 class _MyCartListState extends State<MyCartList> {
-  int itemCount = 1;
-
   void incrementItem(int index) {
-    setState(
-      () {
-        itemCount++;
-      },
-    );
+    var cartItem = widget.cartList[index];
+    if (cartItem.cartCount != null &&
+        cartItem.cartCount! < (cartItem.stock ?? 0)) {
+      setState(() {
+        cartItem.cartCount = (cartItem.cartCount ?? 0) + 1;
+      });
+      widget.onAddItem(cartItem.variantId);
+    } else {
+      debugPrint(
+          ".......Sorry this product has only ${cartItem.stock ?? 0} in stock......");
+      String msg = "Only ${cartItem.stock ?? 0} product available in stock";
+      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+    }
   }
 
   void decrementItem(int index) {
-    setState(
-      () {
-        if (itemCount > 1) {
-          itemCount--;
-        }
-      },
-    );
+    var cartItem = widget.cartList[index];
+    if (cartItem.cartCount != null && cartItem.cartCount! > 0) {
+      setState(() {
+        cartItem.cartCount = (cartItem.cartCount ?? 0) - 1;
+      });
+      if (cartItem.cartCount == 0) {
+        widget.onRemoveItem(cartItem.variantId);
+        setState(() {
+          widget.cartList.removeAt(index);
+        });
+      } else {
+        widget.onRemoveItem(cartItem.variantId);
+      }
+    }
   }
 
   @override
@@ -269,7 +300,8 @@ class _MyCartListState extends State<MyCartList> {
                                 ),
                               ),
                               Text(
-                                itemCount.toString(),
+                                cartListDate.cartCount.toString(),
+                                //itemCount.toString(),
                                 style: getAppStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
