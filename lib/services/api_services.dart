@@ -271,4 +271,24 @@ class ApiServices extends BaseServices {
       return null;
     }
   }
+
+  @override
+  Future<CommonMaster?> addToCartApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.ADD_TO_CART,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }

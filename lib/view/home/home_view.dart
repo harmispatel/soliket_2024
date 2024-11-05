@@ -13,6 +13,7 @@ import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
+
 import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
@@ -100,8 +101,9 @@ class _HomeViewState extends State<HomeView> {
       mProfileViewModel.attachedContext(context);
       mViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
-
-      mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
+      if (!mViewModel.isPageFinish) {
+        mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
+      }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {});
         checkProfileDone();

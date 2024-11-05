@@ -121,7 +121,7 @@ class _ProductContainerState extends State<ProductContainer> {
                     style: getAppStyle(
                       fontSize: 14,
                       color:
-                      widget.stock == 0 ? Colors.grey[400] : Colors.black54,
+                          widget.stock == 0 ? Colors.grey[400] : Colors.black54,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -160,70 +160,70 @@ class _ProductContainerState extends State<ProductContainer> {
                       if (widget.stock != 0) ...[
                         widget.itemCount > 1
                             ? Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 4),
-                          margin: const EdgeInsets.only(bottom: 4),
-                          height: 35,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: CommonColors.primaryColor,
-                          ),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceAround,
-                            children: [
-                              GestureDetector(
-                                onTap: decrementItem,
-                                child: const Icon(
-                                  Icons.remove,
-                                  size: 16,
-                                  color: Colors.white,
+                                // padding: const EdgeInsets.symmetric(
+                                //     horizontal: 4, vertical: 4),
+                                // margin: const EdgeInsets.only(bottom: 4),
+                                height: 35,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: CommonColors.primaryColor,
                                 ),
-                              ),
-                              Text(
-                                (widget.itemCount - 1).toString(),  // Wrap the subtraction in parentheses
-                                style: getAppStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: decrementItem,
+                                      child: const Icon(
+                                        Icons.remove,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      (widget.itemCount - 1).toString(),
+                                      style: getAppStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: incrementItem,
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: incrementItem,
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                              )
                             : InkWell(
-                          onTap: incrementItem,
-                          child: Container(
-                            width: 100,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: CommonColors.primaryColor,
-                                  width: 1),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Add",
-                                style: getAppStyle(
-                                  color: CommonColors.primaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                onTap: incrementItem,
+                                child: Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: CommonColors.primaryColor,
+                                        width: 1),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Add",
+                                      style: getAppStyle(
+                                        color: CommonColors.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
                       ]
                     ],
                   ),
@@ -242,7 +242,7 @@ class _ProductContainerState extends State<ProductContainer> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   child: Text(
                     "${widget.discountPer}% off",
                     style: getAppStyle(
@@ -255,7 +255,8 @@ class _ProductContainerState extends State<ProductContainer> {
             ),
           if (widget.stock == 0)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 100),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 18, vertical: 100),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
@@ -280,7 +281,7 @@ class _ProductContainerState extends State<ProductContainer> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
                   child: Text(
                     "Sorry, this item is sold out",
                     textAlign: TextAlign.center,

@@ -56,4 +56,8 @@ abstract class BaseServices {
   Future<CommonMaster?> updateAddressApi({
     required Map<String, dynamic> params,
   });
+
+  Future<CommonMaster?> addToCartApi({
+    required Map<String, dynamic> params,
+  });
 }
