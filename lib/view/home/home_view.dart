@@ -327,6 +327,17 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+  Future<void> _onRefresh() async {
+    fetchAll("On Refresh");
+  }
+
+  fetchAll(String from) {
+    // mViewModel.resetPage();
+    if (!mViewModel.isPageFinish) {
+      mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     mProfileViewModel = Provider.of<EditAccountViewModel>(context);
@@ -338,81 +349,112 @@ class _HomeViewState extends State<HomeView> {
           systemNavigationBarColor: CommonColors.grayShade200),
     );
     return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            CustomScrollView(
-              controller: _scrollController,
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Delivering to",
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        height: 1.2),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          gUserLocation,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: getAppStyle(
-                                              fontSize: 14,
-                                              height: 1.2,
-                                              color: CommonColors.black54),
+      child: RefreshIndicator(
+        color: CommonColors.blackColor,
+        backgroundColor: Colors.white,
+        onRefresh: _onRefresh,
+        displacement: 0,
+        child: Scaffold(
+          body: Stack(
+            children: [
+              CustomScrollView(
+                controller: _scrollController,
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Delivering to",
+                                      style: getAppStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          height: 1.2),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            gUserLocation,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: getAppStyle(
+                                                fontSize: 14,
+                                                height: 1.2,
+                                                color: CommonColors.black54),
+                                          ),
                                         ),
-                                      ),
-                                      const Icon(Icons.keyboard_arrow_down,
-                                          color: CommonColors.black54),
-                                      kCommonSpaceH15,
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // profileDialog(context);
-                                mainNavKey.currentContext!
-                                    .read<BottomNavbarViewModel>()
-                                    .onMenuTapped(1);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CommonColors.mGrey200),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.person_2_outlined,
-                                    color: CommonColors.black54,
-                                    size: 22,
-                                  ),
+                                        const Icon(Icons.keyboard_arrow_down,
+                                            color: CommonColors.black54),
+                                        kCommonSpaceH15,
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
+                              GestureDetector(
+                                onTap: () {
+                                  // profileDialog(context);
+                                  mainNavKey.currentContext!
+                                      .read<BottomNavbarViewModel>()
+                                      .onMenuTapped(1);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: CommonColors.mGrey200),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.person_2_outlined,
+                                      color: CommonColors.black54,
+                                      size: 22,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      kCommonSpaceV10,
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
+                        kCommonSpaceV10,
+                        const Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: CommonTextField(
+                            hintText: "Search",
+                            isPrefixIconButton: true,
+                            suffixIcon: Icons.mic,
+                            isIconButton: true,
+                          ),
+                        ),
+                        kCommonSpaceV10,
+                        if (mViewModel.isInitialLoading) ShimmerEffect(),
+                        if (!mViewModel.isInitialLoading) ...[
+                          for (var section in mViewModel.homePageData)
+                            buildSection(section),
+                        ]
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              if (_isStickyVisible == true)
+                Column(
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.only(left: 15, right: 15, bottom: 4),
                         child: CommonTextField(
                           hintText: "Search",
                           isPrefixIconButton: true,
@@ -420,1138 +462,1114 @@ class _HomeViewState extends State<HomeView> {
                           isIconButton: true,
                         ),
                       ),
-                      kCommonSpaceV10,
-                      if (mViewModel.isInitialLoading) ShimmerEffect(),
-                      if (!mViewModel.isInitialLoading) ...[
-                        for (var section in mViewModel.homePageData)
-                          buildSection(section),
-                      ]
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (_isStickyVisible == true)
-              Column(
-                children: [
-                  Container(
-                    color: Colors.white,
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15, bottom: 4),
-                      child: CommonTextField(
-                        hintText: "Search",
-                        isPrefixIconButton: true,
-                        suffixIcon: Icons.mic,
-                        isIconButton: true,
-                      ),
                     ),
-                  ),
-                  Container(
-                    height: 3,
-                    color: CommonColors.mGrey300,
-                  )
-                ],
-              ),
-          ],
-        ),
-        bottomNavigationBar: itemCount > 1
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15) +
-                    const EdgeInsets.only(top: 14, bottom: 5),
-                child: Row(
-                  children: [
                     Container(
-                      height: 48,
-                      width: 60,
-                      margin: const EdgeInsets.only(right: 6),
-                      color: Colors.transparent,
-                      child: Stack(
-                        children: List.generate(
-                          itemCount - 1 > 3 ? 3 : itemCount - 1,
-                          (index) => Positioned(
-                            left: index * 6,
-                            child: Container(
-                              height: 48,
-                              width: 48,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: CommonColors.mGrey500),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(
-                                  child: SizedBox(
-                                      height: 10,
-                                      width: 10,
-                                      child: CircularProgressIndicator()),
+                      height: 3,
+                      color: CommonColors.mGrey300,
+                    )
+                  ],
+                ),
+            ],
+          ),
+          bottomNavigationBar: itemCount > 1
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15) +
+                      const EdgeInsets.only(top: 14, bottom: 5),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 48,
+                        width: 60,
+                        margin: const EdgeInsets.only(right: 6),
+                        color: Colors.transparent,
+                        child: Stack(
+                          children: List.generate(
+                            itemCount - 1 > 3 ? 3 : itemCount - 1,
+                            (index) => Positioned(
+                              left: index * 6,
+                              child: Container(
+                                height: 48,
+                                width: 48,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: CommonColors.mGrey500),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error_outline,
-                                        color: Colors.red),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const Center(
+                                    child: SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child: CircularProgressIndicator()),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error_outline,
+                                          color: Colors.red),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${itemCount - 1} Items",
-                          style: getAppStyle(
-                            color: CommonColors.blackColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                      Row(
+                        children: [
+                          Text(
+                            "${itemCount - 1} Items",
+                            style: getAppStyle(
+                              color: CommonColors.blackColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                        const Icon(
-                          Icons.arrow_drop_up_rounded,
-                          color: CommonColors.primaryColor,
-                          size: 30,
-                        )
-                      ],
-                    ),
-                    const SizedBox(width: 36),
-                    Expanded(
-                      child: PrimaryButton(
-                        height: 55,
-                        label: "View Cart",
-                        buttonColor: CommonColors.primaryColor,
-                        labelColor: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        onPress: () {
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   useSafeArea: true,
-                          //   backgroundColor: Colors.white,
-                          //   builder: (_) {
-                          //     return FractionallySizedBox(
-                          //       heightFactor: 0.77,
-                          //       child: StatefulBuilder(
-                          //         builder: (BuildContext context,
-                          //             StateSetter setState) {
-                          //           return Padding(
-                          //             padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 20) +
-                          //                 const EdgeInsets.only(top: 10),
-                          //             child: Column(
-                          //               children: [
-                          //                 Padding(
-                          //                   padding: const EdgeInsets.only(
-                          //                       left: 12, right: 12, top: 12),
-                          //                   child: Row(
-                          //                     mainAxisAlignment:
-                          //                         MainAxisAlignment
-                          //                             .spaceBetween,
-                          //                     children: [
-                          //                       Column(
-                          //                         crossAxisAlignment:
-                          //                             CrossAxisAlignment.start,
-                          //                         children: [
-                          //                           Text(
-                          //                             'Review Cart',
-                          //                             style: getAppStyle(
-                          //                                 fontWeight:
-                          //                                     FontWeight.bold,
-                          //                                 fontSize: 18),
-                          //                           ),
-                          //                           Row(
-                          //                             children: [
-                          //                               Text(
-                          //                                 "3 Items • Total",
-                          //                                 style: getAppStyle(
-                          //                                     color:
-                          //                                         CommonColors
-                          //                                             .black54),
-                          //                               ),
-                          //                               Text(
-                          //                                 " ₹542",
-                          //                                 style: getAppStyle(
-                          //                                     fontWeight:
-                          //                                         FontWeight
-                          //                                             .bold),
-                          //                               ),
-                          //                             ],
-                          //                           )
-                          //                         ],
-                          //                       ),
-                          //                       InkWell(
-                          //                         onTap: () {
-                          //                           Navigator.pop(context);
-                          //                         },
-                          //                         child: Container(
-                          //                           decoration: BoxDecoration(
-                          //                             shape: BoxShape.circle,
-                          //                             boxShadow: [
-                          //                               BoxShadow(
-                          //                                 color: Colors.grey,
-                          //                                 offset: const Offset(
-                          //                                   2.0,
-                          //                                   2.0,
-                          //                                 ),
-                          //                                 blurRadius: 5.0,
-                          //                                 spreadRadius: 0.0,
-                          //                               ), //BoxShadow
-                          //                               BoxShadow(
-                          //                                 color: Colors.white,
-                          //                                 offset: const Offset(
-                          //                                     0.0, 0.0),
-                          //                                 blurRadius: 0.0,
-                          //                                 spreadRadius: 0.0,
-                          //                               ), //BoxShadow
-                          //                             ],
-                          //                           ),
-                          //                           child: Padding(
-                          //                             padding:
-                          //                                 const EdgeInsets.all(
-                          //                                     8.0),
-                          //                             child: Icon(
-                          //                               Icons.close,
-                          //                               size: 15,
-                          //                             ),
-                          //                           ),
-                          //                         ),
-                          //                       ),
-                          //                     ],
-                          //                   ),
-                          //                 ),
-                          //                 kCommonSpaceV10,
-                          //                 kCommonSpaceV3,
-                          //                 Container(
-                          //                   height: 3,
-                          //                   color: CommonColors.mGrey300,
-                          //                 ),
-                          //                 Container(
-                          //                   height: MediaQuery.of(context)
-                          //                           .size
-                          //                           .height /
-                          //                       1.88,
-                          //                   padding: const EdgeInsets.symmetric(
-                          //                       horizontal: 12),
-                          //                   margin:
-                          //                       const EdgeInsets.only(top: 12),
-                          //                   decoration: BoxDecoration(
-                          //                     border: Border.all(
-                          //                         color: CommonColors.mGrey300),
-                          //                     borderRadius:
-                          //                         BorderRadius.circular(12),
-                          //                   ),
-                          //                   child: SingleChildScrollView(
-                          //                     child: Column(
-                          //                       children: [
-                          //                         Padding(
-                          //                           padding:
-                          //                               const EdgeInsets.only(
-                          //                                   left: 12,
-                          //                                   right: 12,
-                          //                                   top: 12),
-                          //                           child: Column(
-                          //                             crossAxisAlignment:
-                          //                                 CrossAxisAlignment
-                          //                                     .start,
-                          //                             children: [
-                          //                               Row(
-                          //                                 children: [
-                          //                                   Text(
-                          //                                     'Delivery in',
-                          //                                     style: getAppStyle(
-                          //                                         fontWeight:
-                          //                                             FontWeight
-                          //                                                 .bold,
-                          //                                         fontSize: 18),
-                          //                                   ),
-                          //                                   const Icon(
-                          //                                     Icons
-                          //                                         .electric_bolt_rounded,
-                          //                                     color: CommonColors
-                          //                                         .primaryColor,
-                          //                                   ),
-                          //                                   Text(
-                          //                                     '11 Min',
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .primaryColor,
-                          //                                         fontWeight:
-                          //                                             FontWeight
-                          //                                                 .bold,
-                          //                                         fontSize: 18),
-                          //                                   ),
-                          //                                 ],
-                          //                               ),
-                          //                               Row(
-                          //                                 children: [
-                          //                                   Text(
-                          //                                     "From ",
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .black54),
-                          //                                   ),
-                          //                                   Text(
-                          //                                     "Soliket",
-                          //                                     style: getAppStyle(
-                          //                                         fontWeight:
-                          //                                             FontWeight
-                          //                                                 .bold,
-                          //                                         color: CommonColors
-                          //                                             .blackColor),
-                          //                                   ),
-                          //                                   Text(
-                          //                                     " • ",
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .blackColor),
-                          //                                   ),
-                          //                                   Text(
-                          //                                     " 6 Items",
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .black54,
-                          //                                         fontWeight:
-                          //                                             FontWeight
-                          //                                                 .bold),
-                          //                                   ),
-                          //                                   Text(
-                          //                                     " • ",
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .blackColor),
-                          //                                   ),
-                          //                                   Text(
-                          //                                     "Delivery 1",
-                          //                                     style: getAppStyle(
-                          //                                         color: CommonColors
-                          //                                             .black54,
-                          //                                         fontWeight:
-                          //                                             FontWeight
-                          //                                                 .bold),
-                          //                                   ),
-                          //                                 ],
-                          //                               )
-                          //                             ],
-                          //                           ),
-                          //                         ),
-                          //                         ListView.builder(
-                          //                           padding:
-                          //                               const EdgeInsets.only(
-                          //                                   top: 12),
-                          //                           physics:
-                          //                               const ClampingScrollPhysics(),
-                          //                           shrinkWrap: true,
-                          //                           scrollDirection:
-                          //                               Axis.vertical,
-                          //                           itemCount: 15,
-                          //                           itemBuilder:
-                          //                               (BuildContext context,
-                          //                                   int index) {
-                          //                             return Column(
-                          //                               children: [
-                          //                                 Row(
-                          //                                   crossAxisAlignment:
-                          //                                       CrossAxisAlignment
-                          //                                           .start,
-                          //                                   children: [
-                          //                                     CachedNetworkImage(
-                          //                                       height: 80,
-                          //                                       width: 80,
-                          //                                       imageUrl:
-                          //                                           "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                          //                                       imageBuilder:
-                          //                                           (context,
-                          //                                                   imageProvider) =>
-                          //                                               Container(
-                          //                                         decoration:
-                          //                                             BoxDecoration(
-                          //                                           image:
-                          //                                               DecorationImage(
-                          //                                             image:
-                          //                                                 imageProvider,
-                          //                                             fit: BoxFit
-                          //                                                 .contain,
-                          //                                           ),
-                          //                                         ),
-                          //                                       ),
-                          //                                       placeholder: (context,
-                          //                                               url) =>
-                          //                                           const Padding(
-                          //                                         padding:
-                          //                                             EdgeInsets
-                          //                                                 .all(
-                          //                                                     12.0),
-                          //                                         child: Center(
-                          //                                           child:
-                          //                                               CircularProgressIndicator(
-                          //                                             strokeWidth:
-                          //                                                 2,
-                          //                                             color: Colors
-                          //                                                 .black,
-                          //                                           ),
-                          //                                         ),
-                          //                                       ),
-                          //                                       errorWidget: (context,
-                          //                                               url,
-                          //                                               error) =>
-                          //                                           const Center(
-                          //                                         child: Icon(
-                          //                                           Icons
-                          //                                               .error_outline,
-                          //                                           color: Colors
-                          //                                               .red,
-                          //                                         ),
-                          //                                       ),
-                          //                                     ),
-                          //                                     const SizedBox(
-                          //                                         width: 14),
-                          //                                     Expanded(
-                          //                                       child: Column(
-                          //                                         crossAxisAlignment:
-                          //                                             CrossAxisAlignment
-                          //                                                 .start,
-                          //                                         mainAxisAlignment:
-                          //                                             MainAxisAlignment
-                          //                                                 .start,
-                          //                                         children: [
-                          //                                           Text(
-                          //                                             "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-                          //                                             maxLines:
-                          //                                                 2,
-                          //                                             overflow:
-                          //                                                 TextOverflow
-                          //                                                     .ellipsis,
-                          //                                             style:
-                          //                                                 getAppStyle(
-                          //                                               color: Colors
-                          //                                                   .black,
-                          //                                               fontWeight:
-                          //                                                   FontWeight.w600,
-                          //                                               fontSize:
-                          //                                                   13,
-                          //                                             ),
-                          //                                           ),
-                          //                                           Padding(
-                          //                                             padding: const EdgeInsets
-                          //                                                 .symmetric(
-                          //                                                 vertical:
-                          //                                                     02),
-                          //                                             child:
-                          //                                                 Row(
-                          //                                               children: [
-                          //                                                 Text(
-                          //                                                   "250 g",
-                          //                                                   style:
-                          //                                                       getAppStyle(
-                          //                                                     color: Colors.grey,
-                          //                                                     fontWeight: FontWeight.w500,
-                          //                                                     fontSize: 12,
-                          //                                                   ),
-                          //                                                 ),
-                          //                                                 Container(
-                          //                                                   margin:
-                          //                                                       const EdgeInsets.only(left: 8),
-                          //                                                   padding: const EdgeInsets.only(
-                          //                                                       left: 6,
-                          //                                                       right: 8,
-                          //                                                       top: 2,
-                          //                                                       bottom: 2),
-                          //                                                   decoration:
-                          //                                                       BoxDecoration(
-                          //                                                     borderRadius: BorderRadius.circular(2),
-                          //                                                     color: CommonColors.primaryColor.withOpacity(0.1),
-                          //                                                   ),
-                          //                                                   child:
-                          //                                                       Row(
-                          //                                                     children: [
-                          //                                                       const Icon(
-                          //                                                         Icons.percent_rounded,
-                          //                                                         color: CommonColors.primaryColor,
-                          //                                                         size: 14,
-                          //                                                       ),
-                          //                                                       Text(
-                          //                                                         "Deal Applied",
-                          //                                                         style: getAppStyle(
-                          //                                                           color: CommonColors.primaryColor,
-                          //                                                           fontWeight: FontWeight.w500,
-                          //                                                           fontSize: 10,
-                          //                                                         ),
-                          //                                                       )
-                          //                                                     ],
-                          //                                                   ),
-                          //                                                 )
-                          //                                               ],
-                          //                                             ),
-                          //                                           ),
-                          //                                         ],
-                          //                                       ),
-                          //                                     ),
-                          //                                     const SizedBox(
-                          //                                         width: 8),
-                          //                                     Column(
-                          //                                       crossAxisAlignment:
-                          //                                           CrossAxisAlignment
-                          //                                               .start,
-                          //                                       mainAxisAlignment:
-                          //                                           MainAxisAlignment
-                          //                                               .start,
-                          //                                       children: [
-                          //                                         Container(
-                          //                                           padding: const EdgeInsets
-                          //                                               .symmetric(
-                          //                                               horizontal:
-                          //                                                   4,
-                          //                                               vertical:
-                          //                                                   4),
-                          //                                           margin: const EdgeInsets
-                          //                                               .only(
-                          //                                               bottom:
-                          //                                                   4),
-                          //                                           height: 30,
-                          //                                           width: 80,
-                          //                                           decoration:
-                          //                                               BoxDecoration(
-                          //                                             borderRadius:
-                          //                                                 BorderRadius.circular(
-                          //                                                     6),
-                          //                                             color: CommonColors
-                          //                                                 .primaryColor,
-                          //                                           ),
-                          //                                           child: Row(
-                          //                                             mainAxisAlignment:
-                          //                                                 MainAxisAlignment
-                          //                                                     .spaceAround,
-                          //                                             children: [
-                          //                                               GestureDetector(
-                          //                                                 onTap: () =>
-                          //                                                     decrementItem(),
-                          //                                                 child:
-                          //                                                     const Icon(
-                          //                                                   Icons.remove,
-                          //                                                   size:
-                          //                                                       16,
-                          //                                                   color:
-                          //                                                       Colors.white,
-                          //                                                 ),
-                          //                                               ),
-                          //                                               Text(
-                          //                                                 itemCount
-                          //                                                     .toString(),
-                          //                                                 style:
-                          //                                                     getAppStyle(
-                          //                                                   color:
-                          //                                                       Colors.white,
-                          //                                                   fontWeight:
-                          //                                                       FontWeight.w500,
-                          //                                                   fontSize:
-                          //                                                       14,
-                          //                                                 ),
-                          //                                               ),
-                          //                                               GestureDetector(
-                          //                                                 onTap: () =>
-                          //                                                     incrementItem(),
-                          //                                                 child:
-                          //                                                     const Icon(
-                          //                                                   Icons.add,
-                          //                                                   size:
-                          //                                                       16,
-                          //                                                   color:
-                          //                                                       Colors.white,
-                          //                                                 ),
-                          //                                               ),
-                          //                                             ],
-                          //                                           ),
-                          //                                         ),
-                          //                                         Row(
-                          //                                           children: [
-                          //                                             Text(
-                          //                                               "₹${"80.0"}",
-                          //                                               style:
-                          //                                                   getAppStyle(
-                          //                                                 decoration:
-                          //                                                     TextDecoration.lineThrough,
-                          //                                                 color:
-                          //                                                     Colors.grey,
-                          //                                                 fontWeight:
-                          //                                                     FontWeight.w500,
-                          //                                                 fontSize:
-                          //                                                     12,
-                          //                                               ),
-                          //                                             ),
-                          //                                             const SizedBox(
-                          //                                                 width:
-                          //                                                     4),
-                          //                                             Text(
-                          //                                               "₹${"250.0"}",
-                          //                                               style:
-                          //                                                   getAppStyle(
-                          //                                                 color:
-                          //                                                     Colors.black,
-                          //                                                 fontWeight:
-                          //                                                     FontWeight.bold,
-                          //                                                 fontSize:
-                          //                                                     13,
-                          //                                               ),
-                          //                                             ),
-                          //                                           ],
-                          //                                         ),
-                          //                                       ],
-                          //                                     ),
-                          //                                   ],
-                          //                                 ),
-                          //                                 const SizedBox(
-                          //                                     height: 10)
-                          //                               ],
-                          //                             );
-                          //                           },
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //                 const Spacer(),
-                          //                 Padding(
-                          //                   padding: const EdgeInsets.only(
-                          //                       bottom: 20),
-                          //                   child: Row(
-                          //                     children: [
-                          //                       Container(
-                          //                         height: 48,
-                          //                         width: 60,
-                          //                         margin: const EdgeInsets.only(
-                          //                             right: 6),
-                          //                         color: Colors.transparent,
-                          //                         child: Stack(
-                          //                           children: List.generate(
-                          //                             itemCount - 1 > 3
-                          //                                 ? 3
-                          //                                 : itemCount - 1,
-                          //                             (index) => Positioned(
-                          //                               left: index * 6,
-                          //                               child: Container(
-                          //                                 height: 48,
-                          //                                 width: 48,
-                          //                                 padding:
-                          //                                     const EdgeInsets
-                          //                                         .symmetric(
-                          //                                         horizontal: 6,
-                          //                                         vertical: 2),
-                          //                                 decoration:
-                          //                                     BoxDecoration(
-                          //                                   color: Colors.white,
-                          //                                   border: Border.all(
-                          //                                       color: CommonColors
-                          //                                           .mGrey500),
-                          //                                   borderRadius:
-                          //                                       BorderRadius
-                          //                                           .circular(
-                          //                                               8),
-                          //                                 ),
-                          //                                 child:
-                          //                                     CachedNetworkImage(
-                          //                                   imageUrl:
-                          //                                       "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                          //                                   fit: BoxFit.cover,
-                          //                                   placeholder: (context,
-                          //                                           url) =>
-                          //                                       const Center(
-                          //                                           child: SizedBox(
-                          //                                               height:
-                          //                                                   10,
-                          //                                               width:
-                          //                                                   10,
-                          //                                               child:
-                          //                                                   CircularProgressIndicator())),
-                          //                                   errorWidget: (context,
-                          //                                           url,
-                          //                                           error) =>
-                          //                                       const Icon(
-                          //                                           Icons
-                          //                                               .error_outline,
-                          //                                           color: Colors
-                          //                                               .red),
-                          //                                 ),
-                          //                               ),
-                          //                             ),
-                          //                           ),
-                          //                         ),
-                          //                       ),
-                          //                       Row(
-                          //                         children: [
-                          //                           Text(
-                          //                             "${itemCount - 1} Items",
-                          //                             style: getAppStyle(
-                          //                               color: CommonColors
-                          //                                   .blackColor,
-                          //                               fontWeight:
-                          //                                   FontWeight.w500,
-                          //                               fontSize: 12,
-                          //                             ),
-                          //                           ),
-                          //                           const Icon(
-                          //                             Icons
-                          //                                 .arrow_drop_up_rounded,
-                          //                             color: CommonColors
-                          //                                 .primaryColor,
-                          //                             size: 30,
-                          //                           )
-                          //                         ],
-                          //                       ),
-                          //                       const SizedBox(width: 36),
-                          //                       Expanded(
-                          //                         child: PrimaryButton(
-                          //                           height: 55,
-                          //                           label: "View Cart",
-                          //                           buttonColor: CommonColors
-                          //                               .primaryColor,
-                          //                           labelColor: Colors.white,
-                          //                           borderRadius:
-                          //                               BorderRadius.circular(
-                          //                                   14),
-                          //                           onPress: () {
-                          //                             showModalBottomSheet(
-                          //                               context: context,
-                          //                               isScrollControlled:
-                          //                                   true,
-                          //                               useSafeArea: true,
-                          //                               backgroundColor:
-                          //                                   Colors.white,
-                          //                               builder: (_) {
-                          //                                 return FractionallySizedBox(
-                          //                                   heightFactor: 0.77,
-                          //                                   child:
-                          //                                       StatefulBuilder(
-                          //                                     builder: (BuildContext
-                          //                                             context,
-                          //                                         StateSetter
-                          //                                             setState) {
-                          //                                       return Padding(
-                          //                                         padding: const EdgeInsets
-                          //                                                 .symmetric(
-                          //                                                 horizontal:
-                          //                                                     20) +
-                          //                                             const EdgeInsets
-                          //                                                 .only(
-                          //                                                 top:
-                          //                                                     10),
-                          //                                         child: Column(
-                          //                                           children: [
-                          //                                             Padding(
-                          //                                               padding: const EdgeInsets
-                          //                                                   .only(
-                          //                                                   left:
-                          //                                                       12,
-                          //                                                   right:
-                          //                                                       12,
-                          //                                                   top:
-                          //                                                       12),
-                          //                                               child:
-                          //                                                   Row(
-                          //                                                 mainAxisAlignment:
-                          //                                                     MainAxisAlignment.spaceBetween,
-                          //                                                 children: [
-                          //                                                   Column(
-                          //                                                     crossAxisAlignment: CrossAxisAlignment.start,
-                          //                                                     children: [
-                          //                                                       Text(
-                          //                                                         'Review Cart',
-                          //                                                         style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                          //                                                       ),
-                          //                                                       Row(
-                          //                                                         children: [
-                          //                                                           Text(
-                          //                                                             "3 Items • Total",
-                          //                                                             style: getAppStyle(color: CommonColors.black54),
-                          //                                                           ),
-                          //                                                           Text(
-                          //                                                             " ₹542",
-                          //                                                             style: getAppStyle(fontWeight: FontWeight.bold),
-                          //                                                           ),
-                          //                                                         ],
-                          //                                                       )
-                          //                                                     ],
-                          //                                                   ),
-                          //                                                   InkWell(
-                          //                                                     onTap: () {
-                          //                                                       Navigator.pop(context);
-                          //                                                     },
-                          //                                                     child: Container(
-                          //                                                       decoration: BoxDecoration(
-                          //                                                         shape: BoxShape.circle,
-                          //                                                         boxShadow: [
-                          //                                                           BoxShadow(
-                          //                                                             color: Colors.grey,
-                          //                                                             offset: const Offset(
-                          //                                                               2.0,
-                          //                                                               2.0,
-                          //                                                             ),
-                          //                                                             blurRadius: 5.0,
-                          //                                                             spreadRadius: 0.0,
-                          //                                                           ),
-                          //                                                           //BoxShadow
-                          //                                                           BoxShadow(
-                          //                                                             color: Colors.white,
-                          //                                                             offset: const Offset(0.0, 0.0),
-                          //                                                             blurRadius: 0.0,
-                          //                                                             spreadRadius: 0.0,
-                          //                                                           ),
-                          //                                                           //BoxShadow
-                          //                                                         ],
-                          //                                                       ),
-                          //                                                       child: Padding(
-                          //                                                         padding: const EdgeInsets.all(8.0),
-                          //                                                         child: Icon(
-                          //                                                           Icons.close,
-                          //                                                           size: 15,
-                          //                                                         ),
-                          //                                                       ),
-                          //                                                     ),
-                          //                                                   ),
-                          //                                                 ],
-                          //                                               ),
-                          //                                             ),
-                          //                                             kCommonSpaceV10,
-                          //                                             kCommonSpaceV3,
-                          //                                             Container(
-                          //                                               height:
-                          //                                                   3,
-                          //                                               color: CommonColors
-                          //                                                   .mGrey300,
-                          //                                             ),
-                          //                                             Container(
-                          //                                               height: MediaQuery.of(context).size.height /
-                          //                                                   1.82,
-                          //                                               padding: const EdgeInsets
-                          //                                                   .symmetric(
-                          //                                                   horizontal:
-                          //                                                       12),
-                          //                                               margin: const EdgeInsets
-                          //                                                   .only(
-                          //                                                   top:
-                          //                                                       12),
-                          //                                               decoration:
-                          //                                                   BoxDecoration(
-                          //                                                 color:
-                          //                                                     Colors.red,
-                          //                                                 borderRadius:
-                          //                                                     BorderRadius.circular(12),
-                          //                                               ),
-                          //                                               child:
-                          //                                                   SingleChildScrollView(
-                          //                                                 child:
-                          //                                                     ListView.builder(
-                          //                                                   padding:
-                          //                                                       const EdgeInsets.only(top: 12),
-                          //                                                   physics:
-                          //                                                       const ClampingScrollPhysics(),
-                          //                                                   shrinkWrap:
-                          //                                                       true,
-                          //                                                   scrollDirection:
-                          //                                                       Axis.vertical,
-                          //                                                   itemCount:
-                          //                                                       15,
-                          //                                                   itemBuilder:
-                          //                                                       (BuildContext context, int index) {
-                          //                                                     return Column(
-                          //                                                       children: [
-                          //                                                         Row(
-                          //                                                           crossAxisAlignment: CrossAxisAlignment.start,
-                          //                                                           children: [
-                          //                                                             CachedNetworkImage(
-                          //                                                               height: 80,
-                          //                                                               width: 80,
-                          //                                                               imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                          //                                                               imageBuilder: (context, imageProvider) => Container(
-                          //                                                                 decoration: BoxDecoration(
-                          //                                                                   image: DecorationImage(
-                          //                                                                     image: imageProvider,
-                          //                                                                     fit: BoxFit.contain,
-                          //                                                                   ),
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                               placeholder: (context, url) => const Padding(
-                          //                                                                 padding: EdgeInsets.all(12.0),
-                          //                                                                 child: Center(
-                          //                                                                   child: CircularProgressIndicator(
-                          //                                                                     strokeWidth: 2,
-                          //                                                                     color: Colors.black,
-                          //                                                                   ),
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                               errorWidget: (context, url, error) => const Center(
-                          //                                                                 child: Icon(
-                          //                                                                   Icons.error_outline,
-                          //                                                                   color: Colors.red,
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                             ),
-                          //                                                             const SizedBox(width: 14),
-                          //                                                             Expanded(
-                          //                                                               child: Column(
-                          //                                                                 crossAxisAlignment: CrossAxisAlignment.start,
-                          //                                                                 mainAxisAlignment: MainAxisAlignment.start,
-                          //                                                                 children: [
-                          //                                                                   Text(
-                          //                                                                     "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
-                          //                                                                     maxLines: 2,
-                          //                                                                     overflow: TextOverflow.ellipsis,
-                          //                                                                     style: getAppStyle(
-                          //                                                                       color: Colors.black,
-                          //                                                                       fontWeight: FontWeight.w600,
-                          //                                                                       fontSize: 13,
-                          //                                                                     ),
-                          //                                                                   ),
-                          //                                                                   Padding(
-                          //                                                                     padding: const EdgeInsets.symmetric(vertical: 02),
-                          //                                                                     child: Text(
-                          //                                                                       "250 g",
-                          //                                                                       style: getAppStyle(
-                          //                                                                         color: Colors.grey,
-                          //                                                                         fontWeight: FontWeight.w500,
-                          //                                                                         fontSize: 12,
-                          //                                                                       ),
-                          //                                                                     ),
-                          //                                                                   ),
-                          //                                                                 ],
-                          //                                                               ),
-                          //                                                             ),
-                          //                                                             const SizedBox(width: 8),
-                          //                                                             Column(
-                          //                                                               crossAxisAlignment: CrossAxisAlignment.start,
-                          //                                                               mainAxisAlignment: MainAxisAlignment.start,
-                          //                                                               children: [
-                          //                                                                 Container(
-                          //                                                                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                          //                                                                   margin: const EdgeInsets.only(bottom: 4),
-                          //                                                                   height: 30,
-                          //                                                                   width: 80,
-                          //                                                                   decoration: BoxDecoration(
-                          //                                                                     borderRadius: BorderRadius.circular(6),
-                          //                                                                     color: CommonColors.primaryColor,
-                          //                                                                   ),
-                          //                                                                   child: Row(
-                          //                                                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          //                                                                     children: [
-                          //                                                                       GestureDetector(
-                          //                                                                         onTap: () => decrementItem(),
-                          //                                                                         child: const Icon(
-                          //                                                                           Icons.remove,
-                          //                                                                           size: 16,
-                          //                                                                           color: Colors.white,
-                          //                                                                         ),
-                          //                                                                       ),
-                          //                                                                       Text(
-                          //                                                                         itemCount.toString(),
-                          //                                                                         style: getAppStyle(
-                          //                                                                           color: Colors.white,
-                          //                                                                           fontWeight: FontWeight.w500,
-                          //                                                                           fontSize: 14,
-                          //                                                                         ),
-                          //                                                                       ),
-                          //                                                                       GestureDetector(
-                          //                                                                         onTap: () => incrementItem(),
-                          //                                                                         child: const Icon(
-                          //                                                                           Icons.add,
-                          //                                                                           size: 16,
-                          //                                                                           color: Colors.white,
-                          //                                                                         ),
-                          //                                                                       ),
-                          //                                                                     ],
-                          //                                                                   ),
-                          //                                                                 ),
-                          //                                                                 Row(
-                          //                                                                   children: [
-                          //                                                                     Text(
-                          //                                                                       "₹${"80.0"}",
-                          //                                                                       style: getAppStyle(
-                          //                                                                         decoration: TextDecoration.lineThrough,
-                          //                                                                         color: Colors.grey,
-                          //                                                                         fontWeight: FontWeight.w500,
-                          //                                                                         fontSize: 12,
-                          //                                                                       ),
-                          //                                                                     ),
-                          //                                                                     const SizedBox(width: 4),
-                          //                                                                     Text(
-                          //                                                                       "₹${"250.0"}",
-                          //                                                                       style: getAppStyle(
-                          //                                                                         color: Colors.black,
-                          //                                                                         fontWeight: FontWeight.bold,
-                          //                                                                         fontSize: 13,
-                          //                                                                       ),
-                          //                                                                     ),
-                          //                                                                   ],
-                          //                                                                 ),
-                          //                                                               ],
-                          //                                                             ),
-                          //                                                           ],
-                          //                                                         ),
-                          //                                                         const SizedBox(height: 10)
-                          //                                                       ],
-                          //                                                     );
-                          //                                                   },
-                          //                                                 ),
-                          //                                               ),
-                          //                                             ),
-                          //                                             const Spacer(),
-                          //                                             Padding(
-                          //                                               padding: const EdgeInsets
-                          //                                                   .only(
-                          //                                                   top:
-                          //                                                       10,
-                          //                                                   bottom:
-                          //                                                       20),
-                          //                                               child:
-                          //                                                   Row(
-                          //                                                 children: [
-                          //                                                   Container(
-                          //                                                     height: 42,
-                          //                                                     width: 58,
-                          //                                                     margin: const EdgeInsets.only(right: 10),
-                          //                                                     color: Colors.transparent,
-                          //                                                     child: Stack(
-                          //                                                       children: [
-                          //                                                         Container(
-                          //                                                           height: 42,
-                          //                                                           width: 42,
-                          //                                                           decoration: BoxDecoration(
-                          //                                                             color: Colors.white,
-                          //                                                             border: Border.all(color: Colors.grey),
-                          //                                                             borderRadius: BorderRadius.circular(10),
-                          //                                                           ),
-                          //                                                         ),
-                          //                                                         Positioned(
-                          //                                                           left: 8,
-                          //                                                           child: Container(
-                          //                                                             height: 42,
-                          //                                                             width: 42,
-                          //                                                             decoration: BoxDecoration(
-                          //                                                               color: Colors.white,
-                          //                                                               border: Border.all(color: Colors.grey),
-                          //                                                               borderRadius: BorderRadius.circular(10),
-                          //                                                             ),
-                          //                                                           ),
-                          //                                                         ),
-                          //                                                         Positioned(
-                          //                                                           left: 16,
-                          //                                                           child: Container(
-                          //                                                             height: 42,
-                          //                                                             width: 42,
-                          //                                                             decoration: BoxDecoration(
-                          //                                                               color: Colors.white,
-                          //                                                               border: Border.all(color: Colors.grey),
-                          //                                                               borderRadius: BorderRadius.circular(10),
-                          //                                                             ),
-                          //                                                             child: CachedNetworkImage(
-                          //                                                               height: 80,
-                          //                                                               width: 80,
-                          //                                                               imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-                          //                                                               imageBuilder: (context, imageProvider) => Container(
-                          //                                                                 decoration: BoxDecoration(
-                          //                                                                   image: DecorationImage(
-                          //                                                                     image: imageProvider,
-                          //                                                                     fit: BoxFit.contain,
-                          //                                                                   ),
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                               placeholder: (context, url) => const Padding(
-                          //                                                                 padding: EdgeInsets.all(12.0),
-                          //                                                                 child: Center(
-                          //                                                                   child: CircularProgressIndicator(
-                          //                                                                     strokeWidth: 2,
-                          //                                                                     color: Colors.black,
-                          //                                                                   ),
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                               errorWidget: (context, url, error) => const Center(
-                          //                                                                 child: Icon(
-                          //                                                                   Icons.error_outline,
-                          //                                                                   color: Colors.red,
-                          //                                                                 ),
-                          //                                                               ),
-                          //                                                             ),
-                          //                                                           ),
-                          //                                                         ),
-                          //                                                       ],
-                          //                                                     ),
-                          //                                                   ),
-                          //                                                   InkWell(
-                          //                                                     onTap: () {
-                          //                                                       debugPrint("OnTap");
-                          //                                                     },
-                          //                                                     child: Row(
-                          //                                                       children: [
-                          //                                                         Text(
-                          //                                                           "6 Item",
-                          //                                                           style: getAppStyle(
-                          //                                                             color: Colors.black,
-                          //                                                             fontWeight: FontWeight.w500,
-                          //                                                             fontSize: 12,
-                          //                                                           ),
-                          //                                                         ),
-                          //                                                         const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
-                          //                                                       ],
-                          //                                                     ),
-                          //                                                   ),
-                          //                                                   const SizedBox(width: 20),
-                          //                                                   Expanded(
-                          //                                                     child: GestureDetector(
-                          //                                                       onTap: () {
-                          //                                                         debugPrint("On Tap Sub Product");
-                          //                                                       },
-                          //                                                       child: Container(
-                          //                                                         height: 40,
-                          //                                                         decoration: BoxDecoration(
-                          //                                                           borderRadius: BorderRadius.circular(6),
-                          //                                                           color: CommonColors.primaryColor,
-                          //                                                         ),
-                          //                                                         child: Center(
-                          //                                                           child: Text(
-                          //                                                             "View Cart",
-                          //                                                             style: getAppStyle(
-                          //                                                               color: Colors.white,
-                          //                                                               fontWeight: FontWeight.bold,
-                          //                                                               fontSize: 14,
-                          //                                                             ),
-                          //                                                           ),
-                          //                                                         ),
-                          //                                                       ),
-                          //                                                     ),
-                          //                                                   ),
-                          //                                                 ],
-                          //                                               ),
-                          //                                             ),
-                          //                                           ],
-                          //                                         ),
-                          //                                       );
-                          //                                     },
-                          //                                   ),
-                          //                                 );
-                          //                               },
-                          //                             );
-                          //                           },
-                          //                         ),
-                          //                       ),
-                          //                     ],
-                          //                   ),
-                          //                 ),
-                          //               ],
-                          //             ),
-                          //           );
-                          //         },
-                          //       ),
-                          //     );
-                          //   },
-                          // );
-                        },
+                          const Icon(
+                            Icons.arrow_drop_up_rounded,
+                            color: CommonColors.primaryColor,
+                            size: 30,
+                          )
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : null,
+                      const SizedBox(width: 36),
+                      Expanded(
+                        child: PrimaryButton(
+                          height: 55,
+                          label: "View Cart",
+                          buttonColor: CommonColors.primaryColor,
+                          labelColor: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          onPress: () {
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   isScrollControlled: true,
+                            //   useSafeArea: true,
+                            //   backgroundColor: Colors.white,
+                            //   builder: (_) {
+                            //     return FractionallySizedBox(
+                            //       heightFactor: 0.77,
+                            //       child: StatefulBuilder(
+                            //         builder: (BuildContext context,
+                            //             StateSetter setState) {
+                            //           return Padding(
+                            //             padding: const EdgeInsets.symmetric(
+                            //                     horizontal: 20) +
+                            //                 const EdgeInsets.only(top: 10),
+                            //             child: Column(
+                            //               children: [
+                            //                 Padding(
+                            //                   padding: const EdgeInsets.only(
+                            //                       left: 12, right: 12, top: 12),
+                            //                   child: Row(
+                            //                     mainAxisAlignment:
+                            //                         MainAxisAlignment
+                            //                             .spaceBetween,
+                            //                     children: [
+                            //                       Column(
+                            //                         crossAxisAlignment:
+                            //                             CrossAxisAlignment.start,
+                            //                         children: [
+                            //                           Text(
+                            //                             'Review Cart',
+                            //                             style: getAppStyle(
+                            //                                 fontWeight:
+                            //                                     FontWeight.bold,
+                            //                                 fontSize: 18),
+                            //                           ),
+                            //                           Row(
+                            //                             children: [
+                            //                               Text(
+                            //                                 "3 Items • Total",
+                            //                                 style: getAppStyle(
+                            //                                     color:
+                            //                                         CommonColors
+                            //                                             .black54),
+                            //                               ),
+                            //                               Text(
+                            //                                 " ₹542",
+                            //                                 style: getAppStyle(
+                            //                                     fontWeight:
+                            //                                         FontWeight
+                            //                                             .bold),
+                            //                               ),
+                            //                             ],
+                            //                           )
+                            //                         ],
+                            //                       ),
+                            //                       InkWell(
+                            //                         onTap: () {
+                            //                           Navigator.pop(context);
+                            //                         },
+                            //                         child: Container(
+                            //                           decoration: BoxDecoration(
+                            //                             shape: BoxShape.circle,
+                            //                             boxShadow: [
+                            //                               BoxShadow(
+                            //                                 color: Colors.grey,
+                            //                                 offset: const Offset(
+                            //                                   2.0,
+                            //                                   2.0,
+                            //                                 ),
+                            //                                 blurRadius: 5.0,
+                            //                                 spreadRadius: 0.0,
+                            //                               ), //BoxShadow
+                            //                               BoxShadow(
+                            //                                 color: Colors.white,
+                            //                                 offset: const Offset(
+                            //                                     0.0, 0.0),
+                            //                                 blurRadius: 0.0,
+                            //                                 spreadRadius: 0.0,
+                            //                               ), //BoxShadow
+                            //                             ],
+                            //                           ),
+                            //                           child: Padding(
+                            //                             padding:
+                            //                                 const EdgeInsets.all(
+                            //                                     8.0),
+                            //                             child: Icon(
+                            //                               Icons.close,
+                            //                               size: 15,
+                            //                             ),
+                            //                           ),
+                            //                         ),
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //                 kCommonSpaceV10,
+                            //                 kCommonSpaceV3,
+                            //                 Container(
+                            //                   height: 3,
+                            //                   color: CommonColors.mGrey300,
+                            //                 ),
+                            //                 Container(
+                            //                   height: MediaQuery.of(context)
+                            //                           .size
+                            //                           .height /
+                            //                       1.88,
+                            //                   padding: const EdgeInsets.symmetric(
+                            //                       horizontal: 12),
+                            //                   margin:
+                            //                       const EdgeInsets.only(top: 12),
+                            //                   decoration: BoxDecoration(
+                            //                     border: Border.all(
+                            //                         color: CommonColors.mGrey300),
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(12),
+                            //                   ),
+                            //                   child: SingleChildScrollView(
+                            //                     child: Column(
+                            //                       children: [
+                            //                         Padding(
+                            //                           padding:
+                            //                               const EdgeInsets.only(
+                            //                                   left: 12,
+                            //                                   right: 12,
+                            //                                   top: 12),
+                            //                           child: Column(
+                            //                             crossAxisAlignment:
+                            //                                 CrossAxisAlignment
+                            //                                     .start,
+                            //                             children: [
+                            //                               Row(
+                            //                                 children: [
+                            //                                   Text(
+                            //                                     'Delivery in',
+                            //                                     style: getAppStyle(
+                            //                                         fontWeight:
+                            //                                             FontWeight
+                            //                                                 .bold,
+                            //                                         fontSize: 18),
+                            //                                   ),
+                            //                                   const Icon(
+                            //                                     Icons
+                            //                                         .electric_bolt_rounded,
+                            //                                     color: CommonColors
+                            //                                         .primaryColor,
+                            //                                   ),
+                            //                                   Text(
+                            //                                     '11 Min',
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .primaryColor,
+                            //                                         fontWeight:
+                            //                                             FontWeight
+                            //                                                 .bold,
+                            //                                         fontSize: 18),
+                            //                                   ),
+                            //                                 ],
+                            //                               ),
+                            //                               Row(
+                            //                                 children: [
+                            //                                   Text(
+                            //                                     "From ",
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .black54),
+                            //                                   ),
+                            //                                   Text(
+                            //                                     "Soliket",
+                            //                                     style: getAppStyle(
+                            //                                         fontWeight:
+                            //                                             FontWeight
+                            //                                                 .bold,
+                            //                                         color: CommonColors
+                            //                                             .blackColor),
+                            //                                   ),
+                            //                                   Text(
+                            //                                     " • ",
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .blackColor),
+                            //                                   ),
+                            //                                   Text(
+                            //                                     " 6 Items",
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .black54,
+                            //                                         fontWeight:
+                            //                                             FontWeight
+                            //                                                 .bold),
+                            //                                   ),
+                            //                                   Text(
+                            //                                     " • ",
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .blackColor),
+                            //                                   ),
+                            //                                   Text(
+                            //                                     "Delivery 1",
+                            //                                     style: getAppStyle(
+                            //                                         color: CommonColors
+                            //                                             .black54,
+                            //                                         fontWeight:
+                            //                                             FontWeight
+                            //                                                 .bold),
+                            //                                   ),
+                            //                                 ],
+                            //                               )
+                            //                             ],
+                            //                           ),
+                            //                         ),
+                            //                         ListView.builder(
+                            //                           padding:
+                            //                               const EdgeInsets.only(
+                            //                                   top: 12),
+                            //                           physics:
+                            //                               const ClampingScrollPhysics(),
+                            //                           shrinkWrap: true,
+                            //                           scrollDirection:
+                            //                               Axis.vertical,
+                            //                           itemCount: 15,
+                            //                           itemBuilder:
+                            //                               (BuildContext context,
+                            //                                   int index) {
+                            //                             return Column(
+                            //                               children: [
+                            //                                 Row(
+                            //                                   crossAxisAlignment:
+                            //                                       CrossAxisAlignment
+                            //                                           .start,
+                            //                                   children: [
+                            //                                     CachedNetworkImage(
+                            //                                       height: 80,
+                            //                                       width: 80,
+                            //                                       imageUrl:
+                            //                                           "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                            //                                       imageBuilder:
+                            //                                           (context,
+                            //                                                   imageProvider) =>
+                            //                                               Container(
+                            //                                         decoration:
+                            //                                             BoxDecoration(
+                            //                                           image:
+                            //                                               DecorationImage(
+                            //                                             image:
+                            //                                                 imageProvider,
+                            //                                             fit: BoxFit
+                            //                                                 .contain,
+                            //                                           ),
+                            //                                         ),
+                            //                                       ),
+                            //                                       placeholder: (context,
+                            //                                               url) =>
+                            //                                           const Padding(
+                            //                                         padding:
+                            //                                             EdgeInsets
+                            //                                                 .all(
+                            //                                                     12.0),
+                            //                                         child: Center(
+                            //                                           child:
+                            //                                               CircularProgressIndicator(
+                            //                                             strokeWidth:
+                            //                                                 2,
+                            //                                             color: Colors
+                            //                                                 .black,
+                            //                                           ),
+                            //                                         ),
+                            //                                       ),
+                            //                                       errorWidget: (context,
+                            //                                               url,
+                            //                                               error) =>
+                            //                                           const Center(
+                            //                                         child: Icon(
+                            //                                           Icons
+                            //                                               .error_outline,
+                            //                                           color: Colors
+                            //                                               .red,
+                            //                                         ),
+                            //                                       ),
+                            //                                     ),
+                            //                                     const SizedBox(
+                            //                                         width: 14),
+                            //                                     Expanded(
+                            //                                       child: Column(
+                            //                                         crossAxisAlignment:
+                            //                                             CrossAxisAlignment
+                            //                                                 .start,
+                            //                                         mainAxisAlignment:
+                            //                                             MainAxisAlignment
+                            //                                                 .start,
+                            //                                         children: [
+                            //                                           Text(
+                            //                                             "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                            //                                             maxLines:
+                            //                                                 2,
+                            //                                             overflow:
+                            //                                                 TextOverflow
+                            //                                                     .ellipsis,
+                            //                                             style:
+                            //                                                 getAppStyle(
+                            //                                               color: Colors
+                            //                                                   .black,
+                            //                                               fontWeight:
+                            //                                                   FontWeight.w600,
+                            //                                               fontSize:
+                            //                                                   13,
+                            //                                             ),
+                            //                                           ),
+                            //                                           Padding(
+                            //                                             padding: const EdgeInsets
+                            //                                                 .symmetric(
+                            //                                                 vertical:
+                            //                                                     02),
+                            //                                             child:
+                            //                                                 Row(
+                            //                                               children: [
+                            //                                                 Text(
+                            //                                                   "250 g",
+                            //                                                   style:
+                            //                                                       getAppStyle(
+                            //                                                     color: Colors.grey,
+                            //                                                     fontWeight: FontWeight.w500,
+                            //                                                     fontSize: 12,
+                            //                                                   ),
+                            //                                                 ),
+                            //                                                 Container(
+                            //                                                   margin:
+                            //                                                       const EdgeInsets.only(left: 8),
+                            //                                                   padding: const EdgeInsets.only(
+                            //                                                       left: 6,
+                            //                                                       right: 8,
+                            //                                                       top: 2,
+                            //                                                       bottom: 2),
+                            //                                                   decoration:
+                            //                                                       BoxDecoration(
+                            //                                                     borderRadius: BorderRadius.circular(2),
+                            //                                                     color: CommonColors.primaryColor.withOpacity(0.1),
+                            //                                                   ),
+                            //                                                   child:
+                            //                                                       Row(
+                            //                                                     children: [
+                            //                                                       const Icon(
+                            //                                                         Icons.percent_rounded,
+                            //                                                         color: CommonColors.primaryColor,
+                            //                                                         size: 14,
+                            //                                                       ),
+                            //                                                       Text(
+                            //                                                         "Deal Applied",
+                            //                                                         style: getAppStyle(
+                            //                                                           color: CommonColors.primaryColor,
+                            //                                                           fontWeight: FontWeight.w500,
+                            //                                                           fontSize: 10,
+                            //                                                         ),
+                            //                                                       )
+                            //                                                     ],
+                            //                                                   ),
+                            //                                                 )
+                            //                                               ],
+                            //                                             ),
+                            //                                           ),
+                            //                                         ],
+                            //                                       ),
+                            //                                     ),
+                            //                                     const SizedBox(
+                            //                                         width: 8),
+                            //                                     Column(
+                            //                                       crossAxisAlignment:
+                            //                                           CrossAxisAlignment
+                            //                                               .start,
+                            //                                       mainAxisAlignment:
+                            //                                           MainAxisAlignment
+                            //                                               .start,
+                            //                                       children: [
+                            //                                         Container(
+                            //                                           padding: const EdgeInsets
+                            //                                               .symmetric(
+                            //                                               horizontal:
+                            //                                                   4,
+                            //                                               vertical:
+                            //                                                   4),
+                            //                                           margin: const EdgeInsets
+                            //                                               .only(
+                            //                                               bottom:
+                            //                                                   4),
+                            //                                           height: 30,
+                            //                                           width: 80,
+                            //                                           decoration:
+                            //                                               BoxDecoration(
+                            //                                             borderRadius:
+                            //                                                 BorderRadius.circular(
+                            //                                                     6),
+                            //                                             color: CommonColors
+                            //                                                 .primaryColor,
+                            //                                           ),
+                            //                                           child: Row(
+                            //                                             mainAxisAlignment:
+                            //                                                 MainAxisAlignment
+                            //                                                     .spaceAround,
+                            //                                             children: [
+                            //                                               GestureDetector(
+                            //                                                 onTap: () =>
+                            //                                                     decrementItem(),
+                            //                                                 child:
+                            //                                                     const Icon(
+                            //                                                   Icons.remove,
+                            //                                                   size:
+                            //                                                       16,
+                            //                                                   color:
+                            //                                                       Colors.white,
+                            //                                                 ),
+                            //                                               ),
+                            //                                               Text(
+                            //                                                 itemCount
+                            //                                                     .toString(),
+                            //                                                 style:
+                            //                                                     getAppStyle(
+                            //                                                   color:
+                            //                                                       Colors.white,
+                            //                                                   fontWeight:
+                            //                                                       FontWeight.w500,
+                            //                                                   fontSize:
+                            //                                                       14,
+                            //                                                 ),
+                            //                                               ),
+                            //                                               GestureDetector(
+                            //                                                 onTap: () =>
+                            //                                                     incrementItem(),
+                            //                                                 child:
+                            //                                                     const Icon(
+                            //                                                   Icons.add,
+                            //                                                   size:
+                            //                                                       16,
+                            //                                                   color:
+                            //                                                       Colors.white,
+                            //                                                 ),
+                            //                                               ),
+                            //                                             ],
+                            //                                           ),
+                            //                                         ),
+                            //                                         Row(
+                            //                                           children: [
+                            //                                             Text(
+                            //                                               "₹${"80.0"}",
+                            //                                               style:
+                            //                                                   getAppStyle(
+                            //                                                 decoration:
+                            //                                                     TextDecoration.lineThrough,
+                            //                                                 color:
+                            //                                                     Colors.grey,
+                            //                                                 fontWeight:
+                            //                                                     FontWeight.w500,
+                            //                                                 fontSize:
+                            //                                                     12,
+                            //                                               ),
+                            //                                             ),
+                            //                                             const SizedBox(
+                            //                                                 width:
+                            //                                                     4),
+                            //                                             Text(
+                            //                                               "₹${"250.0"}",
+                            //                                               style:
+                            //                                                   getAppStyle(
+                            //                                                 color:
+                            //                                                     Colors.black,
+                            //                                                 fontWeight:
+                            //                                                     FontWeight.bold,
+                            //                                                 fontSize:
+                            //                                                     13,
+                            //                                               ),
+                            //                                             ),
+                            //                                           ],
+                            //                                         ),
+                            //                                       ],
+                            //                                     ),
+                            //                                   ],
+                            //                                 ),
+                            //                                 const SizedBox(
+                            //                                     height: 10)
+                            //                               ],
+                            //                             );
+                            //                           },
+                            //                         ),
+                            //                       ],
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //                 const Spacer(),
+                            //                 Padding(
+                            //                   padding: const EdgeInsets.only(
+                            //                       bottom: 20),
+                            //                   child: Row(
+                            //                     children: [
+                            //                       Container(
+                            //                         height: 48,
+                            //                         width: 60,
+                            //                         margin: const EdgeInsets.only(
+                            //                             right: 6),
+                            //                         color: Colors.transparent,
+                            //                         child: Stack(
+                            //                           children: List.generate(
+                            //                             itemCount - 1 > 3
+                            //                                 ? 3
+                            //                                 : itemCount - 1,
+                            //                             (index) => Positioned(
+                            //                               left: index * 6,
+                            //                               child: Container(
+                            //                                 height: 48,
+                            //                                 width: 48,
+                            //                                 padding:
+                            //                                     const EdgeInsets
+                            //                                         .symmetric(
+                            //                                         horizontal: 6,
+                            //                                         vertical: 2),
+                            //                                 decoration:
+                            //                                     BoxDecoration(
+                            //                                   color: Colors.white,
+                            //                                   border: Border.all(
+                            //                                       color: CommonColors
+                            //                                           .mGrey500),
+                            //                                   borderRadius:
+                            //                                       BorderRadius
+                            //                                           .circular(
+                            //                                               8),
+                            //                                 ),
+                            //                                 child:
+                            //                                     CachedNetworkImage(
+                            //                                   imageUrl:
+                            //                                       "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                            //                                   fit: BoxFit.cover,
+                            //                                   placeholder: (context,
+                            //                                           url) =>
+                            //                                       const Center(
+                            //                                           child: SizedBox(
+                            //                                               height:
+                            //                                                   10,
+                            //                                               width:
+                            //                                                   10,
+                            //                                               child:
+                            //                                                   CircularProgressIndicator())),
+                            //                                   errorWidget: (context,
+                            //                                           url,
+                            //                                           error) =>
+                            //                                       const Icon(
+                            //                                           Icons
+                            //                                               .error_outline,
+                            //                                           color: Colors
+                            //                                               .red),
+                            //                                 ),
+                            //                               ),
+                            //                             ),
+                            //                           ),
+                            //                         ),
+                            //                       ),
+                            //                       Row(
+                            //                         children: [
+                            //                           Text(
+                            //                             "${itemCount - 1} Items",
+                            //                             style: getAppStyle(
+                            //                               color: CommonColors
+                            //                                   .blackColor,
+                            //                               fontWeight:
+                            //                                   FontWeight.w500,
+                            //                               fontSize: 12,
+                            //                             ),
+                            //                           ),
+                            //                           const Icon(
+                            //                             Icons
+                            //                                 .arrow_drop_up_rounded,
+                            //                             color: CommonColors
+                            //                                 .primaryColor,
+                            //                             size: 30,
+                            //                           )
+                            //                         ],
+                            //                       ),
+                            //                       const SizedBox(width: 36),
+                            //                       Expanded(
+                            //                         child: PrimaryButton(
+                            //                           height: 55,
+                            //                           label: "View Cart",
+                            //                           buttonColor: CommonColors
+                            //                               .primaryColor,
+                            //                           labelColor: Colors.white,
+                            //                           borderRadius:
+                            //                               BorderRadius.circular(
+                            //                                   14),
+                            //                           onPress: () {
+                            //                             showModalBottomSheet(
+                            //                               context: context,
+                            //                               isScrollControlled:
+                            //                                   true,
+                            //                               useSafeArea: true,
+                            //                               backgroundColor:
+                            //                                   Colors.white,
+                            //                               builder: (_) {
+                            //                                 return FractionallySizedBox(
+                            //                                   heightFactor: 0.77,
+                            //                                   child:
+                            //                                       StatefulBuilder(
+                            //                                     builder: (BuildContext
+                            //                                             context,
+                            //                                         StateSetter
+                            //                                             setState) {
+                            //                                       return Padding(
+                            //                                         padding: const EdgeInsets
+                            //                                                 .symmetric(
+                            //                                                 horizontal:
+                            //                                                     20) +
+                            //                                             const EdgeInsets
+                            //                                                 .only(
+                            //                                                 top:
+                            //                                                     10),
+                            //                                         child: Column(
+                            //                                           children: [
+                            //                                             Padding(
+                            //                                               padding: const EdgeInsets
+                            //                                                   .only(
+                            //                                                   left:
+                            //                                                       12,
+                            //                                                   right:
+                            //                                                       12,
+                            //                                                   top:
+                            //                                                       12),
+                            //                                               child:
+                            //                                                   Row(
+                            //                                                 mainAxisAlignment:
+                            //                                                     MainAxisAlignment.spaceBetween,
+                            //                                                 children: [
+                            //                                                   Column(
+                            //                                                     crossAxisAlignment: CrossAxisAlignment.start,
+                            //                                                     children: [
+                            //                                                       Text(
+                            //                                                         'Review Cart',
+                            //                                                         style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            //                                                       ),
+                            //                                                       Row(
+                            //                                                         children: [
+                            //                                                           Text(
+                            //                                                             "3 Items • Total",
+                            //                                                             style: getAppStyle(color: CommonColors.black54),
+                            //                                                           ),
+                            //                                                           Text(
+                            //                                                             " ₹542",
+                            //                                                             style: getAppStyle(fontWeight: FontWeight.bold),
+                            //                                                           ),
+                            //                                                         ],
+                            //                                                       )
+                            //                                                     ],
+                            //                                                   ),
+                            //                                                   InkWell(
+                            //                                                     onTap: () {
+                            //                                                       Navigator.pop(context);
+                            //                                                     },
+                            //                                                     child: Container(
+                            //                                                       decoration: BoxDecoration(
+                            //                                                         shape: BoxShape.circle,
+                            //                                                         boxShadow: [
+                            //                                                           BoxShadow(
+                            //                                                             color: Colors.grey,
+                            //                                                             offset: const Offset(
+                            //                                                               2.0,
+                            //                                                               2.0,
+                            //                                                             ),
+                            //                                                             blurRadius: 5.0,
+                            //                                                             spreadRadius: 0.0,
+                            //                                                           ),
+                            //                                                           //BoxShadow
+                            //                                                           BoxShadow(
+                            //                                                             color: Colors.white,
+                            //                                                             offset: const Offset(0.0, 0.0),
+                            //                                                             blurRadius: 0.0,
+                            //                                                             spreadRadius: 0.0,
+                            //                                                           ),
+                            //                                                           //BoxShadow
+                            //                                                         ],
+                            //                                                       ),
+                            //                                                       child: Padding(
+                            //                                                         padding: const EdgeInsets.all(8.0),
+                            //                                                         child: Icon(
+                            //                                                           Icons.close,
+                            //                                                           size: 15,
+                            //                                                         ),
+                            //                                                       ),
+                            //                                                     ),
+                            //                                                   ),
+                            //                                                 ],
+                            //                                               ),
+                            //                                             ),
+                            //                                             kCommonSpaceV10,
+                            //                                             kCommonSpaceV3,
+                            //                                             Container(
+                            //                                               height:
+                            //                                                   3,
+                            //                                               color: CommonColors
+                            //                                                   .mGrey300,
+                            //                                             ),
+                            //                                             Container(
+                            //                                               height: MediaQuery.of(context).size.height /
+                            //                                                   1.82,
+                            //                                               padding: const EdgeInsets
+                            //                                                   .symmetric(
+                            //                                                   horizontal:
+                            //                                                       12),
+                            //                                               margin: const EdgeInsets
+                            //                                                   .only(
+                            //                                                   top:
+                            //                                                       12),
+                            //                                               decoration:
+                            //                                                   BoxDecoration(
+                            //                                                 color:
+                            //                                                     Colors.red,
+                            //                                                 borderRadius:
+                            //                                                     BorderRadius.circular(12),
+                            //                                               ),
+                            //                                               child:
+                            //                                                   SingleChildScrollView(
+                            //                                                 child:
+                            //                                                     ListView.builder(
+                            //                                                   padding:
+                            //                                                       const EdgeInsets.only(top: 12),
+                            //                                                   physics:
+                            //                                                       const ClampingScrollPhysics(),
+                            //                                                   shrinkWrap:
+                            //                                                       true,
+                            //                                                   scrollDirection:
+                            //                                                       Axis.vertical,
+                            //                                                   itemCount:
+                            //                                                       15,
+                            //                                                   itemBuilder:
+                            //                                                       (BuildContext context, int index) {
+                            //                                                     return Column(
+                            //                                                       children: [
+                            //                                                         Row(
+                            //                                                           crossAxisAlignment: CrossAxisAlignment.start,
+                            //                                                           children: [
+                            //                                                             CachedNetworkImage(
+                            //                                                               height: 80,
+                            //                                                               width: 80,
+                            //                                                               imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                            //                                                               imageBuilder: (context, imageProvider) => Container(
+                            //                                                                 decoration: BoxDecoration(
+                            //                                                                   image: DecorationImage(
+                            //                                                                     image: imageProvider,
+                            //                                                                     fit: BoxFit.contain,
+                            //                                                                   ),
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                               placeholder: (context, url) => const Padding(
+                            //                                                                 padding: EdgeInsets.all(12.0),
+                            //                                                                 child: Center(
+                            //                                                                   child: CircularProgressIndicator(
+                            //                                                                     strokeWidth: 2,
+                            //                                                                     color: Colors.black,
+                            //                                                                   ),
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                               errorWidget: (context, url, error) => const Center(
+                            //                                                                 child: Icon(
+                            //                                                                   Icons.error_outline,
+                            //                                                                   color: Colors.red,
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                             ),
+                            //                                                             const SizedBox(width: 14),
+                            //                                                             Expanded(
+                            //                                                               child: Column(
+                            //                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                            //                                                                 mainAxisAlignment: MainAxisAlignment.start,
+                            //                                                                 children: [
+                            //                                                                   Text(
+                            //                                                                     "Bolas Cashew Nuts 250 Bolas Cashew Nuts 250",
+                            //                                                                     maxLines: 2,
+                            //                                                                     overflow: TextOverflow.ellipsis,
+                            //                                                                     style: getAppStyle(
+                            //                                                                       color: Colors.black,
+                            //                                                                       fontWeight: FontWeight.w600,
+                            //                                                                       fontSize: 13,
+                            //                                                                     ),
+                            //                                                                   ),
+                            //                                                                   Padding(
+                            //                                                                     padding: const EdgeInsets.symmetric(vertical: 02),
+                            //                                                                     child: Text(
+                            //                                                                       "250 g",
+                            //                                                                       style: getAppStyle(
+                            //                                                                         color: Colors.grey,
+                            //                                                                         fontWeight: FontWeight.w500,
+                            //                                                                         fontSize: 12,
+                            //                                                                       ),
+                            //                                                                     ),
+                            //                                                                   ),
+                            //                                                                 ],
+                            //                                                               ),
+                            //                                                             ),
+                            //                                                             const SizedBox(width: 8),
+                            //                                                             Column(
+                            //                                                               crossAxisAlignment: CrossAxisAlignment.start,
+                            //                                                               mainAxisAlignment: MainAxisAlignment.start,
+                            //                                                               children: [
+                            //                                                                 Container(
+                            //                                                                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                            //                                                                   margin: const EdgeInsets.only(bottom: 4),
+                            //                                                                   height: 30,
+                            //                                                                   width: 80,
+                            //                                                                   decoration: BoxDecoration(
+                            //                                                                     borderRadius: BorderRadius.circular(6),
+                            //                                                                     color: CommonColors.primaryColor,
+                            //                                                                   ),
+                            //                                                                   child: Row(
+                            //                                                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //                                                                     children: [
+                            //                                                                       GestureDetector(
+                            //                                                                         onTap: () => decrementItem(),
+                            //                                                                         child: const Icon(
+                            //                                                                           Icons.remove,
+                            //                                                                           size: 16,
+                            //                                                                           color: Colors.white,
+                            //                                                                         ),
+                            //                                                                       ),
+                            //                                                                       Text(
+                            //                                                                         itemCount.toString(),
+                            //                                                                         style: getAppStyle(
+                            //                                                                           color: Colors.white,
+                            //                                                                           fontWeight: FontWeight.w500,
+                            //                                                                           fontSize: 14,
+                            //                                                                         ),
+                            //                                                                       ),
+                            //                                                                       GestureDetector(
+                            //                                                                         onTap: () => incrementItem(),
+                            //                                                                         child: const Icon(
+                            //                                                                           Icons.add,
+                            //                                                                           size: 16,
+                            //                                                                           color: Colors.white,
+                            //                                                                         ),
+                            //                                                                       ),
+                            //                                                                     ],
+                            //                                                                   ),
+                            //                                                                 ),
+                            //                                                                 Row(
+                            //                                                                   children: [
+                            //                                                                     Text(
+                            //                                                                       "₹${"80.0"}",
+                            //                                                                       style: getAppStyle(
+                            //                                                                         decoration: TextDecoration.lineThrough,
+                            //                                                                         color: Colors.grey,
+                            //                                                                         fontWeight: FontWeight.w500,
+                            //                                                                         fontSize: 12,
+                            //                                                                       ),
+                            //                                                                     ),
+                            //                                                                     const SizedBox(width: 4),
+                            //                                                                     Text(
+                            //                                                                       "₹${"250.0"}",
+                            //                                                                       style: getAppStyle(
+                            //                                                                         color: Colors.black,
+                            //                                                                         fontWeight: FontWeight.bold,
+                            //                                                                         fontSize: 13,
+                            //                                                                       ),
+                            //                                                                     ),
+                            //                                                                   ],
+                            //                                                                 ),
+                            //                                                               ],
+                            //                                                             ),
+                            //                                                           ],
+                            //                                                         ),
+                            //                                                         const SizedBox(height: 10)
+                            //                                                       ],
+                            //                                                     );
+                            //                                                   },
+                            //                                                 ),
+                            //                                               ),
+                            //                                             ),
+                            //                                             const Spacer(),
+                            //                                             Padding(
+                            //                                               padding: const EdgeInsets
+                            //                                                   .only(
+                            //                                                   top:
+                            //                                                       10,
+                            //                                                   bottom:
+                            //                                                       20),
+                            //                                               child:
+                            //                                                   Row(
+                            //                                                 children: [
+                            //                                                   Container(
+                            //                                                     height: 42,
+                            //                                                     width: 58,
+                            //                                                     margin: const EdgeInsets.only(right: 10),
+                            //                                                     color: Colors.transparent,
+                            //                                                     child: Stack(
+                            //                                                       children: [
+                            //                                                         Container(
+                            //                                                           height: 42,
+                            //                                                           width: 42,
+                            //                                                           decoration: BoxDecoration(
+                            //                                                             color: Colors.white,
+                            //                                                             border: Border.all(color: Colors.grey),
+                            //                                                             borderRadius: BorderRadius.circular(10),
+                            //                                                           ),
+                            //                                                         ),
+                            //                                                         Positioned(
+                            //                                                           left: 8,
+                            //                                                           child: Container(
+                            //                                                             height: 42,
+                            //                                                             width: 42,
+                            //                                                             decoration: BoxDecoration(
+                            //                                                               color: Colors.white,
+                            //                                                               border: Border.all(color: Colors.grey),
+                            //                                                               borderRadius: BorderRadius.circular(10),
+                            //                                                             ),
+                            //                                                           ),
+                            //                                                         ),
+                            //                                                         Positioned(
+                            //                                                           left: 16,
+                            //                                                           child: Container(
+                            //                                                             height: 42,
+                            //                                                             width: 42,
+                            //                                                             decoration: BoxDecoration(
+                            //                                                               color: Colors.white,
+                            //                                                               border: Border.all(color: Colors.grey),
+                            //                                                               borderRadius: BorderRadius.circular(10),
+                            //                                                             ),
+                            //                                                             child: CachedNetworkImage(
+                            //                                                               height: 80,
+                            //                                                               width: 80,
+                            //                                                               imageUrl: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+                            //                                                               imageBuilder: (context, imageProvider) => Container(
+                            //                                                                 decoration: BoxDecoration(
+                            //                                                                   image: DecorationImage(
+                            //                                                                     image: imageProvider,
+                            //                                                                     fit: BoxFit.contain,
+                            //                                                                   ),
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                               placeholder: (context, url) => const Padding(
+                            //                                                                 padding: EdgeInsets.all(12.0),
+                            //                                                                 child: Center(
+                            //                                                                   child: CircularProgressIndicator(
+                            //                                                                     strokeWidth: 2,
+                            //                                                                     color: Colors.black,
+                            //                                                                   ),
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                               errorWidget: (context, url, error) => const Center(
+                            //                                                                 child: Icon(
+                            //                                                                   Icons.error_outline,
+                            //                                                                   color: Colors.red,
+                            //                                                                 ),
+                            //                                                               ),
+                            //                                                             ),
+                            //                                                           ),
+                            //                                                         ),
+                            //                                                       ],
+                            //                                                     ),
+                            //                                                   ),
+                            //                                                   InkWell(
+                            //                                                     onTap: () {
+                            //                                                       debugPrint("OnTap");
+                            //                                                     },
+                            //                                                     child: Row(
+                            //                                                       children: [
+                            //                                                         Text(
+                            //                                                           "6 Item",
+                            //                                                           style: getAppStyle(
+                            //                                                             color: Colors.black,
+                            //                                                             fontWeight: FontWeight.w500,
+                            //                                                             fontSize: 12,
+                            //                                                           ),
+                            //                                                         ),
+                            //                                                         const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            //                                                       ],
+                            //                                                     ),
+                            //                                                   ),
+                            //                                                   const SizedBox(width: 20),
+                            //                                                   Expanded(
+                            //                                                     child: GestureDetector(
+                            //                                                       onTap: () {
+                            //                                                         debugPrint("On Tap Sub Product");
+                            //                                                       },
+                            //                                                       child: Container(
+                            //                                                         height: 40,
+                            //                                                         decoration: BoxDecoration(
+                            //                                                           borderRadius: BorderRadius.circular(6),
+                            //                                                           color: CommonColors.primaryColor,
+                            //                                                         ),
+                            //                                                         child: Center(
+                            //                                                           child: Text(
+                            //                                                             "View Cart",
+                            //                                                             style: getAppStyle(
+                            //                                                               color: Colors.white,
+                            //                                                               fontWeight: FontWeight.bold,
+                            //                                                               fontSize: 14,
+                            //                                                             ),
+                            //                                                           ),
+                            //                                                         ),
+                            //                                                       ),
+                            //                                                     ),
+                            //                                                   ),
+                            //                                                 ],
+                            //                                               ),
+                            //                                             ),
+                            //                                           ],
+                            //                                         ),
+                            //                                       );
+                            //                                     },
+                            //                                   ),
+                            //                                 );
+                            //                               },
+                            //                             );
+                            //                           },
+                            //                         ),
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           );
+                            //         },
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : null,
+        ),
       ),
     );
   }
