@@ -1,3 +1,4 @@
+import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 
 import '../models/address_master.dart';
@@ -63,4 +64,6 @@ abstract class BaseServices {
   });
 
   Future<GetCartMaster?> getCartApi();
+
+  Future<GetCouponMaster?> getCouponApi();
 }

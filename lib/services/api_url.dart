@@ -17,6 +17,7 @@ class ApiUrl {
   static const String GET_PROFILE = "${BASE_URL}get_profile";
   static const String GET_ADDRESS = "${BASE_URL}get_address";
   static const String GET_CART = "${BASE_URL}get_cart_list";
+  static const String GET_COUPON = "${BASE_URL}get_coupon_list";
   static const String ADD_ADDRESS = "${BASE_URL}add_address";
   static const String ADD_TO_CART = "${BASE_URL}add_to_cart";
   static const String DELETE_ADDRESS = "${BASE_URL}delete_address";

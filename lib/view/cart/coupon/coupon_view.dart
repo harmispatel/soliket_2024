@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/utils/local_images.dart';
+import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../../widget/common_appbar.dart';
@@ -17,9 +19,19 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
   TextEditingController edCouponApplyController = TextEditingController();
 
   bool isTextFilled = false;
+  late CouponViewModel mViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<CouponViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
 
@@ -301,6 +302,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return GetCartMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<GetCouponMaster?> getCouponApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_COUPON,
+    );
+    if (response != null) {
+      try {
+        return GetCouponMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

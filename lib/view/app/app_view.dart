@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../generated/i18n.dart';
 import '../../services/index.dart';
@@ -245,6 +246,8 @@ class AppState extends State<App> {
                   create: (_) => EditAddressViewModel()),
               ChangeNotifierProvider<CartViewModel>(
                   create: (_) => CartViewModel()),
+              ChangeNotifierProvider<CouponViewModel>(
+                  create: (_) => CouponViewModel()),
             ],
             child: Builder(
               builder: (context) {
