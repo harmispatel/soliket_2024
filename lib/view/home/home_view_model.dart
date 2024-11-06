@@ -166,6 +166,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/models/home_master.dart';
 
 import '../../models/common_master.dart';
@@ -240,12 +241,15 @@ class HomeViewModel with ChangeNotifier {
 
     if (!master.status) {
       CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
-      return; // Exit if the API returns an error
+      return;
     }
 
-    log("API Success: Page $currentPage");
-
-    currentPage++;
+    if (currentPage == master.totalPage!) {
+      isPageFinish = true;
+      log("...........Page............ $currentPage");
+    } else {
+      currentPage++;
+    }
 
     homePageData.addAll(master.data);
 
@@ -296,10 +300,6 @@ class HomeViewModel with ChangeNotifier {
       }
     }
 
-    if (currentPage > master.totalPage!) {
-      isPageFinish = true;
-    }
-
     notifyListeners();
   }
 
@@ -330,9 +330,9 @@ class HomeViewModel with ChangeNotifier {
 
     if (master.status == true) {
       log("Success :: true");
-      await CartViewModel().getCartApi();
-      // push(SaveAddressView());
-      // SavedAddressViewModel().getAddressApi();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Provider.of<CartViewModel>(context, listen: false).getCartApi();
+      });
     }
     notifyListeners();
   }

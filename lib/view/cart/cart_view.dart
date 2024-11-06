@@ -6,7 +6,7 @@ import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/cart/cart_view_model.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
 
-import '../../models/get_cart_master.dart';
+import '../../models/cart_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../widget/common_appbar.dart';

@@ -130,7 +130,7 @@ class _CouponListViewState extends State<CouponListView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.network(
-                        "https://firebasestorage.googleapis.com/v0/b/fir-7f880.appspot.com/o/discount.png?alt=media&token=a7f9be01-9b25-49f7-88c9-0fe0bc4fa64b",
+                        "https://newadmin.soliket.com/upload/coupon/coupon_icon.png",
                         height: 40,
                       ),
                       const SizedBox(width: 10),

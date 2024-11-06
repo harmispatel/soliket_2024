@@ -1,6 +1,8 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
-import 'package:solikat_2024/models/get_cart_master.dart';
+import 'package:solikat_2024/models/cart_master.dart';
+
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
