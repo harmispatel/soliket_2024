@@ -173,6 +173,7 @@ import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
+import '../cart/cart_view_model.dart';
 
 class HomeViewModel with ChangeNotifier {
   late BuildContext context;
@@ -250,42 +251,42 @@ class HomeViewModel with ChangeNotifier {
 
     final Map<String, Function> sectionHandlers = {
       'section_1': (section) {
-        section1DataList.addAll(section.data);
+        section1DataList.addAll(section.sectionData);
         section1Title = section.sectionTitle;
       },
       'section_2': (section) {
-        section2DataList.addAll(section.data);
+        section2DataList.addAll(section.sectionData);
         section2Title = section.sectionTitle;
       },
       'section_3': (section) {
-        section3DataList.addAll(section.data);
+        section3DataList.addAll(section.sectionData);
         section3Title = section.sectionTitle;
       },
       'section_4': (section) {
-        section4DataList.addAll(section.data);
+        section4DataList.addAll(section.sectionData);
         section4Title = section.sectionTitle;
       },
       'section_5': (section) {
-        section5DataList.addAll(section.data);
+        section5DataList.addAll(section.sectionData);
         section5Title = section.sectionTitle;
       },
       'section_6': (section) {
-        section6DataList.addAll(section.data);
+        section6DataList.addAll(section.sectionData);
         section6Title = section.sectionTitle;
       },
       'section_7': (section) {
-        section7DataList.addAll(section.data);
+        section7DataList.addAll(section.sectionData);
         section7Title = section.sectionTitle;
       },
       'section_8': (section) {
-        section8DataList.addAll(section.data);
+        section8DataList.addAll(section.sectionData);
         section8Title = section.sectionTitle;
       },
       'section_9': (section) {
-        section9DataList.addAll(section.data);
+        section9DataList.addAll(section.sectionData);
       },
       'section_10': (section) {
-        section10Text = section.data.text;
+        section10Text = section.sectionData.text;
       },
     };
 
@@ -329,6 +330,7 @@ class HomeViewModel with ChangeNotifier {
 
     if (master.status == true) {
       log("Success :: true");
+      await CartViewModel().getCartApi();
       // push(SaveAddressView());
       // SavedAddressViewModel().getAddressApi();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/view/home/profile/profile_view.dart';
+
 import '../../../utils/common_colors.dart';
 import '../../cart/cart_view.dart';
 import '../../home/home_view.dart';
@@ -39,12 +40,13 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
+          splashColor: CommonColors.mWhite,
+          highlightColor: CommonColors.mWhite,
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedFontSize: 12,
+          backgroundColor: CommonColors.mWhite,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
