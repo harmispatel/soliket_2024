@@ -1,7 +1,8 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
-import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../../utils/common_colors.dart';
@@ -40,7 +41,7 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: kCommonScreenPadding,
         child: Column(
           children: [
@@ -66,163 +67,232 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                 ),
               ),
             ),
-            const CouponListView(),
-            Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.only()),
-            )
+            kCommonSpaceV15,
+            mViewModel.isInitialLoading
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    enabled: true,
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                          kCommonSpaceV15,
+                          Container(
+                            width: double.infinity,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                          kCommonSpaceV15,
+                          Container(
+                            width: double.infinity,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                          kCommonSpaceV15,
+                          Container(
+                            width: double.infinity,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: mViewModel.couponList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        bool isApplied = mViewModel.appliedCoupons[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(12),
+                              dashPattern: [5, 5, 5, 5],
+                              color: isApplied
+                                  ? Colors.green
+                                  : CommonColors.mGrey300,
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white,
+                                  // border: Border.all(
+                                  //   color: isApplied
+                                  //       ? Colors.green
+                                  //       : CommonColors.mGrey300,
+                                  //   width: 1.2,
+                                  // ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Image.network(
+                                            mViewModel.couponList[index].icon ??
+                                                '',
+                                            height: 40,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          GestureDetector(
+                                            onTap: () {
+                                              debugPrint("OnTap Apply");
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 16,
+                                                  right: 6,
+                                                  top: 6,
+                                                  bottom: 6),
+                                              height: 30,
+                                              width: 80,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(08),
+                                                color: CommonColors.primaryColor
+                                                    .withOpacity(0.2),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  mViewModel.couponList[index]
+                                                          .couponCode ??
+                                                      '',
+                                                  style: getAppStyle(
+                                                    color: CommonColors
+                                                        .primaryColor,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              mViewModel.couponList[index]
+                                                      .message ??
+                                                  '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: getAppStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                mViewModel
+                                                        .appliedCoupons[index] =
+                                                    !mViewModel
+                                                        .appliedCoupons[index];
+                                              });
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 16,
+                                                  right: 6,
+                                                  top: 6,
+                                                  bottom: 6),
+                                              height: 36,
+                                              width: 80,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(08),
+                                                color: isApplied
+                                                    ? Colors.red
+                                                    : CommonColors.primaryColor,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  isApplied
+                                                      ? "Remove"
+                                                      : "Apply",
+                                                  style: getAppStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      InkWell(
+                                        onTap: () {
+                                          debugPrint("OnTap Change");
+                                        },
+                                        child: Text(
+                                          "View Details",
+                                          style: getAppStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              color: CommonColors.primaryColor),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 4, bottom: 12, left: 7),
+                              child: Text(
+                                "Buy items worth ₹3363.0 to avail this offer",
+                                style: getAppStyle(
+                                  color: Colors.red,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
       ),
-    );
-  }
-}
-
-// * Coupon List View * //
-
-class CouponListView extends StatefulWidget {
-  const CouponListView({super.key});
-
-  @override
-  State<CouponListView> createState() => _CouponListViewState();
-}
-
-class _CouponListViewState extends State<CouponListView> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 20),
-      physics: const ClampingScrollPhysics(),
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      itemCount: 2,
-      itemBuilder: (BuildContext context, int index) {
-        return Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset(
-                  LocalImages.img_coupon_bg,
-                  height: 150,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 4, bottom: 20, left: 7),
-                  child: Text(
-                    "Buy items worth ₹3363.0 to avail this offer",
-                    style: getAppStyle(
-                      color: Colors.red,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10) +
-                  const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.network(
-                        "https://newadmin.soliket.com/upload/coupon/coupon_icon.png",
-                        height: 40,
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          debugPrint("OnTap Apply");
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              left: 16, right: 6, top: 6, bottom: 6),
-                          height: 30,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(08),
-                            color: Colors.blueAccent.withOpacity(0.2),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "FREEDEL",
-                              style: getAppStyle(
-                                color: Colors.blueAccent,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Free Delivery",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: getAppStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          debugPrint("OnTap Apply");
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              left: 16, right: 6, top: 6, bottom: 6),
-                          height: 36,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(08),
-                            color: Colors.red,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Remove",
-                              style: getAppStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  InkWell(
-                    onTap: () {
-                      debugPrint("OnTap Change");
-                    },
-                    child: Text(
-                      "View Details",
-                      style: getAppStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: Colors.indigoAccent),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

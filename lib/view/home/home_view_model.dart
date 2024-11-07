@@ -212,6 +212,16 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // void updateCartCount(int variantId, int newCount) {
+  //   for (var product in section4DataList) {
+  //     if (product.variantId == variantId) {
+  //       product.cartCount = newCount;
+  //       notifyListeners();
+  //       break;
+  //     }
+  //   }
+  // }
+
   Future<void> getHomePageApi({
     required String latitude,
     required String longitude,

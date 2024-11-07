@@ -8,19 +8,17 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widget/common_appbar.dart';
-import '../shimmer_effect.dart';
 
-class SubCategoryViewRedesign extends StatefulWidget {
+class SubCategoryView extends StatefulWidget {
   final int categoryId;
 
-  SubCategoryViewRedesign({super.key, required this.categoryId});
+  SubCategoryView({super.key, required this.categoryId});
 
   @override
-  State<SubCategoryViewRedesign> createState() =>
-      _SubCategoryViewRedesignState();
+  State<SubCategoryView> createState() => _SubCategoryViewState();
 }
 
-class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
+class _SubCategoryViewState extends State<SubCategoryView> {
   late SubCategoryViewModel mViewModel;
   final ScrollController _scrollController = ScrollController();
   int itemCount = 0;
@@ -50,11 +48,9 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
-
       mViewModel.getCategoryProductApi(
           latitude: gUserLat,
           longitude: gUserLong,
-          currentPage: mViewModel.currentPage,
           categoryId: widget.categoryId.toString());
     });
   }
@@ -63,6 +59,7 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
   void dispose() {
     _scrollController.dispose();
     mViewModel.resetPage();
+    mViewModel.subCategoryList.clear();
     super.dispose();
   }
 
@@ -74,7 +71,6 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
       mViewModel.getCategoryProductApi(
         latitude: gUserLat,
         longitude: gUserLong,
-        currentPage: mViewModel.currentPage,
         categoryId: widget.categoryId.toString(),
       );
     }
@@ -105,581 +101,541 @@ class _SubCategoryViewRedesignState extends State<SubCategoryViewRedesign> {
           ),
         ],
       ),
-      body: mViewModel.isInitialLoading
-          ? ShimmerEffect()
-          : Row(
+      body: Row(
+        children: [
+          if (mViewModel.subCategoryList.isNotEmpty) ...[
+            Column(
               children: [
-                if (mViewModel.subCategoryList.isNotEmpty) ...[
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 1,
-                                //spreadRadius: 0.001,
-                              )
-                            ],
-                          ),
-                          child: ListView.builder(
-                            padding: EdgeInsets.only(top: 12, bottom: 12),
-                            scrollDirection: Axis.vertical,
-                            itemCount: mViewModel.subCategoryList.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = index;
-                                  });
-                                },
-                                child: Column(
+                Expanded(
+                  child: Container(
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 1,
+                          //spreadRadius: 0.001,
+                        )
+                      ],
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                      scrollDirection: Axis.vertical,
+                      itemCount: mViewModel.subCategoryList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                            print(
+                                "Category id :::: ${mViewModel.subCategoryList[index].subCategoryId}");
+                            mViewModel.resetPage();
+                            mViewModel.getSubCategoryProductApi(
+                                latitude: gUserLat,
+                                longitude: gUserLong,
+                                subCategoryId: mViewModel
+                                    .subCategoryList[index].subCategoryId
+                                    .toString());
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 70,
+                                    width: 70,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10) +
+                                            EdgeInsets.only(left: 6),
+                                    padding: EdgeInsets.all(6),
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomRight,
+                                        colors: _selectedIndex == index
+                                            ? [
+                                                Colors.orange.withOpacity(0.5),
+                                                Colors.yellow.withOpacity(0.1)
+                                              ]
+                                            : [
+                                                Colors.grey.shade50,
+                                                Colors.grey.shade50
+                                              ],
+                                        //begin: Alignment.topLeft,
+                                        //end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: mViewModel
+                                              .subCategoryList[index].image ??
+                                          '',
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) => Padding(
+                                        padding: EdgeInsets.all(12.0),
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Center(
+                                        child: Icon(
+                                          Icons.error_outline,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 70,
+                                    width: 4,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      ),
+                                      gradient: LinearGradient(
+                                        colors: _selectedIndex == index
+                                            ? [
+                                                CommonColors.primaryColor
+                                                    .withOpacity(0.5),
+                                                CommonColors.primaryColor
+                                              ]
+                                            : [
+                                                Colors.transparent,
+                                                Colors.transparent
+                                              ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 2, bottom: 12, left: 8),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 70,
-                                          width: 70,
-                                          margin: EdgeInsets.symmetric(
-                                                  horizontal: 10) +
-                                              EdgeInsets.only(left: 6),
-                                          padding: EdgeInsets.all(6),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.bottomRight,
-                                              colors: _selectedIndex == index
-                                                  ? [
-                                                      Colors.orange
-                                                          .withOpacity(0.5),
-                                                      Colors.yellow
-                                                          .withOpacity(0.1)
-                                                    ]
-                                                  : [
-                                                      Colors.grey.shade50,
-                                                      Colors.grey.shade50
-                                                    ],
-                                              //begin: Alignment.topLeft,
-                                              //end: Alignment.bottomRight,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: mViewModel
-                                                    .subCategoryList[index]
-                                                    .image ??
-                                                '',
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) =>
-                                                Padding(
-                                              padding: EdgeInsets.all(12.0),
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            errorWidget:
-                                                (context, url, error) => Center(
-                                              child: Icon(
-                                                Icons.error_outline,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ),
+                                    SizedBox(
+                                      width: 80,
+                                      child: Text(
+                                        mViewModel
+                                                .subCategoryList[index].name ??
+                                            '',
+                                        textAlign: TextAlign.center,
+                                        style: getAppStyle(
+                                          fontSize: 12,
+                                          color: _selectedIndex == index
+                                              ? CommonColors.primaryColor
+                                              : Colors.grey,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        Container(
-                                          height: 70,
-                                          width: 4,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(10),
-                                              topLeft: Radius.circular(10),
-                                            ),
-                                            gradient: LinearGradient(
-                                              colors: _selectedIndex == index
-                                                  ? [
-                                                      CommonColors.primaryColor
-                                                          .withOpacity(0.5),
-                                                      CommonColors.primaryColor
-                                                    ]
-                                                  : [
-                                                      Colors.transparent,
-                                                      Colors.transparent
-                                                    ],
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 2, bottom: 12, left: 8),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 80,
-                                            child: Text(
-                                              mViewModel.subCategoryList[index]
-                                                      .name ??
-                                                  '',
-                                              textAlign: TextAlign.center,
-                                              style: getAppStyle(
-                                                fontSize: 12,
-                                                color: _selectedIndex == index
-                                                    ? CommonColors.primaryColor
-                                                    : Colors.grey,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              );
-                            },
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  kCommonSpaceH10,
-                ],
-                Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: mViewModel.subCategoryList.isEmpty
-                              ? EdgeInsets.all(15)
-                              : EdgeInsets.only(top: 15, right: 5),
-                          child: GridView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.6,
-                              crossAxisSpacing: 2,
-                              mainAxisSpacing: 5,
-                            ),
-                            itemCount: mViewModel.categoryProductList.length,
-                            itemBuilder: (context, index) {
-                              return FittedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Container(
-                                    width: 170,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Stack(
-                                                children: [
-                                                  if (mViewModel
-                                                          .categoryProductList[
-                                                              index]
-                                                          .stock !=
-                                                      0)
-                                                    Center(
-                                                      child: Image.network(
-                                                        mViewModel
-                                                                .categoryProductList[
-                                                                    index]
-                                                                .image ??
-                                                            '',
-                                                        fit: BoxFit.contain,
-                                                        height: 170,
-                                                      ),
-                                                    ),
-                                                  if (mViewModel
-                                                          .categoryProductList[
-                                                              index]
-                                                          .stock ==
-                                                      0)
-                                                    Center(
-                                                      child: ColorFiltered(
-                                                        colorFilter:
-                                                            ColorFilter.mode(
-                                                          Colors.white
-                                                              .withOpacity(0.5),
-                                                          BlendMode
-                                                              .srcOver, // Blend mode for overlay
-                                                        ),
-                                                        child: Image.network(
-                                                          mViewModel
-                                                                  .categoryProductList[
-                                                                      index]
-                                                                  .image ??
-                                                              '',
-                                                          fit: BoxFit.contain,
-                                                          height: 170,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              SizedBox(
-                                                height: 40,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  child: Text(
-                                                    mViewModel
-                                                            .categoryProductList[
-                                                                index]
-                                                            .productName ??
-                                                        '',
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: getAppStyle(
-                                                        fontSize: 14,
-                                                        color: mViewModel
-                                                                    .categoryProductList[
-                                                                        index]
-                                                                    .stock ==
-                                                                0
-                                                            ? Colors.grey[400]
-                                                            : Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8),
-                                                child: Text(
-                                                  mViewModel
-                                                          .categoryProductList[
-                                                              index]
-                                                          .variantName ??
-                                                      '',
-                                                  style: getAppStyle(
-                                                    fontSize: 14,
-                                                    color: mViewModel
-                                                                .categoryProductList[
-                                                                    index]
-                                                                .stock ==
-                                                            0
-                                                        ? Colors.grey[400]
-                                                        : Colors.black54,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          mViewModel
-                                                              .categoryProductList[
-                                                                  index]
-                                                              .discountPrice
-                                                              .toString(),
-                                                          style: getAppStyle(
-                                                            fontSize: 14,
-                                                            color: mViewModel
-                                                                        .categoryProductList[
-                                                                            index]
-                                                                        .stock ==
-                                                                    0
-                                                                ? Colors
-                                                                    .grey[400]
-                                                                : Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          mViewModel
-                                                              .categoryProductList[
-                                                                  index]
-                                                              .productPrice
-                                                              .toString(),
-                                                          style: getAppStyle(
-                                                            color: mViewModel
-                                                                        .categoryProductList[
-                                                                            index]
-                                                                        .stock ==
-                                                                    0
-                                                                ? Colors
-                                                                    .grey[400]
-                                                                : Colors
-                                                                    .black54,
-                                                            fontSize: 12,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    if (mViewModel
-                                                            .categoryProductList[
-                                                                index]
-                                                            .stock !=
-                                                        0) ...[
-                                                      itemCount > 0
-                                                          ? Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          4,
-                                                                      vertical:
-                                                                          4),
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      bottom:
-                                                                          4),
-                                                              height: 35,
-                                                              width: 100,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                color: CommonColors
-                                                                    .primaryColor,
-                                                              ),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceAround,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        decrementItem,
-                                                                    child:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .remove,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    itemCount
-                                                                        .toString(),
-                                                                    style:
-                                                                        getAppStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          14,
-                                                                    ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        incrementItem,
-                                                                    child:
-                                                                        const Icon(
-                                                                      Icons.add,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          : InkWell(
-                                                              onTap:
-                                                                  incrementItem,
-                                                              child: Container(
-                                                                width: 100,
-                                                                height: 35,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                  border: Border.all(
-                                                                      color: CommonColors
-                                                                          .primaryColor,
-                                                                      width: 1),
-                                                                ),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    "Add",
-                                                                    style:
-                                                                        getAppStyle(
-                                                                      color: CommonColors
-                                                                          .primaryColor,
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                    ]
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        if (mViewModel
-                                                    .categoryProductList[index]
-                                                    .discountPer !=
-                                                0 &&
-                                            mViewModel
-                                                    .categoryProductList[index]
-                                                    .stock !=
-                                                0)
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.amber,
-                                                border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 5),
-                                                child: Text(
-                                                  "${mViewModel.categoryProductList[index].discountPer}% off",
-                                                  style: getAppStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        if (mViewModel
-                                                .categoryProductList[index]
-                                                .stock ==
-                                            0)
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 18, vertical: 100),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                                color: CommonColors.primaryColor
-                                                    .withOpacity(0.2),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black26,
-                                                    offset: const Offset(
-                                                      2.0,
-                                                      4.0,
-                                                    ),
-                                                    blurRadius: 5.0,
-                                                    spreadRadius: 0.5,
-                                                  ), //BoxShadow
-                                                  BoxShadow(
-                                                    color: Colors.white,
-                                                    offset:
-                                                        const Offset(0.0, 0.0),
-                                                    blurRadius: 0.0,
-                                                    spreadRadius: 0.0,
-                                                  ), //BoxShadow
-                                                ],
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16,
-                                                        vertical: 3),
-                                                child: Text(
-                                                  "Sorry, this item is sold out",
-                                                  textAlign: TextAlign.center,
-                                                  style: getAppStyle(
-                                                      color: CommonColors
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 12,
-                                                      height: 1.2),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
             ),
+            kCommonSpaceH10,
+          ],
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: mViewModel.subCategoryList.isEmpty
+                        ? EdgeInsets.all(15)
+                        : EdgeInsets.only(top: 15, right: 5),
+                    child: GridView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.6,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 5,
+                      ),
+                      itemCount: mViewModel.categoryProductList.length,
+                      itemBuilder: (context, index) {
+                        return FittedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Container(
+                              width: 170,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            if (mViewModel
+                                                    .categoryProductList[index]
+                                                    .stock !=
+                                                0)
+                                              Center(
+                                                child: Image.network(
+                                                  mViewModel
+                                                          .categoryProductList[
+                                                              index]
+                                                          .image ??
+                                                      '',
+                                                  fit: BoxFit.contain,
+                                                  height: 170,
+                                                ),
+                                              ),
+                                            if (mViewModel
+                                                    .categoryProductList[index]
+                                                    .stock ==
+                                                0)
+                                              Center(
+                                                child: ColorFiltered(
+                                                  colorFilter: ColorFilter.mode(
+                                                    Colors.white
+                                                        .withOpacity(0.5),
+                                                    BlendMode
+                                                        .srcOver, // Blend mode for overlay
+                                                  ),
+                                                  child: Image.network(
+                                                    mViewModel
+                                                            .categoryProductList[
+                                                                index]
+                                                            .image ??
+                                                        '',
+                                                    fit: BoxFit.contain,
+                                                    height: 170,
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        SizedBox(
+                                          height: 40,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Text(
+                                              mViewModel
+                                                      .categoryProductList[
+                                                          index]
+                                                      .productName ??
+                                                  '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: getAppStyle(
+                                                  fontSize: 14,
+                                                  color: mViewModel
+                                                              .categoryProductList[
+                                                                  index]
+                                                              .stock ==
+                                                          0
+                                                      ? Colors.grey[400]
+                                                      : Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Text(
+                                            mViewModel
+                                                    .categoryProductList[index]
+                                                    .variantName ??
+                                                '',
+                                            style: getAppStyle(
+                                              fontSize: 14,
+                                              color: mViewModel
+                                                          .categoryProductList[
+                                                              index]
+                                                          .stock ==
+                                                      0
+                                                  ? Colors.grey[400]
+                                                  : Colors.black54,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    mViewModel
+                                                        .categoryProductList[
+                                                            index]
+                                                        .discountPrice
+                                                        .toString(),
+                                                    style: getAppStyle(
+                                                      fontSize: 14,
+                                                      color: mViewModel
+                                                                  .categoryProductList[
+                                                                      index]
+                                                                  .stock ==
+                                                              0
+                                                          ? Colors.grey[400]
+                                                          : Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    mViewModel
+                                                        .categoryProductList[
+                                                            index]
+                                                        .productPrice
+                                                        .toString(),
+                                                    style: getAppStyle(
+                                                      color: mViewModel
+                                                                  .categoryProductList[
+                                                                      index]
+                                                                  .stock ==
+                                                              0
+                                                          ? Colors.grey[400]
+                                                          : Colors.black54,
+                                                      fontSize: 12,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              if (mViewModel
+                                                      .categoryProductList[
+                                                          index]
+                                                      .stock !=
+                                                  0) ...[
+                                                itemCount > 0
+                                                    ? Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 4,
+                                                                vertical: 4),
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 4),
+                                                        height: 35,
+                                                        width: 100,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          color: CommonColors
+                                                              .primaryColor,
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap:
+                                                                  decrementItem,
+                                                              child: const Icon(
+                                                                Icons.remove,
+                                                                size: 16,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              itemCount
+                                                                  .toString(),
+                                                              style:
+                                                                  getAppStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap:
+                                                                  incrementItem,
+                                                              child: const Icon(
+                                                                Icons.add,
+                                                                size: 16,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : InkWell(
+                                                        onTap: incrementItem,
+                                                        child: Container(
+                                                          width: 100,
+                                                          height: 35,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            border: Border.all(
+                                                                color: CommonColors
+                                                                    .primaryColor,
+                                                                width: 1),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "Add",
+                                                              style:
+                                                                  getAppStyle(
+                                                                color: CommonColors
+                                                                    .primaryColor,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                              ]
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (mViewModel.categoryProductList[index]
+                                              .discountPer !=
+                                          0 &&
+                                      mViewModel.categoryProductList[index]
+                                              .stock !=
+                                          0)
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.amber,
+                                          border: Border.all(
+                                              color: Colors.white, width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 5),
+                                          child: Text(
+                                            "${mViewModel.categoryProductList[index].discountPer}% off",
+                                            style: getAppStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (mViewModel
+                                          .categoryProductList[index].stock ==
+                                      0)
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 18, vertical: 100),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          color: CommonColors.primaryColor
+                                              .withOpacity(0.2),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              offset: const Offset(
+                                                2.0,
+                                                4.0,
+                                              ),
+                                              blurRadius: 5.0,
+                                              spreadRadius: 0.5,
+                                            ), //BoxShadow
+                                            BoxShadow(
+                                              color: Colors.white,
+                                              offset: const Offset(0.0, 0.0),
+                                              blurRadius: 0.0,
+                                              spreadRadius: 0.0,
+                                            ), //BoxShadow
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 3),
+                                          child: Text(
+                                            "Sorry, this item is sold out",
+                                            textAlign: TextAlign.center,
+                                            style: getAppStyle(
+                                                color:
+                                                    CommonColors.primaryColor,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                height: 1.2),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

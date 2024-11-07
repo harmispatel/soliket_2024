@@ -2,13 +2,16 @@ import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 
 import '../models/address_master.dart';
+import '../models/brand_product_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
+import '../models/offer_product_master.dart';
 import '../models/product_master.dart';
+import '../models/sub_category_product_master.dart';
 
 abstract class BaseServices {
   Future<LoginMaster?> login({
@@ -66,4 +69,16 @@ abstract class BaseServices {
   Future<GetCartMaster?> getCartApi();
 
   Future<GetCouponMaster?> getCouponApi();
+
+  Future<SubCategoryProductMaster?> getSubCategoryProductApi({
+    required Map<String, dynamic> params,
+  });
+
+  Future<BrandProductMaster?> getBrandProductApi({
+    required Map<String, dynamic> params,
+  });
+
+  Future<OfferProductMaster?> getOfferProductApi({
+    required Map<String, dynamic> params,
+  });
 }

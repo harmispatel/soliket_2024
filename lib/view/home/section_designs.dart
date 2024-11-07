@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:solikat_2024/view/home/sub_brand/sub_brand_view.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
+import 'package:solikat_2024/view/home/sub_offer/sub_offer_view.dart';
 import 'package:solikat_2024/widget/common_product_container_view.dart';
 
 import '../../models/home_master.dart';
@@ -2079,7 +2081,7 @@ class Section3 extends StatelessWidget {
                 // },
                 onTap: () {
                   print("Category id...... ${section3[index].categoryId}");
-                  push(SubCategoryViewRedesign(
+                  push(SubCategoryView(
                     categoryId: section3[index].categoryId,
                   ));
                 },
@@ -2369,35 +2371,44 @@ class Section7 extends StatelessWidget {
           ],
           GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Number of items per row
-              crossAxisSpacing: 15.0, // Horizontal spacing between items
-              mainAxisSpacing: 15.0, // Vertical spacing between items
-              childAspectRatio:
-                  1.1, // Aspect ratio for each item (adjust as needed)
+              crossAxisCount: 2,
+              crossAxisSpacing: 15.0,
+              mainAxisSpacing: 15.0,
+              childAspectRatio: 1.1,
             ),
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: section7.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.pinkAccent,
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xffffdbdd),
-                      Color(0xffffdbdd),
-                      Color(0xffffbfc0)
-                    ],
+              return GestureDetector(
+                onTap: () {
+                  print("Brand id...... ${section7[index].brandId}");
+                  push(
+                    SubBrandView(
+                      brandId: section7[index].brandId,
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xffffdbdd),
+                        Color(0xffffdbdd),
+                        Color(0xffffbfc0)
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.network(
-                    section7[index].image,
-                    fit: BoxFit.contain,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.network(
+                      section7[index].image,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               );
@@ -2438,39 +2449,63 @@ class Section8 extends StatelessWidget {
           child: FittedBox(
             child: Row(
               children: [
-                Container(
-                  height: 150,
-                  width: 150,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        image: NetworkImage(section8[0].image),
-                        fit: BoxFit.fill),
+                GestureDetector(
+                  onTap: () {
+                    print("Category id...... ${section8[0].offerId}");
+                    push(SubOfferView(
+                      offerId: section8[0].offerId,
+                    ));
+                  },
+                  child: Container(
+                    height: 150,
+                    width: 150,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                          image: NetworkImage(section8[0].image),
+                          fit: BoxFit.fill),
+                    ),
                   ),
                 ),
                 kCommonSpaceH10,
-                Container(
-                  height: 150,
-                  width: 150,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        image: NetworkImage(section8[1].image),
-                        fit: BoxFit.fill),
+                GestureDetector(
+                  onTap: () {
+                    print("Category id...... ${section8[1].offerId}");
+                    push(SubOfferView(
+                      offerId: section8[1].offerId,
+                    ));
+                  },
+                  child: Container(
+                    height: 150,
+                    width: 150,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                          image: NetworkImage(section8[1].image),
+                          fit: BoxFit.fill),
+                    ),
                   ),
                 ),
                 kCommonSpaceH10,
-                Container(
-                  height: 150,
-                  width: 150,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        image: NetworkImage(section8[2].image),
-                        fit: BoxFit.fill),
+                GestureDetector(
+                  onTap: () {
+                    print("Category id...... ${section8[2].offerId}");
+                    push(SubOfferView(
+                      offerId: section8[2].offerId,
+                    ));
+                  },
+                  child: Container(
+                    height: 150,
+                    width: 150,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                          image: NetworkImage(section8[2].image),
+                          fit: BoxFit.fill),
+                    ),
                   ),
                 ),
               ],
@@ -2751,6 +2786,29 @@ class _Section9State extends State<Section9> {
               ),
               kCommonSpaceV15,
             ],
+          ),
+        ),
+        Container(
+          color: Color(int.parse(widget.section9[0].setting.buttonColor)),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(right: 15, left: 15, top: 6, bottom: 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "View All",
+                  style: getAppStyle(
+                      color: CommonColors.mWhite,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15),
+                ),
+                Icon(
+                  Icons.chevron_right_outlined,
+                  color: CommonColors.mWhite,
+                ),
+              ],
+            ),
           ),
         ),
         kCommonSpaceV15,

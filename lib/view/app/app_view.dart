@@ -24,7 +24,9 @@ import '../home/profile/add_address/edit_address/edit_address_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
+import '../home/sub_brand/sub_brand_view_model.dart';
 import '../home/sub_category/sub_category_view_model.dart';
+import '../home/sub_offer/sub_offer_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
 import '../otp/otp_view_model.dart';
@@ -248,6 +250,10 @@ class AppState extends State<App> {
                   create: (_) => CartViewModel()),
               ChangeNotifierProvider<CouponViewModel>(
                   create: (_) => CouponViewModel()),
+              ChangeNotifierProvider<SubBrandViewModel>(
+                  create: (_) => SubBrandViewModel()),
+              ChangeNotifierProvider<SubOfferViewModel>(
+                  create: (_) => SubOfferViewModel()),
             ],
             child: Builder(
               builder: (context) {

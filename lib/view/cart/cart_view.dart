@@ -156,6 +156,15 @@ class MyCartList extends StatefulWidget {
 }
 
 class _MyCartListState extends State<MyCartList> {
+  late HomeViewModel mViewModel;
+
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+    });
+  }
+
   void incrementItem(int index) {
     var cartItem = widget.cartList[index];
     if (cartItem.cartCount != null &&
@@ -163,6 +172,7 @@ class _MyCartListState extends State<MyCartList> {
       setState(() {
         cartItem.cartCount = (cartItem.cartCount ?? 0) + 1;
       });
+      // mViewModel.updateCartCount(cartItem.variantId ?? 0, cartItem.cartCount!);
       widget.onAddItem(cartItem.variantId);
     } else {
       debugPrint(
@@ -178,6 +188,8 @@ class _MyCartListState extends State<MyCartList> {
       setState(() {
         cartItem.cartCount = (cartItem.cartCount ?? 0) - 1;
       });
+      // mViewModel.updateCartCount(cartItem.variantId ?? 0, cartItem.cartCount!);
+
       if (cartItem.cartCount == 0) {
         widget.onRemoveItem(cartItem.variantId);
         setState(() {
@@ -191,6 +203,7 @@ class _MyCartListState extends State<MyCartList> {
 
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<HomeViewModel>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

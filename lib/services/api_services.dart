@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:solikat_2024/models/brand_product_master.dart';
 import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
@@ -12,7 +13,9 @@ import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
+import '../models/offer_product_master.dart';
 import '../models/product_master.dart';
+import '../models/sub_category_product_master.dart';
 import 'base_client.dart';
 import 'base_services.dart';
 
@@ -319,6 +322,66 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return GetCouponMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<SubCategoryProductMaster?> getSubCategoryProductApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_SUB_PRODUCT_BY_CATEGORY,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return SubCategoryProductMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<BrandProductMaster?> getBrandProductApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_PRODUCT_BY_BRAND,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return BrandProductMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<OfferProductMaster?> getOfferProductApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_PRODUCT_BY_OFFER,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return OfferProductMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

@@ -22,6 +22,10 @@ class ApiUrl {
   static const String ADD_TO_CART = "${BASE_URL}add_to_cart";
   static const String DELETE_ADDRESS = "${BASE_URL}delete_address";
   static const String UPDATE_ADDRESS = "${BASE_URL}update_address";
+  static const String GET_PRODUCT_BY_BRAND = "${BASE_URL}get_product_by_brand";
+  static const String GET_PRODUCT_BY_OFFER = "${BASE_URL}get_product_by_offer";
+  static const String GET_SUB_PRODUCT_BY_CATEGORY =
+      "${BASE_URL}get_product_by_subcategory";
 }
 
 class DomainApiUrl {
