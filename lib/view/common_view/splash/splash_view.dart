@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:solikat_2024/utils/common_colors.dart';
+import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/common_view/splash/splash_view_model.dart';
 
 import '../../../utils/global_variables.dart';
@@ -50,17 +49,20 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent, // Status bar color
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: CommonColors.primaryColor),
-    );
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   const SystemUiOverlayStyle(
+    //       statusBarColor: Colors.transparent, // Status bar color
+    //       statusBarIconBrightness: Brightness.light,
+    //       systemNavigationBarColor: CommonColors.primaryColor),
+    // );
     mViewModel = Provider.of<SplashViewModel>(context);
     return Scaffold(
-      backgroundColor: CommonColors.primaryColor,
-      body: Center(
-        child: Image.asset(LocalImages.img_splash_logo),
+      // backgroundColor: CommonColors.primaryColor,
+      body: Image.asset(
+        height: kDeviceHeight,
+        width: kDeviceWidth,
+        LocalImages.img_splash_logo,
+        fit: BoxFit.fill,
       ),
     );
   }

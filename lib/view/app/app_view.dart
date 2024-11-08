@@ -19,14 +19,17 @@ import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
 import '../home/home_view_model.dart';
+import '../home/profile/about_us/about_us_view_model.dart';
 import '../home/profile/add_address/add_address_view_model.dart';
 import '../home/profile/add_address/edit_address/edit_address_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
+import '../home/profile/help_&_support/help_&_support_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
 import '../home/sub_brand/sub_brand_view_model.dart';
 import '../home/sub_category/sub_category_view_model.dart';
 import '../home/sub_offer/sub_offer_view_model.dart';
+import '../home/view_all_products/view_all_products_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
 import '../otp/otp_view_model.dart';
@@ -254,6 +257,12 @@ class AppState extends State<App> {
                   create: (_) => SubBrandViewModel()),
               ChangeNotifierProvider<SubOfferViewModel>(
                   create: (_) => SubOfferViewModel()),
+              ChangeNotifierProvider<ViewAllProductsViewModel>(
+                  create: (_) => ViewAllProductsViewModel()),
+              ChangeNotifierProvider<HelpSupportViewModel>(
+                  create: (_) => HelpSupportViewModel()),
+              ChangeNotifierProvider<AboutUsViewModel>(
+                  create: (_) => AboutUsViewModel()),
             ],
             child: Builder(
               builder: (context) {

@@ -451,721 +451,747 @@ class _HomeViewState extends State<HomeView> {
           bottomNavigationBar: Consumer<CartViewModel>(
             builder: (context, cartViewModel, child) {
               return cartViewModel.cartList.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15) +
-                          const EdgeInsets.only(top: 14, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 48,
-                            width: 60,
-                            margin: const EdgeInsets.only(right: 6),
-                            color: Colors.transparent,
-                            child: Stack(
-                              children: List.generate(
-                                // Get the last three items or the total length if less than 3
-                                cartViewModel.cartList.length > 3
-                                    ? 3
-                                    : cartViewModel.cartList.length,
-                                (index) {
-                                  // Calculate the index from the end of the list
-                                  int reverseIndex =
-                                      cartViewModel.cartList.length - 1 - index;
+                  ? FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15) +
+                            const EdgeInsets.only(top: 14, bottom: 5),
+                        child: IntrinsicWidth(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 48,
+                                width: 60,
+                                margin: const EdgeInsets.only(right: 6),
+                                color: Colors.transparent,
+                                child: Stack(
+                                  children: List.generate(
+                                    // Get the last three items or the total length if less than 3
+                                    cartViewModel.cartList.length > 3
+                                        ? 3
+                                        : cartViewModel.cartList.length,
+                                    (index) {
+                                      // Calculate the index from the end of the list
+                                      int reverseIndex =
+                                          cartViewModel.cartList.length -
+                                              1 -
+                                              index;
 
-                                  return Positioned(
-                                    left: index * 6,
-                                    child: Container(
-                                      height: 48,
-                                      width: 48,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: CommonColors.mGrey500),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: cartViewModel
-                                                .cartList[reverseIndex].image ??
-                                            '',
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                          child: SizedBox(
-                                            height: 10,
-                                            width: 10,
-                                            child: CircularProgressIndicator(),
+                                      return Positioned(
+                                        left: index * 6,
+                                        child: Container(
+                                          height: 48,
+                                          width: 48,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 6, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: CommonColors.mGrey500),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: cartViewModel
+                                                    .cartList[reverseIndex]
+                                                    .image ??
+                                                '',
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                              child: SizedBox(
+                                                height: 10,
+                                                width: 10,
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(
+                                              Icons.error_outline,
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                          Icons.error_outline,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              void incrementItem(int index) {
-                                // for (var section4Item
-                                //     in mViewModel.section4DataList) {
-                                //   // Loop through the `cartViewModel.cartList`
-                                //   for (var cartItem in cartViewModel.cartList) {
-                                //     // If variantId matches
-                                //     if (cartItem.variantId ==
-                                //         section4Item.variantId) {
-                                //       // Now, check if the cart count can be incremented
-                                //       if ((cartItem.cartCount ?? 0) <
-                                //           (cartItem.stock ?? 0)) {
-                                //         setState(() {
-                                //           cartItem.cartCount =
-                                //               (cartItem.cartCount ?? 0) + 1;
-                                //         });
-                                //         print(
-                                //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                //       }
-                                //     }
-                                //   }
-                                // }
-                                if ((cartViewModel.cartList[index].cartCount ??
-                                        0) <
-                                    (cartViewModel.cartList[index].stock ??
-                                        0)) {
-                                  setState(() {
-                                    cartViewModel.cartList[index].cartCount =
-                                        (cartViewModel.cartList[index]
+                              GestureDetector(
+                                onTap: () {
+                                  void incrementItem(int index) {
+                                    // for (var section4Item
+                                    //     in mViewModel.section4DataList) {
+                                    //   // Loop through the `cartViewModel.cartList`
+                                    //   for (var cartItem in cartViewModel.cartList) {
+                                    //     // If variantId matches
+                                    //     if (cartItem.variantId ==
+                                    //         section4Item.variantId) {
+                                    //       // Now, check if the cart count can be incremented
+                                    //       if ((cartItem.cartCount ?? 0) <
+                                    //           (cartItem.stock ?? 0)) {
+                                    //         setState(() {
+                                    //           cartItem.cartCount =
+                                    //               (cartItem.cartCount ?? 0) + 1;
+                                    //         });
+                                    //         print(
+                                    //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
+                                    //       }
+                                    //     }
+                                    //   }
+                                    // }
+                                    if ((cartViewModel
+                                                .cartList[index].cartCount ??
+                                            0) <
+                                        (cartViewModel.cartList[index].stock ??
+                                            0)) {
+                                      setState(() {
+                                        cartViewModel.cartList[index]
+                                            .cartCount = (cartViewModel
+                                                    .cartList[index]
                                                     .cartCount ??
                                                 0) +
                                             1;
-                                  });
-                                  mViewModel.addToCartApi(
-                                      variantId: cartViewModel
-                                          .cartList[index].variantId
-                                          .toString(),
-                                      type: 'p');
-                                } else {
-                                  print(
-                                      ".......Sorry this product have only ${cartViewModel.cartList[index].stock} in a stock......");
-                                  String msg =
-                                      "Only ${cartViewModel.cartList[index].stock} product available in stock";
-                                  CommonUtils.showSnackBar(msg,
-                                      color: CommonColors.mRed);
-                                }
-                              }
+                                      });
+                                      mViewModel.addToCartApi(
+                                          variantId: cartViewModel
+                                              .cartList[index].variantId
+                                              .toString(),
+                                          type: 'p');
+                                    } else {
+                                      print(
+                                          ".......Sorry this product have only ${cartViewModel.cartList[index].stock} in a stock......");
+                                      String msg =
+                                          "Only ${cartViewModel.cartList[index].stock} product available in stock";
+                                      CommonUtils.showSnackBar(msg,
+                                          color: CommonColors.mRed);
+                                    }
+                                  }
 
-                              void decrementItem(int index) {
-                                // for (var section4Item
-                                //     in mViewModel.section4DataList) {
-                                //   // Loop through the `cartViewModel.cartList`
-                                //   for (var cartItem in cartViewModel.cartList) {
-                                //     // If variantId matches
-                                //     if (cartItem.variantId ==
-                                //         section4Item.variantId) {
-                                //       // Now, check if the cart count can be incremented
-                                //       if ((cartItem.cartCount ?? 0) <
-                                //           (cartItem.stock ?? 0)) {
-                                //         setState(() {
-                                //           cartItem.cartCount =
-                                //               (cartItem.cartCount ?? 0) - 1;
-                                //         });
-                                //         print(
-                                //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                //       }
-                                //     }
-                                //   }
-                                // }
-                                if ((cartViewModel.cartList[index].cartCount ??
-                                        0) >
-                                    1) {
-                                  setState(() {
-                                    cartViewModel.cartList[index].cartCount =
-                                        (cartViewModel.cartList[index]
+                                  void decrementItem(int index) {
+                                    // for (var section4Item
+                                    //     in mViewModel.section4DataList) {
+                                    //   // Loop through the `cartViewModel.cartList`
+                                    //   for (var cartItem in cartViewModel.cartList) {
+                                    //     // If variantId matches
+                                    //     if (cartItem.variantId ==
+                                    //         section4Item.variantId) {
+                                    //       // Now, check if the cart count can be incremented
+                                    //       if ((cartItem.cartCount ?? 0) <
+                                    //           (cartItem.stock ?? 0)) {
+                                    //         setState(() {
+                                    //           cartItem.cartCount =
+                                    //               (cartItem.cartCount ?? 0) - 1;
+                                    //         });
+                                    //         print(
+                                    //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
+                                    //       }
+                                    //     }
+                                    //   }
+                                    // }
+                                    if ((cartViewModel
+                                                .cartList[index].cartCount ??
+                                            0) >
+                                        1) {
+                                      setState(() {
+                                        cartViewModel.cartList[index]
+                                            .cartCount = (cartViewModel
+                                                    .cartList[index]
                                                     .cartCount ??
                                                 0) -
                                             1;
-                                  });
-                                  mViewModel.addToCartApi(
-                                      variantId: cartViewModel
-                                          .cartList[index].variantId
-                                          .toString(),
-                                      type: 'm');
-                                } else if (cartViewModel
-                                        .cartList[index].cartCount ==
-                                    1) {
-                                  // for (var section4Item
-                                  //     in mViewModel.section4DataList) {
-                                  //   // Loop through the `cartViewModel.cartList`
-                                  //   for (var cartItem
-                                  //       in cartViewModel.cartList) {
-                                  //     // If variantId matches
-                                  //     if (cartItem.variantId ==
-                                  //         section4Item.variantId) {
-                                  //       // Now, check if the cart count can be incremented
-                                  //       if ((cartItem.cartCount ?? 0) <
-                                  //           (cartItem.stock ?? 0)) {
-                                  //         setState(() {
-                                  //           cartItem.cartCount =
-                                  //               (cartItem.cartCount ?? 0) - 1;
-                                  //         });
-                                  //         print(
-                                  //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                  //       }
-                                  //     }
-                                  //   }
-                                  // }
-                                  mViewModel.addToCartApi(
-                                      variantId: cartViewModel
-                                          .cartList[index].variantId
-                                          .toString(),
-                                      type: 'm');
-                                  setState(() {
-                                    cartViewModel.cartList.removeAt(index);
-                                  });
-                                }
-                              }
+                                      });
+                                      mViewModel.addToCartApi(
+                                          variantId: cartViewModel
+                                              .cartList[index].variantId
+                                              .toString(),
+                                          type: 'm');
+                                    } else if (cartViewModel
+                                            .cartList[index].cartCount ==
+                                        1) {
+                                      // for (var section4Item
+                                      //     in mViewModel.section4DataList) {
+                                      //   // Loop through the `cartViewModel.cartList`
+                                      //   for (var cartItem
+                                      //       in cartViewModel.cartList) {
+                                      //     // If variantId matches
+                                      //     if (cartItem.variantId ==
+                                      //         section4Item.variantId) {
+                                      //       // Now, check if the cart count can be incremented
+                                      //       if ((cartItem.cartCount ?? 0) <
+                                      //           (cartItem.stock ?? 0)) {
+                                      //         setState(() {
+                                      //           cartItem.cartCount =
+                                      //               (cartItem.cartCount ?? 0) - 1;
+                                      //         });
+                                      //         print(
+                                      //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
+                                      //       }
+                                      //     }
+                                      //   }
+                                      // }
+                                      mViewModel.addToCartApi(
+                                          variantId: cartViewModel
+                                              .cartList[index].variantId
+                                              .toString(),
+                                          type: 'm');
+                                      setState(() {
+                                        cartViewModel.cartList.removeAt(index);
+                                      });
+                                    }
+                                  }
 
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.white,
-                                builder: (_) {
-                                  return StatefulBuilder(
-                                    builder: (BuildContext context,
-                                        StateSetter setState) {
-                                      return Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15, right: 15, top: 15),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                  showModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.white,
+                                    builder: (_) {
+                                      return StatefulBuilder(
+                                        builder: (BuildContext context,
+                                            StateSetter setState) {
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15,
+                                                    right: 15,
+                                                    top: 15),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      'Review Cart',
-                                                      style: getAppStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                    Row(
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
-                                                          "${cartViewModel.cartList.length} Items • Total ",
-                                                          style: getAppStyle(
-                                                              color:
-                                                                  CommonColors
-                                                                      .black54),
-                                                        ),
-                                                        Text(
-                                                          "₹542",
+                                                          'Review Cart',
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold),
+                                                                      .bold,
+                                                              fontSize: 18),
                                                         ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey,
-                                                          offset: const Offset(
-                                                            2.0,
-                                                            2.0,
-                                                          ),
-                                                          blurRadius: 5.0,
-                                                          spreadRadius: 0.0,
-                                                        ), //BoxShadow
-                                                        BoxShadow(
-                                                          color: Colors.white,
-                                                          offset: const Offset(
-                                                              0.0, 0.0),
-                                                          blurRadius: 0.0,
-                                                          spreadRadius: 0.0,
-                                                        ), //BoxShadow
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "${cartViewModel.cartList.length} Items • Total ",
+                                                              style: getAppStyle(
+                                                                  color: CommonColors
+                                                                      .black54),
+                                                            ),
+                                                            Text(
+                                                              "₹542",
+                                                              style: getAppStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ],
+                                                        )
                                                       ],
                                                     ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Icon(
-                                                        Icons.close,
-                                                        size: 15,
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color:
+                                                                  Colors.grey,
+                                                              offset:
+                                                                  const Offset(
+                                                                2.0,
+                                                                2.0,
+                                                              ),
+                                                              blurRadius: 5.0,
+                                                              spreadRadius: 0.0,
+                                                            ), //BoxShadow
+                                                            BoxShadow(
+                                                              color:
+                                                                  Colors.white,
+                                                              offset:
+                                                                  const Offset(
+                                                                      0.0, 0.0),
+                                                              blurRadius: 0.0,
+                                                              spreadRadius: 0.0,
+                                                            ), //BoxShadow
+                                                          ],
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Icon(
+                                                            Icons.close,
+                                                            size: 15,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                          kCommonSpaceV10,
-                                          kCommonSpaceV3,
-                                          Container(
-                                            height: 3,
-                                            color: Colors.grey[300],
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              color: Colors.grey[200],
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                              ),
+                                              kCommonSpaceV10,
+                                              kCommonSpaceV3,
+                                              Container(
+                                                height: 3,
+                                                color: Colors.grey[300],
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  color: Colors.grey[100],
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
                                                         horizontal: 20,
                                                         vertical: 10),
-                                                child: Container(
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  child: SingleChildScrollView(
-                                                    child: ListView.builder(
-                                                      physics:
-                                                          NeverScrollableScrollPhysics(),
-                                                      shrinkWrap: true,
-                                                      padding:
-                                                          EdgeInsets.all(18),
-                                                      scrollDirection:
-                                                          Axis.vertical,
-                                                      itemCount: cartViewModel
-                                                          .cartList.length,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                              int index) {
-                                                        return Column(
-                                                          children: [
-                                                            Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                    child: Container(
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: ListView.builder(
+                                                          physics:
+                                                              NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  18),
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          itemCount:
+                                                              cartViewModel
+                                                                  .cartList
+                                                                  .length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return Column(
                                                               children: [
-                                                                CachedNetworkImage(
-                                                                  height: 80,
-                                                                  width: 80,
-                                                                  imageUrl: cartViewModel
-                                                                          .cartList[
-                                                                              index]
-                                                                          .image ??
-                                                                      '',
-                                                                  imageBuilder:
-                                                                      (context,
-                                                                              imageProvider) =>
-                                                                          Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      image:
-                                                                          DecorationImage(
-                                                                        image:
-                                                                            imageProvider,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  placeholder: (context,
-                                                                          url) =>
-                                                                      const Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            12.0),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        strokeWidth:
-                                                                            2,
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      const Center(
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .error_outline,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                    width: 14),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        cartViewModel.cartList[index].productName ??
-                                                                            '',
-                                                                        maxLines:
-                                                                            2,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style:
-                                                                            getAppStyle(
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontSize:
-                                                                              13,
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            vertical:
-                                                                                02),
-                                                                        child:
-                                                                            Text(
-                                                                          cartViewModel.cartList[index].variantName ??
-                                                                              '',
-                                                                          style:
-                                                                              getAppStyle(
-                                                                            color:
-                                                                                Colors.grey,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                    width: 8),
-                                                                Column(
+                                                                Row(
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
                                                                   children: [
-                                                                    Container(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              4,
-                                                                          vertical:
-                                                                              4),
-                                                                      margin: const EdgeInsets
-                                                                          .only(
-                                                                          bottom:
-                                                                              4),
+                                                                    CachedNetworkImage(
                                                                       height:
-                                                                          35,
-                                                                      width: 80,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(6),
-                                                                        color: CommonColors
-                                                                            .primaryColor,
-                                                                      ),
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              decrementItem(index);
-                                                                              setState(() {});
-                                                                            },
-                                                                            child:
-                                                                                const Icon(
-                                                                              Icons.remove,
-                                                                              size: 16,
-                                                                              color: Colors.white,
-                                                                            ),
+                                                                          60,
+                                                                      width: 70,
+                                                                      imageUrl:
+                                                                          cartViewModel.cartList[index].image ??
+                                                                              '',
+                                                                      imageBuilder:
+                                                                          (context, imageProvider) =>
+                                                                              Container(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          image:
+                                                                              DecorationImage(
+                                                                            image:
+                                                                                imageProvider,
+                                                                            fit:
+                                                                                BoxFit.contain,
                                                                           ),
+                                                                        ),
+                                                                      ),
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              const Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(12.0),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            strokeWidth:
+                                                                                2,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          const Center(
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .error_outline,
+                                                                          color:
+                                                                              Colors.red,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        width:
+                                                                            14),
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
                                                                           Text(
-                                                                            cartViewModel.cartList[index].cartCount.toString(),
+                                                                            cartViewModel.cartList[index].productName ??
+                                                                                '',
+                                                                            maxLines:
+                                                                                2,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
                                                                             style:
                                                                                 getAppStyle(
-                                                                              color: Colors.white,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontSize: 14,
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontSize: 13,
                                                                             ),
                                                                           ),
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              incrementItem(index);
-                                                                              setState(() {});
-                                                                            },
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(vertical: 02),
                                                                             child:
-                                                                                const Icon(
-                                                                              Icons.add,
-                                                                              size: 16,
-                                                                              color: Colors.white,
+                                                                                Text(
+                                                                              cartViewModel.cartList[index].variantName ?? '',
+                                                                              style: getAppStyle(
+                                                                                color: Colors.grey,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 12,
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                    Row(
+                                                                    const SizedBox(
+                                                                        width:
+                                                                            8),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
                                                                       children: [
-                                                                        Text(
-                                                                          "₹${cartViewModel.cartList[index].productPrice}",
-                                                                          style:
-                                                                              getAppStyle(
-                                                                            decoration:
-                                                                                TextDecoration.lineThrough,
+                                                                        Container(
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 4,
+                                                                              vertical: 4),
+                                                                          margin: const EdgeInsets
+                                                                              .only(
+                                                                              bottom: 4),
+                                                                          height:
+                                                                              30,
+                                                                          width:
+                                                                              80,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(6),
                                                                             color:
-                                                                                Colors.grey,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            fontSize:
-                                                                                12,
+                                                                                CommonColors.primaryColor,
+                                                                          ),
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceAround,
+                                                                            children: [
+                                                                              GestureDetector(
+                                                                                onTap: () {
+                                                                                  decrementItem(index);
+                                                                                  setState(() {});
+                                                                                },
+                                                                                child: const Icon(
+                                                                                  Icons.remove,
+                                                                                  size: 16,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                              Text(
+                                                                                cartViewModel.cartList[index].cartCount.toString(),
+                                                                                style: getAppStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 14,
+                                                                                ),
+                                                                              ),
+                                                                              GestureDetector(
+                                                                                onTap: () {
+                                                                                  incrementItem(index);
+                                                                                  setState(() {});
+                                                                                },
+                                                                                child: const Icon(
+                                                                                  Icons.add,
+                                                                                  size: 16,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                         ),
-                                                                        const SizedBox(
-                                                                            width:
-                                                                                4),
-                                                                        Text(
-                                                                          "₹${cartViewModel.cartList[index].discountPrice}",
-                                                                          style:
-                                                                              getAppStyle(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                13,
-                                                                          ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              "₹${cartViewModel.cartList[index].productPrice}",
+                                                                              style: getAppStyle(
+                                                                                decoration: TextDecoration.lineThrough,
+                                                                                color: Colors.grey,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 12,
+                                                                              ),
+                                                                            ),
+                                                                            const SizedBox(width: 4),
+                                                                            Text(
+                                                                              "₹${cartViewModel.cartList[index].discountPrice}",
+                                                                              style: getAppStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 13,
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ],
                                                                     ),
                                                                   ],
                                                                 ),
+                                                                const SizedBox(
+                                                                    height: 10)
                                                               ],
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 10)
-                                                          ],
-                                                        );
-                                                      },
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 10,
-                                                right: 15,
-                                                left: 15),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  height: 48,
-                                                  width: 60,
-                                                  margin: const EdgeInsets.only(
-                                                      right: 6),
-                                                  color: Colors.transparent,
-                                                  child: Stack(
-                                                    children: List.generate(
-                                                      // Get the last three items or the total length if less than 3
-                                                      cartViewModel.cartList
-                                                                  .length >
-                                                              3
-                                                          ? 3
-                                                          : cartViewModel
-                                                              .cartList.length,
-                                                      (index) {
-                                                        // Calculate the index from the end of the list
-                                                        int reverseIndex =
-                                                            cartViewModel
-                                                                    .cartList
-                                                                    .length -
-                                                                1 -
-                                                                index;
+                                              FittedBox(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10,
+                                                          bottom: 10,
+                                                          right: 15,
+                                                          left: 15),
+                                                  child: IntrinsicWidth(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          height: 48,
+                                                          width: 60,
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 6),
+                                                          color: Colors
+                                                              .transparent,
+                                                          child: Stack(
+                                                            children:
+                                                                List.generate(
+                                                              // Get the last three items or the total length if less than 3
+                                                              cartViewModel
+                                                                          .cartList
+                                                                          .length >
+                                                                      3
+                                                                  ? 3
+                                                                  : cartViewModel
+                                                                      .cartList
+                                                                      .length,
+                                                              (index) {
+                                                                // Calculate the index from the end of the list
+                                                                int reverseIndex =
+                                                                    cartViewModel
+                                                                            .cartList
+                                                                            .length -
+                                                                        1 -
+                                                                        index;
 
-                                                        return Positioned(
-                                                          left: index * 6,
-                                                          child: Container(
-                                                            height: 48,
-                                                            width: 48,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        6,
-                                                                    vertical:
-                                                                        2),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              border: Border.all(
-                                                                  color: CommonColors
-                                                                      .mGrey500),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8),
-                                                            ),
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: cartViewModel
-                                                                      .cartList[
-                                                                          reverseIndex]
-                                                                      .image ??
-                                                                  '',
-                                                              fit: BoxFit.cover,
-                                                              placeholder: (context,
-                                                                      url) =>
-                                                                  const Center(
-                                                                child: SizedBox(
-                                                                  height: 10,
-                                                                  width: 10,
+                                                                return Positioned(
+                                                                  left:
+                                                                      index * 6,
                                                                   child:
-                                                                      CircularProgressIndicator(),
-                                                                ),
-                                                              ),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  const Icon(
-                                                                Icons
-                                                                    .error_outline,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
+                                                                      Container(
+                                                                    height: 48,
+                                                                    width: 48,
+                                                                    padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            6,
+                                                                        vertical:
+                                                                            2),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      border: Border.all(
+                                                                          color:
+                                                                              CommonColors.mGrey500),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8),
+                                                                    ),
+                                                                    child:
+                                                                        CachedNetworkImage(
+                                                                      imageUrl:
+                                                                          cartViewModel.cartList[reverseIndex].image ??
+                                                                              '',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              const Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          height:
+                                                                              10,
+                                                                          width:
+                                                                              10,
+                                                                          child:
+                                                                              CircularProgressIndicator(),
+                                                                        ),
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .error_outline,
+                                                                        color: Colors
+                                                                            .red,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
                                                             ),
                                                           ),
-                                                        );
-                                                      },
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                "${cartViewModel.cartList.length} Items",
+                                                                style:
+                                                                    getAppStyle(
+                                                                  color: CommonColors
+                                                                      .blackColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 12,
+                                                                ),
+                                                              ),
+                                                              const Icon(
+                                                                Icons
+                                                                    .arrow_drop_down,
+                                                                color: CommonColors
+                                                                    .primaryColor,
+                                                                size: 30,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        kCommonSpaceH15,
+                                                        kCommonSpaceH10,
+                                                        PrimaryButton(
+                                                          height: 50,
+                                                          width: 220,
+                                                          label: "View Cart",
+                                                          buttonColor:
+                                                              CommonColors
+                                                                  .primaryColor,
+                                                          labelColor:
+                                                              Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          onPress: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                            mainNavKey
+                                                                .currentContext!
+                                                                .read<
+                                                                    BottomNavbarViewModel>()
+                                                                .onMenuTapped(
+                                                                    3);
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        "${cartViewModel.cartList.length} Items",
-                                                        style: getAppStyle(
-                                                          color: CommonColors
-                                                              .blackColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize: 12,
-                                                        ),
-                                                      ),
-                                                      const Icon(
-                                                        Icons.arrow_drop_down,
-                                                        color: CommonColors
-                                                            .primaryColor,
-                                                        size: 30,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                PrimaryButton(
-                                                  height: 50,
-                                                  width: 240,
-                                                  label: "View Cart",
-                                                  buttonColor:
-                                                      CommonColors.primaryColor,
-                                                  labelColor: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  onPress: () {
-                                                    Navigator.pop(context);
-                                                    mainNavKey.currentContext!
-                                                        .read<
-                                                            BottomNavbarViewModel>()
-                                                        .onMenuTapped(3);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
                                   );
                                 },
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  "${cartViewModel.cartList.length} Items",
-                                  style: getAppStyle(
-                                    color: CommonColors.blackColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "${cartViewModel.cartList.length} Items",
+                                      style: getAppStyle(
+                                        color: CommonColors.blackColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_drop_up_rounded,
+                                      color: CommonColors.primaryColor,
+                                      size: 30,
+                                    )
+                                  ],
                                 ),
-                                const Icon(
-                                  Icons.arrow_drop_up_rounded,
-                                  color: CommonColors.primaryColor,
-                                  size: 30,
-                                )
-                              ],
-                            ),
+                              ),
+                              Spacer(),
+                              kCommonSpaceH15,
+                              kCommonSpaceH15,
+                              PrimaryButton(
+                                height: 55,
+                                width: 240,
+                                label: "View Cart",
+                                buttonColor: CommonColors.primaryColor,
+                                labelColor: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                onPress: () {
+                                  mainNavKey.currentContext!
+                                      .read<BottomNavbarViewModel>()
+                                      .onMenuTapped(3);
+                                },
+                              ),
+                            ],
                           ),
-                          Spacer(),
-                          PrimaryButton(
-                            height: 55,
-                            width: 250,
-                            label: "View Cart",
-                            buttonColor: CommonColors.primaryColor,
-                            labelColor: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            onPress: () {
-                              mainNavKey.currentContext!
-                                  .read<BottomNavbarViewModel>()
-                                  .onMenuTapped(3);
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     )
                   : SizedBox();

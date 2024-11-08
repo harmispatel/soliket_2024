@@ -90,8 +90,8 @@ class _ProductContainerState extends State<ProductContainer> {
                           fontSize: 14,
                           color: widget.stock == 0
                               ? Colors.grey[400]
-                              : Colors.black,
-                          fontWeight: FontWeight.bold),
+                              : Colors.black87,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

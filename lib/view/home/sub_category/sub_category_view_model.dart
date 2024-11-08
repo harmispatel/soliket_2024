@@ -36,6 +36,8 @@ class SubCategoryViewModel with ChangeNotifier {
     GetCategoryProductMaster? master =
         await services.api!.getCategoryProductApi(params: params);
     isInitialLoading = false;
+    print(".......... Page ${currentPage}............");
+
     notifyListeners();
 
     if (master == null) {
@@ -49,10 +51,11 @@ class SubCategoryViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      if (currentPage > master.totalPage!) {
+      if (currentPage == master.totalPage!) {
         isPageFinish = true;
+      } else {
+        currentPage++;
       }
-      currentPage++;
       categoryProductList.addAll(master.data?.product ?? []);
       subCategoryList.addAll(master.data?.subCategory ?? []);
     }
@@ -86,10 +89,10 @@ class SubCategoryViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      if (currentPage > master.totalPage!) {
-        isPageFinish = true;
-      }
-      currentPage++;
+      // if (currentPage == master.totalPage!) {
+      //   isPageFinish = true;
+      // }
+      // currentPage++;
       categoryProductList.addAll(master.data ?? []);
       // subCategoryList.addAll(master.data?.subCategory ?? []);
     }

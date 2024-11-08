@@ -272,6 +272,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                         : EdgeInsets.only(top: 15, right: 5),
                     child: GridView.builder(
                       padding: EdgeInsets.zero,
+                      controller: _scrollController,
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,

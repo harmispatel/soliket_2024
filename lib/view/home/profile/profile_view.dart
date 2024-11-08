@@ -9,7 +9,9 @@ import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../../utils/common_utils.dart';
 import '../../cart/cart_view.dart';
+import 'about_us/about_us_view.dart';
 import 'edit_account/edit_account_view.dart';
+import 'help_&_support/help_&_support_view.dart';
 import 'my_orders/my_orders_view.dart';
 
 class ProfileView extends StatefulWidget {
@@ -218,6 +220,10 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
                 push(MyOrdersView());
               } else if (index == 1) {
                 push(SaveAddressView());
+              } else if (index == 2) {
+                push(HelpSupportView());
+              } else if (index == 5) {
+                push(AboutUsView());
               } else if (index == 6) {
                 mViewModel.logOutApi();
               }

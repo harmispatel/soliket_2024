@@ -24,6 +24,10 @@ class ApiUrl {
   static const String UPDATE_ADDRESS = "${BASE_URL}update_address";
   static const String GET_PRODUCT_BY_BRAND = "${BASE_URL}get_product_by_brand";
   static const String GET_PRODUCT_BY_OFFER = "${BASE_URL}get_product_by_offer";
+  static const String GET_CONTACT_US = "${BASE_URL}get_contact_us";
+  static const String GET_ABOUT_US = "${BASE_URL}get_about_us";
+  static const String GET_PRODUCT_BY_BUTTON =
+      "${BASE_URL}get_product_by_button";
   static const String GET_SUB_PRODUCT_BY_CATEGORY =
       "${BASE_URL}get_product_by_subcategory";
 }

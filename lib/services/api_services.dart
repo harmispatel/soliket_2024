@@ -6,11 +6,14 @@ import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
 
+import '../models/about_us_master.dart';
 import '../models/address_master.dart';
+import '../models/button_product_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
+import '../models/contact_us_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/offer_product_master.dart';
@@ -382,6 +385,60 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return OfferProductMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ButtonProductMaster?> getButtonProductApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_PRODUCT_BY_BUTTON,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return ButtonProductMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ContactMaster?> getContactUsApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_CONTACT_US,
+    );
+    if (response != null) {
+      try {
+        return ContactMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<AboutUsMaster?> getAboutUsApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_ABOUT_US,
+    );
+    if (response != null) {
+      try {
+        return AboutUsMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;
