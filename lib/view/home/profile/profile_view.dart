@@ -36,7 +36,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<ProfileViewModel>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(

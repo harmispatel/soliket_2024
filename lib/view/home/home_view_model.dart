@@ -170,6 +170,7 @@ import 'package:provider/provider.dart';
 import 'package:solikat_2024/models/home_master.dart';
 
 import '../../models/common_master.dart';
+import '../../models/product_details_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
@@ -206,6 +207,8 @@ class HomeViewModel with ChangeNotifier {
   List<Section7Data> section7DataList = [];
   List<Section8Data> section8DataList = [];
   List<Section9Data> section9DataList = [];
+
+  List<ProductDetailsData>? productDetailsData = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -343,6 +346,34 @@ class HomeViewModel with ChangeNotifier {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<CartViewModel>(context, listen: false).getCartApi();
       });
+    }
+    notifyListeners();
+  }
+
+  Future<void> getProductDetailsApi({
+    required String variantId,
+  }) async {
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.variant_id: variantId,
+    };
+
+    log("Parameter : ${params}");
+
+    ProductDetailsMaster? master =
+        await services.api!.getProductDetailsApi(params: params);
+    CommonUtils.hideProgressDialog();
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      return;
+    }
+    if (master.status == false) {
+      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      return;
+    }
+    if (master.status == true) {
+      log("Success :: true");
+      productDetailsData = master.data;
     }
     notifyListeners();
   }

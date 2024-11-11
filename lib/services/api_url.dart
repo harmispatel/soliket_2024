@@ -30,6 +30,8 @@ class ApiUrl {
       "${BASE_URL}get_product_by_button";
   static const String GET_SUB_PRODUCT_BY_CATEGORY =
       "${BASE_URL}get_product_by_subcategory";
+  static const String GET_PRODUCT_DETAILS =
+      "${BASE_URL}get_product_details";
 }
 
 class DomainApiUrl {

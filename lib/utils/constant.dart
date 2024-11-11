@@ -13,6 +13,7 @@ const SizedBox kCommonSpaceV50 = SizedBox(height: 50);
 const SizedBox kCommonSpaceV100 = SizedBox(height: 100);
 const SizedBox kCommonSpaceV80 = SizedBox(height: 80);
 const SizedBox kCommonSpaceH15 = SizedBox(width: 15);
+const SizedBox kCommonSpaceH20 = SizedBox(width: 20);
 const SizedBox kCommonSpaceV5 = SizedBox(height: 5);
 const SizedBox kCommonSpaceV3 = SizedBox(height: 3);
 const SizedBox kCommonSpaceH5 = SizedBox(width: 5);

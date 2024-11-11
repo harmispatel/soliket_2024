@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
@@ -12,6 +13,7 @@ import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.da
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
+import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
 
@@ -19,7 +21,9 @@ import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
+import '../../utils/local_images.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
+import '../common_view/common_img_slider/common_img_slider_view.dart';
 
 class HomeView extends StatefulWidget {
   final String? location;
@@ -84,6 +88,7 @@ class _HomeViewState extends State<HomeView> {
     Future.delayed(Duration.zero, () {
       mProfileViewModel.attachedContext(context);
       mViewModel.attachedContext(context);
+      _pageController = PageController();
       mCartViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
       // mCartViewModel.getCartApi();
@@ -312,6 +317,45 @@ class _HomeViewState extends State<HomeView> {
     if (!mViewModel.isPageFinish) {
       mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
     }
+  }
+
+  final List<String> imageUrls = [
+    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
+  ];
+
+  late final PageController _pageController;
+  int currentPageIndex = 0;
+  bool isExpanded = false;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
+
+  int itemCount = 1;
+
+  void incrementItem(int index) {
+    setState(() {
+      itemCount++;
+    });
+  }
+
+  void decrementItem(int index) {
+    setState(() {
+      if (itemCount > 1) {
+        itemCount--;
+      }
+    });
   }
 
   @override
@@ -1226,6 +1270,13 @@ class _HomeViewState extends State<HomeView> {
 
       case 'section_4':
         return Section4(
+          onTapProDetails: (variantId) async {
+            await mViewModel.getProductDetailsApi(
+                variantId: variantId.toString());
+            if (mViewModel.productDetailsData != null) {
+              productDetailsBottomSheet(variantId);
+            }
+          },
           section4: sectionData.data,
           section4Title: sectionData.sectionTitle,
           // onAddItem: incrementItem,
@@ -1277,5 +1328,690 @@ class _HomeViewState extends State<HomeView> {
     }
 
     return Container();
+  }
+
+  void productDetailsBottomSheet(int variantId) {
+    mViewModel.getProductDetailsApi(variantId: variantId.toString());
+    showModalBottomSheet(
+      context: mainNavKey.currentContext!,
+      clipBehavior: Clip.antiAlias,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.white,
+      builder: (_) {
+        return IntrinsicHeight(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20) +
+                    const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 26,
+                                  width: 26,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(
+                                          2.0,
+                                          2.0,
+                                        ),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                      BoxShadow(
+                                        color: Colors.white,
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 0.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                    ],
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Align(
+                            //   alignment: Alignment.topRight,
+                            //   child: GestureDetector(
+                            //     onTap: () {
+                            //       Navigator.pop(context);
+                            //     },
+                            //     child: Container(
+                            //       height: 28,
+                            //       width: 28,
+                            //       margin: const EdgeInsets.only(top: 10),
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(30),
+                            //         color: Colors.white,
+                            //         boxShadow: const [
+                            //           BoxShadow(
+                            //             color: Colors.grey,
+                            //             blurRadius: 1,
+                            //             //spreadRadius: 0.001,
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       child: Center(
+                            //         child: Image.asset(
+                            //           LocalImages.img_whatsapp,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            CommonImgSliderView(
+                              imgUrls: mViewModel.productDetailsData![0].image!
+                                  .map((imageData) => imageData.image ?? "")
+                                  .toList(),
+                            ),
+                            Container(
+                              height: 20,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              margin: const EdgeInsets.only(
+                                  right: 16, top: 10, bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Colors.orangeAccent.withOpacity(0.2)),
+                              child: RichText(
+                                overflow: TextOverflow.clip,
+                                textAlign: TextAlign.end,
+                                //textDirection: TextDirection.rtl,
+                                softWrap: true,
+                                maxLines: 1,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Delivery in ',
+                                      style: getAppStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "11 Min",
+                                      style: getAppStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    ),
+                                    const WidgetSpan(
+                                      child: Icon(
+                                        Icons.electric_bolt_rounded,
+                                        size: 16,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Text(
+                              mViewModel.productDetailsData?.isNotEmpty == true
+                                  ? mViewModel
+                                          .productDetailsData![0].productName ??
+                                      "No product name available"
+                                  : "No product details available",
+                              style: getAppStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              mViewModel.productDetailsData?.isNotEmpty == true
+                                  ? mViewModel
+                                          .productDetailsData![0].variantName ??
+                                      "No product Unit available"
+                                  : "No product details available",
+                              style: getAppStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "₹${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPrice.toString() : "No product details available"}",
+                                  style: getAppStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  "₹${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].productPrice.toString() : "No product details available"}",
+                                  style: getAppStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                mViewModel.productDetailsData![0].discountPer
+                                            .toString() ==
+                                        "0"
+                                    ? const SizedBox.shrink()
+                                    : Container(
+                                        margin: const EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orangeAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: Colors.white, width: 2),
+                                        ),
+                                        child: Text(
+                                          "${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
+                                          style: getAppStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            const Divider(),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "More Details",
+                                    style: getAppStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: Colors.blueAccent),
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.blueAccent,
+                                  )
+                                ],
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (isExpanded) ...[
+                                  // Text(
+                                  //   "Packaging Type",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "Blister",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Shelf Life",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "3 years",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Unit",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   mViewModel.productDetailsData?.isNotEmpty ==
+                                  //           true
+                                  //       ? mViewModel.productDetailsData![0]
+                                  //               .variantName ??
+                                  //           "No product Unit available"
+                                  //       : "No product details available",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Marketed By",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "Procter & Gamble",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Country of Origin",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "India",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  Text(
+                                    "Description",
+                                    style: getAppStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  HtmlWidget(
+                                    mViewModel.productDetailsData![0]
+                                            .description ??
+                                        "",
+                                    textStyle: getAppStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Customer Care Details",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "support@log2retail.in",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Return Policy",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // const SizedBox(height: 6),
+                                  // Text(
+                                  //   "Type",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "Call",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 12,
+                                  //   ),
+                                  // ),
+                                ]
+                              ],
+                            ),
+                            isExpanded == true
+                                ? GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isExpanded = !isExpanded;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Less Details",
+                                          style: getAppStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              color: Colors.blueAccent),
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_drop_up,
+                                          color: Colors.blueAccent,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    const Divider(),
+                    FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: IntrinsicWidth(
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    mViewModel.productDetailsData?.isNotEmpty ==
+                                            true
+                                        ? mViewModel.productDetailsData![0]
+                                                .variantName ??
+                                            "No product Unit available"
+                                        : "No product details available",
+                                    style: getAppStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "₹${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPrice.toString() : "No product details available"}",
+                                        style: getAppStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        "₹${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].productPrice.toString() : "No product details available"}",
+                                        style: getAppStyle(
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      mViewModel.productDetailsData![0]
+                                                  .discountPer
+                                                  .toString() ==
+                                              "0"
+                                          ? const SizedBox(width: 50)
+                                          : Container(
+                                        margin: const EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orangeAccent,
+                                          borderRadius:
+                                          BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: Colors.white, width: 2),
+                                        ),
+                                        child: Text(
+                                          "${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
+                                          style: getAppStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 70),
+                              const Spacer(),
+                              if (mViewModel.productDetailsData![0].stock !=
+                                  0) ...[
+                                mViewModel.productDetailsData![0].cartCount! > 0
+                                    ? Container(
+                                        height: 55,
+                                        width: 240,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: CommonColors.primaryColor,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (mViewModel
+                                                        .productDetailsData![0]
+                                                        .cartCount! >
+                                                    0) {
+                                                  await mViewModel.addToCartApi(
+                                                    variantId: mViewModel
+                                                        .productDetailsData![0]
+                                                        .variantId
+                                                        .toString(),
+                                                    type: 'm',
+                                                  );
+                                                  setState(() {
+                                                    mViewModel
+                                                        .productDetailsData![0]
+                                                        .cartCount = mViewModel
+                                                            .productDetailsData![
+                                                                0]
+                                                            .cartCount! -
+                                                        1;
+                                                  });
+                                                }
+                                              },
+                                              child: const Icon(
+                                                Icons.remove,
+                                                size: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Text(
+                                              mViewModel.productDetailsData![0]
+                                                  .cartCount
+                                                  .toString(),
+                                              style: getAppStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                // Ensure productDetailsData is non-null and has at least one item
+                                                if (mViewModel
+                                                            .productDetailsData !=
+                                                        null &&
+                                                    mViewModel
+                                                        .productDetailsData!
+                                                        .isNotEmpty) {
+                                                  int stock = mViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .stock ??
+                                                      0; // Provide a default value (e.g., 0)
+
+                                                  if (mViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount! <
+                                                      stock) {
+                                                    await mViewModel
+                                                        .addToCartApi(
+                                                      variantId: mViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .variantId
+                                                          .toString(),
+                                                      type: 'p',
+                                                    );
+                                                    setState(() {
+                                                      mViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount = mViewModel
+                                                              .productDetailsData![
+                                                                  0]
+                                                              .cartCount! +
+                                                          1;
+                                                    });
+                                                  } else {
+                                                    String msg =
+                                                        "Only $stock product(s) available in stock";
+                                                    CommonUtils.showSnackBar(
+                                                        msg,
+                                                        color:
+                                                            CommonColors.mRed);
+                                                  }
+                                                }
+                                              },
+                                              // onTap: () async {
+                                              //   await mViewModel.addToCartApi(
+                                              //     variantId: mViewModel
+                                              //         .productDetailsData![0]
+                                              //         .variantId
+                                              //         .toString(),
+                                              //     type: 'p',
+                                              //   );
+                                              //   setState(() {
+                                              //     mViewModel
+                                              //         .productDetailsData![0]
+                                              //         .cartCount = mViewModel
+                                              //             .productDetailsData![
+                                              //                 0]
+                                              //             .cartCount! +
+                                              //         1;
+                                              //   });
+                                              // },
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () async {
+                                          await mViewModel.addToCartApi(
+                                            variantId: mViewModel
+                                                .productDetailsData![0]
+                                                .variantId
+                                                .toString(),
+                                            type: 'p',
+                                          );
+                                          setState(() {
+                                            mViewModel.productDetailsData![0]
+                                                .cartCount = 1;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 55,
+                                          width: 240,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: CommonColors.primaryColor,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Add to Cart",
+                                              style: getAppStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

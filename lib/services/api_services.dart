@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:solikat_2024/models/brand_product_master.dart';
 import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
+import 'package:solikat_2024/models/product_details_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
 
 import '../models/about_us_master.dart';
@@ -439,6 +440,26 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return AboutUsMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ProductDetailsMaster?> getProductDetailsApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.GET_PRODUCT_DETAILS,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return ProductDetailsMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

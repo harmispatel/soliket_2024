@@ -215,6 +215,7 @@ class Section4 extends StatefulWidget {
   final String section4Title;
   final Function onAddItem;
   final Function onRemoveItem;
+  final Function? onTapProDetails;
 
   const Section4({
     super.key,
@@ -222,6 +223,7 @@ class Section4 extends StatefulWidget {
     required this.section4Title,
     required this.onAddItem,
     required this.onRemoveItem,
+    required this.onTapProDetails,
   });
 
   @override
@@ -291,20 +293,28 @@ class _Section4State extends State<Section4> {
               itemCount: widget.section4.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return FittedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: ProductContainer(
-                      imgUrl: widget.section4[index].image,
-                      productName: widget.section4[index].productName,
-                      onIncrement: () => incrementItem(index),
-                      onDecrement: () => decrementItem(index),
-                      stock: widget.section4[index].stock,
-                      variantName: widget.section4[index].variantName,
-                      discountPrice: widget.section4[index].discountPrice,
-                      productPrice: widget.section4[index].productPrice,
-                      discountPer: widget.section4[index].discountPer,
-                      cartCount: widget.section4[index].cartCount,
+                return GestureDetector(
+                  onTap: () {
+                    if (widget.onTapProDetails != null) {
+                      widget
+                          .onTapProDetails!(widget.section4[index].variantId);
+                    }
+                  },
+                  child: FittedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: ProductContainer(
+                        imgUrl: widget.section4[index].image,
+                        productName: widget.section4[index].productName,
+                        onIncrement: () => incrementItem(index),
+                        onDecrement: () => decrementItem(index),
+                        stock: widget.section4[index].stock,
+                        variantName: widget.section4[index].variantName,
+                        discountPrice: widget.section4[index].discountPrice,
+                        productPrice: widget.section4[index].productPrice,
+                        discountPer: widget.section4[index].discountPer,
+                        cartCount: widget.section4[index].cartCount,
+                      ),
                     ),
                   ),
                 );

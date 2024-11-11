@@ -1,5 +1,6 @@
 import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
+import 'package:solikat_2024/models/product_details_master.dart';
 
 import '../models/about_us_master.dart';
 import '../models/address_master.dart';
@@ -92,4 +93,9 @@ abstract class BaseServices {
   Future<ContactMaster?> getContactUsApi();
 
   Future<AboutUsMaster?> getAboutUsApi();
+
+  Future<ProductDetailsMaster?> getProductDetailsApi({
+    required Map<String, dynamic> params,
+  });
+
 }
