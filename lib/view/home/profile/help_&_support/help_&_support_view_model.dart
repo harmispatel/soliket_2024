@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
-import 'package:solikat_2024/utils/common_utils.dart';
 
 import '../../../../models/contact_us_master.dart';
 import '../../../../services/index.dart';
-import '../../../../utils/common_colors.dart';
 
 class HelpSupportViewModel with ChangeNotifier {
   late BuildContext context;
@@ -18,21 +14,21 @@ class HelpSupportViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getContactUsApi() async {
-    ContactMaster? master = await services.api!.getContactUsApi();
-    isInitialLoading = false;
-
-    if (master == null) {
-      CommonUtils.oopsMSG();
-    } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
-    } else if (master.status!) {
-      log("Success :: true");
-      contactUsList = master.data ?? [];
-    }
-    notifyListeners();
-  }
+  // Future<void> getContactUsApi() async {
+  //   ContactMaster? master = await services.api!.getContactUsApi();
+  //   isInitialLoading = false;
+  //
+  //   if (master == null) {
+  //     CommonUtils.oopsMSG();
+  //   } else if (!master.status!) {
+  //     CommonUtils.showSnackBar(
+  //       master.message,
+  //       color: CommonColors.mRed,
+  //     );
+  //   } else if (master.status!) {
+  //     log("Success :: true");
+  //     contactUsList = master.data ?? [];
+  //   }
+  //   notifyListeners();
+  // }
 }

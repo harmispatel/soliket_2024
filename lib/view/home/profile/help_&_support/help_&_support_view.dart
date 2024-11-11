@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
@@ -21,7 +20,7 @@ class _HelpSupportViewState extends State<HelpSupportView> {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      mViewModel.getContactUsApi();
+      // mViewModel.getContactUsApi();
     });
   }
 
@@ -39,11 +38,10 @@ class _HelpSupportViewState extends State<HelpSupportView> {
         padding: kCommonScreenPadding,
         child: Column(
           children: [
-            if (!mViewModel.isInitialLoading) ...[
-              HtmlWidget(mViewModel.contactUsList[0].description ?? ''),
-              kCommonSpaceV20,
-              Image.network(mViewModel.contactUsList[0].image ?? ''),
-            ]
+            Text(
+              "Help & Support",
+              style: getAppStyle(fontSize: 20),
+            )
           ],
         ),
       ),

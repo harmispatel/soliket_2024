@@ -15,6 +15,7 @@ import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
+import '../models/faq_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/offer_product_master.dart';
@@ -460,6 +461,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return ProductDetailsMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<FaqMaster?> getFaqApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_FAQ,
+    );
+    if (response != null) {
+      try {
+        return FaqMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

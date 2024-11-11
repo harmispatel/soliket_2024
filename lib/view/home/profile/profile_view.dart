@@ -8,9 +8,10 @@ import 'package:solikat_2024/view/home/profile/save_address/saved_address_view.d
 import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../../utils/common_utils.dart';
-import '../../cart/cart_view.dart';
 import 'about_us/about_us_view.dart';
+import 'contact_us/contact_us_view.dart';
 import 'edit_account/edit_account_view.dart';
+import 'faq/faq_view.dart';
 import 'help_&_support/help_&_support_view.dart';
 import 'my_orders/my_orders_view.dart';
 
@@ -150,18 +151,18 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.black54),
             ),
             const ProfileOptionsView(),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  push(MyCartView());
-                },
-                child: Text(
-                  "See Cart Screen",
-                  style: getAppStyle(fontSize: 20, color: Colors.blueAccent),
-                ),
-              ),
-            ),
-            kCommonSpaceV20,
+            // Center(
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       push(MyCartView());
+            //     },
+            //     child: Text(
+            //       "See Cart Screen",
+            //       style: getAppStyle(fontSize: 20, color: Colors.blueAccent),
+            //     ),
+            //   ),
+            // ),
+            // kCommonSpaceV20,
             Center(
               child: Text(
                 "v2.6.1.5(198)",
@@ -195,9 +196,11 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
     {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
     {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
+    {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
     {'icon': Icons.translate, 'title': ' Change Language'},
     {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
     {'icon': Icons.info_outline, 'title': ' About Us'},
+    {'icon': Icons.question_mark_rounded, 'title': ' FAQ'},
     {'icon': Icons.logout_rounded, 'title': ' Logout'},
   ];
 
@@ -221,9 +224,13 @@ class _ProfileOptionsViewState extends State<ProfileOptionsView> {
                 push(SaveAddressView());
               } else if (index == 2) {
                 push(HelpSupportView());
-              } else if (index == 5) {
-                push(AboutUsView());
+              } else if (index == 3) {
+                push(ContactUsView());
               } else if (index == 6) {
+                push(AboutUsView());
+              } else if (index == 7) {
+                push(FaqView());
+              } else if (index == 8) {
                 mViewModel.logOutApi();
               }
             },

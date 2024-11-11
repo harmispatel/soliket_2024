@@ -129,9 +129,16 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                             setState(() {
                               _selectedIndex = index;
                             });
+
                             print(
                                 "Category id :::: ${mViewModel.subCategoryList[index].subCategoryId}");
+                            print(
+                                ".......... Before Page ${mViewModel.currentPage}............");
+
                             mViewModel.resetPage();
+
+                            print(
+                                ".......... After Page ${mViewModel.currentPage}............");
                             mViewModel.getSubCategoryProductApi(
                                 latitude: gUserLat,
                                 longitude: gUserLong,

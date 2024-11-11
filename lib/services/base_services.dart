@@ -11,6 +11,7 @@ import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
+import '../models/faq_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/offer_product_master.dart';
@@ -94,8 +95,9 @@ abstract class BaseServices {
 
   Future<AboutUsMaster?> getAboutUsApi();
 
+  Future<FaqMaster?> getFaqApi();
+
   Future<ProductDetailsMaster?> getProductDetailsApi({
     required Map<String, dynamic> params,
   });
-
 }

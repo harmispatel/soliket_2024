@@ -22,7 +22,9 @@ import '../home/home_view_model.dart';
 import '../home/profile/about_us/about_us_view_model.dart';
 import '../home/profile/add_address/add_address_view_model.dart';
 import '../home/profile/add_address/edit_address/edit_address_view_model.dart';
+import '../home/profile/contact_us/contact_us_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
+import '../home/profile/faq/faq_view_model.dart';
 import '../home/profile/help_&_support/help_&_support_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
@@ -263,6 +265,10 @@ class AppState extends State<App> {
                   create: (_) => HelpSupportViewModel()),
               ChangeNotifierProvider<AboutUsViewModel>(
                   create: (_) => AboutUsViewModel()),
+              ChangeNotifierProvider<FaqViewModel>(
+                  create: (_) => FaqViewModel()),
+              ChangeNotifierProvider<ContactUsViewModel>(
+                  create: (_) => ContactUsViewModel()),
             ],
             child: Builder(
               builder: (context) {
