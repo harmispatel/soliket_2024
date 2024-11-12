@@ -30,59 +30,58 @@ class _PoliciesViewState extends State<PoliciesView> {
             isTitleBold: true,
             iconTheme: IconThemeData(color: CommonColors.blackColor),
           ),
-          body: Expanded(
-            child: ListView.builder(
-              padding: kCommonScreenPadding + EdgeInsets.only(top: 10),
-              itemCount: policiesOptions.length,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    print(index);
-                    if (index == 0) {
-                      //push(MyOrdersView());
-                    } else if (index == 1) {
-                      //push(NotificationView());
-                    } else if (index == 2) {
-                      //push(SaveAddressView());
-                    } else if (index == 3) {
-                      //push(HelpSupportView());
-                    } else if (index == 4) {
-                      //push(ContactUsView());
-                    }
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            policiesOptions[index]["title"],
-                            style: getAppStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
+          body: ListView.builder(
+            padding: kCommonScreenPadding + EdgeInsets.only(top: 10),
+            itemCount: policiesOptions.length,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  print(index);
+                  if (index == 0) {
+                    //push(MyOrdersView());
+                  } else if (index == 1) {
+                    //push(NotificationView());
+                  } else if (index == 2) {
+                    //push(SaveAddressView());
+                  } else if (index == 3) {
+                    //push(HelpSupportView());
+                  } else if (index == 4) {
+                    //push(ContactUsView());
+                  }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          policiesOptions[index]["title"],
+                          style: getAppStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
-                          const Spacer(),
-                           Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 18,
-                            color: CommonColors.mGrey500,
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Divider(color: CommonColors.mGrey500,),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                        ),
+                        const Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 18,
+                          color: CommonColors.mGrey500,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Divider(color: CommonColors.mGrey500),
+                    ),
+                  ],
+                ),
+              );
+            },
           )),
     );
   }
 }
+
