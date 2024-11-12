@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utils/common_colors.dart';
@@ -30,7 +29,7 @@ class _ContactUsViewState extends State<ContactUsView> {
     mViewModel = Provider.of<ContactUsViewModel>(context);
     return Scaffold(
       appBar: CommonAppBar(
-        title: "About Us",
+        title: "Contact Us",
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -40,9 +39,9 @@ class _ContactUsViewState extends State<ContactUsView> {
         child: Column(
           children: [
             if (!mViewModel.isInitialLoading) ...[
-              HtmlWidget(mViewModel.contactUsList[0].description ?? ''),
-              kCommonSpaceV20,
-              Image.network(mViewModel.contactUsList[0].image ?? ''),
+              // Image.network(mViewModel.contactUsList[0].image ?? ''),
+              // kCommonSpaceV20,
+              // HtmlWidget(mViewModel.contactUsList[0].description ?? ''),
             ]
           ],
         ),

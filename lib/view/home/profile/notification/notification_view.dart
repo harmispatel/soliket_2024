@@ -86,9 +86,9 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:solikat_2024/utils/constant.dart';
+
 import '../../../../utils/common_colors.dart';
-import '../../../../utils/constant.dart';
-import '../../../../utils/local_images.dart';
 import '../../../../widget/common_appbar.dart';
 
 class NotificationView extends StatefulWidget {
@@ -121,75 +121,106 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: CommonColors.grayShade200,
-        appBar: const CommonAppBar(
-          title: "Notification",
-          isShowShadow: true,
-          isTitleBold: true,
-          iconTheme: IconThemeData(color: CommonColors.blackColor),
-        ),
-        body: ListView.builder(
-          padding: kCommonScreenPadding,
-          itemCount: notifications.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: CommonColors.mWhite,
-              ),
-              child: Row(
+          backgroundColor: CommonColors.grayShade200,
+          appBar: const CommonAppBar(
+            title: "Notification",
+            isShowShadow: true,
+            isTitleBold: true,
+            iconTheme: IconThemeData(color: CommonColors.blackColor),
+          ),
+          body: Center(
+            child: Padding(
+              padding: kCommonScreenPadding,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 65,
-                    width: 65,
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          CommonColors.primaryColor,
-                          CommonColors.primaryColor.withOpacity(0.55)
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Image.asset(
-                      LocalImages.img_notification,
-                      color: CommonColors.mWhite,
-                    ),
+                  Image.network(
+                    height: 180,
+                    "https://cdni.iconscout.com/illustration/premium/thumb/no-notifications-illustration-download-in-svg-png-gif-file-formats--notification-mail-empty-state-pack-design-development-illustrations-4841580.png",
                   ),
-                  kCommonSpaceH20,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          notifications[index]['title']!,
-                          style: getAppStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: CommonColors.blackColor),
-                        ),
-                        kCommonSpaceV5,
-                        Text(
-                          notifications[index]['message']!,
-                          style: getAppStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: CommonColors.blackColor),
-                        ),
-                      ],
-                    ),
+                  kCommonSpaceV20,
+                  Text(
+                    "No Notification Here",
+                    textAlign: TextAlign.center,
+                    style:
+                        getAppStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 70),
+                    child: Text(
+                      "There is no notification to show right now.",
+                      textAlign: TextAlign.center,
+                      style: getAppStyle(
+                          fontSize: 18, color: CommonColors.black54),
+                    ),
+                  )
                 ],
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          )
+
+          // ListView.builder(
+          //   padding: kCommonScreenPadding,
+          //   itemCount: notifications.length,
+          //   itemBuilder: (context, index) {
+          //     return Container(
+          //       margin: const EdgeInsets.only(bottom: 12),
+          //       padding: const EdgeInsets.all(8),
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(10),
+          //         color: CommonColors.mWhite,
+          //       ),
+          //       child: Row(
+          //         children: [
+          //           Container(
+          //             height: 65,
+          //             width: 65,
+          //             padding: const EdgeInsets.all(6),
+          //             decoration: BoxDecoration(
+          //               gradient: LinearGradient(
+          //                 begin: Alignment.topCenter,
+          //                 end: Alignment.bottomCenter,
+          //                 colors: [
+          //                   CommonColors.primaryColor,
+          //                   CommonColors.primaryColor.withOpacity(0.55)
+          //                 ],
+          //               ),
+          //               borderRadius: BorderRadius.circular(8),
+          //             ),
+          //             child: Image.asset(
+          //               LocalImages.img_notification,
+          //               color: CommonColors.mWhite,
+          //             ),
+          //           ),
+          //           kCommonSpaceH20,
+          //           Expanded(
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Text(
+          //                   notifications[index]['title']!,
+          //                   style: getAppStyle(
+          //                       fontSize: 16,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: CommonColors.blackColor),
+          //                 ),
+          //                 kCommonSpaceV5,
+          //                 Text(
+          //                   notifications[index]['message']!,
+          //                   style: getAppStyle(
+          //                       fontSize: 14,
+          //                       fontWeight: FontWeight.normal,
+          //                       color: CommonColors.blackColor),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // ),
+          ),
     );
   }
 }

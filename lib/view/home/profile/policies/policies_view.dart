@@ -25,7 +25,7 @@ class _PoliciesViewState extends State<PoliciesView> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: CommonAppBar(
-            title: "Profile",
+            title: "Policies",
             isShowShadow: true,
             isTitleBold: true,
             iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -74,7 +74,7 @@ class _PoliciesViewState extends State<PoliciesView> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Divider(color: CommonColors.mGrey500),
+                      child: Divider(color: CommonColors.mGrey300),
                     ),
                   ],
                 ),
@@ -84,4 +84,3 @@ class _PoliciesViewState extends State<PoliciesView> {
     );
   }
 }
-

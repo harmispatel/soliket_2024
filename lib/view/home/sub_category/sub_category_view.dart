@@ -132,19 +132,20 @@ class _SubCategoryViewState extends State<SubCategoryView> {
 
                             print(
                                 "Category id :::: ${mViewModel.subCategoryList[index].subCategoryId}");
-                            print(
-                                ".......... Before Page ${mViewModel.currentPage}............");
 
-                            mViewModel.resetPage();
+                            // mViewModel.resetPage();
 
-                            print(
-                                ".......... After Page ${mViewModel.currentPage}............");
-                            mViewModel.getSubCategoryProductApi(
-                                latitude: gUserLat,
-                                longitude: gUserLong,
-                                subCategoryId: mViewModel
-                                    .subCategoryList[index].subCategoryId
-                                    .toString());
+                            mViewModel.currentPage = 1;
+                            mViewModel.isPageFinish = false;
+                            mViewModel.isInitialLoading = true;
+                            mViewModel.categoryProductList.clear();
+                            // mViewModel.subCategoryList.clear();
+
+                            mViewModel.getCategoryProductApi(
+                              latitude: gUserLat,
+                              longitude: gUserLong,
+                              categoryId: widget.categoryId.toString(),
+                            );
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,

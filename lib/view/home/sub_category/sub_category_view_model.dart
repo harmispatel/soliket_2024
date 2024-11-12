@@ -57,48 +57,59 @@ class SubCategoryViewModel with ChangeNotifier {
         currentPage++;
       }
       categoryProductList.addAll(master.data?.product ?? []);
-      subCategoryList.addAll(master.data?.subCategory ?? []);
-    }
-    notifyListeners();
-  }
-
-  Future<void> getSubCategoryProductApi(
-      {required String latitude,
-      required String longitude,
-      required String subCategoryId}) async {
-    Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.page: currentPage.toString(),
-      ApiParams.latitude: latitude,
-      ApiParams.longitude: longitude,
-      ApiParams.sub_category_id: subCategoryId,
-    };
-
-    SubCategoryProductMaster? master =
-        await services.api!.getSubCategoryProductApi(params: params);
-    isInitialLoading = false;
-    notifyListeners();
-
-    if (master == null) {
-      CommonUtils.oopsMSG();
-      return;
-    }
-
-    if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
-      return;
-    }
-
-    if (master.status == true) {
-      if (currentPage == master.totalPage!) {
-        isPageFinish = true;
-      } else {
-        currentPage++;
-      }
-      categoryProductList.addAll(master.data ?? []);
       // subCategoryList.addAll(master.data?.subCategory ?? []);
+      final newItems = (master.data?.subCategory ?? []);
+
+      Set<int?> existingIds =
+          subCategoryList.map((e) => e.subCategoryId).toSet();
+
+      for (var item in newItems) {
+        if (!existingIds.contains(item.subCategoryId)) {
+          subCategoryList.add(item);
+          existingIds.add(item.subCategoryId);
+        }
+      }
     }
     notifyListeners();
   }
+
+  // Future<void> getSubCategoryProductApi(
+  //     {required String latitude,
+  //     required String longitude,
+  //     required String subCategoryId}) async {
+  //   Map<String, dynamic> params = <String, dynamic>{
+  //     ApiParams.page: currentPage.toString(),
+  //     ApiParams.latitude: latitude,
+  //     ApiParams.longitude: longitude,
+  //     ApiParams.sub_category_id: subCategoryId,
+  //   };
+  //
+  //   SubCategoryProductMaster? master =
+  //       await services.api!.getSubCategoryProductApi(params: params);
+  //   isInitialLoading = false;
+  //   notifyListeners();
+  //
+  //   if (master == null) {
+  //     CommonUtils.oopsMSG();
+  //     return;
+  //   }
+  //
+  //   if (master.status == false) {
+  //     CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+  //     return;
+  //   }
+  //
+  //   if (master.status == true) {
+  //     if (currentPage == master.totalPage!) {
+  //       isPageFinish = true;
+  //     } else {
+  //       currentPage++;
+  //     }
+  //     categoryProductList.addAll(master.data ?? []);
+  //     // subCategoryList.addAll(master.data?.subCategory ?? []);
+  //   }
+  //   notifyListeners();
+  // }
 
   void resetPage() {
     WidgetsBinding.instance.addPostFrameCallback((_) {

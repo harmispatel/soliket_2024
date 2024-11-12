@@ -28,7 +28,6 @@ class _AboutUsViewState extends State<AboutUsView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<AboutUsViewModel>(context);
-
     return Scaffold(
       appBar: CommonAppBar(
         title: "About Us",
@@ -37,13 +36,18 @@ class _AboutUsViewState extends State<AboutUsView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: SingleChildScrollView(
-        padding: kCommonScreenPadding,
         child: Column(
           children: [
             if (!mViewModel.isInitialLoading) ...[
-              HtmlWidget(mViewModel.aboutUsList[0].description ?? ''),
-              kCommonSpaceV20,
               Image.network(mViewModel.aboutUsList[0].image ?? ''),
+              kCommonSpaceV20,
+              Padding(
+                padding: kCommonScreenPadding,
+                child: HtmlWidget(
+                  mViewModel.aboutUsList[0].description ?? '',
+                  textStyle: getAppStyle(),
+                ),
+              ),
             ]
           ],
         ),

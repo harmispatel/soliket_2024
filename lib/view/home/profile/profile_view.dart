@@ -10,6 +10,7 @@ import 'package:solikat_2024/view/home/profile/profile_view_model.dart';
 import 'package:solikat_2024/view/home/profile/save_address/saved_address_view.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
@@ -18,7 +19,6 @@ import 'about_us/about_us_view.dart';
 import 'contact_us/contact_us_view.dart';
 import 'edit_account/edit_account_view.dart';
 import 'faq/faq_view.dart';
-import 'help_&_support/help_&_support_view.dart';
 import 'my_orders/my_orders_view.dart';
 import 'notification/notification_view.dart';
 
@@ -34,16 +34,17 @@ class _ProfileViewState extends State<ProfileView> {
 
   final List<Map<String, dynamic>> profileOptions = [
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
+    {'icon': Icons.bookmark_add_outlined, 'title': ' Saved Addresses'},
+    {'icon': Icons.receipt_long, 'title': ' Transaction History'},
     {'icon': Icons.notifications_none_outlined, 'title': ' Notification'},
-    {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
-    {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
-    {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
-    {'icon': Icons.translate, 'title': ' Change Language'},
-    {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
     {'icon': Icons.info_outline, 'title': ' About Us'},
+    {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
     {'icon': Icons.policy_outlined, 'title': ' Policies'},
     {'icon': Icons.question_mark_rounded, 'title': ' FAQ'},
+    {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
+    {'icon': Icons.share, 'title': ' Share App'},
     {'icon': Icons.logout_rounded, 'title': ' Logout'},
+    {'icon': Icons.delete_forever, 'title': ' Delete Account'},
   ];
 
   @override
@@ -173,6 +174,9 @@ class _ProfileViewState extends State<ProfileView> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
+                bool isLastTwo = index == profileOptions.length - 1 ||
+                    index == profileOptions.length - 2;
+
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
@@ -180,22 +184,23 @@ class _ProfileViewState extends State<ProfileView> {
                     if (index == 0) {
                       push(MyOrdersView());
                     } else if (index == 1) {
-                      push(NotificationView());
-                    } else if (index == 2) {
                       push(SaveAddressView());
+                    } else if (index == 2) {
                     } else if (index == 3) {
-                      push(HelpSupportView());
+                      push(NotificationView());
                     } else if (index == 4) {
-                      push(ContactUsView());
-                    } else if (index == 7) {
                       push(AboutUsView());
-                    } else if (index == 8) {
+                    } else if (index == 5) {
+                      push(ContactUsView());
+                    } else if (index == 6) {
                       push(PoliciesView());
-                    } else if (index == 9) {
+                    } else if (index == 7) {
                       push(FaqView());
+                    } else if (index == 8) {
+                    } else if (index == 9) {
                     } else if (index == 10) {
                       mViewModel.logOutApi();
-                    }
+                    } else if (index == 11) {}
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -203,9 +208,7 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         Icon(
                           profileOptions[index]["icon"],
-                          color: index == profileOptions.length - 1
-                              ? Colors.red
-                              : Colors.black,
+                          color: isLastTwo ? Colors.red : Colors.black,
                         ),
                         kCommonSpaceH10,
                         Text(
@@ -213,13 +216,11 @@ class _ProfileViewState extends State<ProfileView> {
                           style: getAppStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: index == profileOptions.length - 1
-                                ? Colors.red
-                                : Colors.black,
+                            color: isLastTwo ? Colors.red : Colors.black,
                           ),
                         ),
                         const Spacer(),
-                        if (index != profileOptions.length - 1)
+                        if (!isLastTwo)
                           const Icon(
                             Icons.arrow_forward_ios_rounded,
                             size: 18,
@@ -231,9 +232,10 @@ class _ProfileViewState extends State<ProfileView> {
               },
             ),
             kCommonSpaceV20,
-            GestureDetector(onTap: (){
-              forceUpdateBottomSheet();
-            },
+            GestureDetector(
+              onTap: () {
+                forceUpdateBottomSheet();
+              },
               child: Center(
                 child: Text(
                   "Update Version",
@@ -261,6 +263,7 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+
   void forceUpdateBottomSheet() {
     showModalBottomSheet(
       context: mainNavKey.currentContext!,
@@ -360,10 +363,10 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<bool> tryLaunch(
-      String link, {
-        Function()? onCannotLaunch,
-        LaunchMode mode = LaunchMode.externalApplication,
-      }) async {
+    String link, {
+    Function()? onCannotLaunch,
+    LaunchMode mode = LaunchMode.externalApplication,
+  }) async {
     final uri = Uri.parse(link);
     if (await canLaunchUrl(uri)) {
       try {
