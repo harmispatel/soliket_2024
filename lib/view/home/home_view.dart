@@ -18,6 +18,8 @@ import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
 
 import '../../models/home_master.dart';
+import '../../notification_service/demo_notification.dart';
+import '../../notification_service/notification_service.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
@@ -425,6 +427,7 @@ class _HomeViewState extends State<HomeView> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  //push(HomeScreen());
                                   // profileDialog(context);
                                   mainNavKey.currentContext!
                                       .read<BottomNavbarViewModel>()

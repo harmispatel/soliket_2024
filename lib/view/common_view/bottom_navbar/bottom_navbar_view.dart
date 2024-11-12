@@ -6,6 +6,7 @@ import '../../../utils/common_colors.dart';
 import '../../cart/cart_view.dart';
 import '../../home/home_view.dart';
 import '../../home/profile/my_orders/my_orders_view.dart';
+import '../../order_success/order_success_view.dart';
 import 'bottom_navbar_view_model.dart';
 
 class BottomNavBarView extends StatefulWidget {

@@ -60,14 +60,6 @@ pushAndRemoveUntil(Widget screen) async {
   }), (route) => false);
 }
 
-void pushAndRemove(Widget view, BuildContext context) {
-  Navigator.pushAndRemoveUntil(
-    context,
-    CupertinoPageRoute(builder: (context) => view),
-    (Route<dynamic> route) => false,
-  );
-}
-
 void pushReplacement(Widget screen) async {
   Navigator.pushReplacement(mainNavKey.currentContext!,
       /*Platform.isAndroid

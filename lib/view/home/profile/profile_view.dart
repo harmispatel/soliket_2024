@@ -28,12 +28,14 @@ class _ProfileViewState extends State<ProfileView> {
 
   final List<Map<String, dynamic>> profileOptions = [
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
+    {'icon': Icons.notifications_none_outlined, 'title': ' Notification'},
     {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
     {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
     {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
     {'icon': Icons.translate, 'title': ' Change Language'},
     {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
     {'icon': Icons.info_outline, 'title': ' About Us'},
+    {'icon': Icons.policy_outlined, 'title': ' Policies'},
     {'icon': Icons.question_mark_rounded, 'title': ' FAQ'},
     {'icon': Icons.logout_rounded, 'title': ' Logout'},
   ];
@@ -172,16 +174,20 @@ class _ProfileViewState extends State<ProfileView> {
                     if (index == 0) {
                       push(MyOrdersView());
                     } else if (index == 1) {
-                      push(SaveAddressView());
+                      push(NotificationView());
                     } else if (index == 2) {
-                      push(HelpSupportView());
+                      push(SaveAddressView());
                     } else if (index == 3) {
+                      push(HelpSupportView());
+                    } else if (index == 4) {
                       push(ContactUsView());
-                    } else if (index == 6) {
-                      push(AboutUsView());
                     } else if (index == 7) {
-                      push(FaqView());
+                      push(AboutUsView());
                     } else if (index == 8) {
+                      push(PoliciesView());
+                    } else if (index == 9) {
+                      push(FaqView());
+                    } else if (index == 10) {
                       mViewModel.logOutApi();
                     }
                   },
@@ -231,128 +237,6 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ],
         ),
-            const ProfileOptionsView(),
-            // Center(
-            //   child: GestureDetector(
-            //     onTap: () {
-            //       push(MyCartView());
-            //     },
-            //     child: Text(
-            //       "See Cart Screen",
-            //       style: getAppStyle(fontSize: 20, color: Colors.blueAccent),
-            //     ),
-            //   ),
-            // ),
-            // kCommonSpaceV20,
-            Center(
-              child: Text(
-                "v2.6.1.5(198)",
-                style: getAppStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// * Profile Options View * //
-
-class ProfileOptionsView extends StatefulWidget {
-  const ProfileOptionsView({super.key});
-
-  @override
-  State<ProfileOptionsView> createState() => _ProfileOptionsViewState();
-}
-
-class _ProfileOptionsViewState extends State<ProfileOptionsView> {
-  late ProfileViewModel mViewModel;
-
-  final List<Map<String, dynamic>> profileOptions = [
-    {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
-    {'icon': Icons.notifications_none_outlined, 'title': ' Notification'},
-    {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
-    {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
-    {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
-    {'icon': Icons.translate, 'title': ' Change Language'},
-    {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
-    {'icon': Icons.info_outline, 'title': ' About Us'},
-    {'icon': Icons.policy_outlined, 'title': ' Policies'},
-    {'icon': Icons.question_mark_rounded, 'title': ' FAQ'},
-    {'icon': Icons.logout_rounded, 'title': ' Logout'},
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    mViewModel = Provider.of<ProfileViewModel>(context);
-
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 10),
-        itemCount: profileOptions.length,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              print(index);
-              if (index == 0) {
-                push(MyOrdersView());
-              } else if (index == 1) {
-                push(NotificationView());
-              } else if (index == 2) {
-                push(SaveAddressView());
-              } else if (index == 3) {
-                push(HelpSupportView());
-              } else if (index == 4) {
-                push(ContactUsView());
-              } else if (index == 7) {
-                push(AboutUsView());
-              } else if (index == 8) {
-                push(PoliciesView());
-              } else if (index == 9) {
-                push(FaqView());
-              } else if (index == 10) {
-                mViewModel.logOutApi();
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Row(
-                children: [
-                  Icon(
-                    profileOptions[index]["icon"],
-                    color: index == profileOptions.length - 1
-                        ? Colors.red
-                        : Colors.black,
-                  ),
-                  kCommonSpaceH10,
-                  Text(
-                    profileOptions[index]["title"],
-                    style: getAppStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: index == profileOptions.length - 1
-                          ? Colors.red
-                          : Colors.black,
-                    ),
-                  ),
-                  const Spacer(),
-                  if (index != profileOptions.length - 1)
-                    const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 18,
-                    ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }
