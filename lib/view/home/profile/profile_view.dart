@@ -26,6 +26,18 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   late ProfileViewModel mViewModel;
 
+  final List<Map<String, dynamic>> profileOptions = [
+    {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
+    {'icon': Icons.bookmark_add_outlined, 'title': ' Save Addresses'},
+    {'icon': Icons.messenger_outline_rounded, 'title': ' Help & support'},
+    {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
+    {'icon': Icons.translate, 'title': ' Change Language'},
+    {'icon': Icons.star_border_purple500_outlined, 'title': ' Rate Us'},
+    {'icon': Icons.info_outline, 'title': ' About Us'},
+    {'icon': Icons.question_mark_rounded, 'title': ' FAQ'},
+    {'icon': Icons.logout_rounded, 'title': ' Logout'},
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -46,9 +58,10 @@ class _ProfileViewState extends State<ProfileView> {
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: kCommonScreenPadding,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             !mViewModel.isInitialLoading
@@ -56,7 +69,6 @@ class _ProfileViewState extends State<ProfileView> {
                     children: [
                       ClipOval(
                         child: Image.network(
-                          // mViewModel.profileData?.profile ?? '',
                           'https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg',
                           width: 60,
                           height: 60,
@@ -95,7 +107,6 @@ class _ProfileViewState extends State<ProfileView> {
                               birthDate: mViewModel.profileData?.birthday,
                               profileImage:
                                   "https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg",
-                              // profileImage: mViewModel.profileData?.profile,
                             ),
                           ).then((_) {
                             mViewModel.getProfileApi();
@@ -128,13 +139,11 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                               ),
                               kCommonSpaceH15,
-                              Expanded(
-                                child: Container(
-                                  height: 50.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: Colors.white,
-                                  ),
+                              Container(
+                                height: 50.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -151,6 +160,77 @@ class _ProfileViewState extends State<ProfileView> {
                   fontWeight: FontWeight.w500,
                   color: Colors.black54),
             ),
+            ListView.builder(
+              itemCount: profileOptions.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    print(index);
+                    if (index == 0) {
+                      push(MyOrdersView());
+                    } else if (index == 1) {
+                      push(SaveAddressView());
+                    } else if (index == 2) {
+                      push(HelpSupportView());
+                    } else if (index == 3) {
+                      push(ContactUsView());
+                    } else if (index == 6) {
+                      push(AboutUsView());
+                    } else if (index == 7) {
+                      push(FaqView());
+                    } else if (index == 8) {
+                      mViewModel.logOutApi();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                      children: [
+                        Icon(
+                          profileOptions[index]["icon"],
+                          color: index == profileOptions.length - 1
+                              ? Colors.red
+                              : Colors.black,
+                        ),
+                        kCommonSpaceH10,
+                        Text(
+                          profileOptions[index]["title"],
+                          style: getAppStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: index == profileOptions.length - 1
+                                ? Colors.red
+                                : Colors.black,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (index != profileOptions.length - 1)
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 18,
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+            kCommonSpaceV20,
+            Center(
+              child: Text(
+                "v2.6.1.5(198)",
+                style: getAppStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
             const ProfileOptionsView(),
             // Center(
             //   child: GestureDetector(
