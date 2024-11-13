@@ -5,6 +5,7 @@ class ApiParams {
   static const String otp = "otp";
   static const String device_token = "device_token";
   static const String device_type = "device_type";
+  static const String token = "token";
   static const String latitude = "latitude";
   static const String longitude = "longitude";
   static const String name = "name";

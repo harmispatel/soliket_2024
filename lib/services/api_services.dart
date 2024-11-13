@@ -10,6 +10,7 @@ import 'package:solikat_2024/services/api_url.dart';
 import '../models/about_us_master.dart';
 import '../models/address_master.dart';
 import '../models/button_product_master.dart';
+import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
@@ -18,9 +19,14 @@ import '../models/contact_us_master.dart';
 import '../models/faq_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
+import '../models/notification_master.dart';
 import '../models/offer_product_master.dart';
+import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
+import '../models/return_policy_master.dart';
+import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
+import '../models/terms_and_conditions_master.dart';
 import 'base_client.dart';
 import 'base_services.dart';
 
@@ -478,6 +484,125 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return FaqMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<PrivacyPolicyMaster?> getPrivacyPolicyApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_PRIVACY_POLICY,
+    );
+    if (response != null) {
+      try {
+        return PrivacyPolicyMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<TermsAndConditionsMaster?> getTermsAndConditionsApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_TERMS_CONDITIONS,
+    );
+    if (response != null) {
+      try {
+        return TermsAndConditionsMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ShippingPolicyMaster?> getShippingPolicyApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_SHIPPING_POLICY,
+    );
+    if (response != null) {
+      try {
+        return ShippingPolicyMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<ReturnPolicyMaster?> getReturnPolicyApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_RETURN_POLICY,
+    );
+    if (response != null) {
+      try {
+        return ReturnPolicyMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CancellationPolicyMaster?> getCancellationPolicyApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_CANCELLATION_POLICY,
+    );
+    if (response != null) {
+      try {
+        return CancellationPolicyMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> deleteAccount() async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.DELETE_ACCOUNT,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<NotificationMaster?> getNotificationApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_NOTIFICATION,
+    );
+    if (response != null) {
+      try {
+        return NotificationMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

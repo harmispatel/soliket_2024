@@ -26,6 +26,12 @@ import '../home/profile/contact_us/contact_us_view_model.dart';
 import '../home/profile/edit_account/edit_account_view_model.dart';
 import '../home/profile/faq/faq_view_model.dart';
 import '../home/profile/help_&_support/help_&_support_view_model.dart';
+import '../home/profile/notification/notification_view_model.dart';
+import '../home/profile/policies/cancellation_policy/cancellation_policy_view_model.dart';
+import '../home/profile/policies/privacy_policy/privacy_policy_view_model.dart';
+import '../home/profile/policies/return_policy/return_policy_view_model.dart';
+import '../home/profile/policies/shipping_policy/shipping_policy_view_model.dart';
+import '../home/profile/policies/terms_and_conditions/terms_and_conditions_view_model.dart';
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
 import '../home/sub_brand/sub_brand_view_model.dart';
@@ -269,6 +275,18 @@ class AppState extends State<App> {
                   create: (_) => FaqViewModel()),
               ChangeNotifierProvider<ContactUsViewModel>(
                   create: (_) => ContactUsViewModel()),
+              ChangeNotifierProvider<PrivacyPolicyViewModel>(
+                  create: (_) => PrivacyPolicyViewModel()),
+              ChangeNotifierProvider<TermsAndConditionsViewModel>(
+                  create: (_) => TermsAndConditionsViewModel()),
+              ChangeNotifierProvider<ShippingPolicyViewModel>(
+                  create: (_) => ShippingPolicyViewModel()),
+              ChangeNotifierProvider<ReturnPolicyViewModel>(
+                  create: (_) => ReturnPolicyViewModel()),
+              ChangeNotifierProvider<CancellationPolicyViewModel>(
+                  create: (_) => CancellationPolicyViewModel()),
+              ChangeNotifierProvider<NotificationViewModel>(
+                  create: (_) => NotificationViewModel()),
             ],
             child: Builder(
               builder: (context) {

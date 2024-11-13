@@ -49,6 +49,29 @@ class ProfileViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteAccount() async {
+    CommonUtils.showProgressDialog();
+    CommonMaster? master = await _services.api!.deleteAccount();
+    CommonUtils.hideProgressDialog();
+    if (master == null) {
+      CommonUtils.oopsMSG();
+    } else if (!master.status!) {
+      CommonUtils.showSnackBar(
+        master.message,
+        color: CommonColors.mRed,
+      );
+    } else if (master.status!) {
+      log("Success :: true");
+      await AppPreferences.instance.clear();
+      gUserId = '';
+      globalUserMaster = null;
+      mainNavKey.currentContext!.read<BottomNavbarViewModel>().selectedIndex =
+          0;
+      pushAndRemoveUntil(const LoginView());
+    }
+    notifyListeners();
+  }
+
   Future<void> getProfileApi() async {
     ProfileMaster? master = await _services.api!.getProfileApi();
     isInitialLoading = false;

@@ -1,11 +1,13 @@
 import 'package:solikat_2024/models/coupon_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/models/product_details_master.dart';
+import 'package:solikat_2024/models/return_policy_master.dart';
 
 import '../models/about_us_master.dart';
 import '../models/address_master.dart';
 import '../models/brand_product_master.dart';
 import '../models/button_product_master.dart';
+import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
@@ -14,9 +16,13 @@ import '../models/contact_us_master.dart';
 import '../models/faq_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
+import '../models/notification_master.dart';
 import '../models/offer_product_master.dart';
+import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
+import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
+import '../models/terms_and_conditions_master.dart';
 
 abstract class BaseServices {
   Future<LoginMaster?> login({
@@ -100,4 +106,18 @@ abstract class BaseServices {
   Future<ProductDetailsMaster?> getProductDetailsApi({
     required Map<String, dynamic> params,
   });
+
+  Future<PrivacyPolicyMaster?> getPrivacyPolicyApi();
+
+  Future<TermsAndConditionsMaster?> getTermsAndConditionsApi();
+
+  Future<ShippingPolicyMaster?> getShippingPolicyApi();
+
+  Future<ReturnPolicyMaster?> getReturnPolicyApi();
+
+  Future<CancellationPolicyMaster?> getCancellationPolicyApi();
+
+  Future<CommonMaster?> deleteAccount();
+
+  Future<NotificationMaster?> getNotificationApi();
 }

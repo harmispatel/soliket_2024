@@ -200,7 +200,9 @@ class _ProfileViewState extends State<ProfileView> {
                     } else if (index == 9) {
                     } else if (index == 10) {
                       mViewModel.logOutApi();
-                    } else if (index == 11) {}
+                    } else if (index == 11) {
+                      mViewModel.deleteAccount();
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),

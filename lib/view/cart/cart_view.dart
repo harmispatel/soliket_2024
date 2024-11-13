@@ -9,8 +9,10 @@ import 'package:solikat_2024/view/home/home_view_model.dart';
 import '../../models/cart_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
+import '../../utils/global_variables.dart';
 import '../../widget/common_appbar.dart';
 import '../../widget/primary_button.dart';
+import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import 'coupon/coupon_view.dart';
 
 class MyCartView extends StatefulWidget {
@@ -51,14 +53,49 @@ class _MyCartViewState extends State<MyCartView> {
               ),
             )
           : mViewModel.cartList.isEmpty
-              ? Center(
-                  child: Text(
-                    "Cart Data Empty",
-                    style: getAppStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                    ),
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15) +
+                      const EdgeInsets.only(top: 150, bottom: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network(
+                        height: 200,
+                        "https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?ga=GA1.1.13293824.1730713797&semt=ais_hybrid",
+                      ),
+                      kCommonSpaceV20,
+                      Text(
+                        "Your cart is empty",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      kCommonSpaceV10,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 70),
+                        child: Text(
+                          "Looks like you haven't added any product to your cart yet.",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                              height: 1.2,
+                              fontSize: 18,
+                              color: CommonColors.black54),
+                        ),
+                      ),
+                      const Spacer(),
+                      PrimaryButton(
+                        height: 55,
+                        label: "CONTINUE SHOPPING",
+                        buttonColor: CommonColors.primaryColor,
+                        labelColor: CommonColors.mWhite,
+                        onPress: () {
+                          mainNavKey.currentContext!
+                              .read<BottomNavbarViewModel>()
+                              .onMenuTapped(0);
+                        },
+                      ),
+                    ],
                   ),
                 )
               : SingleChildScrollView(
