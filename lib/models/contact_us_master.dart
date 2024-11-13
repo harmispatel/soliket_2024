@@ -58,39 +58,39 @@ class ContactMaster {
 
 class ContactUsData {
   String? _title;
-  String? _description;
-  String? _image;
+  String? _value;
+  String? _icon;
 
-  ContactUsData({String? title, String? description, String? image}) {
+  ContactUsData({String? title, String? value, String? icon}) {
     if (title != null) {
       this._title = title;
     }
-    if (description != null) {
-      this._description = description;
+    if (value != null) {
+      this._value = value;
     }
-    if (image != null) {
-      this._image = image;
+    if (icon != null) {
+      this._icon = icon;
     }
   }
 
   String? get title => _title;
   set title(String? title) => _title = title;
-  String? get description => _description;
-  set description(String? description) => _description = description;
-  String? get image => _image;
-  set image(String? image) => _image = image;
+  String? get value => _value;
+  set value(String? value) => _value = value;
+  String? get icon => _icon;
+  set icon(String? icon) => _icon = icon;
 
   ContactUsData.fromJson(Map<String, dynamic> json) {
     _title = json['title'];
-    _description = json['description'];
-    _image = json['image'];
+    _value = json['Value'];
+    _icon = json['icon'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this._title;
-    data['description'] = this._description;
-    data['image'] = this._image;
+    data['Value'] = this._value;
+    data['icon'] = this._icon;
     return data;
   }
 }

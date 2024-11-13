@@ -51,6 +51,8 @@
     <string>This app requires access to your location at all times.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app requires access to your location at all times, even when the app is in the background.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your microphone for speech recognition</string>
 
 </dict>
 </plist>

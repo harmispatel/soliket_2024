@@ -20,7 +20,8 @@ class CommonTextField extends StatelessWidget {
   final bool? enabled;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final VoidCallback? onIconPressed;
+  final VoidCallback? onSuffixIconPressed;
+  final VoidCallback? onPrefixIconPressed;
   final void Function(String)? onEditComplete;
   final double? height;
 
@@ -39,7 +40,8 @@ class CommonTextField extends StatelessWidget {
     this.obscureText = false,
     this.enabled,
     this.textInputAction,
-    this.onIconPressed,
+    this.onSuffixIconPressed,
+    this.onPrefixIconPressed,
     this.onEditComplete,
     this.height,
     this.focusNode,
@@ -93,7 +95,7 @@ class CommonTextField extends StatelessWidget {
                       Icons.search,
                       color: CommonColors.mGrey,
                     ),
-                    onPressed: onIconPressed,
+                    onPressed: onPrefixIconPressed,
                   )
                 : null,
             suffixIcon: isIconButton
@@ -102,7 +104,7 @@ class CommonTextField extends StatelessWidget {
                       suffixIcon,
                       color: CommonColors.mGrey,
                     ),
-                    onPressed: onIconPressed,
+                    onPressed: onSuffixIconPressed,
                   )
                 : null,
             contentPadding: const EdgeInsets.only(left: 10, right: 10),

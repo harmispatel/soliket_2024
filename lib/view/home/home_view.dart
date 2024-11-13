@@ -13,13 +13,11 @@ import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.da
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
-import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../../models/home_master.dart';
-import '../../notification_service/demo_notification.dart';
-import '../../notification_service/notification_service.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
@@ -68,7 +66,6 @@ class _HomeViewState extends State<HomeView> {
 
   final ScrollController _scrollController = ScrollController();
   late FocusNode _searchFocusNode = FocusNode();
-
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
@@ -79,7 +76,11 @@ class _HomeViewState extends State<HomeView> {
   late EditAccountViewModel mProfileViewModel;
   late HomeViewModel mViewModel;
   late CartViewModel mCartViewModel;
-
+  stt.SpeechToText _speechToText = stt.SpeechToText();
+  TextEditingController searchController = TextEditingController();
+  bool _isListening = false;
+  bool _isSpeaking = false;
+  late BuildContext _bottomSheetContext;
   bool _isStickyVisible = false;
 
   // int itemCount = 0;
@@ -93,6 +94,8 @@ class _HomeViewState extends State<HomeView> {
       _pageController = PageController();
       mCartViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
+      _initializeSpeechRecognition();
+
       // mCartViewModel.getCartApi();
       if (!mViewModel.isPageFinish) {
         mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
@@ -360,6 +363,84 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  void _initializeSpeechRecognition() async {
+    bool available = await _speechToText.initialize();
+    if (available) {
+      print("Speech recognition is available");
+    } else {
+      print("Speech recognition not available.");
+    }
+  }
+
+  /// Start listening for speech input
+  void _startListening() async {
+    bool available = await _speechToText.initialize();
+    if (available) {
+      setState(() {
+        _isListening = true;
+        _isSpeaking = true;
+      });
+
+      _showBottomSheet(context);
+
+      _speechToText.listen(
+        onResult: (result) {
+          setState(() {
+            searchController.text = result.recognizedWords;
+          });
+        },
+        listenFor: Duration(seconds: 3),
+        pauseFor: Duration(seconds: 3),
+        partialResults: true,
+        onSoundLevelChange: (level) {},
+      );
+      // Automatically close the dialog after 3 seconds
+      Future.delayed(Duration(seconds: 3), () {
+        if (_isListening) {
+          _stopListening(); // Ensure that listening is stopped after 3 seconds
+        }
+      });
+    } else {
+      print("Speech recognition not available.");
+    }
+  }
+
+  /// Stop listening when the user pauses or finishes speaking
+  void _stopListening() {
+    _speechToText.stop();
+    setState(() {
+      _isListening = false;
+      _isSpeaking = false;
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  Future<void> _showBottomSheet(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(height: 200, LocalImages.speakingGif),
+                SizedBox(height: 20),
+                Text(
+                  "Listening...",
+                  style: getAppStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mProfileViewModel = Provider.of<EditAccountViewModel>(context);
@@ -451,12 +532,20 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         kCommonSpaceV10,
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           child: CommonTextField(
+                            controller: searchController,
                             hintText: "Search",
                             isPrefixIconButton: true,
                             suffixIcon: Icons.mic,
+                            onSuffixIconPressed: () {
+                              if (_isListening) {
+                                _stopListening(); // Stop listening
+                              } else {
+                                _startListening(); // Start listening
+                              }
+                            },
                             isIconButton: true,
                           ),
                         ),
@@ -1813,24 +1902,28 @@ class _HomeViewState extends State<HomeView> {
                                               "0"
                                           ? const SizedBox(width: 50)
                                           : Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 3),
-                                        decoration: BoxDecoration(
-                                          color: Colors.orangeAccent,
-                                          borderRadius:
-                                          BorderRadius.circular(20),
-                                          border: Border.all(
-                                              color: Colors.white, width: 2),
-                                        ),
-                                        child: Text(
-                                          "${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
-                                          style: getAppStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                                              margin: const EdgeInsets.only(
+                                                  left: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 3),
+                                              decoration: BoxDecoration(
+                                                color: Colors.orangeAccent,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 2),
+                                              ),
+                                              child: Text(
+                                                "${mViewModel.productDetailsData?.isNotEmpty == true ? mViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
+                                                style: getAppStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ],

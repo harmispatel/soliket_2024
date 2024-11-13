@@ -26,13 +26,21 @@ class Section1 extends StatelessWidget {
           itemCount: section1.length,
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                  image: NetworkImage(section1[itemIndex].image),
-                  fit: BoxFit.fill,
+            return GestureDetector(
+              onTap: () {
+                push(SubCategoryView(
+                  categoryId: section1[itemIndex].categoryId,
+                  title: 'Products',
+                ));
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  image: DecorationImage(
+                    image: NetworkImage(section1[itemIndex].image),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             );
@@ -83,32 +91,42 @@ class Section2 extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: section2.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Image.network(
-                        width: double.infinity,
-                        section2[index].image,
-                        fit: BoxFit.fill,
+              return GestureDetector(
+                onTap: () {
+                  push(
+                    SubCategoryView(
+                      categoryId: section2[index].categoryId,
+                      title: section2[index].title,
+                    ),
+                  );
+                },
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Image.network(
+                          width: double.infinity,
+                          section2[index].image,
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                    ),
-                    kCommonSpaceV5,
-                    Text(
-                      section2[index].title,
-                      style: getAppStyle(
-                          fontSize: 18,
-                          color: const Color(0xff45461b),
-                          fontWeight: FontWeight.w500),
-                    ),
-                    kCommonSpaceV3,
-                  ],
+                      kCommonSpaceV5,
+                      Text(
+                        section2[index].title,
+                        style: getAppStyle(
+                            fontSize: 18,
+                            color: const Color(0xff45461b),
+                            fontWeight: FontWeight.w500),
+                      ),
+                      kCommonSpaceV3,
+                    ],
+                  ),
                 ),
               );
             },
@@ -159,9 +177,12 @@ class Section3 extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   print("Category id...... ${section3[index].categoryId}");
-                  push(SubCategoryView(
-                    categoryId: section3[index].categoryId,
-                  ));
+                  push(
+                    SubCategoryView(
+                      categoryId: section3[index].categoryId.toString(),
+                      title: section3[index].title,
+                    ),
+                  );
                 },
                 child: Column(
                   children: [
@@ -296,8 +317,7 @@ class _Section4State extends State<Section4> {
                 return GestureDetector(
                   onTap: () {
                     if (widget.onTapProDetails != null) {
-                      widget
-                          .onTapProDetails!(widget.section4[index].variantId);
+                      widget.onTapProDetails!(widget.section4[index].variantId);
                     }
                   },
                   child: FittedBox(
@@ -340,7 +360,16 @@ class Section5 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(section5.first.image),
+          GestureDetector(
+              onTap: () {
+                push(
+                  SubCategoryView(
+                    categoryId: section5.first.categoryId,
+                    title: 'Product',
+                  ),
+                );
+              },
+              child: Image.network(section5.first.image)),
           kCommonSpaceV15,
         ],
       ),
@@ -391,38 +420,53 @@ class Section6 extends StatelessWidget {
                     itemCount: section6.first.categories.length,
                     itemBuilder: (BuildContext context, int index) {
                       return FittedBox(
-                        child: SizedBox(
-                          width: 100,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 100,
-                                width: 100,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Container(
+                        child: GestureDetector(
+                          onTap: () {
+                            push(
+                              SubCategoryView(
+                                categoryId: section6
+                                    .first.categories[index].categoryId
+                                    .toString(),
+                                title: section6.first.categories[index].title,
+                              ),
+                            );
+                          },
+                          child: SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(section6
-                                          .first.categories[index].image),
-                                      fit: BoxFit.fill,
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(section6
+                                            .first.categories[index].image),
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                section6.first.categories[index].title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: getAppStyle(
-                                    fontWeight: FontWeight.w500, height: 1),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                SizedBox(
+                                  height: 40,
+                                  child: Text(
+                                    section6.first.categories[index].title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: getAppStyle(
+                                        fontWeight: FontWeight.w500, height: 1),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -663,209 +707,227 @@ class _Section9State extends State<Section9> {
                       return FittedBox(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: Container(
-                            width: 170,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Stack(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Center(
-                                        child: Image.network(
-                                          widget.section9[0].products[index]
-                                              .image,
-                                          fit: BoxFit.contain,
-                                          height: 170,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      SizedBox(
-                                        height: 40,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8),
-                                          child: Text(
-                                            widget.section9[0].products[index]
-                                                .productName,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: getAppStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Text(
-                                          widget.section9[0].products[index]
-                                              .variantName,
-                                          style: getAppStyle(
-                                            fontSize: 14,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  widget
-                                                      .section9[0]
-                                                      .products[index]
-                                                      .discountPrice
-                                                      .toString(),
-                                                  style: getAppStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  widget
-                                                      .section9[0]
-                                                      .products[index]
-                                                      .productPrice
-                                                      .toString(),
-                                                  style: getAppStyle(
-                                                    color: Colors.black54,
-                                                    fontSize: 12,
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            itemCount > 0
-                                                ? Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 4,
-                                                        vertical: 4),
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 4),
-                                                    height: 35,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      color: CommonColors
-                                                          .primaryColor,
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: decrementItem,
-                                                          child: const Icon(
-                                                            Icons.remove,
-                                                            size: 16,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          itemCount.toString(),
-                                                          style: getAppStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: incrementItem,
-                                                          child: const Icon(
-                                                            Icons.add,
-                                                            size: 16,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                : InkWell(
-                                                    onTap: incrementItem,
-                                                    child: Container(
-                                                      width: 100,
-                                                      height: 35,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        border: Border.all(
-                                                            color: CommonColors
-                                                                .primaryColor,
-                                                            width: 1),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Add",
-                                                          style: getAppStyle(
-                                                            color: CommonColors
-                                                                .primaryColor,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.amber,
-                                      border: Border.all(
-                                          color: Colors.white, width: 2),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 5),
-                                      child: Text(
-                                        "${widget.section9[0].products[index].discountPer}% off",
-                                        style: getAppStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: ProductContainer(
+                            imgUrl: widget.section9[0].products[index].image,
+                            productName:
+                                widget.section9[0].products[index].productName,
+                            onIncrement: () => incrementItem(),
+                            onDecrement: () => decrementItem(),
+                            stock: widget.section9[0].products[index].stock,
+                            variantName:
+                                widget.section9[0].products[index].variantName,
+                            discountPrice: widget
+                                .section9[0].products[index].discountPrice,
+                            productPrice:
+                                widget.section9[0].products[index].productPrice,
+                            discountPer:
+                                widget.section9[0].products[index].discountPer,
+                            cartCount:
+                                widget.section9[0].products[index].cartCount,
                           ),
+                          // Container(
+                          //   width: 170,
+                          //   clipBehavior: Clip.antiAlias,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          //   child: Stack(
+                          //     children: [
+                          //       Padding(
+                          //         padding: const EdgeInsets.only(bottom: 8),
+                          //         child: Column(
+                          //           crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //           children: [
+                          //             Center(
+                          //               child: Image.network(
+                          //                 widget.section9[0].products[index]
+                          //                     .image,
+                          //                 fit: BoxFit.contain,
+                          //                 height: 170,
+                          //               ),
+                          //             ),
+                          //             const SizedBox(height: 5),
+                          //             SizedBox(
+                          //               height: 40,
+                          //               child: Padding(
+                          //                 padding: const EdgeInsets.symmetric(
+                          //                     horizontal: 8),
+                          //                 child: Text(
+                          //                   widget.section9[0].products[index]
+                          //                       .productName,
+                          //                   maxLines: 2,
+                          //                   overflow: TextOverflow.ellipsis,
+                          //                   style: getAppStyle(
+                          //                       fontSize: 14,
+                          //                       fontWeight: FontWeight.bold),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const SizedBox(height: 5),
+                          //             Padding(
+                          //               padding: const EdgeInsets.symmetric(
+                          //                   horizontal: 8),
+                          //               child: Text(
+                          //                 widget.section9[0].products[index]
+                          //                     .variantName,
+                          //                 style: getAppStyle(
+                          //                   fontSize: 14,
+                          //                   color: Colors.black54,
+                          //                   fontWeight: FontWeight.w500,
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const SizedBox(height: 10),
+                          //             Padding(
+                          //               padding: const EdgeInsets.symmetric(
+                          //                   horizontal: 8),
+                          //               child: Row(
+                          //                 mainAxisAlignment:
+                          //                     MainAxisAlignment.spaceBetween,
+                          //                 children: [
+                          //                   Column(
+                          //                     crossAxisAlignment:
+                          //                         CrossAxisAlignment.start,
+                          //                     children: [
+                          //                       Text(
+                          //                         widget
+                          //                             .section9[0]
+                          //                             .products[index]
+                          //                             .discountPrice
+                          //                             .toString(),
+                          //                         style: getAppStyle(
+                          //                           fontSize: 14,
+                          //                           fontWeight: FontWeight.bold,
+                          //                         ),
+                          //                       ),
+                          //                       Text(
+                          //                         widget
+                          //                             .section9[0]
+                          //                             .products[index]
+                          //                             .productPrice
+                          //                             .toString(),
+                          //                         style: getAppStyle(
+                          //                           color: Colors.black54,
+                          //                           fontSize: 12,
+                          //                           decoration: TextDecoration
+                          //                               .lineThrough,
+                          //                         ),
+                          //                       ),
+                          //                     ],
+                          //                   ),
+                          //                   itemCount > 0
+                          //                       ? Container(
+                          //                           padding: const EdgeInsets
+                          //                               .symmetric(
+                          //                               horizontal: 4,
+                          //                               vertical: 4),
+                          //                           margin:
+                          //                               const EdgeInsets.only(
+                          //                                   bottom: 4),
+                          //                           height: 35,
+                          //                           width: 100,
+                          //                           decoration: BoxDecoration(
+                          //                             borderRadius:
+                          //                                 BorderRadius.circular(
+                          //                                     8),
+                          //                             color: CommonColors
+                          //                                 .primaryColor,
+                          //                           ),
+                          //                           child: Row(
+                          //                             mainAxisAlignment:
+                          //                                 MainAxisAlignment
+                          //                                     .spaceAround,
+                          //                             children: [
+                          //                               GestureDetector(
+                          //                                 onTap: decrementItem,
+                          //                                 child: const Icon(
+                          //                                   Icons.remove,
+                          //                                   size: 16,
+                          //                                   color: Colors.white,
+                          //                                 ),
+                          //                               ),
+                          //                               Text(
+                          //                                 itemCount.toString(),
+                          //                                 style: getAppStyle(
+                          //                                   color: Colors.white,
+                          //                                   fontWeight:
+                          //                                       FontWeight.w500,
+                          //                                   fontSize: 14,
+                          //                                 ),
+                          //                               ),
+                          //                               GestureDetector(
+                          //                                 onTap: incrementItem,
+                          //                                 child: const Icon(
+                          //                                   Icons.add,
+                          //                                   size: 16,
+                          //                                   color: Colors.white,
+                          //                                 ),
+                          //                               ),
+                          //                             ],
+                          //                           ),
+                          //                         )
+                          //                       : InkWell(
+                          //                           onTap: incrementItem,
+                          //                           child: Container(
+                          //                             width: 100,
+                          //                             height: 35,
+                          //                             decoration: BoxDecoration(
+                          //                               color: Colors.white,
+                          //                               borderRadius:
+                          //                                   BorderRadius
+                          //                                       .circular(8),
+                          //                               border: Border.all(
+                          //                                   color: CommonColors
+                          //                                       .primaryColor,
+                          //                                   width: 1),
+                          //                             ),
+                          //                             child: Center(
+                          //                               child: Text(
+                          //                                 "Add",
+                          //                                 style: getAppStyle(
+                          //                                   color: CommonColors
+                          //                                       .primaryColor,
+                          //                                   fontSize: 16,
+                          //                                   fontWeight:
+                          //                                       FontWeight.bold,
+                          //                                 ),
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                         ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Padding(
+                          //         padding: const EdgeInsets.all(5.0),
+                          //         child: Container(
+                          //           decoration: BoxDecoration(
+                          //             color: Colors.amber,
+                          //             border: Border.all(
+                          //                 color: Colors.white, width: 2),
+                          //             borderRadius: BorderRadius.circular(20),
+                          //           ),
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.symmetric(
+                          //                 horizontal: 8, vertical: 5),
+                          //             child: Text(
+                          //               "${widget.section9[0].products[index].discountPer}% off",
+                          //               style: getAppStyle(
+                          //                 fontWeight: FontWeight.bold,
+                          //                 fontSize: 12,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ),
                       );
                     },
