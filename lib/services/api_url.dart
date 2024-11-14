@@ -36,9 +36,12 @@ class ApiUrl {
   static const String GET_TERMS_CONDITIONS = "${BASE_URL}get_term_conditions";
   static const String GET_SHIPPING_POLICY = "${BASE_URL}get_shipping_policy";
   static const String GET_RETURN_POLICY = "${BASE_URL}get_return_policy";
-  static const String GET_CANCELLATION_POLICY = "${BASE_URL}get_cancellation_policy";
+  static const String GET_CANCELLATION_POLICY =
+      "${BASE_URL}get_cancellation_policy";
   static const String DELETE_ACCOUNT = "${BASE_URL}delete_account";
   static const String GET_NOTIFICATION = "${BASE_URL}get_notification_list";
+  static const String GET_TRANSACTION_HISTORY =
+      "${BASE_URL}get_transaction_list";
 }
 
 class DomainApiUrl {

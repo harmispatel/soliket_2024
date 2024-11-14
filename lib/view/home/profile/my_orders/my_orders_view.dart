@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/view/home/profile/my_orders/track_order/track_order_view.dart';
+import 'package:solikat_2024/view/home/profile/my_orders/tracking_orders/tracking_orders_view.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
-
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../../utils/constant.dart';
@@ -201,7 +201,9 @@ class _MyOrderListViewState extends State<MyOrderListView> {
                             buttonColor: Colors.transparent,
                             borderColor: CommonColors.primaryColor,
                             labelColor: CommonColors.primaryColor,
-                            onPress: () {},
+                            onPress: () {
+                              push(TrackingOrdersView());
+                            },
                           ),
                         ),
                         kCommonSpaceH15,

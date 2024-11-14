@@ -1,26 +1,31 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
-import '../../../../../models/cancellation_policy_master.dart';
 import '../../../../../services/index.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
-import '../../../../models/notification_master.dart';
+import '../../../../models/transaction_history_master.dart';
 
-class NotificationViewModel with ChangeNotifier {
+class TransactionHistoryViewModel with ChangeNotifier {
   late BuildContext context;
+
   final services = Services();
-  List<NotificationData> notificationList = [];
+
   bool isInitialLoading = true;
+
+  List<Total>? transactionHistoryTotal = [];
+
+  List<TransactionList>? transactionHistoryList = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
-    getNotificationApi();
+    getTransactionHistoryApi();
     notifyListeners();
   }
 
-  Future<void> getNotificationApi() async {
+  Future<void> getTransactionHistoryApi() async {
     CommonUtils.showProgressDialog();
-    NotificationMaster? master = await services.api!.getNotificationApi();
+    TransactionHistoryMaster? master =
+        await services.api!.getTransactionHistoryApi();
     CommonUtils.hideProgressDialog();
     isInitialLoading = false;
     if (master == null) {
@@ -32,7 +37,8 @@ class NotificationViewModel with ChangeNotifier {
       );
     } else if (master.status!) {
       log("Success :: true");
-      notificationList = master.data ?? [];
+      transactionHistoryTotal = master.data?.total ?? [];
+      transactionHistoryList = master.data?.list ?? [];
     }
     notifyListeners();
   }

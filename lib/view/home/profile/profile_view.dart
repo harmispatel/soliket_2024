@@ -1,16 +1,16 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/home/profile/policies/policies_view.dart';
 import 'package:solikat_2024/view/home/profile/profile_view_model.dart';
 import 'package:solikat_2024/view/home/profile/save_address/saved_address_view.dart';
+import 'package:solikat_2024/view/home/profile/transaction_history/transaction_history_view.dart';
 import 'package:solikat_2024/widget/common_appbar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
@@ -186,6 +186,7 @@ class _ProfileViewState extends State<ProfileView> {
                     } else if (index == 1) {
                       push(SaveAddressView());
                     } else if (index == 2) {
+                      push(TransactionHistoryView());
                     } else if (index == 3) {
                       push(NotificationView());
                     } else if (index == 4) {
@@ -197,11 +198,26 @@ class _ProfileViewState extends State<ProfileView> {
                     } else if (index == 7) {
                       push(FaqView());
                     } else if (index == 8) {
+                      _rateUsURL();
                     } else if (index == 9) {
+                      _shareText();
                     } else if (index == 10) {
-                      mViewModel.logOutApi();
+                      showConfirmationBottomSheet(
+                        title: "Are you sure?",
+                        message: "You really want to logout from the app!",
+                        onConfirm: () {
+                          mViewModel.logOutApi();
+                        },
+                      );
                     } else if (index == 11) {
-                      mViewModel.deleteAccount();
+                      showConfirmationBottomSheet(
+                        title: "Are you sure?",
+                        message:
+                            "You really want to delete your account from the app!",
+                        onConfirm: () {
+                          mViewModel.deleteAccount();
+                        },
+                      );
                     }
                   },
                   child: Padding(
@@ -265,6 +281,8 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+
+  //* forceUpdateBottomSheet Code * //
 
   void forceUpdateBottomSheet() {
     showModalBottomSheet(
@@ -386,5 +404,106 @@ class _ProfileViewState extends State<ProfileView> {
       onCannotLaunch?.call();
     }
     return false;
+  }
+
+  //* forceUpdateBottomSheet Code * //
+
+  Future<void> _rateUsURL() async {
+    if (await canLaunch(playStoreUrl)) {
+      await launch(playStoreUrl);
+    } else {
+      throw 'Could not launch $playStoreUrl';
+    }
+  }
+
+  void _shareText() {
+    Share.share('Check out this amazing Flutter app!');
+  }
+
+  void showConfirmationBottomSheet({
+    required String title,
+    required String message,
+    required VoidCallback onConfirm,
+  }) {
+    showModalBottomSheet(
+      context: mainNavKey.currentContext!,
+      clipBehavior: Clip.antiAlias,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: CommonColors.mWhite,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.zero),
+      ),
+      builder: (_) {
+        return IntrinsicHeight(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 48,
+                    width: double.infinity,
+                    color: CommonColors.primaryColor,
+                    child: Center(
+                      child: Text(
+                        title,
+                        overflow: TextOverflow.clip,
+                        style: getAppStyle(
+                          color: CommonColors.mWhite,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    child: Text(
+                      message,
+                      overflow: TextOverflow.clip,
+                      style: getAppStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20) +
+                        const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        PrimaryButton(
+                          height: 40,
+                          width: 100,
+                          label: "No",
+                          buttonColor: CommonColors.mWhite,
+                          labelColor: CommonColors.primaryColor,
+                          borderColor: CommonColors.primaryColor,
+                          onPress: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        kCommonSpaceH15,
+                        PrimaryButton(
+                          height: 40,
+                          width: 100,
+                          label: "Yes",
+                          buttonColor: CommonColors.primaryColor,
+                          labelColor: CommonColors.mWhite,
+                          onPress: onConfirm,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

@@ -30,6 +30,11 @@ ShapeBorder kCommonShape =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0));
 double kDeviceWidth = MediaQuery.of(mainNavKey.currentContext!).size.width;
 double kDeviceHeight = MediaQuery.of(mainNavKey.currentContext!).size.height;
+
+const String appPackageName = 'com.soliket.customerapp&pcampaignid=web_share';
+const String playStoreUrl =
+    'https://play.google.com/store/apps/details?id=$appPackageName';
+
 final kSmallCircular = Transform.scale(
   scale: 0.7,
   child: const CircularProgressIndicator(

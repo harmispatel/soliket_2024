@@ -23,6 +23,7 @@ import '../models/product_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
+import '../models/transaction_history_master.dart';
 
 abstract class BaseServices {
   Future<LoginMaster?> login({
@@ -120,4 +121,6 @@ abstract class BaseServices {
   Future<CommonMaster?> deleteAccount();
 
   Future<NotificationMaster?> getNotificationApi();
+
+  Future<TransactionHistoryMaster?> getTransactionHistoryApi();
 }

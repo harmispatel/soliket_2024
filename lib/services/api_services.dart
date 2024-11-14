@@ -27,6 +27,7 @@ import '../models/return_policy_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
+import '../models/transaction_history_master.dart';
 import 'base_client.dart';
 import 'base_services.dart';
 
@@ -603,6 +604,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return NotificationMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<TransactionHistoryMaster?> getTransactionHistoryApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_TRANSACTION_HISTORY,
+    );
+    if (response != null) {
+      try {
+        return TransactionHistoryMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;
