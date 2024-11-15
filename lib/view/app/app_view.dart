@@ -15,26 +15,11 @@ import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
 import '../cart/cart_view_model.dart';
+import '../category/category_view_model.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
 import '../common_view/splash/splash_view_model.dart';
 import '../home/home_view_model.dart';
-import '../home/profile/about_us/about_us_view_model.dart';
-import '../home/profile/add_address/add_address_view_model.dart';
-import '../home/profile/add_address/edit_address/edit_address_view_model.dart';
-import '../home/profile/contact_us/contact_us_view_model.dart';
-import '../home/profile/edit_account/edit_account_view_model.dart';
-import '../home/profile/faq/faq_view_model.dart';
-import '../home/profile/help_&_support/help_&_support_view_model.dart';
-import '../home/profile/notification/notification_view_model.dart';
-import '../home/profile/policies/cancellation_policy/cancellation_policy_view_model.dart';
-import '../home/profile/policies/privacy_policy/privacy_policy_view_model.dart';
-import '../home/profile/policies/return_policy/return_policy_view_model.dart';
-import '../home/profile/policies/shipping_policy/shipping_policy_view_model.dart';
-import '../home/profile/policies/terms_and_conditions/terms_and_conditions_view_model.dart';
-import '../home/profile/profile_view_model.dart';
-import '../home/profile/save_address/saved_address_view_model.dart';
-import '../home/profile/transaction_history/transaction_history_view_model.dart';
 import '../home/search/search_view_model.dart';
 import '../home/sub_brand/sub_brand_view_model.dart';
 import '../home/sub_category/sub_category_view_model.dart';
@@ -43,6 +28,22 @@ import '../home/view_all_products/view_all_products_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
 import '../otp/otp_view_model.dart';
+import '../profile/about_us/about_us_view_model.dart';
+import '../profile/add_address/add_address_view_model.dart';
+import '../profile/add_address/edit_address/edit_address_view_model.dart';
+import '../profile/contact_us/contact_us_view_model.dart';
+import '../profile/edit_account/edit_account_view_model.dart';
+import '../profile/faq/faq_view_model.dart';
+import '../profile/help_&_support/help_&_support_view_model.dart';
+import '../profile/notification/notification_view_model.dart';
+import '../profile/policies/cancellation_policy/cancellation_policy_view_model.dart';
+import '../profile/policies/privacy_policy/privacy_policy_view_model.dart';
+import '../profile/policies/return_policy/return_policy_view_model.dart';
+import '../profile/policies/shipping_policy/shipping_policy_view_model.dart';
+import '../profile/policies/terms_and_conditions/terms_and_conditions_view_model.dart';
+import '../profile/profile_view_model.dart';
+import '../profile/save_address/saved_address_view_model.dart';
+import '../profile/transaction_history/transaction_history_view_model.dart';
 import 'app_model.dart';
 
 class App extends StatefulWidget {
@@ -293,6 +294,8 @@ class AppState extends State<App> {
                   create: (_) => SearchViewModel()),
               ChangeNotifierProvider<TransactionHistoryViewModel>(
                   create: (_) => TransactionHistoryViewModel()),
+              ChangeNotifierProvider<CategoryViewModel>(
+                  create: (_) => CategoryViewModel()),
             ],
             child: Builder(
               builder: (context) {

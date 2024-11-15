@@ -7,7 +7,7 @@ import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../../widget/common_appbar.dart';
-import '../../home/profile/edit_account/edit_account_view.dart';
+import '../../profile/edit_account/edit_account_view.dart';
 
 class CouponsOffersView extends StatefulWidget {
   const CouponsOffersView({super.key});

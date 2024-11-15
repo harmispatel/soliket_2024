@@ -9,8 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/view/cart/cart_view_model.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
-import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.dart';
-import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
 import 'package:solikat_2024/view/home/search/search_view.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
@@ -25,6 +23,8 @@ import '../../utils/global_variables.dart';
 import '../../utils/local_images.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/common_img_slider/common_img_slider_view.dart';
+import '../profile/edit_account/edit_account_view.dart';
+import '../profile/edit_account/edit_account_view_model.dart';
 
 class HomeView extends StatefulWidget {
   final String? location;
@@ -383,7 +383,7 @@ class _HomeViewState extends State<HomeView> {
         _isSpeaking = true;
       });
 
-      _showBottomSheet(context);
+      _showSpeakingDialog(context);
 
       _speechToText.listen(
         onResult: (result) {
@@ -399,11 +399,29 @@ class _HomeViewState extends State<HomeView> {
       // Automatically close the dialog after 3 seconds
       Future.delayed(Duration(seconds: 3), () {
         if (_isListening) {
-          _stopListening(); // Ensure that listening is stopped after 3 seconds
+          _stopListening();
+          if (searchController.text.isNotEmpty) {
+            push(SearchView(
+              voiceText: searchController.text,
+            )).then((_) {
+              searchController.clear();
+            });
+          }
         }
       });
     } else {
       print("Speech recognition not available.");
+      // Permission.microphone.request().then((status) {
+      //   if (status.isGranted) {
+      //     print("Microphone permission granted.");
+      //   } else if (status.isDenied) {
+      //     print("Microphone permission denied.");
+      //     Permission.microphone.request();
+      //   } else if (status.isPermanentlyDenied) {
+      //     print(
+      //         "Microphone permission permanently denied. Please enable it from settings.");
+      //   }
+      // });
     }
   }
 
@@ -414,11 +432,10 @@ class _HomeViewState extends State<HomeView> {
       _isListening = false;
       _isSpeaking = false;
     });
-
     Navigator.of(context).pop();
   }
 
-  Future<void> _showBottomSheet(BuildContext context) {
+  Future<void> _showSpeakingDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -544,13 +561,15 @@ class _HomeViewState extends State<HomeView> {
                             readOnly: true,
                             onSuffixIconPressed: () {
                               if (_isListening) {
-                                _stopListening(); // Stop listening
+                                _stopListening();
                               } else {
-                                _startListening(); // Start listening
+                                _startListening();
                               }
                             },
                             onTap: () {
-                              push(SearchView());
+                              push(SearchView(
+                                voiceText: '',
+                              ));
                             },
                             isIconButton: true,
                           ),
@@ -590,9 +609,9 @@ class _HomeViewState extends State<HomeView> {
                 ),
             ],
           ),
-          bottomNavigationBar: Consumer<CartViewModel>(
-            builder: (context, cartViewModel, child) {
-              return cartViewModel.cartList.isNotEmpty
+          bottomNavigationBar: Consumer<HomeViewModel>(
+            builder: (context, homeViewModel, child) {
+              return mViewModel.cartDataList.isNotEmpty
                   ? FittedBox(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15) +
@@ -609,13 +628,13 @@ class _HomeViewState extends State<HomeView> {
                                 child: Stack(
                                   children: List.generate(
                                     // Get the last three items or the total length if less than 3
-                                    cartViewModel.cartList.length > 3
+                                    mViewModel.cartDataList.length > 3
                                         ? 3
-                                        : cartViewModel.cartList.length,
+                                        : mViewModel.cartDataList.length,
                                     (index) {
                                       // Calculate the index from the end of the list
                                       int reverseIndex =
-                                          cartViewModel.cartList.length -
+                                          mViewModel.cartDataList.length -
                                               1 -
                                               index;
 
@@ -634,8 +653,8 @@ class _HomeViewState extends State<HomeView> {
                                                 BorderRadius.circular(8),
                                           ),
                                           child: CachedNetworkImage(
-                                            imageUrl: cartViewModel
-                                                    .cartList[reverseIndex]
+                                            imageUrl: homeViewModel
+                                                    .cartDataList[reverseIndex]
                                                     .image ??
                                                 '',
                                             fit: BoxFit.cover,
@@ -666,8 +685,8 @@ class _HomeViewState extends State<HomeView> {
                                   void incrementItem(int index) {
                                     // for (var section4Item
                                     //     in mViewModel.section4DataList) {
-                                    //   // Loop through the `cartViewModel.cartList`
-                                    //   for (var cartItem in cartViewModel.cartList) {
+                                    //   // Loop through the `mViewModel.cartDataList`
+                                    //   for (var cartItem in mViewModel.cartDataList) {
                                     //     // If variantId matches
                                     //     if (cartItem.variantId ==
                                     //         section4Item.variantId) {
@@ -684,29 +703,29 @@ class _HomeViewState extends State<HomeView> {
                                     //     }
                                     //   }
                                     // }
-                                    if ((cartViewModel
-                                                .cartList[index].cartCount ??
+                                    if ((homeViewModel.cartDataList[index]
+                                                .cartCount ??
                                             0) <
-                                        (cartViewModel.cartList[index].stock ??
+                                        (mViewModel.cartDataList[index].stock ??
                                             0)) {
                                       setState(() {
-                                        cartViewModel.cartList[index]
-                                            .cartCount = (cartViewModel
-                                                    .cartList[index]
+                                        mViewModel.cartDataList[index]
+                                            .cartCount = (homeViewModel
+                                                    .cartDataList[index]
                                                     .cartCount ??
                                                 0) +
                                             1;
                                       });
                                       mViewModel.addToCartApi(
-                                          variantId: cartViewModel
-                                              .cartList[index].variantId
+                                          variantId: homeViewModel
+                                              .cartDataList[index].variantId
                                               .toString(),
                                           type: 'p');
                                     } else {
                                       print(
-                                          ".......Sorry this product have only ${cartViewModel.cartList[index].stock} in a stock......");
+                                          ".......Sorry this product have only ${mViewModel.cartDataList[index].stock} in a stock......");
                                       String msg =
-                                          "Only ${cartViewModel.cartList[index].stock} product available in stock";
+                                          "Only ${mViewModel.cartDataList[index].stock} product available in stock";
                                       CommonUtils.showSnackBar(msg,
                                           color: CommonColors.mRed);
                                     }
@@ -715,8 +734,8 @@ class _HomeViewState extends State<HomeView> {
                                   void decrementItem(int index) {
                                     // for (var section4Item
                                     //     in mViewModel.section4DataList) {
-                                    //   // Loop through the `cartViewModel.cartList`
-                                    //   for (var cartItem in cartViewModel.cartList) {
+                                    //   // Loop through the `mViewModel.cartDataList`
+                                    //   for (var cartItem in mViewModel.cartDataList) {
                                     //     // If variantId matches
                                     //     if (cartItem.variantId ==
                                     //         section4Item.variantId) {
@@ -733,31 +752,31 @@ class _HomeViewState extends State<HomeView> {
                                     //     }
                                     //   }
                                     // }
-                                    if ((cartViewModel
-                                                .cartList[index].cartCount ??
+                                    if ((homeViewModel.cartDataList[index]
+                                                .cartCount ??
                                             0) >
                                         1) {
                                       setState(() {
-                                        cartViewModel.cartList[index]
-                                            .cartCount = (cartViewModel
-                                                    .cartList[index]
+                                        mViewModel.cartDataList[index]
+                                            .cartCount = (homeViewModel
+                                                    .cartDataList[index]
                                                     .cartCount ??
                                                 0) -
                                             1;
                                       });
                                       mViewModel.addToCartApi(
-                                          variantId: cartViewModel
-                                              .cartList[index].variantId
+                                          variantId: homeViewModel
+                                              .cartDataList[index].variantId
                                               .toString(),
                                           type: 'm');
-                                    } else if (cartViewModel
-                                            .cartList[index].cartCount ==
+                                    } else if (homeViewModel
+                                            .cartDataList[index].cartCount ==
                                         1) {
                                       // for (var section4Item
                                       //     in mViewModel.section4DataList) {
-                                      //   // Loop through the `cartViewModel.cartList`
+                                      //   // Loop through the `mViewModel.cartDataList`
                                       //   for (var cartItem
-                                      //       in cartViewModel.cartList) {
+                                      //       in mViewModel.cartDataList) {
                                       //     // If variantId matches
                                       //     if (cartItem.variantId ==
                                       //         section4Item.variantId) {
@@ -775,12 +794,12 @@ class _HomeViewState extends State<HomeView> {
                                       //   }
                                       // }
                                       mViewModel.addToCartApi(
-                                          variantId: cartViewModel
-                                              .cartList[index].variantId
+                                          variantId: homeViewModel
+                                              .cartDataList[index].variantId
                                               .toString(),
                                           type: 'm');
                                       setState(() {
-                                        cartViewModel.cartList.removeAt(index);
+                                        mViewModel.cartDataList.removeAt(index);
                                       });
                                     }
                                   }
@@ -820,7 +839,7 @@ class _HomeViewState extends State<HomeView> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "${cartViewModel.cartList.length} Items • Total ",
+                                                              "${mViewModel.cartDataList.length} Items • Total ",
                                                               style: getAppStyle(
                                                                   color: CommonColors
                                                                       .black54),
@@ -894,7 +913,7 @@ class _HomeViewState extends State<HomeView> {
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                         .symmetric(
-                                                        horizontal: 20,
+                                                        horizontal: 15,
                                                         vertical: 10),
                                                     child: Container(
                                                       clipBehavior:
@@ -917,8 +936,8 @@ class _HomeViewState extends State<HomeView> {
                                                           scrollDirection:
                                                               Axis.vertical,
                                                           itemCount:
-                                                              cartViewModel
-                                                                  .cartList
+                                                              homeViewModel
+                                                                  .cartDataList
                                                                   .length,
                                                           itemBuilder:
                                                               (BuildContext
@@ -936,7 +955,7 @@ class _HomeViewState extends State<HomeView> {
                                                                           60,
                                                                       width: 70,
                                                                       imageUrl:
-                                                                          cartViewModel.cartList[index].image ??
+                                                                          mViewModel.cartDataList[index].image ??
                                                                               '',
                                                                       imageBuilder:
                                                                           (context, imageProvider) =>
@@ -993,7 +1012,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             MainAxisAlignment.start,
                                                                         children: [
                                                                           Text(
-                                                                            cartViewModel.cartList[index].productName ??
+                                                                            mViewModel.cartDataList[index].productName ??
                                                                                 '',
                                                                             maxLines:
                                                                                 2,
@@ -1011,7 +1030,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 const EdgeInsets.symmetric(vertical: 02),
                                                                             child:
                                                                                 Text(
-                                                                              cartViewModel.cartList[index].variantName ?? '',
+                                                                              mViewModel.cartDataList[index].variantName ?? '',
                                                                               style: getAppStyle(
                                                                                 color: Colors.grey,
                                                                                 fontWeight: FontWeight.w500,
@@ -1069,7 +1088,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 ),
                                                                               ),
                                                                               Text(
-                                                                                cartViewModel.cartList[index].cartCount.toString(),
+                                                                                mViewModel.cartDataList[index].cartCount.toString(),
                                                                                 style: getAppStyle(
                                                                                   color: Colors.white,
                                                                                   fontWeight: FontWeight.w500,
@@ -1093,7 +1112,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         Row(
                                                                           children: [
                                                                             Text(
-                                                                              "₹${cartViewModel.cartList[index].productPrice}",
+                                                                              "₹${mViewModel.cartDataList[index].productPrice}",
                                                                               style: getAppStyle(
                                                                                 decoration: TextDecoration.lineThrough,
                                                                                 color: Colors.grey,
@@ -1103,7 +1122,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             ),
                                                                             const SizedBox(width: 4),
                                                                             Text(
-                                                                              "₹${cartViewModel.cartList[index].discountPrice}",
+                                                                              "₹${mViewModel.cartDataList[index].discountPrice}",
                                                                               style: getAppStyle(
                                                                                 color: Colors.black,
                                                                                 fontWeight: FontWeight.bold,
@@ -1154,19 +1173,19 @@ class _HomeViewState extends State<HomeView> {
                                                             children:
                                                                 List.generate(
                                                               // Get the last three items or the total length if less than 3
-                                                              cartViewModel
-                                                                          .cartList
+                                                              homeViewModel
+                                                                          .cartDataList
                                                                           .length >
                                                                       3
                                                                   ? 3
-                                                                  : cartViewModel
-                                                                      .cartList
+                                                                  : homeViewModel
+                                                                      .cartDataList
                                                                       .length,
                                                               (index) {
                                                                 // Calculate the index from the end of the list
                                                                 int reverseIndex =
-                                                                    cartViewModel
-                                                                            .cartList
+                                                                    homeViewModel
+                                                                            .cartDataList
                                                                             .length -
                                                                         1 -
                                                                         index;
@@ -1198,7 +1217,7 @@ class _HomeViewState extends State<HomeView> {
                                                                     child:
                                                                         CachedNetworkImage(
                                                                       imageUrl:
-                                                                          cartViewModel.cartList[reverseIndex].image ??
+                                                                          mViewModel.cartDataList[reverseIndex].image ??
                                                                               '',
                                                                       fit: BoxFit
                                                                           .cover,
@@ -1239,7 +1258,7 @@ class _HomeViewState extends State<HomeView> {
                                                           child: Row(
                                                             children: [
                                                               Text(
-                                                                "${cartViewModel.cartList.length} Items",
+                                                                "${mViewModel.cartDataList.length} Items",
                                                                 style:
                                                                     getAppStyle(
                                                                   color: CommonColors
@@ -1300,7 +1319,7 @@ class _HomeViewState extends State<HomeView> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "${cartViewModel.cartList.length} Items",
+                                      "${mViewModel.cartDataList.length} Items",
                                       style: getAppStyle(
                                         color: CommonColors.blackColor,
                                         fontWeight: FontWeight.w500,

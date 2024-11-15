@@ -4,11 +4,11 @@ import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/utils/local_images.dart';
-import 'package:solikat_2024/view/home/profile/profile_view.dart';
 import 'package:solikat_2024/view/location/location_donNot_allow_view.dart';
 
 import '../../utils/global_variables.dart';
 import '../../widget/primary_button.dart';
+import '../profile/profile_view.dart';
 
 class SoliketNotAvailableView extends StatefulWidget {
   const SoliketNotAvailableView({super.key});

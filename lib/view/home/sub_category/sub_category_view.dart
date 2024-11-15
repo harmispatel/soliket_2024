@@ -5,6 +5,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view_model.dart';
+
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
@@ -13,6 +14,7 @@ import '../../../widget/common_appbar.dart';
 import '../../../widget/common_product_container_view.dart';
 import '../../common_view/common_img_slider/common_img_slider_view.dart';
 import '../home_view_model.dart';
+import '../search/search_view.dart';
 
 class SubCategoryView extends StatefulWidget {
   final String categoryId;
@@ -100,7 +102,11 @@ class _SubCategoryViewState extends State<SubCategoryView> {
             padding: EdgeInsets.only(left: 8, right: 20),
             child: GestureDetector(
               onTap: () {
-                debugPrint("On Tap Search");
+                push(
+                  SearchView(
+                    voiceText: '',
+                  ),
+                );
               },
               child: Icon(
                 Icons.search,

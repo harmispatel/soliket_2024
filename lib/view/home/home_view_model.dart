@@ -164,17 +164,18 @@
 // }
 
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:solikat_2024/models/add_to_cart_api.dart';
 import 'package:solikat_2024/models/home_master.dart';
-import '../../models/common_master.dart';
+import 'package:solikat_2024/models/search_master.dart';
+
 import '../../models/product_details_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
-import '../cart/cart_view_model.dart';
 import '../login/login_view_model.dart';
 
 class HomeViewModel with ChangeNotifier {
@@ -208,6 +209,7 @@ class HomeViewModel with ChangeNotifier {
   List<Section7Data> section7DataList = [];
   List<Section8Data> section8DataList = [];
   List<Section9Data> section9DataList = [];
+  List<ProductData> cartDataList = [];
 
   List<ProductDetailsData>? productDetailsData = [];
 
@@ -333,7 +335,7 @@ class HomeViewModel with ChangeNotifier {
 
     log("Parameter : ${params}");
 
-    CommonMaster? master = await services.api!.addToCartApi(params: params);
+    AddToCartMaster? master = await services.api!.addToCartApi(params: params);
     CommonUtils.hideProgressDialog();
 
     if (master == null) {
@@ -348,9 +350,10 @@ class HomeViewModel with ChangeNotifier {
 
     if (master.status == true) {
       log("Success :: true");
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<CartViewModel>(context, listen: false).getCartApi();
-      });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   Provider.of<CartViewModel>(context, listen: false).getCartApi();
+      // });
+      cartDataList = master.data?.product ?? [];
     }
     notifyListeners();
   }

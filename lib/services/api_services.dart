@@ -8,6 +8,7 @@ import 'package:solikat_2024/models/product_details_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
 
 import '../models/about_us_master.dart';
+import '../models/add_to_cart_api.dart';
 import '../models/address_master.dart';
 import '../models/app_version_master.dart';
 import '../models/button_product_master.dart';
@@ -292,7 +293,7 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<CommonMaster?> addToCartApi({
+  Future<AddToCartMaster?> addToCartApi({
     required Map<String, dynamic> params,
   }) async {
     dynamic response = await appBaseClient.postFormDataApiCall(
@@ -301,7 +302,7 @@ class ApiServices extends BaseServices {
     );
     if (response != null) {
       try {
-        return CommonMaster.fromJson(response);
+        return AddToCartMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

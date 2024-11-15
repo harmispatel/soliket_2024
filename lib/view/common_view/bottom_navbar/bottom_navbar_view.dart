@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:solikat_2024/view/home/profile/profile_view.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../cart/cart_view.dart';
+import '../../category/category_view.dart';
 import '../../home/home_view.dart';
-import '../../home/profile/my_orders/my_orders_view.dart';
-import '../../order_success/order_success_view.dart';
+import '../../my_orders/my_orders_view.dart';
+import '../../profile/profile_view.dart';
 import 'bottom_navbar_view_model.dart';
 
 class BottomNavBarView extends StatefulWidget {
@@ -20,7 +20,7 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomeView(),
-    ProfileView(),
+    CategoryView(),
     MyOrdersView(),
     MyCartView(),
     ProfileView(),
@@ -54,8 +54,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Account',
+              icon: Icon(Icons.category_rounded),
+              label: 'Category',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.card_travel),

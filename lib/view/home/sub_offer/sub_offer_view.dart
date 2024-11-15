@@ -12,6 +12,7 @@ import '../../../widget/common_appbar.dart';
 import '../../../widget/common_product_container_view.dart';
 import '../../common_view/common_img_slider/common_img_slider_view.dart';
 import '../home_view_model.dart';
+import '../search/search_view.dart';
 
 class SubOfferView extends StatefulWidget {
   final int offerId;
@@ -96,7 +97,11 @@ class _SubOfferViewState extends State<SubOfferView> {
             padding: EdgeInsets.only(left: 8, right: 20),
             child: GestureDetector(
               onTap: () {
-                debugPrint("On Tap Search");
+                push(
+                  SearchView(
+                    voiceText: '',
+                  ),
+                );
               },
               child: Icon(
                 Icons.search,

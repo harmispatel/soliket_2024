@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/home/search/search_view_model.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../../../utils/common_colors.dart';
 import '../../../utils/global_variables.dart';
@@ -9,7 +10,8 @@ import '../../../utils/local_images.dart';
 import '../../../widget/common_text_field.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+  final String voiceText;
+  const SearchView({super.key, required this.voiceText});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -18,6 +20,9 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   TextEditingController searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  stt.SpeechToText _speechToText = stt.SpeechToText();
+  bool _isListening = false;
+  bool _isSpeaking = false;
   int itemCount = 0;
 
   late SearchViewModel mViewModel;
@@ -28,6 +33,14 @@ class _SearchViewState extends State<SearchView> {
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
+      if (widget.voiceText.isNotEmpty) {
+        searchController.text = widget.voiceText;
+        mViewModel.getSearchDataApi(
+          latitude: gUserLat,
+          longitude: gUserLong,
+          keyWord: searchController.text.trim(),
+        );
+      }
     });
   }
 
@@ -36,6 +49,7 @@ class _SearchViewState extends State<SearchView> {
     _scrollController.dispose();
     mViewModel.currentPage = 1;
     mViewModel.productList.clear();
+    searchController.clear();
     super.dispose();
   }
 
@@ -68,6 +82,80 @@ class _SearchViewState extends State<SearchView> {
     }
   }
 
+  /// Start listening for speech input
+  void _startListening() async {
+    bool available = await _speechToText.initialize();
+    if (available) {
+      setState(() {
+        _isListening = true;
+        _isSpeaking = true;
+      });
+
+      _showBottomSheet(context);
+
+      _speechToText.listen(
+        onResult: (result) {
+          setState(() {
+            searchController.text = result.recognizedWords;
+          });
+        },
+        listenFor: Duration(seconds: 3),
+        pauseFor: Duration(seconds: 3),
+        partialResults: true,
+        onSoundLevelChange: (level) {},
+      );
+      // Automatically close the dialog after 3 seconds
+      Future.delayed(Duration(seconds: 3), () {
+        if (_isListening) {
+          _stopListening();
+          mViewModel.getSearchDataApi(
+            latitude: gUserLat,
+            longitude: gUserLong,
+            keyWord: searchController.text,
+          );
+        }
+      });
+    } else {
+      print("Speech recognition not available.");
+    }
+  }
+
+  /// Stop listening when the user pauses or finishes speaking
+  void _stopListening() {
+    _speechToText.stop();
+    setState(() {
+      _isListening = false;
+      _isSpeaking = false;
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  Future<void> _showBottomSheet(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(height: 200, LocalImages.speakingGif),
+                SizedBox(height: 20),
+                Text(
+                  "Listening...",
+                  style: getAppStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<SearchViewModel>(context);
@@ -85,11 +173,11 @@ class _SearchViewState extends State<SearchView> {
             },
             suffixIcon: Icons.mic,
             onSuffixIconPressed: () {
-              // if (_isListening) {
-              //   _stopListening();
-              // } else {
-              //   _startListening();
-              // }
+              if (_isListening) {
+                _stopListening();
+              } else {
+                _startListening();
+              }
             },
             isIconButton: true,
             onEditComplete: (value) {
