@@ -83,6 +83,7 @@ class _HomeViewState extends State<HomeView> {
   bool _isSpeaking = false;
   late BuildContext _bottomSheetContext;
   bool _isStickyVisible = false;
+  bool isBottomSheetOpen = false;
 
   // int itemCount = 0;
 
@@ -1368,11 +1369,19 @@ class _HomeViewState extends State<HomeView> {
       case 'section_4':
         return Section4(
           onTapProDetails: (variantId) async {
-            await mViewModel.getProductDetailsApi(
-                variantId: variantId.toString());
-            if (mViewModel.productDetailsData != null) {
-              productDetailsBottomSheet(variantId);
+            if (!isBottomSheetOpen) {
+              isBottomSheetOpen = true;
+              await mViewModel.getProductDetailsApi(
+                  variantId: variantId.toString());
+              if (mViewModel.productDetailsData != null) {
+                productDetailsBottomSheet(variantId);
+              }
             }
+            // await mViewModel.getProductDetailsApi(
+            //     variantId: variantId.toString());
+            // if (mViewModel.productDetailsData != null) {
+            //   productDetailsBottomSheet(variantId);
+            // }
           },
           section4: sectionData.data,
           section4Title: sectionData.sectionTitle,
@@ -1418,8 +1427,35 @@ class _HomeViewState extends State<HomeView> {
         if (sectionData.data is Section9Data) {
           var section9Data = sectionData.data;
           return Section9(
+            onTapProDetails: (variantId) async {
+              if (!isBottomSheetOpen) {
+                isBottomSheetOpen = true;
+                await mViewModel.getProductDetailsApi(
+                    variantId: variantId.toString());
+                if (mViewModel.productDetailsData != null) {
+                  productDetailsBottomSheet(variantId);
+                }
+              }
+              // await mViewModel.getProductDetailsApi(
+              //     variantId: variantId.toString());
+              // if (mViewModel.productDetailsData != null) {
+              //   productDetailsBottomSheet(variantId);
+              // }
+            },
             section9: [section9Data],
+            section4Title: sectionData.sectionTitle,
+            onAddItem: (variantId) async {
+              await mViewModel.addToCartApi(
+                  variantId: variantId.toString(), type: 'p');
+            },
+            onRemoveItem: (variantId) async {
+              await mViewModel.addToCartApi(
+                  variantId: variantId.toString(), type: 'm');
+            },
           );
+          // return Section9(
+          //   section9: [section9Data],
+          // );
         }
         break;
     }
@@ -1428,6 +1464,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void productDetailsBottomSheet(int variantId) {
+    isBottomSheetOpen = false;
     mViewModel.getProductDetailsApi(variantId: variantId.toString());
     showModalBottomSheet(
       context: mainNavKey.currentContext!,
@@ -1456,6 +1493,7 @@ class _HomeViewState extends State<HomeView> {
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
+                                  isBottomSheetOpen = false;
                                 },
                                 child: Container(
                                   height: 26,

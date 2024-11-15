@@ -164,11 +164,10 @@
 // }
 
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/models/home_master.dart';
-
 import '../../models/common_master.dart';
 import '../../models/product_details_master.dart';
 import '../../services/api_para.dart';
@@ -176,16 +175,18 @@ import '../../services/index.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../cart/cart_view_model.dart';
+import '../login/login_view_model.dart';
 
 class HomeViewModel with ChangeNotifier {
   late BuildContext context;
   final services = Services();
+  String? latestAppVersion;
   bool isPageFinish = false;
   int currentPage = 1;
   bool isLoadingMore = false;
   bool isInitialLoading = true;
   List<Section> homePageData = [];
-
+  late LoginViewModel loginViewModel;
   // Section titles
   String section10Text = '';
   String section1Title = '';
@@ -212,6 +213,10 @@ class HomeViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    loginViewModel = LoginViewModel();
+    loginViewModel.getAppVersionApi().then((_) {
+      loginViewModel.checkAppVersion();
+    });
     notifyListeners();
   }
 

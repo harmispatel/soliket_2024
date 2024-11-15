@@ -652,29 +652,49 @@ class Section8 extends StatelessWidget {
 
 class Section9 extends StatefulWidget {
   final List<Section9Data> section9;
+  final String section4Title;
+  final Function onAddItem;
+  final Function onRemoveItem;
+  final Function? onTapProDetails;
 
-  const Section9({super.key, required this.section9});
+  const Section9({
+    super.key,
+    required this.section9,
+    required this.section4Title,
+    required this.onAddItem,
+    required this.onRemoveItem,
+    required this.onTapProDetails,
+  });
 
   @override
   State<Section9> createState() => _Section9State();
 }
 
 class _Section9State extends State<Section9> {
-  int itemCount = 0;
-
-  void incrementItem() {
-    setState(() {
-      itemCount++;
-    });
-    // widget.onIncrement!();
+  void incrementItem(int sectionIndex, int productIndex) {
+    if (widget.section9[sectionIndex].products[productIndex].cartCount <
+        widget.section9[sectionIndex].products[productIndex].stock) {
+      setState(() {
+        widget.section9[sectionIndex].products[productIndex].cartCount++;
+      });
+      widget.onAddItem(
+          widget.section9[sectionIndex].products[productIndex].variantId);
+    } else {
+      print(
+          ".......Sorry this product have only ${widget.section9[sectionIndex].products[productIndex].stock} in stock......");
+      String msg =
+          "Only ${widget.section9[sectionIndex].products[productIndex].stock} product available in stock";
+      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+    }
   }
 
-  void decrementItem() {
-    if (itemCount > 0) {
+  void decrementItem(int sectionIndex, int productIndex) {
+    if (widget.section9[sectionIndex].products[productIndex].cartCount > 0) {
       setState(() {
-        itemCount--;
+        widget.section9[sectionIndex].products[productIndex].cartCount--;
       });
-      // widget.onDecrement!();
+      widget.onRemoveItem(
+          widget.section9[sectionIndex].products[productIndex].variantId);
     }
   }
 
@@ -694,244 +714,42 @@ class _Section9State extends State<Section9> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Spacer(),
+              const Spacer(),
               SizedBox(
                 height: kDeviceHeight / 3.2,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.section9[0].products.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return FittedBox(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: ProductContainer(
-                            imgUrl: widget.section9[0].products[index].image,
-                            productName:
-                                widget.section9[0].products[index].productName,
-                            onIncrement: () => incrementItem(),
-                            onDecrement: () => decrementItem(),
-                            stock: widget.section9[0].products[index].stock,
-                            variantName:
-                                widget.section9[0].products[index].variantName,
-                            discountPrice: widget
-                                .section9[0].products[index].discountPrice,
-                            productPrice:
-                                widget.section9[0].products[index].productPrice,
-                            discountPer:
-                                widget.section9[0].products[index].discountPer,
-                            cartCount:
-                                widget.section9[0].products[index].cartCount,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.section9.first.products.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        var product = widget.section9.first.products[index];
+                        return GestureDetector(
+                          onTap: () {
+                            if (widget.onTapProDetails != null) {
+                              widget.onTapProDetails!(product.variantId);
+                            }
+                          },
+                          child: FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ProductContainer(
+                                imgUrl: product.image,
+                                productName: product.productName,
+                                onIncrement: () => incrementItem(0, index),
+                                onDecrement: () => decrementItem(0, index),
+                                stock: product.stock,
+                                variantName: product.variantName,
+                                discountPrice: product.discountPrice,
+                                productPrice: product.productPrice,
+                                discountPer: product.discountPer,
+                                cartCount: product.cartCount,
+                              ),
+                            ),
                           ),
-                          // Container(
-                          //   width: 170,
-                          //   clipBehavior: Clip.antiAlias,
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.white,
-                          //     borderRadius: BorderRadius.circular(10),
-                          //   ),
-                          //   child: Stack(
-                          //     children: [
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(bottom: 8),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Center(
-                          //               child: Image.network(
-                          //                 widget.section9[0].products[index]
-                          //                     .image,
-                          //                 fit: BoxFit.contain,
-                          //                 height: 170,
-                          //               ),
-                          //             ),
-                          //             const SizedBox(height: 5),
-                          //             SizedBox(
-                          //               height: 40,
-                          //               child: Padding(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 8),
-                          //                 child: Text(
-                          //                   widget.section9[0].products[index]
-                          //                       .productName,
-                          //                   maxLines: 2,
-                          //                   overflow: TextOverflow.ellipsis,
-                          //                   style: getAppStyle(
-                          //                       fontSize: 14,
-                          //                       fontWeight: FontWeight.bold),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //             const SizedBox(height: 5),
-                          //             Padding(
-                          //               padding: const EdgeInsets.symmetric(
-                          //                   horizontal: 8),
-                          //               child: Text(
-                          //                 widget.section9[0].products[index]
-                          //                     .variantName,
-                          //                 style: getAppStyle(
-                          //                   fontSize: 14,
-                          //                   color: Colors.black54,
-                          //                   fontWeight: FontWeight.w500,
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //             const SizedBox(height: 10),
-                          //             Padding(
-                          //               padding: const EdgeInsets.symmetric(
-                          //                   horizontal: 8),
-                          //               child: Row(
-                          //                 mainAxisAlignment:
-                          //                     MainAxisAlignment.spaceBetween,
-                          //                 children: [
-                          //                   Column(
-                          //                     crossAxisAlignment:
-                          //                         CrossAxisAlignment.start,
-                          //                     children: [
-                          //                       Text(
-                          //                         widget
-                          //                             .section9[0]
-                          //                             .products[index]
-                          //                             .discountPrice
-                          //                             .toString(),
-                          //                         style: getAppStyle(
-                          //                           fontSize: 14,
-                          //                           fontWeight: FontWeight.bold,
-                          //                         ),
-                          //                       ),
-                          //                       Text(
-                          //                         widget
-                          //                             .section9[0]
-                          //                             .products[index]
-                          //                             .productPrice
-                          //                             .toString(),
-                          //                         style: getAppStyle(
-                          //                           color: Colors.black54,
-                          //                           fontSize: 12,
-                          //                           decoration: TextDecoration
-                          //                               .lineThrough,
-                          //                         ),
-                          //                       ),
-                          //                     ],
-                          //                   ),
-                          //                   itemCount > 0
-                          //                       ? Container(
-                          //                           padding: const EdgeInsets
-                          //                               .symmetric(
-                          //                               horizontal: 4,
-                          //                               vertical: 4),
-                          //                           margin:
-                          //                               const EdgeInsets.only(
-                          //                                   bottom: 4),
-                          //                           height: 35,
-                          //                           width: 100,
-                          //                           decoration: BoxDecoration(
-                          //                             borderRadius:
-                          //                                 BorderRadius.circular(
-                          //                                     8),
-                          //                             color: CommonColors
-                          //                                 .primaryColor,
-                          //                           ),
-                          //                           child: Row(
-                          //                             mainAxisAlignment:
-                          //                                 MainAxisAlignment
-                          //                                     .spaceAround,
-                          //                             children: [
-                          //                               GestureDetector(
-                          //                                 onTap: decrementItem,
-                          //                                 child: const Icon(
-                          //                                   Icons.remove,
-                          //                                   size: 16,
-                          //                                   color: Colors.white,
-                          //                                 ),
-                          //                               ),
-                          //                               Text(
-                          //                                 itemCount.toString(),
-                          //                                 style: getAppStyle(
-                          //                                   color: Colors.white,
-                          //                                   fontWeight:
-                          //                                       FontWeight.w500,
-                          //                                   fontSize: 14,
-                          //                                 ),
-                          //                               ),
-                          //                               GestureDetector(
-                          //                                 onTap: incrementItem,
-                          //                                 child: const Icon(
-                          //                                   Icons.add,
-                          //                                   size: 16,
-                          //                                   color: Colors.white,
-                          //                                 ),
-                          //                               ),
-                          //                             ],
-                          //                           ),
-                          //                         )
-                          //                       : InkWell(
-                          //                           onTap: incrementItem,
-                          //                           child: Container(
-                          //                             width: 100,
-                          //                             height: 35,
-                          //                             decoration: BoxDecoration(
-                          //                               color: Colors.white,
-                          //                               borderRadius:
-                          //                                   BorderRadius
-                          //                                       .circular(8),
-                          //                               border: Border.all(
-                          //                                   color: CommonColors
-                          //                                       .primaryColor,
-                          //                                   width: 1),
-                          //                             ),
-                          //                             child: Center(
-                          //                               child: Text(
-                          //                                 "Add",
-                          //                                 style: getAppStyle(
-                          //                                   color: CommonColors
-                          //                                       .primaryColor,
-                          //                                   fontSize: 16,
-                          //                                   fontWeight:
-                          //                                       FontWeight.bold,
-                          //                                 ),
-                          //                               ),
-                          //                             ),
-                          //                           ),
-                          //                         ),
-                          //                 ],
-                          //               ),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.all(5.0),
-                          //         child: Container(
-                          //           decoration: BoxDecoration(
-                          //             color: Colors.amber,
-                          //             border: Border.all(
-                          //                 color: Colors.white, width: 2),
-                          //             borderRadius: BorderRadius.circular(20),
-                          //           ),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.symmetric(
-                          //                 horizontal: 8, vertical: 5),
-                          //             child: Text(
-                          //               "${widget.section9[0].products[index].discountPer}% off",
-                          //               style: getAppStyle(
-                          //                 fontWeight: FontWeight.bold,
-                          //                 fontSize: 12,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                        ),
-                      );
-                    },
-                  ),
+                        );
+                      }),
                 ),
               ),
               kCommonSpaceV15,

@@ -330,6 +330,7 @@ class Section9Data {
 
 class Section9Product {
   int productId;
+  int variantId;
   String productName;
   String variantName;
   double productPrice;
@@ -342,6 +343,7 @@ class Section9Product {
 
   Section9Product({
     required this.productId,
+    required this.variantId,
     required this.productName,
     required this.variantName,
     required this.productPrice,
@@ -356,6 +358,7 @@ class Section9Product {
   factory Section9Product.fromJson(Map<String, dynamic> json) {
     return Section9Product(
       productId: json['product_id'] ?? 0,
+      variantId: json['variant_id'],
       productName: json['product_name'] ?? '',
       variantName: json['variant_name'] ?? '',
       productPrice: (json['product_price'] ?? 0).toDouble(),

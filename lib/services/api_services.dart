@@ -9,6 +9,7 @@ import 'package:solikat_2024/services/api_url.dart';
 
 import '../models/about_us_master.dart';
 import '../models/address_master.dart';
+import '../models/app_version_master.dart';
 import '../models/button_product_master.dart';
 import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
@@ -642,6 +643,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return SearchMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<AppVersionMaster?> getAppVersionApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_APP_VERSION,
+    );
+    if (response != null) {
+      try {
+        return AppVersionMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

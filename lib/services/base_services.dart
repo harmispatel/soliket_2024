@@ -5,6 +5,7 @@ import 'package:solikat_2024/models/return_policy_master.dart';
 
 import '../models/about_us_master.dart';
 import '../models/address_master.dart';
+import '../models/app_version_master.dart';
 import '../models/brand_product_master.dart';
 import '../models/button_product_master.dart';
 import '../models/cancellation_policy_master.dart';
@@ -128,4 +129,6 @@ abstract class BaseServices {
   });
 
   Future<TransactionHistoryMaster?> getTransactionHistoryApi();
+
+  Future<AppVersionMaster?> getAppVersionApi();
 }
