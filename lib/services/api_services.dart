@@ -24,6 +24,7 @@ import '../models/offer_product_master.dart';
 import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
 import '../models/return_policy_master.dart';
+import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
@@ -621,6 +622,26 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return TransactionHistoryMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<SearchMaster?> getSearchDataApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.SEARCH_PRODUCT,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return SearchMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

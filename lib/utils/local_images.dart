@@ -18,6 +18,7 @@ class LocalImages {
   static const String img_refresh = 'assets/images/img_refresh.png';
   static const String img_success = 'assets/images/img_success.png';
   static const String speakingGif = 'assets/images/speaking.gif';
+  static const String noProductGif = 'assets/images/no_product.gif';
   static const String img_notification = 'assets/images/img_notification.png';
   static const String img_brand_spotlight =
       'assets/images/img_brand_spotlight.png';

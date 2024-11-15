@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/brand_product_master.dart';
 
+import '../../../models/search_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
 import '../../../utils/common_colors.dart';
@@ -12,7 +13,7 @@ class SubBrandViewModel with ChangeNotifier {
   int currentPage = 1;
   bool isPageFinish = false;
   bool isInitialLoading = true;
-  List<BrandProduct> brandProductList = [];
+  List<ProductData> brandProductList = [];
   List<Brand> brandCategoryList = [];
 
   void attachedContext(BuildContext context) {
@@ -47,12 +48,23 @@ class SubBrandViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      if (currentPage > master.totalPage!) {
+      if (currentPage == master.totalPage!) {
         isPageFinish = true;
+      } else {
+        currentPage++;
       }
-      currentPage++;
       brandProductList.addAll(master.data?.product ?? []);
-      brandCategoryList.addAll(master.data?.brand ?? []);
+      // brandCategoryList.addAll(master.data?.brand ?? []);
+      final newItems = (master.data?.brand ?? []);
+
+      Set<int?> existingIds = brandCategoryList.map((e) => e.brandId).toSet();
+
+      for (var item in newItems) {
+        if (!existingIds.contains(item.brandId)) {
+          brandCategoryList.add(item);
+          existingIds.add(item.brandId);
+        }
+      }
     }
     notifyListeners();
   }

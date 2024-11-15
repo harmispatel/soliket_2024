@@ -1,4 +1,4 @@
-import 'package:solikat_2024/models/sub_category_product_master.dart';
+import 'package:solikat_2024/models/search_master.dart';
 
 class GetCategoryProductMaster {
   bool? _status;
@@ -83,10 +83,9 @@ class GetCategoryProductMaster {
 
 class CategoryData {
   List<SubCategory>? _subCategory;
-  List<CategoryProduct>? _product;
+  List<ProductData>? _product;
 
-  CategoryData(
-      {List<SubCategory>? subCategory, List<CategoryProduct>? product}) {
+  CategoryData({List<SubCategory>? subCategory, List<ProductData>? product}) {
     if (subCategory != null) {
       this._subCategory = subCategory;
     }
@@ -97,8 +96,8 @@ class CategoryData {
 
   List<SubCategory>? get subCategory => _subCategory;
   set subCategory(List<SubCategory>? subCategory) => _subCategory = subCategory;
-  List<CategoryProduct>? get product => _product;
-  set product(List<CategoryProduct>? product) => _product = product;
+  List<ProductData>? get product => _product;
+  set product(List<ProductData>? product) => _product = product;
 
   CategoryData.fromJson(Map<String, dynamic> json) {
     if (json['sub_category'] != null) {
@@ -108,9 +107,9 @@ class CategoryData {
       });
     }
     if (json['product'] != null) {
-      _product = <CategoryProduct>[];
+      _product = <ProductData>[];
       json['product'].forEach((v) {
-        _product!.add(new CategoryProduct.fromJson(v));
+        _product!.add(new ProductData.fromJson(v));
       });
     }
   }

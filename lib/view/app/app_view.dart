@@ -35,6 +35,7 @@ import '../home/profile/policies/terms_and_conditions/terms_and_conditions_view_
 import '../home/profile/profile_view_model.dart';
 import '../home/profile/save_address/saved_address_view_model.dart';
 import '../home/profile/transaction_history/transaction_history_view_model.dart';
+import '../home/search/search_view_model.dart';
 import '../home/sub_brand/sub_brand_view_model.dart';
 import '../home/sub_category/sub_category_view_model.dart';
 import '../home/sub_offer/sub_offer_view_model.dart';
@@ -288,6 +289,8 @@ class AppState extends State<App> {
                   create: (_) => CancellationPolicyViewModel()),
               ChangeNotifierProvider<NotificationViewModel>(
                   create: (_) => NotificationViewModel()),
+              ChangeNotifierProvider<SearchViewModel>(
+                  create: (_) => SearchViewModel()),
               ChangeNotifierProvider<TransactionHistoryViewModel>(
                   create: (_) => TransactionHistoryViewModel()),
             ],

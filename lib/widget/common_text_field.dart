@@ -10,6 +10,7 @@ class CommonTextField extends StatelessWidget {
   final TextInputType? inputType;
   final GestureTapCallback? onTap;
   final IconData? suffixIcon;
+  final IconData? prefixIcon;
   final int? maxLines;
   final int? maxLength;
   final bool isRequired;
@@ -31,6 +32,7 @@ class CommonTextField extends StatelessWidget {
     this.inputType,
     this.onTap,
     this.suffixIcon,
+    this.prefixIcon,
     this.maxLines,
     this.maxLength,
     this.isRequired = false,
@@ -92,7 +94,7 @@ class CommonTextField extends StatelessWidget {
             prefixIcon: isPrefixIconButton
                 ? IconButton(
                     icon: Icon(
-                      Icons.search,
+                      prefixIcon ?? Icons.search,
                       color: CommonColors.mGrey,
                     ),
                     onPressed: onPrefixIconPressed,

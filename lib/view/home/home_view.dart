@@ -11,6 +11,7 @@ import 'package:solikat_2024/view/cart/cart_view_model.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view.dart';
 import 'package:solikat_2024/view/home/profile/edit_account/edit_account_view_model.dart';
+import 'package:solikat_2024/view/home/search/search_view.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
@@ -539,12 +540,16 @@ class _HomeViewState extends State<HomeView> {
                             hintText: "Search",
                             isPrefixIconButton: true,
                             suffixIcon: Icons.mic,
+                            readOnly: true,
                             onSuffixIconPressed: () {
                               if (_isListening) {
                                 _stopListening(); // Stop listening
                               } else {
                                 _startListening(); // Start listening
                               }
+                            },
+                            onTap: () {
+                              push(SearchView());
                             },
                             isIconButton: true,
                           ),

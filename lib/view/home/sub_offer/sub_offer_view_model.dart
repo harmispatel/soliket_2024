@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../models/offer_product_master.dart';
+import '../../../models/search_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
 import '../../../utils/common_colors.dart';
@@ -12,7 +13,7 @@ class SubOfferViewModel with ChangeNotifier {
   int currentPage = 1;
   bool isPageFinish = false;
   bool isInitialLoading = true;
-  List<OfferProduct> offerProductList = [];
+  List<ProductData> offerProductList = [];
   List<Offer> offerCategoryList = [];
 
   void attachedContext(BuildContext context) {
@@ -47,12 +48,24 @@ class SubOfferViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      if (currentPage > master.totalPage!) {
+      if (currentPage == master.totalPage!) {
         isPageFinish = true;
+      } else {
+        currentPage++;
       }
-      currentPage++;
       offerProductList.addAll(master.data?.product ?? []);
-      offerCategoryList.addAll(master.data?.offer ?? []);
+      // offerCategoryList.addAll(master.data?.offer ?? []);
+
+      final newItems = (master.data?.offer ?? []);
+
+      Set<int?> existingIds = offerCategoryList.map((e) => e.offerId).toSet();
+
+      for (var item in newItems) {
+        if (!existingIds.contains(item.offerId)) {
+          offerCategoryList.add(item);
+          existingIds.add(item.offerId);
+        }
+      }
     }
     notifyListeners();
   }

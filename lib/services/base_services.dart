@@ -20,6 +20,7 @@ import '../models/notification_master.dart';
 import '../models/offer_product_master.dart';
 import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
+import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
@@ -121,6 +122,10 @@ abstract class BaseServices {
   Future<CommonMaster?> deleteAccount();
 
   Future<NotificationMaster?> getNotificationApi();
+
+  Future<SearchMaster?> getSearchDataApi({
+    required Map<String, dynamic> params,
+  });
 
   Future<TransactionHistoryMaster?> getTransactionHistoryApi();
 }

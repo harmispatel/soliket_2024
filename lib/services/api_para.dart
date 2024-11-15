@@ -24,4 +24,5 @@ class ApiParams {
   static const String brand_id = "brand_id";
   static const String offer_id = "offer_id";
   static const String product_id = "product_id";
+  static const String keyword = "keyword";
 }
