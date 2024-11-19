@@ -15,6 +15,7 @@ import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
 import '../cart/cart_view_model.dart';
+import '../cart/checkout/check_out_view_model.dart';
 import '../category/category_view_model.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/splash/splash_view.dart';
@@ -296,6 +297,8 @@ class AppState extends State<App> {
                   create: (_) => TransactionHistoryViewModel()),
               ChangeNotifierProvider<CategoryViewModel>(
                   create: (_) => CategoryViewModel()),
+              ChangeNotifierProvider<CheckOutViewModel>(
+                  create: (_) => CheckOutViewModel()),
             ],
             child: Builder(
               builder: (context) {

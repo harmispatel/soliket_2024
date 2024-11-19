@@ -258,12 +258,19 @@ class _Section4State extends State<Section4> {
         widget.section4[index].cartCount++;
       });
       widget.onAddItem(widget.section4[index].variantId);
-    } else {
+    } else if (widget.section4[index].stock != 0) {
       print(
           ".......Sorry this product have only ${widget.section4[index].stock} in a stock......");
       String msg =
           "Only ${widget.section4[index].stock} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+
+      // CommonUtils.showRedToastMessage(msg);
+      CommonUtils.showCustomToast(context, msg);
+    } else if (widget.section4[index].stock == 0) {
+      print(".......Sorry this item is sold out......");
+      String msg = "Sorry this item is sold out";
+      // CommonUtils.showRedToastMessage(msg);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 
@@ -334,6 +341,8 @@ class _Section4State extends State<Section4> {
                         productPrice: widget.section4[index].productPrice,
                         discountPer: widget.section4[index].discountPer,
                         cartCount: widget.section4[index].cartCount,
+                        productId: widget.section4[index].productId.toString(),
+                        variantId: widget.section4[index].variantId.toString(),
                       ),
                     ),
                   ),
@@ -745,6 +754,8 @@ class _Section9State extends State<Section9> {
                                 productPrice: product.productPrice,
                                 discountPer: product.discountPer,
                                 cartCount: product.cartCount,
+                                productId: product.productId.toString(),
+                                variantId: product.variantId.toString(),
                               ),
                             ),
                           ),
@@ -758,7 +769,8 @@ class _Section9State extends State<Section9> {
         ),
         GestureDetector(
           onTap: () {
-            push(ViewAllProductsView(id: 0));
+            push(
+                ViewAllProductsView(id: widget.section9[0].setting.categoryId));
           },
           child: Container(
             color: Color(int.parse(widget.section9[0].setting.buttonColor)),

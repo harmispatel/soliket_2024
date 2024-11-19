@@ -66,17 +66,20 @@ class AddressData {
   String? _longitude;
   String? _area;
   String? _houseName;
+  String? _isDefault;
 
-  AddressData(
-      {int? addressId,
-      String? type,
-      String? address,
-      String? name,
-      String? mobile,
-      String? latitude,
-      String? longitude,
-      String? area,
-      String? houseName}) {
+  AddressData({
+    int? addressId,
+    String? type,
+    String? address,
+    String? name,
+    String? mobile,
+    String? latitude,
+    String? longitude,
+    String? area,
+    String? houseName,
+    String? isDefault,
+  }) {
     if (addressId != null) {
       this._addressId = addressId;
     }
@@ -104,6 +107,9 @@ class AddressData {
     if (houseName != null) {
       this._houseName = houseName;
     }
+    if (isDefault != null) {
+      this._isDefault = isDefault;
+    }
   }
 
   int? get addressId => _addressId;
@@ -124,6 +130,8 @@ class AddressData {
   set area(String? area) => _area = area;
   String? get houseName => _houseName;
   set houseName(String? houseName) => _houseName = houseName;
+  String? get isDefault => _isDefault;
+  set isDefault(String? isDefault) => _isDefault = isDefault;
 
   AddressData.fromJson(Map<String, dynamic> json) {
     _addressId = json['address_id'];
@@ -135,6 +143,7 @@ class AddressData {
     _longitude = json['longitude'];
     _area = json['area'];
     _houseName = json['house_name'];
+    _isDefault = json['is_default'];
   }
 
   Map<String, dynamic> toJson() {
@@ -148,6 +157,7 @@ class AddressData {
     data['longitude'] = this._longitude;
     data['area'] = this._area;
     data['house_name'] = this._houseName;
+    data['is_default'] = this._isDefault;
     return data;
   }
 }

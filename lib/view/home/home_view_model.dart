@@ -171,6 +171,7 @@ import 'package:solikat_2024/models/add_to_cart_api.dart';
 import 'package:solikat_2024/models/home_master.dart';
 import 'package:solikat_2024/models/search_master.dart';
 
+import '../../models/cart_master.dart';
 import '../../models/product_details_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
@@ -205,11 +206,12 @@ class HomeViewModel with ChangeNotifier {
   List<Section3Data> section3DataList = [];
   List<Section4Data> section4DataList = [];
   List<Section5Data> section5DataList = [];
-  List<Section6Data> section6DataList = [];
+  List<Section6Category> section6DataList = [];
   List<Section7Data> section7DataList = [];
   List<Section8Data> section8DataList = [];
-  List<Section9Data> section9DataList = [];
+  List<Section9Product> section9DataList = [];
   List<ProductData> cartDataList = [];
+  String cartTotalPrice = '';
 
   List<ProductDetailsData>? productDetailsData = [];
 
@@ -231,6 +233,23 @@ class HomeViewModel with ChangeNotifier {
   //     }
   //   }
   // }
+
+  Future<void> getCartApi() async {
+    GetCartMaster? master = await services.api!.getCartApi();
+    isInitialLoading = false;
+    if (master == null) {
+      CommonUtils.oopsMSG();
+    } else if (!master.status!) {
+      CommonUtils.showSnackBar(
+        master.message,
+        color: CommonColors.mRed,
+      );
+    } else if (master.status!) {
+      log("Success :: true");
+      cartDataList = master.data?.cartItem ?? [];
+    }
+    notifyListeners();
+  }
 
   Future<void> getHomePageApi({
     required String latitude,
@@ -275,42 +294,42 @@ class HomeViewModel with ChangeNotifier {
 
     final Map<String, Function> sectionHandlers = {
       'section_1': (section) {
-        section1DataList.addAll(section.sectionData);
+        section1DataList.addAll(section.data);
         section1Title = section.sectionTitle;
       },
       'section_2': (section) {
-        section2DataList.addAll(section.sectionData);
+        section2DataList.addAll(section.data);
         section2Title = section.sectionTitle;
       },
       'section_3': (section) {
-        section3DataList.addAll(section.sectionData);
+        section3DataList.addAll(section.data);
         section3Title = section.sectionTitle;
       },
       'section_4': (section) {
-        section4DataList.addAll(section.sectionData);
+        section4DataList.addAll(section.data);
         section4Title = section.sectionTitle;
       },
       'section_5': (section) {
-        section5DataList.addAll(section.sectionData);
+        section5DataList.addAll(section.data);
         section5Title = section.sectionTitle;
       },
       'section_6': (section) {
-        section6DataList.addAll(section.sectionData);
+        section6DataList.addAll(section.data.categories);
         section6Title = section.sectionTitle;
       },
       'section_7': (section) {
-        section7DataList.addAll(section.sectionData);
+        section7DataList.addAll(section.data);
         section7Title = section.sectionTitle;
       },
       'section_8': (section) {
-        section8DataList.addAll(section.sectionData);
+        section8DataList.addAll(section.data);
         section8Title = section.sectionTitle;
       },
       'section_9': (section) {
-        section9DataList.addAll(section.sectionData);
+        section9DataList.addAll(section.data.products);
       },
       'section_10': (section) {
-        section10Text = section.sectionData.text;
+        section10Text = section.data.text;
       },
     };
 
@@ -354,6 +373,7 @@ class HomeViewModel with ChangeNotifier {
       //   Provider.of<CartViewModel>(context, listen: false).getCartApi();
       // });
       cartDataList = master.data?.product ?? [];
+      cartTotalPrice = master.data?.total?.totalAmount.toString() ?? '';
     }
     notifyListeners();
   }

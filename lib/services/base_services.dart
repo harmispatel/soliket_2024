@@ -11,6 +11,7 @@ import '../models/brand_product_master.dart';
 import '../models/button_product_master.dart';
 import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
+import '../models/category_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
@@ -132,4 +133,18 @@ abstract class BaseServices {
   Future<TransactionHistoryMaster?> getTransactionHistoryApi();
 
   Future<AppVersionMaster?> getAppVersionApi();
+
+  Future<CommonMaster?> setDefaultAddress({
+    required Map<String, dynamic> params,
+  });
+
+  Future<CategoryMaster?> getCategoryApi();
+
+  Future<CommonMaster?> applyCoupon({
+    required Map<String, dynamic> params,
+  });
+
+  Future<CommonMaster?> removeCoupon({
+    required Map<String, dynamic> params,
+  });
 }

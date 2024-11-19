@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:solikat_2024/view/common_view/bottom_navbar/bottom_navbar_view.dart';
+import 'package:solikat_2024/view/home/sub_category/sub_category_view_model.dart';
 import 'package:solikat_2024/view/home/sub_offer/sub_offer_view_model.dart';
 
 import '../../../utils/common_colors.dart';
@@ -10,9 +13,14 @@ import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widget/common_appbar.dart';
 import '../../../widget/common_product_container_view.dart';
+import '../../../widget/primary_button.dart';
+import '../../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../../common_view/common_img_slider/common_img_slider_view.dart';
 import '../home_view_model.dart';
 import '../search/search_view.dart';
+import '../search/search_view_model.dart';
+import '../sub_brand/sub_brand_view_model.dart';
+import '../view_all_products/view_all_products_view_model.dart';
 
 class SubOfferView extends StatefulWidget {
   final int offerId;
@@ -23,11 +31,15 @@ class SubOfferView extends StatefulWidget {
 }
 
 class _SubOfferViewState extends State<SubOfferView> {
-  late SubOfferViewModel mViewModel;
   final ScrollController _scrollController = ScrollController();
   int _selectedIndex = 0;
   int itemCount = 0;
+  late SubOfferViewModel mViewModel;
+  late SubBrandViewModel mBrandViewModel;
   late HomeViewModel mHomeViewModel;
+  late SubCategoryViewModel mSubCategoryViewModel;
+  late SearchViewModel mSearchViewModel;
+  late ViewAllProductsViewModel mAllProductViewModel;
   bool isBottomSheetOpen = false;
   bool isExpanded = false;
 
@@ -37,6 +49,10 @@ class _SubOfferViewState extends State<SubOfferView> {
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       mHomeViewModel.attachedContext(context);
+      mBrandViewModel.attachedContext(context);
+      mSubCategoryViewModel.attachedContext(context);
+      mSearchViewModel.attachedContext(context);
+      mAllProductViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
       mViewModel.getOfferProductApi(
           latitude: gUserLat,
@@ -65,19 +81,38 @@ class _SubOfferViewState extends State<SubOfferView> {
     }
   }
 
-  void incrementItem() {
-    setState(() {
-      itemCount++;
-    });
-    // widget.onIncrement!();
+  Future<void> incrementItem(int index) async {
+    if ((mViewModel.offerProductList[index].cartCount ?? 0) <
+        (mViewModel.offerProductList[index].stock ?? 0)) {
+      setState(() {
+        mViewModel.offerProductList[index].cartCount =
+            (mViewModel.offerProductList[index].cartCount ?? 0) + 1;
+      });
+      await mHomeViewModel.addToCartApi(
+          variantId: mViewModel.offerProductList[index].variantId.toString(),
+          type: 'p');
+    } else if (mViewModel.offerProductList[index].stock != 0) {
+      print(
+          ".......Sorry this product have only ${mViewModel.offerProductList[index].stock} in a stock......");
+      String msg =
+          "Only ${mViewModel.offerProductList[index].stock} product available in stock";
+      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+    } else if (mViewModel.offerProductList[index].stock == 0) {
+      print(".......Sorry this item is sold out......");
+      String msg = "Sorry this item is sold out";
+      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+    }
   }
 
-  void decrementItem() {
-    if (itemCount > 0) {
+  Future<void> decrementItem(int index) async {
+    if ((mViewModel.offerProductList[index].cartCount ?? 0) > 0) {
       setState(() {
-        itemCount--;
+        mViewModel.offerProductList[index].cartCount =
+            (mViewModel.offerProductList[index].cartCount ?? 0) - 1;
       });
-      // widget.onDecrement!();
+      await mHomeViewModel.addToCartApi(
+          variantId: mViewModel.offerProductList[index].variantId.toString(),
+          type: 'm');
     }
   }
 
@@ -85,6 +120,10 @@ class _SubOfferViewState extends State<SubOfferView> {
   Widget build(BuildContext context) {
     mViewModel = Provider.of<SubOfferViewModel>(context);
     mHomeViewModel = Provider.of<HomeViewModel>(context);
+    mSubCategoryViewModel = Provider.of<SubCategoryViewModel>(context);
+    mBrandViewModel = Provider.of<SubBrandViewModel>(context);
+    mSearchViewModel = Provider.of<SearchViewModel>(context);
+    mAllProductViewModel = Provider.of<ViewAllProductsViewModel>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
@@ -783,8 +822,8 @@ class _SubOfferViewState extends State<SubOfferView> {
                               productName: mViewModel
                                       .offerProductList[index].productName ??
                                   '',
-                              onIncrement: () => incrementItem(),
-                              onDecrement: () => decrementItem(),
+                              onIncrement: () => incrementItem(index),
+                              onDecrement: () => decrementItem(index),
                               stock:
                                   mViewModel.offerProductList[index].stock ?? 0,
                               variantName: mViewModel
@@ -802,305 +841,13 @@ class _SubOfferViewState extends State<SubOfferView> {
                               cartCount: mViewModel
                                       .offerProductList[index].cartCount ??
                                   0,
+                              productId: mViewModel
+                                  .offerProductList[index].productId
+                                  .toString(),
+                              variantId: mViewModel
+                                  .offerProductList[index].variantId
+                                  .toString(),
                             ),
-
-                            // Container(
-                            //   width: 170,
-                            //   clipBehavior: Clip.antiAlias,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.circular(10),
-                            //   ),
-                            //   child: Stack(
-                            //     children: [
-                            //       Padding(
-                            //         padding: const EdgeInsets.only(bottom: 8),
-                            //         child: Column(
-                            //           crossAxisAlignment: CrossAxisAlignment.start,
-                            //           children: [
-                            //             Stack(
-                            //               children: [
-                            //                 if (mViewModel
-                            //                         .offerProductList[index].stock !=
-                            //                     0)
-                            //                   Center(
-                            //                     child: Image.network(
-                            //                       mViewModel.offerProductList[index]
-                            //                               .image ??
-                            //                           '',
-                            //                       fit: BoxFit.contain,
-                            //                       height: 170,
-                            //                     ),
-                            //                   ),
-                            //                 if (mViewModel
-                            //                         .offerProductList[index].stock ==
-                            //                     0)
-                            //                   Center(
-                            //                     child: ColorFiltered(
-                            //                       colorFilter: ColorFilter.mode(
-                            //                         Colors.white.withOpacity(0.5),
-                            //                         BlendMode
-                            //                             .srcOver, // Blend mode for overlay
-                            //                       ),
-                            //                       child: Image.network(
-                            //                         mViewModel.offerProductList[index]
-                            //                                 .image ??
-                            //                             '',
-                            //                         fit: BoxFit.contain,
-                            //                         height: 170,
-                            //                       ),
-                            //                     ),
-                            //                   ),
-                            //               ],
-                            //             ),
-                            //             const SizedBox(height: 5),
-                            //             SizedBox(
-                            //               height: 40,
-                            //               child: Padding(
-                            //                 padding: const EdgeInsets.symmetric(
-                            //                     horizontal: 8),
-                            //                 child: Text(
-                            //                   mViewModel.offerProductList[index]
-                            //                           .productName ??
-                            //                       '',
-                            //                   maxLines: 2,
-                            //                   overflow: TextOverflow.ellipsis,
-                            //                   style: getAppStyle(
-                            //                       fontSize: 14,
-                            //                       color: mViewModel
-                            //                                   .offerProductList[index]
-                            //                                   .stock ==
-                            //                               0
-                            //                           ? Colors.grey[400]
-                            //                           : Colors.black,
-                            //                       fontWeight: FontWeight.bold),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //             const SizedBox(height: 5),
-                            //             Padding(
-                            //               padding:
-                            //                   const EdgeInsets.symmetric(horizontal: 8),
-                            //               child: Text(
-                            //                 mViewModel.offerProductList[index]
-                            //                         .variantName ??
-                            //                     '',
-                            //                 style: getAppStyle(
-                            //                   fontSize: 14,
-                            //                   color: mViewModel.offerProductList[index]
-                            //                               .stock ==
-                            //                           0
-                            //                       ? Colors.grey[400]
-                            //                       : Colors.black54,
-                            //                   fontWeight: FontWeight.w500,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //             const SizedBox(height: 10),
-                            //             Padding(
-                            //               padding:
-                            //                   const EdgeInsets.symmetric(horizontal: 8),
-                            //               child: Row(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.spaceBetween,
-                            //                 children: [
-                            //                   Column(
-                            //                     crossAxisAlignment:
-                            //                         CrossAxisAlignment.start,
-                            //                     children: [
-                            //                       Text(
-                            //                         mViewModel.offerProductList[index]
-                            //                             .discountPrice
-                            //                             .toString(),
-                            //                         style: getAppStyle(
-                            //                           fontSize: 14,
-                            //                           color: mViewModel
-                            //                                       .offerProductList[
-                            //                                           index]
-                            //                                       .stock ==
-                            //                                   0
-                            //                               ? Colors.grey[400]
-                            //                               : Colors.black,
-                            //                           fontWeight: FontWeight.bold,
-                            //                         ),
-                            //                       ),
-                            //                       Text(
-                            //                         mViewModel.offerProductList[index]
-                            //                             .productPrice
-                            //                             .toString(),
-                            //                         style: getAppStyle(
-                            //                           color: mViewModel
-                            //                                       .offerProductList[
-                            //                                           index]
-                            //                                       .stock ==
-                            //                                   0
-                            //                               ? Colors.grey[400]
-                            //                               : Colors.black54,
-                            //                           fontSize: 12,
-                            //                           decoration:
-                            //                               TextDecoration.lineThrough,
-                            //                         ),
-                            //                       ),
-                            //                     ],
-                            //                   ),
-                            //                   if (mViewModel
-                            //                           .offerProductList[index].stock !=
-                            //                       0) ...[
-                            //                     itemCount > 0
-                            //                         ? Container(
-                            //                             padding:
-                            //                                 const EdgeInsets.symmetric(
-                            //                                     horizontal: 4,
-                            //                                     vertical: 4),
-                            //                             margin: const EdgeInsets.only(
-                            //                                 bottom: 4),
-                            //                             height: 35,
-                            //                             width: 100,
-                            //                             decoration: BoxDecoration(
-                            //                               borderRadius:
-                            //                                   BorderRadius.circular(8),
-                            //                               color:
-                            //                                   CommonColors.primaryColor,
-                            //                             ),
-                            //                             child: Row(
-                            //                               mainAxisAlignment:
-                            //                                   MainAxisAlignment
-                            //                                       .spaceAround,
-                            //                               children: [
-                            //                                 GestureDetector(
-                            //                                   onTap: decrementItem,
-                            //                                   child: const Icon(
-                            //                                     Icons.remove,
-                            //                                     size: 16,
-                            //                                     color: Colors.white,
-                            //                                   ),
-                            //                                 ),
-                            //                                 Text(
-                            //                                   itemCount.toString(),
-                            //                                   style: getAppStyle(
-                            //                                     color: Colors.white,
-                            //                                     fontWeight:
-                            //                                         FontWeight.w500,
-                            //                                     fontSize: 14,
-                            //                                   ),
-                            //                                 ),
-                            //                                 GestureDetector(
-                            //                                   onTap: incrementItem,
-                            //                                   child: const Icon(
-                            //                                     Icons.add,
-                            //                                     size: 16,
-                            //                                     color: Colors.white,
-                            //                                   ),
-                            //                                 ),
-                            //                               ],
-                            //                             ),
-                            //                           )
-                            //                         : InkWell(
-                            //                             onTap: incrementItem,
-                            //                             child: Container(
-                            //                               width: 100,
-                            //                               height: 35,
-                            //                               decoration: BoxDecoration(
-                            //                                 color: Colors.white,
-                            //                                 borderRadius:
-                            //                                     BorderRadius.circular(
-                            //                                         8),
-                            //                                 border: Border.all(
-                            //                                     color: CommonColors
-                            //                                         .primaryColor,
-                            //                                     width: 1),
-                            //                               ),
-                            //                               child: Center(
-                            //                                 child: Text(
-                            //                                   "Add",
-                            //                                   style: getAppStyle(
-                            //                                     color: CommonColors
-                            //                                         .primaryColor,
-                            //                                     fontSize: 16,
-                            //                                     fontWeight:
-                            //                                         FontWeight.bold,
-                            //                                   ),
-                            //                                 ),
-                            //                               ),
-                            //                             ),
-                            //                           ),
-                            //                   ]
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //       if (mViewModel.offerProductList[index].discountPer !=
-                            //               0 &&
-                            //           mViewModel.offerProductList[index].stock != 0)
-                            //         Padding(
-                            //           padding: const EdgeInsets.all(5.0),
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.amber,
-                            //               border:
-                            //                   Border.all(color: Colors.white, width: 2),
-                            //               borderRadius: BorderRadius.circular(20),
-                            //             ),
-                            //             child: Padding(
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   horizontal: 8, vertical: 5),
-                            //               child: Text(
-                            //                 "${mViewModel.offerProductList[index].discountPer}% off",
-                            //                 style: getAppStyle(
-                            //                   fontWeight: FontWeight.bold,
-                            //                   fontSize: 12,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       if (mViewModel.offerProductList[index].stock == 0)
-                            //         Padding(
-                            //           padding: EdgeInsets.symmetric(
-                            //               horizontal: 18, vertical: 100),
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               borderRadius: BorderRadius.circular(6),
-                            //               color: CommonColors.primaryColor
-                            //                   .withOpacity(0.2),
-                            //               boxShadow: [
-                            //                 BoxShadow(
-                            //                   color: Colors.black26,
-                            //                   offset: const Offset(
-                            //                     2.0,
-                            //                     4.0,
-                            //                   ),
-                            //                   blurRadius: 5.0,
-                            //                   spreadRadius: 0.5,
-                            //                 ), //BoxShadow
-                            //                 BoxShadow(
-                            //                   color: Colors.white,
-                            //                   offset: const Offset(0.0, 0.0),
-                            //                   blurRadius: 0.0,
-                            //                   spreadRadius: 0.0,
-                            //                 ), //BoxShadow
-                            //               ],
-                            //             ),
-                            //             child: Padding(
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   horizontal: 16, vertical: 3),
-                            //               child: Text(
-                            //                 "Sorry, this item is sold out",
-                            //                 textAlign: TextAlign.center,
-                            //                 style: getAppStyle(
-                            //                     color: CommonColors.primaryColor,
-                            //                     fontWeight: FontWeight.w500,
-                            //                     fontSize: 12,
-                            //                     height: 1.2),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         )
-                            //     ],
-                            //   ),
-                            // ),
                           ),
                         ),
                       );
@@ -1108,6 +855,976 @@ class _SubOfferViewState extends State<SubOfferView> {
                   ),
                 ),
         ],
+      ),
+      bottomNavigationBar: Consumer<HomeViewModel>(
+        builder: (context, homeViewModel, child) {
+          return mHomeViewModel.cartDataList.isNotEmpty
+              ? FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15) +
+                        const EdgeInsets.only(top: 14, bottom: 5),
+                    child: IntrinsicWidth(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 48,
+                            width: 60,
+                            margin: const EdgeInsets.only(right: 6),
+                            color: Colors.transparent,
+                            child: Stack(
+                              children: List.generate(
+                                // Get the last three items or the total length if less than 3
+                                mHomeViewModel.cartDataList.length > 3
+                                    ? 3
+                                    : mHomeViewModel.cartDataList.length,
+                                (index) {
+                                  // Calculate the index from the end of the list
+                                  int reverseIndex =
+                                      mHomeViewModel.cartDataList.length -
+                                          1 -
+                                          index;
+
+                                  return Positioned(
+                                    left: index * 6,
+                                    child: Container(
+                                      height: 48,
+                                      width: 48,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: CommonColors.mGrey500),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: homeViewModel
+                                                .cartDataList[reverseIndex]
+                                                .image ??
+                                            '',
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                          child: SizedBox(
+                                            height: 10,
+                                            width: 10,
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.error_outline,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              void incrementItem(int index) {
+                                if ((homeViewModel
+                                            .cartDataList[index].cartCount ??
+                                        0) <
+                                    (homeViewModel.cartDataList[index].stock ??
+                                        0)) {
+                                  setState(() {
+                                    for (var item
+                                        in homeViewModel.section4DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in homeViewModel.section9DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount = item.cartCount + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mSubCategoryViewModel
+                                        .categoryProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mBrandViewModel.brandProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mSearchViewModel.productList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mAllProductViewModel
+                                        .viewAllProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mViewModel.offerProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) + 1;
+                                        break;
+                                      }
+                                    }
+
+                                    homeViewModel.cartDataList[index]
+                                        .cartCount = (homeViewModel
+                                                .cartDataList[index]
+                                                .cartCount ??
+                                            0) +
+                                        1;
+                                  });
+
+                                  homeViewModel.addToCartApi(
+                                    variantId: homeViewModel
+                                        .cartDataList[index].variantId
+                                        .toString(),
+                                    type: 'p',
+                                  );
+                                } else {
+                                  print(
+                                      ".......Sorry this product have only ${homeViewModel.cartDataList[index].stock} in stock......");
+                                  String msg =
+                                      "Only ${homeViewModel.cartDataList[index].stock} product available in stock";
+                                  CommonUtils.showSnackBar(msg,
+                                      color: CommonColors.mRed);
+                                }
+                              }
+
+                              void decrementItem(int index) {
+                                if ((homeViewModel
+                                            .cartDataList[index].cartCount ??
+                                        0) >
+                                    1) {
+                                  setState(() {
+                                    for (var item
+                                        in homeViewModel.section4DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in homeViewModel.section9DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount = item.cartCount - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mSubCategoryViewModel
+                                        .categoryProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mBrandViewModel.brandProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mSearchViewModel.productList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mAllProductViewModel
+                                        .viewAllProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mViewModel.offerProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    homeViewModel.cartDataList[index]
+                                        .cartCount = (homeViewModel
+                                                .cartDataList[index]
+                                                .cartCount ??
+                                            0) -
+                                        1;
+                                  });
+
+                                  homeViewModel.addToCartApi(
+                                      variantId: homeViewModel
+                                          .cartDataList[index].variantId
+                                          .toString(),
+                                      type: 'm');
+                                } else if (homeViewModel
+                                        .cartDataList[index].cartCount ==
+                                    1) {
+                                  homeViewModel.addToCartApi(
+                                      variantId: homeViewModel
+                                          .cartDataList[index].variantId
+                                          .toString(),
+                                      type: 'm');
+
+                                  setState(() {
+                                    for (var item
+                                        in homeViewModel.section4DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount = item.cartCount - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in homeViewModel.section9DataList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount = item.cartCount - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mSubCategoryViewModel
+                                        .categoryProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mBrandViewModel.brandProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mSearchViewModel.productList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item in mAllProductViewModel
+                                        .viewAllProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    for (var item
+                                        in mViewModel.offerProductList) {
+                                      if (homeViewModel
+                                              .cartDataList[index].variantId
+                                              ?.toString()
+                                              .trim() ==
+                                          item.variantId.toString().trim()) {
+                                        item.cartCount =
+                                            (item.cartCount ?? 0) - 1;
+                                        break;
+                                      }
+                                    }
+
+                                    homeViewModel.cartDataList.removeAt(index);
+                                  });
+
+                                  if (homeViewModel.cartDataList.length == 0) {
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              }
+
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.white,
+                                builder: (_) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
+                                      return Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15, right: 15, top: 15),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Review Cart',
+                                                      style: getAppStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "${mHomeViewModel.cartDataList.length} Items • Total ",
+                                                          style: getAppStyle(
+                                                              color:
+                                                                  CommonColors
+                                                                      .black54),
+                                                        ),
+                                                        Text(
+                                                          mHomeViewModel
+                                                              .cartTotalPrice,
+                                                          style: getAppStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey,
+                                                          offset: const Offset(
+                                                            2.0,
+                                                            2.0,
+                                                          ),
+                                                          blurRadius: 5.0,
+                                                          spreadRadius: 0.0,
+                                                        ), //BoxShadow
+                                                        BoxShadow(
+                                                          color: Colors.white,
+                                                          offset: const Offset(
+                                                              0.0, 0.0),
+                                                          blurRadius: 0.0,
+                                                          spreadRadius: 0.0,
+                                                        ), //BoxShadow
+                                                      ],
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: 15,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          kCommonSpaceV10,
+                                          kCommonSpaceV3,
+                                          Container(
+                                            height: 3,
+                                            color: Colors.grey[300],
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              color: Colors.grey[100],
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15,
+                                                        vertical: 10),
+                                                child: Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  child: SingleChildScrollView(
+                                                    child: ListView.builder(
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      padding:
+                                                          EdgeInsets.all(18),
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      itemCount: homeViewModel
+                                                          .cartDataList.length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return Column(
+                                                          children: [
+                                                            Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  height: 60,
+                                                                  width: 70,
+                                                                  imageUrl: mHomeViewModel
+                                                                          .cartDataList[
+                                                                              index]
+                                                                          .image ??
+                                                                      '',
+                                                                  imageBuilder:
+                                                                      (context,
+                                                                              imageProvider) =>
+                                                                          Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image:
+                                                                            imageProvider,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  placeholder: (context,
+                                                                          url) =>
+                                                                      const Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            12.0),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        strokeWidth:
+                                                                            2,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      const Center(
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .error_outline,
+                                                                      color: Colors
+                                                                          .red,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 14),
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        mHomeViewModel.cartDataList[index].productName ??
+                                                                            '',
+                                                                        maxLines:
+                                                                            2,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        style:
+                                                                            getAppStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontSize:
+                                                                              13,
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            vertical:
+                                                                                02),
+                                                                        child:
+                                                                            Text(
+                                                                          mHomeViewModel.cartDataList[index].variantName ??
+                                                                              '',
+                                                                          style:
+                                                                              getAppStyle(
+                                                                            color:
+                                                                                Colors.grey,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                12,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 8),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              4,
+                                                                          vertical:
+                                                                              4),
+                                                                      margin: const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              4),
+                                                                      height:
+                                                                          30,
+                                                                      width: 80,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(6),
+                                                                        color: CommonColors
+                                                                            .primaryColor,
+                                                                      ),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              decrementItem(index);
+                                                                              setState(() {});
+                                                                            },
+                                                                            child:
+                                                                                const Icon(
+                                                                              Icons.remove,
+                                                                              size: 16,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            mHomeViewModel.cartDataList[index].cartCount.toString(),
+                                                                            style:
+                                                                                getAppStyle(
+                                                                              color: Colors.white,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontSize: 14,
+                                                                            ),
+                                                                          ),
+                                                                          GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              incrementItem(index);
+                                                                              setState(() {});
+                                                                            },
+                                                                            child:
+                                                                                const Icon(
+                                                                              Icons.add,
+                                                                              size: 16,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          "₹${mHomeViewModel.cartDataList[index].productPrice}",
+                                                                          style:
+                                                                              getAppStyle(
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontSize:
+                                                                                12,
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                4),
+                                                                        Text(
+                                                                          "₹${mHomeViewModel.cartDataList[index].discountPrice}",
+                                                                          style:
+                                                                              getAppStyle(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                13,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10)
+                                                          ],
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          FittedBox(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 10,
+                                                  right: 15,
+                                                  left: 15),
+                                              child: IntrinsicWidth(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      height: 48,
+                                                      width: 60,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 6),
+                                                      color: Colors.transparent,
+                                                      child: Stack(
+                                                        children: List.generate(
+                                                          // Get the last three items or the total length if less than 3
+                                                          homeViewModel
+                                                                      .cartDataList
+                                                                      .length >
+                                                                  3
+                                                              ? 3
+                                                              : homeViewModel
+                                                                  .cartDataList
+                                                                  .length,
+                                                          (index) {
+                                                            // Calculate the index from the end of the list
+                                                            int reverseIndex =
+                                                                homeViewModel
+                                                                        .cartDataList
+                                                                        .length -
+                                                                    1 -
+                                                                    index;
+
+                                                            return Positioned(
+                                                              left: index * 6,
+                                                              child: Container(
+                                                                height: 48,
+                                                                width: 48,
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        6,
+                                                                    vertical:
+                                                                        2),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  border: Border.all(
+                                                                      color: CommonColors
+                                                                          .mGrey500),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                ),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl: mHomeViewModel
+                                                                          .cartDataList[
+                                                                              reverseIndex]
+                                                                          .image ??
+                                                                      '',
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  placeholder: (context,
+                                                                          url) =>
+                                                                      const Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                      height:
+                                                                          10,
+                                                                      width: 10,
+                                                                      child:
+                                                                          CircularProgressIndicator(),
+                                                                    ),
+                                                                  ),
+                                                                  errorWidget: (context,
+                                                                          url,
+                                                                          error) =>
+                                                                      const Icon(
+                                                                    Icons
+                                                                        .error_outline,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            "${mHomeViewModel.cartDataList.length} Items",
+                                                            style: getAppStyle(
+                                                              color: CommonColors
+                                                                  .blackColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                          const Icon(
+                                                            Icons
+                                                                .arrow_drop_down,
+                                                            color: CommonColors
+                                                                .primaryColor,
+                                                            size: 30,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    kCommonSpaceH15,
+                                                    kCommonSpaceH10,
+                                                    PrimaryButton(
+                                                      height: 50,
+                                                      width: 220,
+                                                      label: "View Cart",
+                                                      buttonColor: CommonColors
+                                                          .primaryColor,
+                                                      labelColor: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      onPress: () {
+                                                        Navigator.pop(context);
+                                                        mainNavKey
+                                                            .currentContext!
+                                                            .read<
+                                                                BottomNavbarViewModel>()
+                                                            .onMenuTapped(3);
+                                                        pushAndRemoveUntil(
+                                                            BottomNavBarView());
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${mHomeViewModel.cartDataList.length} Items",
+                                  style: getAppStyle(
+                                    color: CommonColors.blackColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_drop_up_rounded,
+                                  color: CommonColors.primaryColor,
+                                  size: 30,
+                                )
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          kCommonSpaceH15,
+                          kCommonSpaceH15,
+                          PrimaryButton(
+                            height: 55,
+                            width: 240,
+                            label: "View Cart",
+                            buttonColor: CommonColors.primaryColor,
+                            labelColor: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            onPress: () {
+                              mainNavKey.currentContext!
+                                  .read<BottomNavbarViewModel>()
+                                  .onMenuTapped(3);
+                              pushAndRemoveUntil(BottomNavBarView());
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox();
+        },
       ),
     );
   }

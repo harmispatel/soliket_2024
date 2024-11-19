@@ -122,7 +122,6 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                       scrollDirection: Axis.vertical,
                       itemCount: mViewModel.couponList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        bool isApplied = mViewModel.appliedCoupons[index];
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -130,9 +129,10 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                               borderType: BorderType.RRect,
                               radius: Radius.circular(12),
                               dashPattern: [5, 5, 5, 5],
-                              color: isApplied
-                                  ? Colors.green
-                                  : CommonColors.mGrey300,
+                              color:
+                                  mViewModel.couponList[index].isApplied == 'y'
+                                      ? Colors.green
+                                      : CommonColors.mGrey300,
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -217,12 +217,28 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                           const SizedBox(width: 10),
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                mViewModel
-                                                        .appliedCoupons[index] =
-                                                    !mViewModel
-                                                        .appliedCoupons[index];
-                                              });
+                                              // setState(() {
+                                              //   mViewModel.appliedCoupons[index] = !mViewModel.appliedCoupons[index];
+                                              // });
+                                              if (mViewModel.couponList[index]
+                                                      .isApplied ==
+                                                  'n') {
+                                                mViewModel.applyCouponApi(
+                                                    couponId: mViewModel
+                                                        .couponList[index]
+                                                        .couponId
+                                                        .toString());
+                                              }
+
+                                              if (mViewModel.couponList[index]
+                                                      .isApplied ==
+                                                  'y') {
+                                                mViewModel.removeCouponApi(
+                                                    couponId: mViewModel
+                                                        .couponList[index]
+                                                        .couponId
+                                                        .toString());
+                                              }
                                             },
                                             child: Container(
                                               margin: const EdgeInsets.only(
@@ -235,13 +251,18 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(08),
-                                                color: isApplied
+                                                color: mViewModel
+                                                            .couponList[index]
+                                                            .isApplied ==
+                                                        'y'
                                                     ? Colors.red
                                                     : CommonColors.primaryColor,
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  isApplied
+                                                  mViewModel.couponList[index]
+                                                              .isApplied ==
+                                                          'y'
                                                       ? "Remove"
                                                       : "Apply",
                                                   style: getAppStyle(

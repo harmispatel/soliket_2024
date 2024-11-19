@@ -10,8 +10,13 @@ import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/view/cart/cart_view_model.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
 import 'package:solikat_2024/view/home/search/search_view.dart';
+import 'package:solikat_2024/view/home/search/search_view_model.dart';
 import 'package:solikat_2024/view/home/section_designs.dart';
 import 'package:solikat_2024/view/home/shimmer_effect.dart';
+import 'package:solikat_2024/view/home/sub_brand/sub_brand_view_model.dart';
+import 'package:solikat_2024/view/home/sub_category/sub_category_view_model.dart';
+import 'package:solikat_2024/view/home/sub_offer/sub_offer_view_model.dart';
+import 'package:solikat_2024/view/home/view_all_products/view_all_products_view_model.dart';
 import 'package:solikat_2024/widget/common_text_field.dart';
 import 'package:solikat_2024/widget/primary_button.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -36,35 +41,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<String> imgList = [
-    'https://img.freepik.com/free-photo/fresh-pasta-with-hearty-bolognese-parmesan-cheese-generated-by-ai_188544-9469.jpg',
-    'https://thumbs.dreamstime.com/b/generative-ai-fruits-vegetables-arranged-heart-shape-healthy-food-nutrition-concept-isolated-business-generative-ai-315051475.jpg',
-    'https://img.freepik.com/premium-photo/art-italian-dining-food-stock-photography_1036998-625.jpg',
-    'https://img.freepik.com/premium-photo/italian-food_708558-399.jpg',
-  ];
-
-  final List<String> images = [
-    'https://5.imimg.com/data5/SELLER/Default/2022/1/RY/QF/PW/120561215/aashirvaad-1kg-multi-grain-atta.jpg',
-    'https://m.media-amazon.com/images/I/61Y1PZx5CZL.jpg',
-    'https://ueirorganic.com/cdn/shop/files/purecowghee.jpg?v=1689066451',
-    'https://www.jiomart.com/images/product/original/490861956/madhur-pure-hygienic-sugar-5-kg-product-images-o490861956-p490861956-0-202208221852.jpg?im=Resize=(420,420)',
-    'https://www.bigbasket.com/media/uploads/p/xl/40235864_1-don-monte-american-mix-dry-fruits-vitamins-minerals-fibre-rich-assorted-healthy-nuts.jpg',
-    'https://www.jiomart.com/images/product/original/rvcy9i9zh7/aachari-pickel-bittergourd-pickle-400gm-i-karele-ka-achar-product-images-orvcy9i9zh7-p597828449-0-202301242131.jpg?im=Resize=(420,420)',
-    'https://cdn.justgotochef.com/uploads/1572864347-DNV-Moong%20Udad%20Handmade%20Flavoured%20Spicy%20Special%20Masala%20Papad,%20100gm-Front.jpg',
-    'https://www.jiomart.com/images/product/original/rvhnbrzv9i/naturoz-mixed-dry-fruits-200-g-pack-of-5-product-images-orvhnbrzv9i-p590318090-0-202212141041.jpg?im=Resize=(420,420)',
-  ];
-
-  final List<String> text = [
-    "oil & ghee",
-    "oil & ghee & sugar",
-    "ghee",
-    "sugar",
-    "dry fruit",
-    "atta",
-    "oil & ghee & basson",
-    "oil & ghee",
-  ];
-
   final ScrollController _scrollController = ScrollController();
   late FocusNode _searchFocusNode = FocusNode();
   TextEditingController nameController = TextEditingController();
@@ -77,6 +53,11 @@ class _HomeViewState extends State<HomeView> {
   late EditAccountViewModel mProfileViewModel;
   late HomeViewModel mViewModel;
   late CartViewModel mCartViewModel;
+  late SubCategoryViewModel mSubCategoryViewModel;
+  late SubOfferViewModel mOfferViewModel;
+  late SubBrandViewModel mBrandViewModel;
+  late SearchViewModel mSearchViewModel;
+  late ViewAllProductsViewModel mAllProductViewModel;
   stt.SpeechToText _speechToText = stt.SpeechToText();
   TextEditingController searchController = TextEditingController();
   bool _isListening = false;
@@ -95,10 +76,15 @@ class _HomeViewState extends State<HomeView> {
       mViewModel.attachedContext(context);
       _pageController = PageController();
       mCartViewModel.attachedContext(context);
+      mSubCategoryViewModel.attachedContext(context);
+      mBrandViewModel.attachedContext(context);
+      mOfferViewModel.attachedContext(context);
+      mSearchViewModel.attachedContext(context);
+      mAllProductViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
       _initializeSpeechRecognition();
 
-      // mCartViewModel.getCartApi();
+      mViewModel.getCartApi();
       if (!mViewModel.isPageFinish) {
         mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
       }
@@ -320,18 +306,10 @@ class _HomeViewState extends State<HomeView> {
   }
 
   fetchAll(String from) {
-    // mViewModel.resetPage();
     if (!mViewModel.isPageFinish) {
       mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
     }
   }
-
-  final List<String> imageUrls = [
-    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-    "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2024/7/18/510edaab-8c6a-4a47-a1d4-7aa2c539d6cf_chipsnachosandpopcorn_G6YR13TFQG_MN.png",
-  ];
 
   late final PageController _pageController;
   int currentPageIndex = 0;
@@ -464,7 +442,12 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     mProfileViewModel = Provider.of<EditAccountViewModel>(context);
     mCartViewModel = Provider.of<CartViewModel>(context);
+    mSubCategoryViewModel = Provider.of<SubCategoryViewModel>(context);
     mViewModel = Provider.of<HomeViewModel>(context);
+    mBrandViewModel = Provider.of<SubBrandViewModel>(context);
+    mOfferViewModel = Provider.of<SubOfferViewModel>(context);
+    mSearchViewModel = Provider.of<SearchViewModel>(context);
+    mAllProductViewModel = Provider.of<ViewAllProductsViewModel>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
           statusBarColor: CommonColors.grayShade200,
@@ -531,7 +514,7 @@ class _HomeViewState extends State<HomeView> {
                                   // profileDialog(context);
                                   mainNavKey.currentContext!
                                       .read<BottomNavbarViewModel>()
-                                      .onMenuTapped(1);
+                                      .onMenuTapped(4);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -590,13 +573,28 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Container(
                       color: Colors.white,
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.only(left: 15, right: 15, bottom: 4),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 4),
                         child: CommonTextField(
                           hintText: "Search",
                           isPrefixIconButton: true,
                           suffixIcon: Icons.mic,
+                          readOnly: true,
+                          onSuffixIconPressed: () {
+                            if (_isListening) {
+                              _stopListening();
+                            } else {
+                              _startListening();
+                            }
+                          },
+                          onTap: () {
+                            push(
+                              SearchView(
+                                voiceText: '',
+                              ),
+                            );
+                          },
                           isIconButton: true,
                         ),
                       ),
@@ -683,32 +681,116 @@ class _HomeViewState extends State<HomeView> {
                               GestureDetector(
                                 onTap: () {
                                   void incrementItem(int index) {
-                                    // for (var section4Item
-                                    //     in mViewModel.section4DataList) {
-                                    //   // Loop through the `mViewModel.cartDataList`
-                                    //   for (var cartItem in mViewModel.cartDataList) {
-                                    //     // If variantId matches
-                                    //     if (cartItem.variantId ==
-                                    //         section4Item.variantId) {
-                                    //       // Now, check if the cart count can be incremented
-                                    //       if ((cartItem.cartCount ?? 0) <
-                                    //           (cartItem.stock ?? 0)) {
-                                    //         setState(() {
-                                    //           cartItem.cartCount =
-                                    //               (cartItem.cartCount ?? 0) + 1;
-                                    //         });
-                                    //         print(
-                                    //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                    //       }
-                                    //     }
-                                    //   }
-                                    // }
                                     if ((homeViewModel.cartDataList[index]
                                                 .cartCount ??
                                             0) <
                                         (mViewModel.cartDataList[index].stock ??
                                             0)) {
                                       setState(() {
+                                        for (var item
+                                            in mViewModel.section4DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mViewModel.section9DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount = item.cartCount + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mSubCategoryViewModel
+                                            .categoryProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mBrandViewModel
+                                            .brandProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mOfferViewModel
+                                            .offerProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mSearchViewModel.productList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mAllProductViewModel
+                                            .viewAllProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) + 1;
+                                            break;
+                                          }
+                                        }
+
                                         mViewModel.cartDataList[index]
                                             .cartCount = (homeViewModel
                                                     .cartDataList[index]
@@ -716,14 +798,16 @@ class _HomeViewState extends State<HomeView> {
                                                 0) +
                                             1;
                                       });
+
                                       mViewModel.addToCartApi(
-                                          variantId: homeViewModel
-                                              .cartDataList[index].variantId
-                                              .toString(),
-                                          type: 'p');
+                                        variantId: homeViewModel
+                                            .cartDataList[index].variantId
+                                            .toString(),
+                                        type: 'p',
+                                      );
                                     } else {
                                       print(
-                                          ".......Sorry this product have only ${mViewModel.cartDataList[index].stock} in a stock......");
+                                          ".......Sorry this product have only ${mViewModel.cartDataList[index].stock} in stock......");
                                       String msg =
                                           "Only ${mViewModel.cartDataList[index].stock} product available in stock";
                                       CommonUtils.showSnackBar(msg,
@@ -732,31 +816,115 @@ class _HomeViewState extends State<HomeView> {
                                   }
 
                                   void decrementItem(int index) {
-                                    // for (var section4Item
-                                    //     in mViewModel.section4DataList) {
-                                    //   // Loop through the `mViewModel.cartDataList`
-                                    //   for (var cartItem in mViewModel.cartDataList) {
-                                    //     // If variantId matches
-                                    //     if (cartItem.variantId ==
-                                    //         section4Item.variantId) {
-                                    //       // Now, check if the cart count can be incremented
-                                    //       if ((cartItem.cartCount ?? 0) <
-                                    //           (cartItem.stock ?? 0)) {
-                                    //         setState(() {
-                                    //           cartItem.cartCount =
-                                    //               (cartItem.cartCount ?? 0) - 1;
-                                    //         });
-                                    //         print(
-                                    //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                    //       }
-                                    //     }
-                                    //   }
-                                    // }
                                     if ((homeViewModel.cartDataList[index]
                                                 .cartCount ??
                                             0) >
                                         1) {
                                       setState(() {
+                                        for (var item
+                                            in mViewModel.section4DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mViewModel.section9DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount = item.cartCount - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mSubCategoryViewModel
+                                            .categoryProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mBrandViewModel
+                                            .brandProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mOfferViewModel
+                                            .offerProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mSearchViewModel.productList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mAllProductViewModel
+                                            .viewAllProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
                                         mViewModel.cartDataList[index]
                                             .cartCount = (homeViewModel
                                                     .cartDataList[index]
@@ -764,6 +932,7 @@ class _HomeViewState extends State<HomeView> {
                                                 0) -
                                             1;
                                       });
+
                                       mViewModel.addToCartApi(
                                           variantId: homeViewModel
                                               .cartDataList[index].variantId
@@ -772,35 +941,123 @@ class _HomeViewState extends State<HomeView> {
                                     } else if (homeViewModel
                                             .cartDataList[index].cartCount ==
                                         1) {
-                                      // for (var section4Item
-                                      //     in mViewModel.section4DataList) {
-                                      //   // Loop through the `mViewModel.cartDataList`
-                                      //   for (var cartItem
-                                      //       in mViewModel.cartDataList) {
-                                      //     // If variantId matches
-                                      //     if (cartItem.variantId ==
-                                      //         section4Item.variantId) {
-                                      //       // Now, check if the cart count can be incremented
-                                      //       if ((cartItem.cartCount ?? 0) <
-                                      //           (cartItem.stock ?? 0)) {
-                                      //         setState(() {
-                                      //           cartItem.cartCount =
-                                      //               (cartItem.cartCount ?? 0) - 1;
-                                      //         });
-                                      //         print(
-                                      //             "Updated cart count for variantId ${section4Item.variantId}: ${cartItem.cartCount}");
-                                      //       }
-                                      //     }
-                                      //   }
-                                      // }
                                       mViewModel.addToCartApi(
                                           variantId: homeViewModel
                                               .cartDataList[index].variantId
                                               .toString(),
                                           type: 'm');
+
                                       setState(() {
+                                        for (var item
+                                            in mViewModel.section4DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount = item.cartCount - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mViewModel.section9DataList) {
+                                          if (mViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount = item.cartCount - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mSubCategoryViewModel
+                                            .categoryProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mBrandViewModel
+                                            .brandProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mOfferViewModel
+                                            .offerProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item
+                                            in mSearchViewModel.productList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
+                                        for (var item in mAllProductViewModel
+                                            .viewAllProductList) {
+                                          if (homeViewModel
+                                                  .cartDataList[index].variantId
+                                                  ?.toString()
+                                                  .trim() ==
+                                              item.variantId
+                                                  .toString()
+                                                  .trim()) {
+                                            item.cartCount =
+                                                (item.cartCount ?? 0) - 1;
+                                            break;
+                                          }
+                                        }
+
                                         mViewModel.cartDataList.removeAt(index);
                                       });
+
+                                      if (homeViewModel.cartDataList.length ==
+                                          0) {
+                                        Navigator.pop(context);
+                                      }
                                     }
                                   }
 
@@ -845,7 +1102,8 @@ class _HomeViewState extends State<HomeView> {
                                                                       .black54),
                                                             ),
                                                             Text(
-                                                              "₹542",
+                                                              mViewModel
+                                                                  .cartTotalPrice,
                                                               style: getAppStyle(
                                                                   fontWeight:
                                                                       FontWeight

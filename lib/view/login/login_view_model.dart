@@ -1,12 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:solikat_2024/utils/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../database/app_preferences.dart';
 import '../../models/app_version_master.dart';
 import '../../models/login_master.dart';
 import '../../services/api_para.dart';
@@ -82,9 +80,9 @@ class LoginViewModel with ChangeNotifier {
   }
 
   Future<void> getAppVersionApi() async {
-    CommonUtils.showProgressDialog();
+    // CommonUtils.showProgressDialog();
     AppVersionMaster? master = await _services.api!.getAppVersionApi();
-    CommonUtils.hideProgressDialog();
+    // CommonUtils.hideProgressDialog();
     isInitialLoading = false;
     if (master == null) {
       CommonUtils.oopsMSG();

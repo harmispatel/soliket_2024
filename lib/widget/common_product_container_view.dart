@@ -3,6 +3,8 @@ import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
 class ProductContainer extends StatefulWidget {
+  final String productId;
+  final String variantId;
   final String imgUrl;
   final String productName;
   final String variantName;
@@ -11,13 +13,15 @@ class ProductContainer extends StatefulWidget {
   final dynamic discountPrice;
   final dynamic productPrice;
   final double? width;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
+  final Function onIncrement;
+  final Function onDecrement;
   final int cartCount;
 
   const ProductContainer({
     super.key,
+    required this.productId,
     required this.imgUrl,
+    required this.variantId,
     required this.productName,
     this.width,
     required this.onIncrement,
@@ -157,7 +161,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   GestureDetector(
-                                    onTap: widget.onDecrement,
+                                    onTap: () => widget.onDecrement(),
                                     child: const Icon(
                                       Icons.remove,
                                       size: 16,
@@ -173,7 +177,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: widget.onIncrement,
+                                    onTap: () => widget.onIncrement(),
                                     child: const Icon(
                                       Icons.add,
                                       size: 16,
@@ -184,7 +188,7 @@ class _ProductContainerState extends State<ProductContainer> {
                               ),
                             )
                           : InkWell(
-                              onTap: widget.onIncrement,
+                              onTap: () => widget.onIncrement(),
                               child: Container(
                                 width: 100,
                                 height: 35,

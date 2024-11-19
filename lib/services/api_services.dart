@@ -14,6 +14,7 @@ import '../models/app_version_master.dart';
 import '../models/button_product_master.dart';
 import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
+import '../models/category_master.dart';
 import '../models/category_product_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
@@ -661,6 +662,83 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return AppVersionMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> setDefaultAddress({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.SET_DEFAULT_ADDRESS,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CategoryMaster?> getCategoryApi() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_CATEGORY,
+    );
+    if (response != null) {
+      try {
+        return CategoryMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> applyCoupon({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.APPLY_COUPON,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> removeCoupon({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.REMOVE_COUPON,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

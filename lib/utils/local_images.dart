@@ -20,6 +20,9 @@ class LocalImages {
   static const String speakingGif = 'assets/images/speaking.gif';
   static const String noProductGif = 'assets/images/no_product.gif';
   static const String img_notification = 'assets/images/img_notification.png';
+  static const String img_app_logo = 'assets/images/img_app_logo.png';
+  static const String img_total_saving_bg =
+      'assets/images/img_total_saving_bg.png';
   static const String img_brand_spotlight =
       'assets/images/img_brand_spotlight.png';
   static const String img_location_disable =

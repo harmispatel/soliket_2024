@@ -323,7 +323,8 @@ class Section9Data {
           : [],
       setting: json['setting'] != null
           ? Section9Setting.fromJson(json['setting'])
-          : Section9Setting(backgroundImage: '', buttonColor: ''),
+          : Section9Setting(
+              backgroundImage: '', buttonColor: '', categoryId: ''),
     );
   }
 }
@@ -375,16 +376,19 @@ class Section9Product {
 class Section9Setting {
   String backgroundImage;
   String buttonColor;
+  String categoryId;
 
   Section9Setting({
     required this.backgroundImage,
     required this.buttonColor,
+    required this.categoryId,
   });
 
   factory Section9Setting.fromJson(Map<String, dynamic> json) {
     return Section9Setting(
       backgroundImage: json['background_image'] ?? '',
       buttonColor: json['button_color'] ?? '',
+      categoryId: json['category_id'] ?? '',
     );
   }
 }

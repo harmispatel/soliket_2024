@@ -46,7 +46,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
       onWillPop: () async {
         mainNavKey.currentContext!
             .read<BottomNavbarViewModel>()
-            .onMenuTapped(1);
+            .onMenuTapped(4);
 
         Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
@@ -84,8 +84,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
             onPressed: () {
               mainNavKey.currentContext!
                   .read<BottomNavbarViewModel>()
-                  .onMenuTapped(1);
-
+                  .onMenuTapped(4);
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>

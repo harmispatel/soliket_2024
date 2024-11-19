@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pinput/pinput.dart';
+import 'package:solikat_2024/utils/local_images.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../generated/i18n.dart';
@@ -433,6 +434,7 @@ class CommonUtils {
           ),
           child: Text(
             message!,
+            style: getAppStyle(color: CommonColors.mWhite),
             textAlign: TextAlign.center,
           ),
         ),
@@ -487,12 +489,49 @@ class CommonUtils {
 
   static void showRedToastMessage(String message) {
     Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 13);
+  }
+
+  static void showCustomToast(BuildContext context, String msg) {
+    FToast fToast = FToast();
+    fToast.init(context);
+
+    Widget toast = Padding(
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Color(0xfffddcbb),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              LocalImages.img_app_logo,
+              width: 34.0,
+              height: 34.0,
+              fit: BoxFit.fill,
+            ),
+            const SizedBox(width: 5.0),
+            Text(
+              msg,
+              style: getAppStyle(color: Colors.black),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0,
+      toastDuration: const Duration(seconds: 2),
     );
   }
 

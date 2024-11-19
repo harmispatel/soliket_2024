@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
+import '../../../models/common_master.dart';
 import '../../../models/coupon_master.dart';
+import '../../../services/api_para.dart';
 
 class CouponViewModel with ChangeNotifier {
   late BuildContext context;
@@ -34,6 +36,60 @@ class CouponViewModel with ChangeNotifier {
       log("Success :: true");
       couponList = master.data ?? [];
       appliedCoupons = List.generate(couponList.length, (_) => false);
+    }
+    notifyListeners();
+  }
+
+  Future<void> applyCouponApi({
+    required String couponId,
+  }) async {
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.coupon_id: couponId,
+    };
+
+    CommonMaster? master = await _services.api!.applyCoupon(params: params);
+
+    notifyListeners();
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      return;
+    }
+
+    if (master.status == false) {
+      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      return;
+    }
+
+    if (master.status == true) {
+      getCouponApi();
+    }
+    notifyListeners();
+  }
+
+  Future<void> removeCouponApi({
+    required String couponId,
+  }) async {
+    Map<String, dynamic> params = <String, dynamic>{
+      ApiParams.coupon_id: couponId,
+    };
+
+    CommonMaster? master = await _services.api!.removeCoupon(params: params);
+
+    notifyListeners();
+
+    if (master == null) {
+      CommonUtils.oopsMSG();
+      return;
+    }
+
+    if (master.status == false) {
+      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      return;
+    }
+
+    if (master.status == true) {
+      getCouponApi();
     }
     notifyListeners();
   }

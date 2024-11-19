@@ -25,4 +25,5 @@ class ApiParams {
   static const String offer_id = "offer_id";
   static const String product_id = "product_id";
   static const String keyword = "keyword";
+  static const String coupon_id = "coupon_id";
 }
