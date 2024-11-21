@@ -43,11 +43,13 @@ class CouponViewModel with ChangeNotifier {
   Future<void> applyCouponApi({
     required String couponId,
   }) async {
+    CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.coupon_id: couponId,
     };
 
     CommonMaster? master = await _services.api!.applyCoupon(params: params);
+    CommonUtils.hideProgressDialog();
 
     notifyListeners();
 
@@ -70,11 +72,14 @@ class CouponViewModel with ChangeNotifier {
   Future<void> removeCouponApi({
     required String couponId,
   }) async {
+    CommonUtils.showProgressDialog();
+
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.coupon_id: couponId,
     };
 
     CommonMaster? master = await _services.api!.removeCoupon(params: params);
+    CommonUtils.hideProgressDialog();
 
     notifyListeners();
 

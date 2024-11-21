@@ -28,6 +28,7 @@ import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
 import '../models/transaction_history_master.dart';
+import '../models/update_bill_details_master.dart';
 
 abstract class BaseServices {
   Future<LoginMaster?> login({
@@ -145,6 +146,12 @@ abstract class BaseServices {
   });
 
   Future<CommonMaster?> removeCoupon({
+    required Map<String, dynamic> params,
+  });
+
+  Future<UpdateBillDetailsMaster?> updateBillDetails();
+
+  Future<CommonMaster?> checkDeliveryAvailable({
     required Map<String, dynamic> params,
   });
 }

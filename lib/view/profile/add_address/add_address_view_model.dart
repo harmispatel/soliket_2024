@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:solikat_2024/view/cart/checkout/check_out_view.dart';
 
 import '../../../../models/common_master.dart';
 import '../../../../services/api_para.dart';
@@ -13,6 +14,7 @@ import '../save_address/saved_address_view_model.dart';
 class AddAddressViewModel with ChangeNotifier {
   late BuildContext context;
   final _services = Services();
+  bool isFromCart = false;
 
   void attachedContext(BuildContext context) {
     this.context = context;
@@ -28,6 +30,7 @@ class AddAddressViewModel with ChangeNotifier {
     required String address,
     required String houseName,
     required String type,
+    required String isDefault,
   }) async {
     CommonUtils.showProgressDialog();
     Map<String, dynamic> params = <String, dynamic>{
@@ -39,6 +42,7 @@ class AddAddressViewModel with ChangeNotifier {
       ApiParams.address: address,
       ApiParams.house_name: houseName,
       ApiParams.type: type,
+      ApiParams.is_default: isDefault,
     };
 
     log("Parameter : ${params}");
@@ -58,7 +62,11 @@ class AddAddressViewModel with ChangeNotifier {
 
     if (master.status == true) {
       log("Success :: true");
-      push(SaveAddressView());
+      if (isFromCart) {
+        push(CheckOutView());
+      } else {
+        push(SaveAddressView());
+      }
       SavedAddressViewModel().getAddressApi();
     }
     notifyListeners();

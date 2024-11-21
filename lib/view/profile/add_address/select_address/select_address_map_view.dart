@@ -18,7 +18,8 @@ import '../add_address_view.dart';
 import '../edit_address/edit_address_view.dart';
 
 class SelectAddressMapView extends StatefulWidget {
-  late final bool isFromEdit;
+  bool? isFromEdit;
+  bool? isFromCart;
   final LatLng? selectedPlace;
   final String? addressType;
   final String? houseNo;
@@ -27,6 +28,7 @@ class SelectAddressMapView extends StatefulWidget {
   SelectAddressMapView(
       {this.selectedPlace,
       required this.isFromEdit,
+      this.isFromCart,
       this.addressType,
       this.houseNo,
       this.roadName});
@@ -66,6 +68,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
   @override
   void dispose() {
     widget.isFromEdit = false;
+    widget.isFromCart = false;
     super.dispose();
   }
 
@@ -338,7 +341,10 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                       }
                                       push(
                                         SelectAddressSearchView(
-                                          isFromEdit: widget.isFromEdit,
+                                          isFromEdit:
+                                              widget.isFromEdit ?? false,
+                                          isFromCart:
+                                              widget.isFromCart ?? false,
                                           roadName: widget.roadName,
                                           houseNo: widget.houseNo,
                                           addressType: widget.addressType,
@@ -420,6 +426,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                       longitude:
                                           _currentPosition?.longitude ?? 0,
                                       currentAddress: _currentAddress,
+                                      isFromCart: widget.isFromCart ?? false,
                                     ));
                                   } else if (_currentPosition != null &&
                                       widget.isFromEdit != false) {

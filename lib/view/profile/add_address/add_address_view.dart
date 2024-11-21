@@ -16,12 +16,15 @@ class AddAddressView extends StatefulWidget {
   final double latitude;
   final double longitude;
   final String currentAddress;
+  final bool isFromCart;
 
-  const AddAddressView(
-      {super.key,
-      required this.latitude,
-      required this.longitude,
-      required this.currentAddress});
+  const AddAddressView({
+    super.key,
+    required this.latitude,
+    required this.longitude,
+    required this.currentAddress,
+    required this.isFromCart,
+  });
 
   @override
   State<AddAddressView> createState() => _AddAddressViewState();
@@ -33,7 +36,6 @@ class _AddAddressViewState extends State<AddAddressView> {
   TextEditingController edNameController = TextEditingController();
   TextEditingController edPhoneNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   int selectedIndex = 0;
   String selectedAddressType = 'Home';
   final List<String> addressTypes = ["Home", "Work", "Other"];
@@ -51,6 +53,7 @@ class _AddAddressViewState extends State<AddAddressView> {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      mViewModel.isFromCart = widget.isFromCart;
       edNameController.text = globalUserMaster?.name ?? '';
       edPhoneNumberController.text = globalUserMaster?.mobile ?? '';
     });
@@ -328,7 +331,8 @@ class _AddAddressViewState extends State<AddAddressView> {
                     area: edRoadNameController.text,
                     address: widget.currentAddress,
                     houseName: edHouseNoController.text,
-                    type: selectedAddressType);
+                    type: selectedAddressType,
+                    isDefault: widget.isFromCart ? "y" : "n");
               }
             },
           ),

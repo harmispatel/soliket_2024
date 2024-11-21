@@ -32,6 +32,7 @@ import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
 import '../models/transaction_history_master.dart';
+import '../models/update_bill_details_master.dart';
 import 'base_client.dart';
 import 'base_services.dart';
 
@@ -734,6 +735,43 @@ class ApiServices extends BaseServices {
   }) async {
     dynamic response = await appBaseClient.postFormDataApiCall(
       url: ApiUrl.REMOVE_COUPON,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<UpdateBillDetailsMaster?> updateBillDetails() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.UPDATE_BILL_DETAILS,
+    );
+    if (response != null) {
+      try {
+        return UpdateBillDetailsMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> checkDeliveryAvailable({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.CHECK_DELIVERY_AVAILABLE,
       postParams: params,
     );
     if (response != null) {

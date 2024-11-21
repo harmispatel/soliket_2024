@@ -36,12 +36,14 @@ class PlacesService {
 
 class SelectAddressSearchView extends StatefulWidget {
   final bool isFromEdit;
+  bool? isFromCart;
   final String? addressType;
   final String? houseNo;
   final String? roadName;
-  const SelectAddressSearchView(
+  SelectAddressSearchView(
       {super.key,
       required this.isFromEdit,
+      this.isFromCart,
       this.addressType,
       this.houseNo,
       this.roadName});
@@ -319,6 +321,7 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
                                   SelectAddressMapView(
                                     selectedPlace: latLng,
                                     isFromEdit: widget.isFromEdit,
+                                    isFromCart: widget.isFromCart,
                                     roadName: widget.roadName,
                                     houseNo: widget.houseNo,
                                     addressType: widget.addressType,

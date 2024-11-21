@@ -14,7 +14,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widget/primary_button.dart';
-import '../cart/checkout/check_out_view.dart';
 import '../my_orders/my_orders_view.dart';
 import 'about_us/about_us_view.dart';
 import 'contact_us/contact_us_view.dart';
@@ -252,9 +251,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             kCommonSpaceV20,
             GestureDetector(
-              onTap: () {
-                push(CheckOutView());
-              },
+              onTap: () {},
               child: Center(
                 child: Text(
                   "v2.6.1.5(198)",

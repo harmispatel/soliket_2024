@@ -9,6 +9,7 @@ import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
+import '../../../utils/local_images.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../add_address/edit_address/edit_address_view.dart';
@@ -140,6 +141,8 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Image.asset(height: 130, LocalImages.img_delivery_boy),
+                      kCommonSpaceV10,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 60),
                         child: Text(

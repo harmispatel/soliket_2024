@@ -7,6 +7,7 @@ import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../../widget/common_appbar.dart';
+import '../../../widget/primary_button.dart';
 import '../../profile/edit_account/edit_account_view.dart';
 
 class CouponsOffersView extends StatefulWidget {
@@ -31,6 +32,12 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
   }
 
   @override
+  void dispose() {
+    mViewModel.couponList.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<CouponViewModel>(context);
     return Scaffold(
@@ -52,16 +59,19 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
               labelText: "Enter Coupon Code",
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: Container(
-                  width: 80,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      color: CommonColors.mGrey300,
-                      borderRadius: BorderRadius.circular(6)),
-                  child: Center(
-                    child: Text(
-                      "Apply",
-                      style: getAppStyle(color: CommonColors.mGrey),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 80,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        color: CommonColors.mGrey300,
+                        borderRadius: BorderRadius.circular(6)),
+                    child: Center(
+                      child: Text(
+                        "Apply",
+                        style: getAppStyle(color: CommonColors.mGrey),
+                      ),
                     ),
                   ),
                 ),
@@ -129,10 +139,13 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                               borderType: BorderType.RRect,
                               radius: Radius.circular(12),
                               dashPattern: [5, 5, 5, 5],
-                              color:
-                                  mViewModel.couponList[index].isApplied == 'y'
-                                      ? Colors.green
-                                      : CommonColors.mGrey300,
+                              color: mViewModel.couponList[index].isApplied ==
+                                      'y'
+                                  ? Colors.green
+                                  : mViewModel.couponList[index].isEnabled ==
+                                          "n"
+                                      ? CommonColors.mGrey300
+                                      : Colors.black26,
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -155,10 +168,39 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.network(
-                                            mViewModel.couponList[index].icon ??
-                                                '',
-                                            height: 40,
+                                          Stack(
+                                            children: [
+                                              if (mViewModel.couponList[index]
+                                                      .isEnabled ==
+                                                  "y")
+                                                Image.network(
+                                                  mViewModel.couponList[index]
+                                                          .icon ??
+                                                      '',
+                                                  height: 40,
+                                                ),
+                                              if (mViewModel.couponList[index]
+                                                      .isEnabled ==
+                                                  "n")
+                                                Center(
+                                                  child: ColorFiltered(
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                      Colors.white
+                                                          .withOpacity(0.5),
+                                                      BlendMode
+                                                          .srcOver, // Blend mode for overlay
+                                                    ),
+                                                    child: Image.network(
+                                                      mViewModel
+                                                              .couponList[index]
+                                                              .icon ??
+                                                          '',
+                                                      height: 40,
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
                                           ),
                                           const SizedBox(width: 10),
                                           GestureDetector(
@@ -176,8 +218,14 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(08),
-                                                color: CommonColors.primaryColor
-                                                    .withOpacity(0.2),
+                                                color: mViewModel
+                                                            .couponList[index]
+                                                            .isEnabled ==
+                                                        "n"
+                                                    ? CommonColors.mGrey500
+                                                        .withOpacity(0.1)
+                                                    : CommonColors.primaryColor
+                                                        .withOpacity(0.2),
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -185,8 +233,14 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                           .couponCode ??
                                                       '',
                                                   style: getAppStyle(
-                                                    color: CommonColors
-                                                        .primaryColor,
+                                                    color: mViewModel
+                                                                .couponList[
+                                                                    index]
+                                                                .isEnabled ==
+                                                            "n"
+                                                        ? CommonColors.black45
+                                                        : CommonColors
+                                                            .primaryColor,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 13,
                                                   ),
@@ -208,7 +262,12 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: getAppStyle(
-                                                color: Colors.black,
+                                                color: mViewModel
+                                                            .couponList[index]
+                                                            .isEnabled ==
+                                                        "n"
+                                                    ? CommonColors.black45
+                                                    : Colors.black,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 13,
                                               ),
@@ -221,13 +280,29 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                               //   mViewModel.appliedCoupons[index] = !mViewModel.appliedCoupons[index];
                                               // });
                                               if (mViewModel.couponList[index]
-                                                      .isApplied ==
-                                                  'n') {
-                                                mViewModel.applyCouponApi(
-                                                    couponId: mViewModel
-                                                        .couponList[index]
-                                                        .couponId
-                                                        .toString());
+                                                          .isApplied ==
+                                                      'n' &&
+                                                  mViewModel.couponList[index]
+                                                          .isEnabled ==
+                                                      "y") {
+                                                mViewModel
+                                                    .applyCouponApi(
+                                                        couponId: mViewModel
+                                                            .couponList[index]
+                                                            .couponId
+                                                            .toString())
+                                                    .whenComplete(() {
+                                                  Navigator.pop(context);
+                                                  _showApplyCouponDialog(
+                                                    context,
+                                                    mViewModel.couponList[index]
+                                                            .couponCode ??
+                                                        '',
+                                                    mViewModel.couponList[index]
+                                                            .message ??
+                                                        '',
+                                                  );
+                                                });
                                               }
 
                                               if (mViewModel.couponList[index]
@@ -256,7 +331,14 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                             .isApplied ==
                                                         'y'
                                                     ? Colors.red
-                                                    : CommonColors.primaryColor,
+                                                    : mViewModel
+                                                                .couponList[
+                                                                    index]
+                                                                .isEnabled ==
+                                                            "n"
+                                                        ? CommonColors.mGrey300
+                                                        : CommonColors
+                                                            .primaryColor,
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -266,7 +348,13 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                       ? "Remove"
                                                       : "Apply",
                                                   style: getAppStyle(
-                                                    color: Colors.white,
+                                                    color: mViewModel
+                                                                .couponList[
+                                                                    index]
+                                                                .isEnabled ==
+                                                            "n"
+                                                        ? CommonColors.black45
+                                                        : Colors.white,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 13,
                                                   ),
@@ -286,7 +374,12 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                           style: getAppStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12,
-                                              color: CommonColors.primaryColor),
+                                              color: mViewModel
+                                                          .couponList[index]
+                                                          .isEnabled ==
+                                                      "n"
+                                                  ? CommonColors.black45
+                                                  : CommonColors.primaryColor),
                                         ),
                                       ),
                                     ],
@@ -294,18 +387,19 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(top: 4, bottom: 12, left: 7),
-                              child: Text(
-                                "Buy items worth ₹3363.0 to avail this offer",
-                                style: getAppStyle(
-                                  color: Colors.red,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
+                            kCommonSpaceV15,
+                            // Padding(
+                            //   padding:
+                            //       EdgeInsets.only(top: 4, bottom: 12, left: 7),
+                            //   child: Text(
+                            //     "Buy items worth ₹3363.0 to avail this offer",
+                            //     style: getAppStyle(
+                            //       color: Colors.red,
+                            //       fontSize: 13,
+                            //       fontWeight: FontWeight.w600,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         );
                       },
@@ -314,6 +408,80 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showApplyCouponDialog(
+      BuildContext context, String coupon, String message) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: CommonColors.mGrey200),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.close,
+                          size: 15,
+                          color: CommonColors.mGrey500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  "$coupon applied",
+                  style: getAppStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff0a5d00),
+                      fontSize: 18),
+                ),
+                kCommonSpaceV10,
+                Image.network(
+                    height: 80,
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaysv5S3umspA7i8mwLxeDL7ZtZF9jtgAmHkBUpQOHI63iNGb7H5jENnmMtO-DIIrCD1k&usqp=CAU"),
+                kCommonSpaceV20,
+                Text(
+                  "$message",
+                  style: getAppStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff0a5d00),
+                      fontSize: 22),
+                ),
+                Text(
+                  "with this coupon",
+                  style: getAppStyle(color: Color(0xff0a5d00), fontSize: 18),
+                ),
+                kCommonSpaceV20,
+                PrimaryButton(
+                  height: 50,
+                  width: 220,
+                  label: "Yay! Thanks",
+                  buttonColor: CommonColors.greenColor.withOpacity(0.2),
+                  labelColor: Color(0xff0a5d00),
+                  borderRadius: BorderRadius.circular(8),
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
