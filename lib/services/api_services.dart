@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:solikat_2024/models/brand_product_master.dart';
 import 'package:solikat_2024/models/coupon_master.dart';
+import 'package:solikat_2024/models/get_order_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/models/product_details_master.dart';
 import 'package:solikat_2024/services/api_url.dart';
@@ -16,6 +17,7 @@ import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_master.dart';
 import '../models/category_product_master.dart';
+import '../models/check_delivery_available_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
@@ -24,6 +26,8 @@ import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/notification_master.dart';
 import '../models/offer_product_master.dart';
+import '../models/order_details_master.dart';
+import '../models/order_master.dart';
 import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
 import '../models/return_policy_master.dart';
@@ -767,7 +771,7 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<CommonMaster?> checkDeliveryAvailable({
+  Future<CheckDeliveryAvailableMaster?> checkDeliveryAvailable({
     required Map<String, dynamic> params,
   }) async {
     dynamic response = await appBaseClient.postFormDataApiCall(
@@ -776,7 +780,87 @@ class ApiServices extends BaseServices {
     );
     if (response != null) {
       try {
+        return CheckDeliveryAvailableMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<OrderMaster?> placeOrder({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.PLACE_ORDER,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return OrderMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<CommonMaster?> confirmOrder({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.CONFIRM_ORDER,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
         return CommonMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<GetOrderMaster?> getOrder({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.MY_ORDER,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return GetOrderMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<OrderDetailsMaster?> getOrderDetails({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.ORDER_DETAILS,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return OrderDetailsMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

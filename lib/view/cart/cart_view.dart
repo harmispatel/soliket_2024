@@ -445,7 +445,46 @@ class _MyCartViewState extends State<MyCartView> {
                                   // ),
                                   SizedBox(width: 10),
                                   Text(
-                                    "₹${mViewModel.deliveryCharge}",
+                                    "+ ₹${mViewModel.deliveryCharge}",
+                                    style: getAppStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                      decoration:
+                                          mViewModel.isFreeDelivery == "y"
+                                              ? TextDecoration.lineThrough
+                                              : null,
+                                      fontSize: 16,
+                                      textDecorationColor: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 14),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Tax",
+                                    style: getAppStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  // Text(
+                                  //   "₹${"9"}",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     decoration: TextDecoration.lineThrough,
+                                  //     fontWeight: FontWeight.w600,
+                                  //     fontSize: 13,
+                                  //   ),
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "+ ₹${mViewModel.tax}",
                                     style: getAppStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
@@ -484,9 +523,9 @@ class _MyCartViewState extends State<MyCartView> {
                                   // ),
                                   // SizedBox(width: 10),
                                   Text(
-                                    "₹${mViewModel.couponDiscount}",
+                                    "- ₹${mViewModel.couponDiscount}",
                                     style: getAppStyle(
-                                      color: Colors.green,
+                                      color: Colors.red,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),

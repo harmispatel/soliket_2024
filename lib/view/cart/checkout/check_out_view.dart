@@ -35,7 +35,7 @@ class _CheckOutViewState extends State<CheckOutView>
   int? selectedIndex;
   String selectedPayment = 'cod';
 
-  bool _isBorderRed = true; // To toggle the border color
+  bool _isBorderRed = true;
   late Timer _timer;
 
   @override
@@ -44,36 +44,40 @@ class _CheckOutViewState extends State<CheckOutView>
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       mSavedAddressViewModel.attachedContext(context);
-      mViewModel.updateBillDetailsApi();
       _timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
         setState(() {
           _isBorderRed = !_isBorderRed;
         });
       });
-      mSavedAddressViewModel.getAddressApi().whenComplete(() {
-        if (mSavedAddressViewModel.addressList.isNotEmpty) {
-          selectedIndex = mSavedAddressViewModel.addressList
-              .indexWhere((item) => item.isDefault == "y");
-          if (selectedIndex != -1) {
-            print('Selected index: $selectedIndex');
-          } else {
-            print('No item with isDefault "y" found');
+
+      mViewModel.updateBillDetailsApi().whenComplete(() {
+        mSavedAddressViewModel.getAddressApi().whenComplete(() {
+          if (mSavedAddressViewModel.addressList.isNotEmpty) {
+            selectedIndex = mSavedAddressViewModel.addressList
+                .indexWhere((item) => item.isDefault == "y");
+            if (selectedIndex != -1) {
+              print('Selected index: $selectedIndex');
+            } else {
+              print('No item with isDefault "y" found');
+            }
           }
-        }
-      }).whenComplete(() {
-        if (selectedIndex != -1) {
-          // mViewModel.checkDeliveryAvailableApi(
-          //     addressId: mSavedAddressViewModel
-          //         .addressList[selectedIndex!].addressId
-          //         .toString());
-        }
+        }).whenComplete(() {
+          if (selectedIndex != -1) {
+            mViewModel.checkDeliveryAvailableApi(
+                addressId: mSavedAddressViewModel
+                    .addressList[selectedIndex!].addressId
+                    .toString());
+          }
+        });
       });
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel(); // Cancel the timer when the widget is disposed
+    _timer.cancel();
+    mViewModel.isDeliveryAvailable = true;
+
     super.dispose();
   }
 
@@ -109,7 +113,6 @@ class _CheckOutViewState extends State<CheckOutView>
           ),
           (Route<dynamic> route) => false,
         );
-
         return false;
       },
       child: Scaffold(
@@ -253,15 +256,24 @@ class _CheckOutViewState extends State<CheckOutView>
                                                             selectedIndex =
                                                                 index;
                                                           });
-                                                          mViewModel.setDefaultAddressApi(
-                                                              addressId:
-                                                                  mSavedAddressViewModel
+                                                          mViewModel
+                                                              .setDefaultAddressApi(
+                                                                  addressId: mSavedAddressViewModel
                                                                       .addressList[
                                                                           index]
                                                                       .addressId
-                                                                      .toString());
-                                                          Navigator.pop(
-                                                              context);
+                                                                      .toString())
+                                                              .whenComplete(() {
+                                                            mViewModel.checkDeliveryAvailableApi(
+                                                                addressId: mSavedAddressViewModel
+                                                                    .addressList[
+                                                                        selectedIndex!]
+                                                                    .addressId
+                                                                    .toString());
+                                                          }).whenComplete(() {
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
                                                         },
                                                         child: Card(
                                                           child: Padding(
@@ -284,13 +296,22 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                       selectedIndex =
                                                                           index;
                                                                     });
-                                                                    mViewModel.setDefaultAddressApi(
-                                                                        addressId: mSavedAddressViewModel
-                                                                            .addressList[index!]
-                                                                            .addressId
-                                                                            .toString());
-                                                                    Navigator.pop(
-                                                                        context);
+                                                                    mViewModel
+                                                                        .setDefaultAddressApi(
+                                                                            addressId: mSavedAddressViewModel.addressList[index!].addressId
+                                                                                .toString())
+                                                                        .whenComplete(
+                                                                            () {
+                                                                      mViewModel.checkDeliveryAvailableApi(
+                                                                          addressId: mSavedAddressViewModel
+                                                                              .addressList[selectedIndex!]
+                                                                              .addressId
+                                                                              .toString());
+                                                                    }).whenComplete(
+                                                                            () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    });
                                                                   },
                                                                 ),
                                                                 Expanded(
@@ -642,7 +663,45 @@ class _CheckOutViewState extends State<CheckOutView>
                           // ),
                           SizedBox(width: 10),
                           Text(
-                            "₹${mViewModel.deliveryCharge}",
+                            "+ ₹${mViewModel.deliveryCharge}",
+                            style: getAppStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                              decoration: mViewModel.isFreeDelivery == "y"
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                              fontSize: 16,
+                              textDecorationColor: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 14),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Tax",
+                            style: getAppStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Spacer(),
+                          // Text(
+                          //   "₹${"9"}",
+                          //   style: getAppStyle(
+                          //     color: Colors.grey,
+                          //     decoration: TextDecoration.lineThrough,
+                          //     fontWeight: FontWeight.w600,
+                          //     fontSize: 13,
+                          //   ),
+                          // ),
+                          SizedBox(width: 10),
+                          Text(
+                            "+ ₹${mViewModel.tax}",
                             style: getAppStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
@@ -680,9 +739,9 @@ class _CheckOutViewState extends State<CheckOutView>
                           // ),
                           // SizedBox(width: 10),
                           Text(
-                            "₹${mViewModel.couponDiscount}",
+                            "- ₹${mViewModel.couponDiscount}",
                             style: getAppStyle(
-                              color: Colors.green,
+                              color: Colors.red,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -778,49 +837,89 @@ class _CheckOutViewState extends State<CheckOutView>
           child: PrimaryButton(
             height: 45,
             label: "Place Order",
-            buttonColor: mViewModel.isDeliveryAvailable
+            buttonColor: mViewModel.isDeliveryAvailable && selectedIndex != -1
                 ? CommonColors.primaryColor
                 : CommonColors.mGrey500,
             labelColor: CommonColors.mWhite,
             onPress: () {
-              if (selectedPayment == "online") {
-                Razorpay razorpay = Razorpay();
-                double totalAmount = double.parse(mViewModel.total ?? '');
-
-                var options = {
-                  // 'key': 'rzp_live_u7SbpfQeUr70kp',
-                  'key': 'rzp_test_gdFvpbKhIrcbLc',
-                  'amount': (totalAmount * 100).toInt(),
-                  'name': 'Krunal',
-                  'description': 'Testing payment',
-                  'retry': {'enabled': true, 'max_count': 1},
-                  'send_sms_hash': true,
-                  'prefill': {
-                    'contact': '8866181825',
-                    'email': 'test@razorpay.com'
-                  },
-                  'external': {
-                    'wallets': ['paytm']
-                  }
-                };
-                razorpay.on(
-                    Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
-                razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
-                    handlePaymentSuccessResponse);
-                razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
-                    handleExternalWalletSelected);
-                razorpay.open(options);
-              } else if (selectedPayment == "cod") {
-                AwesomeDialog(
-                        context: context,
-                        animType: AnimType.topSlide,
-                        headerAnimationLoop: false,
-                        dialogType: DialogType.success,
-                        showCloseIcon: false,
-                        title: 'Payment Successful',
-                        desc: 'Congratulation order placed successfully',
-                        autoHide: Duration(seconds: 2))
-                    .show();
+              if (mViewModel.isDeliveryAvailable == true &&
+                  selectedIndex != -1) {
+                if (selectedPayment == "online") {
+                  mViewModel.placeOrderApi(
+                      addressId: mSavedAddressViewModel
+                          .addressList[selectedIndex!].addressId
+                          .toString(),
+                      paymentMethod: "online",
+                      transactionId: "null");
+                  Razorpay razorpay = Razorpay();
+                  double totalAmount = double.parse(mViewModel.total ?? '');
+                  var options = {
+                    // 'key': 'rzp_live_u7SbpfQeUr70kp',
+                    'key': 'rzp_test_gdFvpbKhIrcbLc',
+                    'amount': (totalAmount * 100).toInt(),
+                    'name': 'Krunal',
+                    'description': 'Testing payment',
+                    'retry': {'enabled': true, 'max_count': 1},
+                    'send_sms_hash': true,
+                    'prefill': {
+                      'contact': '8866181825',
+                      'email': 'test@razorpay.com'
+                    },
+                    'external': {
+                      'wallets': ['paytm']
+                    }
+                  };
+                  razorpay.on(
+                      Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
+                  razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                      handlePaymentSuccessResponse);
+                  razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
+                      handleExternalWalletSelected);
+                  razorpay.open(options);
+                } else if (selectedPayment == "cod") {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.info,
+                    width: kDeviceWidth,
+                    buttonsBorderRadius: const BorderRadius.all(
+                      Radius.circular(2),
+                    ),
+                    dismissOnTouchOutside: false,
+                    dismissOnBackKeyPress: false,
+                    headerAnimationLoop: false,
+                    animType: AnimType.topSlide,
+                    title: 'Order Confirm',
+                    desc: 'Are you sure to want place this Order?',
+                    buttonsTextStyle: getAppStyle(),
+                    descTextStyle: getAppStyle(fontSize: 16),
+                    titleTextStyle:
+                        getAppStyle(fontWeight: FontWeight.w600, fontSize: 22),
+                    showCloseIcon: false,
+                    btnOk: PrimaryButton(
+                      label: "Yes",
+                      buttonColor: CommonColors.greenColor,
+                      labelColor: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      onPress: () {
+                        mViewModel.placeOrderApi(
+                            addressId: mSavedAddressViewModel
+                                .addressList[selectedIndex!].addressId
+                                .toString(),
+                            paymentMethod: "cod",
+                            transactionId: "null");
+                      },
+                    ),
+                    btnCancel: PrimaryButton(
+                      label: "Cancel",
+                      buttonColor: CommonColors.mRed,
+                      labelColor: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      onPress: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ).show();
+                }
               }
             },
           ),
@@ -862,16 +961,19 @@ class _CheckOutViewState extends State<CheckOutView>
     // showAlertDialog(
     //     context, "Payment Successful", "Payment ID: ${response.paymentId}");
 
-    AwesomeDialog(
-            context: context,
-            animType: AnimType.topSlide,
-            headerAnimationLoop: false,
-            dialogType: DialogType.success,
-            showCloseIcon: false,
-            title: 'Payment Successful',
-            desc: 'Congratulation order placed successfully',
-            autoHide: Duration(seconds: 2))
-        .show();
+    // AwesomeDialog(
+    //         context: context,
+    //         animType: AnimType.topSlide,
+    //         headerAnimationLoop: false,
+    //         dialogType: DialogType.success,
+    //         showCloseIcon: false,
+    //         title: 'Payment Successful',
+    //         desc: 'Congratulation order placed successfully',
+    //         autoHide: Duration(seconds: 2))
+    //     .show();
+
+    mViewModel.confirmOrderApi(
+        orderId: mViewModel.orderId, transactionId: response.paymentId ?? '');
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response) {

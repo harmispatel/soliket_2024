@@ -27,4 +27,7 @@ class ApiParams {
   static const String keyword = "keyword";
   static const String coupon_id = "coupon_id";
   static const String is_default = "is_default";
+  static const String payment_method = "payment_method";
+  static const String transaction_id = "transaction_id";
+  static const String order_id = "order_id";
 }

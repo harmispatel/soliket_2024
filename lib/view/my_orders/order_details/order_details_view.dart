@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
 import '../../../../../utils/common_colors.dart';
 import '../../../../../widget/common_appbar.dart';
+import 'order_details_view_model.dart';
 
-class TrackOrderView extends StatefulWidget {
-  const TrackOrderView({super.key});
+class OrderDetailsView extends StatefulWidget {
+  final String orderId;
+  const OrderDetailsView({super.key, required this.orderId});
 
   @override
-  State<TrackOrderView> createState() => _TrackOrderViewState();
+  State<OrderDetailsView> createState() => _OrderDetailsViewState();
 }
 
-class _TrackOrderViewState extends State<TrackOrderView> {
+class _OrderDetailsViewState extends State<OrderDetailsView> {
+  late OrderDetailsViewModel mViewModel;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      mViewModel.attachedContext(context);
+      mViewModel.getOrdersDetailsApi(orderId: widget.orderId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    mViewModel = Provider.of<OrderDetailsViewModel>(context);
     return Scaffold(
       appBar: CommonAppBar(
         title: "Track order",

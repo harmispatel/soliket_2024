@@ -13,14 +13,18 @@ import '../models/cancellation_policy_master.dart';
 import '../models/cart_master.dart';
 import '../models/category_master.dart';
 import '../models/category_product_master.dart';
+import '../models/check_delivery_available_master.dart';
 import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
 import '../models/faq_master.dart';
+import '../models/get_order_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
 import '../models/notification_master.dart';
 import '../models/offer_product_master.dart';
+import '../models/order_details_master.dart';
+import '../models/order_master.dart';
 import '../models/privacy_policy_master.dart';
 import '../models/product_master.dart';
 import '../models/search_master.dart';
@@ -151,7 +155,23 @@ abstract class BaseServices {
 
   Future<UpdateBillDetailsMaster?> updateBillDetails();
 
-  Future<CommonMaster?> checkDeliveryAvailable({
+  Future<CheckDeliveryAvailableMaster?> checkDeliveryAvailable({
+    required Map<String, dynamic> params,
+  });
+
+  Future<OrderMaster?> placeOrder({
+    required Map<String, dynamic> params,
+  });
+
+  Future<CommonMaster?> confirmOrder({
+    required Map<String, dynamic> params,
+  });
+
+  Future<GetOrderMaster?> getOrder({
+    required Map<String, dynamic> params,
+  });
+
+  Future<OrderDetailsMaster?> getOrderDetails({
     required Map<String, dynamic> params,
   });
 }

@@ -45,6 +45,10 @@ class ApiUrl {
   static const String APPLY_COUPON = "${BASE_URL}apply_coupon_code";
   static const String REMOVE_COUPON = "${BASE_URL}remove_coupon_code";
   static const String UPDATE_BILL_DETAILS = "${BASE_URL}update_bill_details";
+  static const String PLACE_ORDER = "${BASE_URL}place_order";
+  static const String CONFIRM_ORDER = "${BASE_URL}confirm_order";
+  static const String MY_ORDER = "${BASE_URL}my_order";
+  static const String ORDER_DETAILS = "${BASE_URL}order_details";
   static const String CHECK_DELIVERY_AVAILABLE =
       "${BASE_URL}check_delivery_or_not";
   static const String GET_NOTIFICATION = "${BASE_URL}get_notification_list";
@@ -56,7 +60,6 @@ class ApiUrl {
 class DomainApiUrl {
   /* --- Local BASE_URL for domain user --- */
   static const String BASE_URL = "http://192.168.1.143/register_shop/api/";
-
   static const String REGISTER = "${BASE_URL}register";
   static const String LOGIN = "${BASE_URL}login";
   static const String DOMAIN_USER_DETAIL = "${BASE_URL}getUserDetails";
