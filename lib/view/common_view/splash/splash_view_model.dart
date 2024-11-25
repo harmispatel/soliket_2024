@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+
 import '../../../database/app_preferences.dart';
 import '../../../models/confirm_location_master.dart';
 import '../../../services/api_para.dart';

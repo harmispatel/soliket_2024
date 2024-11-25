@@ -30,6 +30,7 @@ import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
 import '../my_orders/my_order_view_model.dart';
 import '../my_orders/order_details/order_details_view_model.dart';
+import '../my_orders/tracking_orders/tracking_orders_view_model.dart';
 import '../otp/otp_view_model.dart';
 import '../profile/about_us/about_us_view_model.dart';
 import '../profile/add_address/add_address_view_model.dart';
@@ -305,6 +306,8 @@ class AppState extends State<App> {
                   create: (_) => MyOrderViewModel()),
               ChangeNotifierProvider<OrderDetailsViewModel>(
                   create: (_) => OrderDetailsViewModel()),
+              ChangeNotifierProvider<TrackingOrdersViewModel>(
+                  create: (_) => TrackingOrdersViewModel()),
             ],
             child: Builder(
               builder: (context) {

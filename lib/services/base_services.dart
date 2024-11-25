@@ -18,6 +18,7 @@ import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
 import '../models/faq_master.dart';
+import '../models/get_info_master.dart';
 import '../models/get_order_master.dart';
 import '../models/home_master.dart';
 import '../models/login_master.dart';
@@ -31,6 +32,7 @@ import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
+import '../models/track_order_master.dart';
 import '../models/transaction_history_master.dart';
 import '../models/update_bill_details_master.dart';
 
@@ -174,4 +176,10 @@ abstract class BaseServices {
   Future<OrderDetailsMaster?> getOrderDetails({
     required Map<String, dynamic> params,
   });
+
+  Future<TrackOrderMaster?> trackingOrder({
+    required Map<String, dynamic> params,
+  });
+
+  Future<getInfoMaster?> getInfoPopUp();
 }

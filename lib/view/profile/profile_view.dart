@@ -77,7 +77,7 @@ class _ProfileViewState extends State<ProfileView> {
                     children: [
                       ClipOval(
                         child: Image.network(
-                          'https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg',
+                          mViewModel.profileData?.profile ?? '',
                           width: 60,
                           height: 60,
                           fit: BoxFit.cover,
@@ -113,8 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
                               email: mViewModel.profileData?.email,
                               phone: mViewModel.profileData?.mobile,
                               birthDate: mViewModel.profileData?.birthday,
-                              profileImage:
-                                  "https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4195.jpg",
+                              profileImage: mViewModel.profileData?.profile,
                             ),
                           ).then((_) {
                             mViewModel.getProfileApi();

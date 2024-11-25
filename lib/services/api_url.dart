@@ -45,10 +45,12 @@ class ApiUrl {
   static const String APPLY_COUPON = "${BASE_URL}apply_coupon_code";
   static const String REMOVE_COUPON = "${BASE_URL}remove_coupon_code";
   static const String UPDATE_BILL_DETAILS = "${BASE_URL}update_bill_details";
+  static const String GET_INFO_POPUP = "${BASE_URL}get_info_popup";
   static const String PLACE_ORDER = "${BASE_URL}place_order";
   static const String CONFIRM_ORDER = "${BASE_URL}confirm_order";
   static const String MY_ORDER = "${BASE_URL}my_order";
   static const String ORDER_DETAILS = "${BASE_URL}order_details";
+  static const String TRACK_ORDER = "${BASE_URL}track_order";
   static const String CHECK_DELIVERY_AVAILABLE =
       "${BASE_URL}check_delivery_or_not";
   static const String GET_NOTIFICATION = "${BASE_URL}get_notification_list";

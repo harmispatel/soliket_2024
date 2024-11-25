@@ -1,31 +1,29 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../models/order_details_master.dart';
+import '../../../models/track_order_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 
-class OrderDetailsViewModel with ChangeNotifier {
+class TrackingOrdersViewModel with ChangeNotifier {
   late BuildContext context;
   final services = Services();
   bool isInitialLoading = true;
-  List<OrderDetails> orderDetailsList = [];
-  List<OrderItem> orderItemList = [];
-  List<BillDetails> billDetailsList = [];
+  List<TrackOrderData> trackOrderData = [];
 
   void attachedContext(BuildContext context) {
     this.context = context;
     notifyListeners();
   }
 
-  Future<void> getOrdersDetailsApi({required String orderId}) async {
+  Future<void> trackingOrderApi({required String orderId}) async {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.order_id: orderId,
     };
 
-    OrderDetailsMaster? master =
-        await services.api!.getOrderDetails(params: params);
+    TrackOrderMaster? master =
+        await services.api!.trackingOrder(params: params);
     isInitialLoading = false;
 
     notifyListeners();
@@ -41,9 +39,7 @@ class OrderDetailsViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      orderDetailsList = master.data?.orderDetails ?? [];
-      orderItemList = master.data?.orderItem ?? [];
-      billDetailsList = master.data?.billDetails ?? [];
+      trackOrderData = master.data ?? [];
     }
     notifyListeners();
   }

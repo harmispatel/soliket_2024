@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:solikat_2024/models/brand_product_master.dart';
 import 'package:solikat_2024/models/coupon_master.dart';
+import 'package:solikat_2024/models/get_info_master.dart';
 import 'package:solikat_2024/models/get_order_master.dart';
 import 'package:solikat_2024/models/otp_master.dart';
 import 'package:solikat_2024/models/product_details_master.dart';
@@ -35,6 +36,7 @@ import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
 import '../models/terms_and_conditions_master.dart';
+import '../models/track_order_master.dart';
 import '../models/transaction_history_master.dart';
 import '../models/update_bill_details_master.dart';
 import 'base_client.dart';
@@ -861,6 +863,43 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return OrderDetailsMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<TrackOrderMaster?> trackingOrder({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
+      url: ApiUrl.TRACK_ORDER,
+      postParams: params,
+    );
+    if (response != null) {
+      try {
+        return TrackOrderMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<getInfoMaster?> getInfoPopUp() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_INFO_POPUP,
+    );
+    if (response != null) {
+      try {
+        return getInfoMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

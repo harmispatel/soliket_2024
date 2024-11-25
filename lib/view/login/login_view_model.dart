@@ -136,6 +136,7 @@ class LoginViewModel with ChangeNotifier {
       isScrollControlled: true,
       useSafeArea: true,
       isDismissible: false,
+      // enableDrag: false,
       backgroundColor: CommonColors.mWhite,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

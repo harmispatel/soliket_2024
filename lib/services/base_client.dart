@@ -11,6 +11,7 @@ import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../database/app_preferences.dart';
 import '../generated/i18n.dart';
+import '../view/login/login_view.dart';
 import 'api_para.dart';
 
 class AppBaseClient {
@@ -36,6 +37,9 @@ class AppBaseClient {
         log("API Status :: ${response.statusCode}");
         if (response.statusCode == 200) {
           return jsonDecode(response.body);
+        } else if (response.statusCode == 401) {
+          pushAndRemoveUntil(LoginView());
+          print("........Get 401 code in response..........");
         } else {
           log("Api failed with status code ${response.statusCode}");
           return null;
@@ -261,6 +265,9 @@ class AppBaseClient {
         log("API Response :${response.body}");
         if (response.statusCode == 200) {
           return jsonDecode(response.body);
+        } else if (response.statusCode == 401) {
+          pushAndRemoveUntil(LoginView());
+          print("........Get 401 code in response..........");
         } else {
           return null;
         }
