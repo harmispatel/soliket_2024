@@ -810,8 +810,7 @@ class _HomeViewState extends State<HomeView> {
                                           ".......Sorry this product have only ${mViewModel.cartDataList[index].stock} in stock......");
                                       String msg =
                                           "Only ${mViewModel.cartDataList[index].stock} product available in stock";
-                                      CommonUtils.showSnackBar(msg,
-                                          color: CommonColors.mRed);
+                                      CommonUtils.showCustomToast(context, msg);
                                     }
                                   }
 
@@ -2347,10 +2346,8 @@ class _HomeViewState extends State<HomeView> {
                                                   } else {
                                                     String msg =
                                                         "Only $stock product(s) available in stock";
-                                                    CommonUtils.showSnackBar(
-                                                        msg,
-                                                        color:
-                                                            CommonColors.mRed);
+                                                    CommonUtils.showCustomToast(
+                                                        context, msg);
                                                   }
                                                 }
                                               },

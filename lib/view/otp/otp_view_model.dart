@@ -9,7 +9,6 @@ import '../../database/app_preferences.dart';
 import '../../models/otp_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
-import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/global_variables.dart';
 import '../location/location_allow_view.dart';
@@ -63,10 +62,7 @@ class OtpViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       log("Access Token :: ${master.data?.token}");
@@ -75,10 +71,8 @@ class OtpViewModel with ChangeNotifier {
       AppPreferences.instance.setUserDetails(jsonEncode(master.data));
       globalUserMaster = AppPreferences.instance.getUserDetails();
 
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.greenColor,
-      );
+      // CommonUtils.showCustomToast(context, master.message);
+
       requestLocationPermission();
     }
     notifyListeners();
@@ -97,17 +91,11 @@ class OtpViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       // log("Access Token :: ${master.jwt}");
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.greenColor,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     }
     notifyListeners();
   }

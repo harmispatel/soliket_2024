@@ -8,7 +8,6 @@ import '../../../database/app_preferences.dart';
 import '../../../models/confirm_location_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
-import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../../home/soliket_not_available_view.dart';
@@ -71,10 +70,7 @@ class SplashViewModel with ChangeNotifier {
             "SOLIKET is not available at this location, We will be soon there.") {
       pushAndRemoveUntil(SoliketNotAvailableView());
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       pushAndRemoveUntil(BottomNavBarView());

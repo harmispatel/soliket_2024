@@ -243,10 +243,7 @@ class HomeViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       cartDataList = master.data?.cartItem ?? [];
@@ -260,10 +257,7 @@ class HomeViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       infoPopUpData = master.data ?? [];
@@ -301,8 +295,110 @@ class HomeViewModel with ChangeNotifier {
     }
 
     if (!master.status) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
+    }
+
+    if (currentPage == 1) {
+      getInfoPopUpApi().whenComplete(() {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.white,
+          enableDrag: false,
+          isDismissible: false,
+          shape: Border(
+              top: BorderSide.none,
+              bottom: BorderSide.none,
+              left: BorderSide.none,
+              right: BorderSide.none),
+          builder: (_) {
+            return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return SizedBox(
+                  height: kDeviceHeight / 2.5,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 15, right: 15, top: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Today's Offer",
+                              style: getAppStyle(
+                                  color: CommonColors.blackColor, fontSize: 18),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: CommonColors.primaryColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: const Offset(
+                                        2.0,
+                                        2.0,
+                                      ),
+                                      blurRadius: 5.0,
+                                      spreadRadius: 0.0,
+                                    ), //BoxShadow
+                                    BoxShadow(
+                                      color: Colors.white,
+                                      offset: const Offset(0.0, 0.0),
+                                      blurRadius: 0.0,
+                                      spreadRadius: 0.0,
+                                    ), //BoxShadow
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: CommonColors.mWhite,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      kCommonSpaceV10,
+                      kCommonSpaceV3,
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                    NetworkImage(infoPopUpData[0].image ?? ''),
+                                fit: BoxFit.fill),
+                          ),
+                        ),
+                      ),
+                      kCommonSpaceV15,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 8),
+                        child: Text(
+                          infoPopUpData[0].description ?? '',
+                          style: getAppStyle(),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      });
     }
 
     if (currentPage == master.totalPage!) {
@@ -361,105 +457,6 @@ class HomeViewModel with ChangeNotifier {
       }
     }
 
-    getInfoPopUpApi().whenComplete(() {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.white,
-        enableDrag: false,
-        isDismissible: false,
-        shape: Border(
-            top: BorderSide.none,
-            bottom: BorderSide.none,
-            left: BorderSide.none,
-            right: BorderSide.none),
-        builder: (_) {
-          return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return SizedBox(
-                height: kDeviceHeight / 2.5,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Spacer(),
-                          Text(
-                            "Today's Offer",
-                            style: getAppStyle(
-                                color: CommonColors.blackColor, fontSize: 18),
-                          ),
-                          Spacer(),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: CommonColors.primaryColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      2.0,
-                                      2.0,
-                                    ),
-                                    blurRadius: 5.0,
-                                    spreadRadius: 0.0,
-                                  ), //BoxShadow
-                                  BoxShadow(
-                                    color: Colors.white,
-                                    offset: const Offset(0.0, 0.0),
-                                    blurRadius: 0.0,
-                                    spreadRadius: 0.0,
-                                  ), //BoxShadow
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.close,
-                                  color: CommonColors.mWhite,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kCommonSpaceV10,
-                    kCommonSpaceV3,
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(infoPopUpData[0].image ?? ''),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                    ),
-                    kCommonSpaceV15,
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, bottom: 8),
-                      child: Text(
-                        infoPopUpData[0].description ?? '',
-                        style: getAppStyle(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      );
-    });
-
     notifyListeners();
   }
 
@@ -484,7 +481,7 @@ class HomeViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 
@@ -517,7 +514,7 @@ class HomeViewModel with ChangeNotifier {
       return;
     }
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
     if (master.status == true) {

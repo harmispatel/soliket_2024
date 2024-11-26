@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/common_utils.dart';
 import 'package:solikat_2024/utils/constant.dart';
-import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/location/location_donNot_allow_view.dart';
 
 import '../../utils/global_variables.dart';
@@ -53,7 +52,7 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
                         Text(
                           "Service Unavailable!",
                           style: getAppStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18,
                               height: 1.2),
                         ),
@@ -97,14 +96,15 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
               ),
               Spacer(),
               Center(
-                child: Image.asset(
-                  LocalImages.img_location_disable,
+                child: Image.network(
+                  // LocalImages.img_location_disable,
+                  "https://cdn3d.iconscout.com/3d/premium/thumb/location-not-found-9180275-7590823.png?f=webp",
                   height: 160,
                 ),
               ),
               Text(
                 "Service Unavailable!",
-                style: getAppStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                style: getAppStyle(fontWeight: FontWeight.w600, fontSize: 22),
               ),
               kCommonSpaceV10,
               Padding(

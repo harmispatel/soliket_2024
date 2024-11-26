@@ -693,7 +693,7 @@ class _Section9State extends State<Section9> {
           ".......Sorry this product have only ${widget.section9[sectionIndex].products[productIndex].stock} in stock......");
       String msg =
           "Only ${widget.section9[sectionIndex].products[productIndex].stock} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 

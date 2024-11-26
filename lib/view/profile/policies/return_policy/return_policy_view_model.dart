@@ -1,8 +1,9 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+
 import '../../../../../models/return_policy_master.dart';
 import '../../../../../services/index.dart';
-import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 
 class ReturnPolicyViewModel with ChangeNotifier {
@@ -23,10 +24,7 @@ class ReturnPolicyViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       returnPolicyList = master.data ?? [];

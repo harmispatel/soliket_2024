@@ -17,18 +17,30 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> {
   late NotificationViewModel mViewModel;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      _scrollController.addListener(_scrollListener);
     });
+  }
+
+  void _scrollListener() {
+    final mViewModel = context.read<NotificationViewModel>();
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !mViewModel.isPageFinish) {
+      mViewModel.getNotificationApi();
+    }
   }
 
   @override
   void dispose() {
-    mViewModel.isInitialLoading = true;
+    _scrollController.dispose();
+    mViewModel.resetPage();
     super.dispose();
   }
 
@@ -110,6 +122,7 @@ class _NotificationViewState extends State<NotificationView> {
                   )
                 : ListView.builder(
                     padding: kCommonScreenPadding,
+                    controller: _scrollController,
                     itemCount: mViewModel.notificationList.length,
                     itemBuilder: (context, index) {
                       var notificationData = mViewModel.notificationList[index];

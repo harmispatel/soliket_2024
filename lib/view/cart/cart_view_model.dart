@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/cart_master.dart';
 
 import '../../../../services/index.dart';
-import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 import '../../models/search_master.dart';
 import '../../models/update_bill_details_master.dart';
@@ -36,10 +35,7 @@ class CartViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       cartList = master.data?.cartItem ?? [];
@@ -64,10 +60,7 @@ class CartViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       discountAmount = master.data?.discountAmount ?? '';

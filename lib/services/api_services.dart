@@ -608,9 +608,12 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<NotificationMaster?> getNotificationApi() async {
-    dynamic response = await appBaseClient.getApiCall(
+  Future<NotificationMaster?> getNotificationApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
       url: ApiUrl.GET_NOTIFICATION,
+      postParams: params,
     );
     if (response != null) {
       try {
@@ -625,9 +628,12 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<TransactionHistoryMaster?> getTransactionHistoryApi() async {
-    dynamic response = await appBaseClient.getApiCall(
+  Future<TransactionHistoryMaster?> getTransactionHistoryApi({
+    required Map<String, dynamic> params,
+  }) async {
+    dynamic response = await appBaseClient.postFormDataApiCall(
       url: ApiUrl.GET_TRANSACTION_HISTORY,
+      postParams: params,
     );
     if (response != null) {
       try {

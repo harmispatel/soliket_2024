@@ -6,7 +6,6 @@ import 'package:solikat_2024/models/common_master.dart';
 import '../../../../models/address_master.dart';
 import '../../../../services/api_para.dart';
 import '../../../../services/index.dart';
-import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 
 class SavedAddressViewModel with ChangeNotifier {
@@ -26,10 +25,7 @@ class SavedAddressViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       addressList = master.data ?? [];
@@ -55,7 +51,7 @@ class SavedAddressViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 

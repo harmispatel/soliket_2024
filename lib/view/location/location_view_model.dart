@@ -1,17 +1,13 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:solikat_2024/models/confirm_location_master.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import '../../database/app_preferences.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
-import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
-import '../../utils/constant.dart';
 import '../../utils/global_variables.dart';
-import '../../utils/local_images.dart';
-import '../../widget/primary_button.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view.dart';
 import '../home/soliket_not_available_view.dart';
 
@@ -50,10 +46,7 @@ class LocationViewModel with ChangeNotifier {
       gUserLocation = await AppPreferences.instance.getUserLocation();
       pushAndRemoveUntil(SoliketNotAvailableView());
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       AppPreferences.instance.setUserLocation(location);

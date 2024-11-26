@@ -102,11 +102,11 @@ class _SearchViewState extends State<SearchView> {
           ".......Sorry this product have only ${mViewModel.productList[index].stock} in a stock......");
       String msg =
           "Only ${mViewModel.productList[index].stock} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     } else if (mViewModel.productList[index].stock == 0) {
       print(".......Sorry this item is sold out......");
       String msg = "Sorry this item is sold out";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 
@@ -470,8 +470,7 @@ class _SearchViewState extends State<SearchView> {
                                       ".......Sorry this product have only ${homeViewModel.cartDataList[index].stock} in stock......");
                                   String msg =
                                       "Only ${homeViewModel.cartDataList[index].stock} product available in stock";
-                                  CommonUtils.showSnackBar(msg,
-                                      color: CommonColors.mRed);
+                                  CommonUtils.showCustomToast(context, msg);
                                 }
                               }
 

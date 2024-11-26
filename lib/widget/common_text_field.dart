@@ -522,6 +522,7 @@ class LabeledTextField extends StatelessWidget {
   final bool? enabled;
   final bool isShadow;
   final bool? readOnly;
+  final bool? autofocus;
   final TextInputAction? textInputAction;
   final void Function(String)? onEditComplete;
   final double? height;
@@ -544,6 +545,7 @@ class LabeledTextField extends StatelessWidget {
     this.height,
     this.isObscure,
     this.readOnly,
+    this.autofocus = false,
     this.suffixIcon,
     this.prefixIcon,
     Key? key,
@@ -579,7 +581,7 @@ class LabeledTextField extends StatelessWidget {
         readOnly: readOnly ?? false,
         cursorColor: CommonColors.primaryColor,
         enabled: enabled ?? true,
-        autofocus: false,
+        autofocus: autofocus ?? false,
         inputFormatters: inputFormatters,
         validator: isRequired
             ? (value) {
@@ -597,7 +599,7 @@ class LabeledTextField extends StatelessWidget {
             horizontal: 16,
             vertical: 16,
           ), // Adjusted vertical padding for spacing
-          floatingLabelStyle: TextStyle(
+          floatingLabelStyle: getAppStyle(
             color: CommonColors.primaryColor,
             fontWeight: FontWeight.w500,
           ),
@@ -611,20 +613,20 @@ class LabeledTextField extends StatelessWidget {
           ),
 
           labelText: hintText, // Label text
-          labelStyle: TextStyle(
+          labelStyle: getAppStyle(
             color: Colors.grey.shade400,
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
 
           hintText: hintText, // Placeholder text
-          hintStyle: TextStyle(
+          hintStyle: getAppStyle(
             color: Colors.grey.shade400, // Gray color for hint text
             fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
         ),
-        style: TextStyle(
+        style: getAppStyle(
           color: Colors.grey.shade600,
           fontSize: 16,
           fontWeight: FontWeight.w500,

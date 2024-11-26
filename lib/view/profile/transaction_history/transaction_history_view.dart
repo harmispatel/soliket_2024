@@ -16,18 +16,31 @@ class TransactionHistoryView extends StatefulWidget {
 
 class _TransactionHistoryViewState extends State<TransactionHistoryView> {
   late TransactionHistoryViewModel mViewModel;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      _scrollController.addListener(_scrollListener);
     });
+  }
+
+  void _scrollListener() {
+    final mViewModel = context.read<TransactionHistoryViewModel>();
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !mViewModel.isPageFinish) {
+      mViewModel.getTransactionHistoryApi();
+    }
   }
 
   @override
   void dispose() {
-    mViewModel.isInitialLoading = true;
+    _scrollController.dispose();
+
+    mViewModel.resetPage();
     super.dispose();
   }
 
@@ -97,35 +110,102 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                   ),
                 ),
               )
-            : mViewModel.transactionHistoryTotal.isEmpty &&
-                    mViewModel.transactionHistoryList.isEmpty
-                ? Center(
-                    child: Padding(
-                      padding: kCommonScreenPadding,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
-                              height: 180,
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV_pvfv-r_nuahZUPylD0pPN5masVssJHTIZgKzOWjkEupDW_bkWARzb4&s"),
-                          kCommonSpaceV20,
-                          Text(
-                            "No Transaction History Here",
-                            textAlign: TextAlign.center,
-                            style: getAppStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 70),
-                            child: Text(
-                              "There is no Transaction History to show right now.",
+            : mViewModel.transactionHistoryList.isEmpty
+                ? Padding(
+                    padding: kCommonScreenPadding,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: CommonColors.primaryColor,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Total Orders",
+                                      style: getAppStyle(
+                                        fontSize: 20,
+                                        color: CommonColors.mWhite,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    kCommonSpaceV5,
+                                    Text(
+                                      "0",
+                                      style: getAppStyle(
+                                        fontSize: 16,
+                                        color: CommonColors.mWhite,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            kCommonSpaceH15,
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: CommonColors.primaryColor,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Total Amount",
+                                      style: getAppStyle(
+                                        fontSize: 20,
+                                        color: CommonColors.mWhite,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    kCommonSpaceV5,
+                                    Text(
+                                      "₹0.00",
+                                      style: getAppStyle(
+                                        fontSize: 16,
+                                        color: CommonColors.mWhite,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                                height: 180,
+                                "https://cdni.iconscout.com/illustration/premium/thumb/no-data-found-illustration-download-in-svg-png-gif-file-formats--office-computer-digital-work-business-pack-illustrations-7265556.png"),
+                            Text(
+                              "No Transaction History Here",
                               textAlign: TextAlign.center,
                               style: getAppStyle(
-                                  fontSize: 18, color: CommonColors.black54),
+                                  fontSize: 20,
+                                  color: CommonColors.black54,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          )
-                        ],
-                      ),
+                          ],
+                        ),
+                        Spacer(),
+                      ],
                     ),
                   )
                 : Padding(
@@ -161,7 +241,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                           ? mViewModel.transactionHistoryTotal
                                               .first.totalOrder
                                               .toString()
-                                          : "N/A",
+                                          : "0",
                                       style: getAppStyle(
                                         fontSize: 16,
                                         color: CommonColors.mWhite,
@@ -195,7 +275,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                     ),
                                     kCommonSpaceV5,
                                     Text(
-                                      "₹ ${mViewModel.transactionHistoryTotal.isNotEmpty ? mViewModel.transactionHistoryTotal.first.totalAmount.toString() : "N/A"}",
+                                      "₹ ${mViewModel.transactionHistoryTotal.isNotEmpty ? mViewModel.transactionHistoryTotal.first.totalAmount.toString() : "0.00"}",
                                       style: getAppStyle(
                                         fontSize: 16,
                                         color: CommonColors.mWhite,
@@ -211,8 +291,9 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                         kCommonSpaceV15,
                         Expanded(
                           child: ListView.builder(
-                            padding: const EdgeInsets.only(top: 0, bottom: 30),
+                            padding: const EdgeInsets.only(top: 5, bottom: 30),
                             itemCount: mViewModel.transactionHistoryList.length,
+                            controller: _scrollController,
                             itemBuilder: (BuildContext context, int index) {
                               var transactionHistoryData =
                                   mViewModel.transactionHistoryList[index];

@@ -785,7 +785,7 @@ class _MyCartListState extends State<MyCartList> {
       debugPrint(
           ".......Sorry this product has only ${cartItem.stock ?? 0} in stock......");
       String msg = "Only ${cartItem.stock ?? 0} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 

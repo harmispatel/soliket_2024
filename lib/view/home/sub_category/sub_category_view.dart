@@ -100,11 +100,11 @@ class _SubCategoryViewState extends State<SubCategoryView> {
           ".......Sorry this product have only ${mViewModel.categoryProductList[index].stock} in a stock......");
       String msg =
           "Only ${mViewModel.categoryProductList[index].stock} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     } else if (mViewModel.categoryProductList[index].stock == 0) {
       print(".......Sorry this item is sold out......");
       String msg = "Sorry this item is sold out";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 
@@ -1111,8 +1111,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                       ".......Sorry this product have only ${homeViewModel.cartDataList[index].stock} in stock......");
                                   String msg =
                                       "Only ${homeViewModel.cartDataList[index].stock} product available in stock";
-                                  CommonUtils.showSnackBar(msg,
-                                      color: CommonColors.mRed);
+                                  CommonUtils.showCustomToast(context, msg);
                                 }
                               }
 
@@ -2514,10 +2513,8 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                   } else {
                                                     String msg =
                                                         "Only $stock product(s) available in stock";
-                                                    CommonUtils.showSnackBar(
-                                                        msg,
-                                                        color:
-                                                            CommonColors.mRed);
+                                                    CommonUtils.showCustomToast(
+                                                        context, msg);
                                                   }
                                                 }
                                               },

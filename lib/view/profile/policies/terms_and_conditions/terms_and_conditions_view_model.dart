@@ -1,8 +1,9 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+
 import '../../../../../models/terms_and_conditions_master.dart';
 import '../../../../../services/index.dart';
-import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/common_utils.dart';
 
 class TermsAndConditionsViewModel with ChangeNotifier {
@@ -24,10 +25,7 @@ class TermsAndConditionsViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       termsAndConditionsList = master.data ?? [];

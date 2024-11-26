@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import '../../../models/track_order_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
-import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 
 class TrackingOrdersViewModel with ChangeNotifier {
@@ -34,7 +33,7 @@ class TrackingOrdersViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 

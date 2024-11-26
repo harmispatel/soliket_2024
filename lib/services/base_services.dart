@@ -131,13 +131,17 @@ abstract class BaseServices {
 
   Future<CommonMaster?> deleteAccount();
 
-  Future<NotificationMaster?> getNotificationApi();
+  Future<NotificationMaster?> getNotificationApi({
+    required Map<String, dynamic> params,
+  });
 
   Future<SearchMaster?> getSearchDataApi({
     required Map<String, dynamic> params,
   });
 
-  Future<TransactionHistoryMaster?> getTransactionHistoryApi();
+  Future<TransactionHistoryMaster?> getTransactionHistoryApi({
+    required Map<String, dynamic> params,
+  });
 
   Future<AppVersionMaster?> getAppVersionApi();
 

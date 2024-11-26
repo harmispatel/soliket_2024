@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/category_master.dart';
 
 import '../../services/index.dart';
-import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 
 class CategoryViewModel with ChangeNotifier {
@@ -24,10 +23,7 @@ class CategoryViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       categoryListData = master.data ?? [];

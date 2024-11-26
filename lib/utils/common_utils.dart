@@ -444,6 +444,46 @@ class CommonUtils {
     );
   }
 
+  static void showCustomToast(BuildContext context, String? msg) {
+    FToast fToast = FToast();
+    fToast.init(context);
+
+    Widget toast = Padding(
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.0),
+          color: Color(0xfffddcbb),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              LocalImages.img_app_logo,
+              width: 34.0,
+              height: 34.0,
+              fit: BoxFit.fill,
+            ),
+            const SizedBox(width: 5.0),
+            Flexible(
+              child: Text(
+                msg ?? '',
+                style: getAppStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 3),
+    );
+  }
+
   static void oopsMSG() {
     if (connectivity) {
       ScaffoldMessenger.of(mainNavKey.currentContext!).hideCurrentSnackBar();
@@ -495,44 +535,6 @@ class CommonUtils {
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 13);
-  }
-
-  static void showCustomToast(BuildContext context, String msg) {
-    FToast fToast = FToast();
-    fToast.init(context);
-
-    Widget toast = Padding(
-      padding: const EdgeInsets.only(bottom: 18),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Color(0xfffddcbb),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              LocalImages.img_app_logo,
-              width: 34.0,
-              height: 34.0,
-              fit: BoxFit.fill,
-            ),
-            const SizedBox(width: 5.0),
-            Text(
-              msg,
-              style: getAppStyle(color: Colors.black),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: const Duration(seconds: 2),
-    );
   }
 
   static hideKeyboard() {
@@ -807,45 +809,6 @@ class CommonUtils {
     } else {
       throw 'Could not open the map.';
     }
-  }
-
-  static void makePhoneCall(String phone) async {
-    if (phone.isNotEmpty) {
-      String url = "tel:$phone";
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      } else {
-        throw S.of(mainNavKey.currentContext!)!.empty;
-      }
-    } else {
-      CommonUtils.showSnackBar(
-        S.of(mainNavKey.currentContext!)!.contactNoNotAvailable,
-        color: CommonColors.mRed,
-      );
-    }
-  }
-
-  static String getTimeAgo(DateTime d) {
-    Duration diff = DateTime.now().difference(d);
-    if (diff.inDays > 365) {
-      return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
-    }
-    if (diff.inDays > 30) {
-      return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
-    }
-    if (diff.inDays > 7) {
-      return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
-    }
-    if (diff.inDays > 0) {
-      return "${diff.inDays} ${diff.inDays == 1 ? "day" : "days"} ago";
-    }
-    if (diff.inHours > 0) {
-      return "${diff.inHours} ${diff.inHours == 1 ? "hour" : "hours"} ago";
-    }
-    if (diff.inMinutes > 0) {
-      return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
-    }
-    return "just now";
   }
 
   static Future<bool> handleLocationPermission() async {

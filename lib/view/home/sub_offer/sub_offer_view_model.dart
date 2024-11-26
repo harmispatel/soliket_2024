@@ -4,7 +4,6 @@ import '../../../models/offer_product_master.dart';
 import '../../../models/search_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
-import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 
 class SubOfferViewModel with ChangeNotifier {
@@ -43,7 +42,7 @@ class SubOfferViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 

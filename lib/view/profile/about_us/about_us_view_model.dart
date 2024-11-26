@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../models/about_us_master.dart';
 import '../../../../services/index.dart';
-import '../../../../utils/common_colors.dart';
 import '../../../../utils/common_utils.dart';
 
 class AboutUsViewModel with ChangeNotifier {
@@ -25,10 +24,7 @@ class AboutUsViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       aboutUsList = master.data ?? [];

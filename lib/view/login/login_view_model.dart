@@ -57,17 +57,12 @@ class LoginViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       // log("Access Token :: ${master.jwt}");
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.greenColor,
-      );
+      CommonUtils.showCustomToast(context, master.message);
+
       // AppPreferences.instance.setAccessToken(master.sessionId ?? '');
       gUserId = master.data?.userId.toString() ?? '';
       push(const OtpView());
@@ -87,10 +82,7 @@ class LoginViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       latestAppVersion = master.data?.appVersion;

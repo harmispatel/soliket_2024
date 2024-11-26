@@ -60,18 +60,12 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<LoginViewModel>(context);
-
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-          statusBarColor: CommonColors.grayShade200,
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: CommonColors.grayShade200),
-    );
     return SafeArea(
       child: Scaffold(
         appBar: const CommonAppBar(
           title: "SOLIKET",
           isTitleBold: true,
+          isShowShadow: true,
         ),
         body: SingleChildScrollView(
           padding: kCommonScreenPadding,
@@ -79,14 +73,15 @@ class _LoginViewState extends State<LoginView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter your phone number to get started",
-                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                "Enter Your Phone Number",
+                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
               ),
               kCommonSpaceV15,
               LabeledTextField(
                 hintText: "Phone Number",
                 inputType: TextInputType.number,
                 maxLength: 10,
+                autofocus: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(top: 13, left: 12),
@@ -174,12 +169,10 @@ class _LoginViewState extends State<LoginView> {
 
   bool isValid() {
     if (phoneController.text.length == 4) {
-      CommonUtils.showSnackBar("Please enter mobile number",
-          color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, "Please enter mobile number");
       return false;
     } else if (phoneController.text.length != 14) {
-      CommonUtils.showSnackBar("Mobile number must be 10 digits",
-          color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, "Mobile number must be 10 digits");
       return false;
     } else {
       return true;

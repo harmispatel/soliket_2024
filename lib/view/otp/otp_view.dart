@@ -60,7 +60,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
         appBar: CommonAppBar(
           title: "SOLIKET",
           isTitleBold: true,
-          bgColor: CommonColors.mTransparent,
+          isShowShadow: true,
           iconTheme: IconThemeData(color: Colors.black),
         ),
         body: SingleChildScrollView(
@@ -69,14 +69,14 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter your code",
-                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                "Enter Your OTP",
+                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
               ),
               kCommonSpaceV20,
               Row(
                 children: [
                   Text(
-                    "Code sent to +918888899999 ",
+                    "OTP has been sent to +918888899999 ",
                     style: getAppStyle(fontSize: 14),
                   ),
                   Icon(
@@ -99,7 +99,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
                 ],
               ),
               kCommonSpaceV20,
-              Center(child: otpPinWidget()),
+              otpPinWidget(),
               kCommonSpaceV30,
               mViewModel.second == 0
                   ? Center(
@@ -122,7 +122,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Request for new OTP in",
+                          "Request for new OTP after",
                           textAlign: TextAlign.center,
                           style: getAppStyle(
                             fontSize: 16,
@@ -148,10 +148,8 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
                 lblSize: 18,
                 onPress: () {
                   if (otpController.text.length != 6) {
-                    CommonUtils.showSnackBar(
-                      "Please enter 6 digits otp",
-                      color: CommonColors.mRed,
-                    );
+                    CommonUtils.showCustomToast(
+                        context, "Please enter 6 digits otp");
                   } else {
                     mViewModel.otpVerifyApi(
                       user_id: gUserId,
@@ -181,18 +179,18 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
       ),
       decoration: BoxDecoration(
         border: Border.all(color: CommonColors.primaryColor),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
     );
 
     final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: CommonColors.primaryColor.withOpacity(0.4)),
-      borderRadius: BorderRadius.circular(10),
+      // border: Border.all(color: CommonColors.primaryColor.withOpacity(0.4)),
+      borderRadius: BorderRadius.circular(8),
     );
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration!.copyWith(
-        color: CommonColors.primaryColor.withOpacity(.1),
+        color: CommonColors.mTransparent,
       ),
     );
 
@@ -201,6 +199,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusedPinTheme,
       length: 6,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       submittedPinTheme: submittedPinTheme,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,

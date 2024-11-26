@@ -81,7 +81,7 @@ class _EditAccountViewState extends State<EditAccountView> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonAppBar(
-          title: "User Name",
+          title: "Edit Profile",
           isShowShadow: true,
           isTitleBold: true,
           iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -258,7 +258,7 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       // height: widget.height ?? 60,
       child: TextFormField(
         // focusNode: _focusNode,

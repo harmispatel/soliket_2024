@@ -94,11 +94,11 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
           ".......Sorry this product have only ${mViewModel.viewAllProductList[index].stock} in a stock......");
       String msg =
           "Only ${mViewModel.viewAllProductList[index].stock} product available in stock";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     } else if (mViewModel.viewAllProductList[index].stock == 0) {
       print(".......Sorry this item is sold out......");
       String msg = "Sorry this item is sold out";
-      CommonUtils.showSnackBar(msg, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, msg);
     }
   }
 
@@ -861,8 +861,7 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                       ".......Sorry this product have only ${homeViewModel.cartDataList[index].stock} in stock......");
                                   String msg =
                                       "Only ${homeViewModel.cartDataList[index].stock} product available in stock";
-                                  CommonUtils.showSnackBar(msg,
-                                      color: CommonColors.mRed);
+                                  CommonUtils.showCustomToast(context, msg);
                                 }
                               }
 
@@ -2264,10 +2263,8 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                   } else {
                                                     String msg =
                                                         "Only $stock product(s) available in stock";
-                                                    CommonUtils.showSnackBar(
-                                                        msg,
-                                                        color:
-                                                            CommonColors.mRed);
+                                                    CommonUtils.showCustomToast(
+                                                        context, msg);
                                                   }
                                                 }
                                               },

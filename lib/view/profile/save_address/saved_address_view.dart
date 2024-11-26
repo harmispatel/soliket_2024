@@ -76,7 +76,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
       child: Scaffold(
         backgroundColor: CommonColors.mGrey200,
         appBar: CommonAppBar(
-          title: "Saved Addresses",
+          title: "My Addresses",
           isShowShadow: true,
           isTitleBold: true,
           automaticallyImplyLeading: false,
@@ -137,7 +137,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                   ),
                 ),
               )
-            : mViewModel.addressList.isEmpty
+            : mViewModel.addressList.isNotEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -149,7 +149,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                           "Where do you want us to deliver?",
                           textAlign: TextAlign.center,
                           style: getAppStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
+                              fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                       ),
                       kCommonSpaceV5,
@@ -158,7 +158,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                         child: Text(
                           "You don't have any addresses saved. Saving addresses helps you checkout faster.",
                           textAlign: TextAlign.center,
-                          style: getAppStyle(fontSize: 16, height: 1.2),
+                          style: getAppStyle(fontSize: 15, height: 1.2),
                         ),
                       ),
                       kCommonSpaceV10,

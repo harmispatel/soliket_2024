@@ -68,8 +68,8 @@ class _MyOrdersViewState extends State<MyOrdersView> {
               child: ListView.builder(
                   itemCount: 5,
                   shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 15),
-                  physics: NeverScrollableScrollPhysics(),
+                  padding: kCommonScreenPadding,
+                  // physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),

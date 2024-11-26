@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
-import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../models/get_order_master.dart';
 
@@ -37,7 +36,7 @@ class MyOrderViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 

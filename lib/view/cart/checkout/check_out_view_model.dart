@@ -9,7 +9,6 @@ import '../../../models/common_master.dart';
 import '../../../models/update_bill_details_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
-import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../my_orders/order_success/order_success_view.dart';
 
@@ -50,7 +49,7 @@ class CheckOutViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 
@@ -65,10 +64,7 @@ class CheckOutViewModel with ChangeNotifier {
     if (master == null) {
       CommonUtils.oopsMSG();
     } else if (!master.status!) {
-      CommonUtils.showSnackBar(
-        master.message,
-        color: CommonColors.mRed,
-      );
+      CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
       discountAmount = master.data?.discountAmount ?? '';
@@ -104,7 +100,7 @@ class CheckOutViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 
@@ -151,7 +147,7 @@ class CheckOutViewModel with ChangeNotifier {
     }
 
     if (master.status == false) {
-      CommonUtils.showSnackBar(master.message, color: CommonColors.mRed);
+      CommonUtils.showCustomToast(context, master.message);
       return;
     }
 

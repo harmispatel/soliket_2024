@@ -44,7 +44,7 @@ class _ContactUsViewState extends State<ContactUsView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: SingleChildScrollView(
-        padding: kCommonScreenPadding,
+        padding: const EdgeInsets.all(11.0),
         child: Column(
           children: [
             if (mViewModel.isInitialLoading)
