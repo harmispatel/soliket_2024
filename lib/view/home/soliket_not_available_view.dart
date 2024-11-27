@@ -7,7 +7,7 @@ import 'package:solikat_2024/view/location/location_donNot_allow_view.dart';
 
 import '../../utils/global_variables.dart';
 import '../../widget/primary_button.dart';
-import '../profile/profile_view.dart';
+import '../profile/profile_view_model.dart';
 
 class SoliketNotAvailableView extends StatefulWidget {
   const SoliketNotAvailableView({super.key});
@@ -77,7 +77,7 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      push(ProfileView());
+                      // push(ProfileView());
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -129,19 +129,126 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
               Spacer(),
 
               // Spacer(),
-              // GestureDetector(
-              //   onTap: () {
-              //     push(Home());
-              //   },
-              //   child: Text(
-              //     "See Home Screen",
-              //     style: getAppStyle(fontSize: 20, color: Colors.blueAccent),
-              //   ),
-              // )
+              GestureDetector(
+                onTap: () {
+                  showConfirmationBottomSheet(
+                    title: "Logout",
+                    message: "Are you sure you want to logout of your account?",
+                    onConfirm: () {
+                      ProfileViewModel().logOutApi();
+                    },
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                      size: 18,
+                    ),
+                    Text(
+                      " Logout",
+                      style: getAppStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void showConfirmationBottomSheet({
+    required String title,
+    required String message,
+    required VoidCallback onConfirm,
+  }) {
+    showModalBottomSheet(
+      context: mainNavKey.currentContext!,
+      clipBehavior: Clip.antiAlias,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: CommonColors.mWhite,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.zero),
+      ),
+      builder: (_) {
+        return IntrinsicHeight(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 48,
+                    width: double.infinity,
+                    color: CommonColors.primaryColor,
+                    child: Center(
+                      child: Text(
+                        title,
+                        overflow: TextOverflow.clip,
+                        style: getAppStyle(
+                          color: CommonColors.mWhite,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 20, right: 10, left: 10),
+                    child: Text(
+                      message,
+                      overflow: TextOverflow.clip,
+                      style: getAppStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20) +
+                        const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        PrimaryButton(
+                          height: 40,
+                          width: 100,
+                          label: "No",
+                          buttonColor: CommonColors.mWhite,
+                          labelColor: CommonColors.primaryColor,
+                          borderColor: CommonColors.primaryColor,
+                          onPress: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        kCommonSpaceH15,
+                        PrimaryButton(
+                          height: 40,
+                          width: 100,
+                          label: "Yes",
+                          buttonColor: CommonColors.primaryColor,
+                          labelColor: CommonColors.mWhite,
+                          onPress: onConfirm,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

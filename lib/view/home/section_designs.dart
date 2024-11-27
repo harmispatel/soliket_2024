@@ -321,29 +321,28 @@ class _Section4State extends State<Section4> {
               itemCount: widget.section4.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    if (widget.onTapProDetails != null) {
-                      widget.onTapProDetails!(widget.section4[index].variantId);
-                    }
-                  },
-                  child: FittedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ProductContainer(
-                        imgUrl: widget.section4[index].image,
-                        productName: widget.section4[index].productName,
-                        onIncrement: () => incrementItem(index),
-                        onDecrement: () => decrementItem(index),
-                        stock: widget.section4[index].stock,
-                        variantName: widget.section4[index].variantName,
-                        discountPrice: widget.section4[index].discountPrice,
-                        productPrice: widget.section4[index].productPrice,
-                        discountPer: widget.section4[index].discountPer,
-                        cartCount: widget.section4[index].cartCount,
-                        productId: widget.section4[index].productId.toString(),
-                        variantId: widget.section4[index].variantId.toString(),
-                      ),
+                return FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: ProductContainer(
+                      onTapProduct: () {
+                        if (widget.onTapProDetails != null) {
+                          widget.onTapProDetails!(
+                              widget.section4[index].variantId);
+                        }
+                      },
+                      imgUrl: widget.section4[index].image,
+                      productName: widget.section4[index].productName,
+                      onIncrement: () => incrementItem(index),
+                      onDecrement: () => decrementItem(index),
+                      stock: widget.section4[index].stock,
+                      variantName: widget.section4[index].variantName,
+                      discountPrice: widget.section4[index].discountPrice,
+                      productPrice: widget.section4[index].productPrice,
+                      discountPer: widget.section4[index].discountPer,
+                      cartCount: widget.section4[index].cartCount,
+                      productId: widget.section4[index].productId.toString(),
+                      variantId: widget.section4[index].variantId.toString(),
                     ),
                   ),
                 );
@@ -734,29 +733,27 @@ class _Section9State extends State<Section9> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         var product = widget.section9.first.products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            if (widget.onTapProDetails != null) {
-                              widget.onTapProDetails!(product.variantId);
-                            }
-                          },
-                          child: FittedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: ProductContainer(
-                                imgUrl: product.image,
-                                productName: product.productName,
-                                onIncrement: () => incrementItem(0, index),
-                                onDecrement: () => decrementItem(0, index),
-                                stock: product.stock,
-                                variantName: product.variantName,
-                                discountPrice: product.discountPrice,
-                                productPrice: product.productPrice,
-                                discountPer: product.discountPer,
-                                cartCount: product.cartCount,
-                                productId: product.productId.toString(),
-                                variantId: product.variantId.toString(),
-                              ),
+                        return FittedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: ProductContainer(
+                              onTapProduct: () {
+                                if (widget.onTapProDetails != null) {
+                                  widget.onTapProDetails!(product.variantId);
+                                }
+                              },
+                              imgUrl: product.image,
+                              productName: product.productName,
+                              onIncrement: () => incrementItem(0, index),
+                              onDecrement: () => decrementItem(0, index),
+                              stock: product.stock,
+                              variantName: product.variantName,
+                              discountPrice: product.discountPrice,
+                              productPrice: product.productPrice,
+                              discountPer: product.discountPer,
+                              cartCount: product.cartCount,
+                              productId: product.productId.toString(),
+                              variantId: product.variantId.toString(),
                             ),
                           ),
                         );

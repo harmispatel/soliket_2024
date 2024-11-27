@@ -12,7 +12,8 @@ import '../../widget/primary_button.dart';
 import 'otp_view_model.dart';
 
 class OtpView extends StatefulWidget {
-  const OtpView({super.key});
+  final String mobileNo;
+  const OtpView({super.key, required this.mobileNo});
 
   @override
   State<OtpView> createState() => _OtpViewState();
@@ -76,7 +77,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
               Row(
                 children: [
                   Text(
-                    "OTP has been sent to +918888899999 ",
+                    "OTP has been sent to +91${widget.mobileNo} ",
                     style: getAppStyle(fontSize: 14),
                   ),
                   Icon(

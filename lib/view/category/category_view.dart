@@ -4,7 +4,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
 
 import '../../utils/common_colors.dart';
+import '../../utils/common_utils.dart';
 import '../../widget/common_appbar.dart';
+import '../home/sub_category/sub_category_view.dart';
 import 'category_view_model.dart';
 
 class CategoryView extends StatefulWidget {
@@ -29,7 +31,6 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<CategoryViewModel>(context);
-
     return Scaffold(
       // backgroundColor: const Color(0xFFFFF4E8),
       appBar: CommonAppBar(
@@ -87,7 +88,18 @@ class _CategoryViewState extends State<CategoryView> {
               itemCount: mViewModel.categoryListData.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    push(
+                      SubCategoryView(
+                        categoryId: mViewModel
+                            .categoryListData[index].categoryId
+                            .toString(),
+                        title:
+                            mViewModel.categoryListData[index].categoryName ??
+                                '',
+                      ),
+                    );
+                  },
                   child: Column(
                     children: [
                       Flexible(

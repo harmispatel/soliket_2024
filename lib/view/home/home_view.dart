@@ -1788,7 +1788,7 @@ class _HomeViewState extends State<HomeView> {
                                         spreadRadius: 0.0,
                                       ), //BoxShadow
                                       BoxShadow(
-                                        color: Colors.white,
+                                        color: CommonColors.primaryColor,
                                         offset: Offset(0.0, 0.0),
                                         blurRadius: 0.0,
                                         spreadRadius: 0.0,
@@ -1798,7 +1798,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: const Center(
                                     child: Icon(
                                       Icons.close_rounded,
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       size: 18,
                                     ),
                                   ),

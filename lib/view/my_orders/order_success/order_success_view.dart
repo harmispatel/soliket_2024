@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/common_colors.dart';
+import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
 import '../../../widget/common_appbar.dart';
@@ -127,14 +128,25 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.network(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ_KPMKbQ0JLUNVf4Ac-aOFTRQpHPlK6V-Qw&s",
-                      height: 200,
+                      "https://img.freepik.com/premium-vector/3d-cardboard-box-clipboard-with-tick-confirmed-order-delivery-concept-shipment-checklist-delivery-order-cardboard-box-fast-delivery-concept-mail-by-courier-vector-3d-illustration_221648-1115.jpg",
+                      height: 250,
                     ),
-                    kCommonSpaceV20,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        "Your Order Has Been Placed You Will Receive on Email Receive Shortly",
+                        "Thank you!",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                            fontSize: 22,
+                            color: CommonColors.blackColor),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Your order has been placed successfully.",
                         textAlign: TextAlign.center,
                         style: getAppStyle(
                             fontWeight: FontWeight.w500,
@@ -146,7 +158,10 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        print("Order Tracking");
+                        mainNavKey.currentContext!
+                            .read<BottomNavbarViewModel>()
+                            .onMenuTapped(2);
+                        pushAndRemoveUntil(BottomNavBarView());
                       },
                       child: Column(
                         children: [
@@ -167,14 +182,17 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                         ],
                       ),
                     ),
-                    kCommonSpaceV20,
+                    kCommonSpaceV10,
                     PrimaryButton(
                       height: 55,
                       label: "Order Continue",
                       buttonColor: CommonColors.primaryColor,
                       labelColor: CommonColors.mWhite,
                       onPress: () {
-                        print("Order Continue");
+                        mainNavKey.currentContext!
+                            .read<BottomNavbarViewModel>()
+                            .onMenuTapped(0);
+                        pushAndRemoveUntil(BottomNavBarView());
                       },
                     ),
                   ],

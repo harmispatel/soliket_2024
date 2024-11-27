@@ -15,6 +15,7 @@ class ProductContainer extends StatefulWidget {
   final double? width;
   final Function onIncrement;
   final Function onDecrement;
+  final Function? onTapProduct;
   final int cartCount;
 
   const ProductContainer({
@@ -26,6 +27,7 @@ class ProductContainer extends StatefulWidget {
     this.width,
     required this.onIncrement,
     required this.onDecrement,
+    this.onTapProduct,
     required this.stock,
     required this.variantName,
     required this.discountPrice,
@@ -55,47 +57,57 @@ class _ProductContainerState extends State<ProductContainer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    if (widget.stock != 0)
-                      Center(
-                        child: Image.network(
-                          widget.imgUrl,
-                          fit: BoxFit.contain,
-                          height: 170,
-                        ),
-                      ),
-                    if (widget.stock == 0)
-                      Center(
-                        child: ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            Colors.white.withOpacity(0.5),
-                            BlendMode.srcOver, // Blend mode for overlay
-                          ),
+                GestureDetector(
+                  onTap: () {
+                    widget.onTapProduct!();
+                  },
+                  child: Stack(
+                    children: [
+                      if (widget.stock != 0)
+                        Center(
                           child: Image.network(
                             widget.imgUrl,
                             fit: BoxFit.contain,
                             height: 170,
                           ),
                         ),
-                      ),
-                  ],
+                      if (widget.stock == 0)
+                        Center(
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Colors.white.withOpacity(0.5),
+                              BlendMode.srcOver, // Blend mode for overlay
+                            ),
+                            child: Image.network(
+                              widget.imgUrl,
+                              fit: BoxFit.contain,
+                              height: 170,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
-                SizedBox(
-                  height: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      widget.productName,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: getAppStyle(
-                          fontSize: 14,
-                          color: widget.stock == 0
-                              ? Colors.grey[400]
-                              : Colors.black87,
-                          fontWeight: FontWeight.w600),
+                GestureDetector(
+                  onTap: () {
+                    widget.onTapProduct!();
+                  },
+                  child: SizedBox(
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        widget.productName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: getAppStyle(
+                            fontSize: 14,
+                            color: widget.stock == 0
+                                ? Colors.grey[400]
+                                : Colors.black87,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),

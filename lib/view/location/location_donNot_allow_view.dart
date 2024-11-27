@@ -49,13 +49,12 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
   @override
   void initState() {
     super.initState();
-    // Add observer to listen to app lifecycle changes
+    _checkLocationPermission();
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    // Remove observer to prevent memory leaks
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -74,52 +73,37 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
     var status = await Permission.location.status;
 
     if (status.isGranted) {
-      // Navigate to the next screen if permission is granted
-      // push(LocationAllowView());
-      isHavePermission = true;
+      setState(() {
+        isHavePermission = true;
+      });
     } else {
-      isHavePermission = false;
+      setState(() {
+        isHavePermission = false;
+      });
     }
-    // else {
-    //   // Handle cases where permission is not granted
-    //   CommonUtils.showSnackBar(
-    //     "Location permission is still required to proceed.",
-    //     color: CommonColors.mRed,
-    //   );
-    // }
   }
 
   Future<void> requestLocationPermission() async {
-    status = await Permission.location.status;
-
+    PermissionStatus status = await Permission.location.request();
     print(status);
 
-    if (status.isGranted) {
-      print("Location permission already granted.");
-      push(LocationAllowView());
-    } else if (status.isPermanentlyDenied) {
-      // Show a message and prompt the user to open settings
-      // CommonUtils.showSnackBar(
-      //   "Location permission is required to proceed. Please enable it in settings.",
-      //   color: CommonColors.mRed,
-      // );
-
-      // Optionally, open the app settings
+    // Check if permission is permanently denied
+    if (status.isPermanentlyDenied) {
       await openAppSettings();
-    } else {
-      // Request permission
-      var result = await Permission.location.request();
+    } else if (status.isDenied) {
+      // Retry requesting permission if it was denied
+      await Permission.location.request();
+    }
 
-      if (result.isGranted) {
-        print("Location permission granted.");
-        push(LocationAllowView());
-      }
-      // else {
-      //   CommonUtils.showSnackBar(
-      //     "Location permission is required to proceed.",
-      //     color: CommonColors.mRed,
-      //   );
-      // }
+    // Handle permission granted or not
+    if (status.isGranted) {
+      setState(() {
+        isHavePermission = true;
+      });
+    } else {
+      setState(() {
+        isHavePermission = false;
+      });
     }
   }
 
@@ -239,9 +223,10 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
                                       fontWeight: FontWeight.w500,
                                       fontSize: 15),
                                 ),
+                                kCommonSpaceV3,
                                 Text(
                                   "please location permission for the best delivery experience",
-                                  style: getAppStyle(height: 1),
+                                  style: getAppStyle(height: 1, fontSize: 13),
                                 ),
                               ],
                             ),
@@ -406,6 +391,7 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
                       height: 50,
                       label: "Settings",
                       onPress: () {
+                        Navigator.pop(context);
                         requestLocationPermission();
                       },
                     ),

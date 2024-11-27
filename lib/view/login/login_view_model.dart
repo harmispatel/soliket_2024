@@ -65,7 +65,9 @@ class LoginViewModel with ChangeNotifier {
 
       // AppPreferences.instance.setAccessToken(master.sessionId ?? '');
       gUserId = master.data?.userId.toString() ?? '';
-      push(const OtpView());
+      push(OtpView(
+        mobileNo: mobile_no,
+      ));
       //AppPreferences.instance.setUserDetails(jsonEncode(master.data!.user));
       // gUserType = master.data!.user!.roleId!.toString();
       // globalUserMaster = AppPreferences.instance.getUserDetails();

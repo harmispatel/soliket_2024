@@ -8,6 +8,8 @@ import 'package:solikat_2024/widget/common_appbar.dart';
 
 import '../../widget/common_text_field.dart';
 import '../../widget/primary_button.dart';
+import '../profile/policies/privacy_policy/privacy_policy_view.dart';
+import '../profile/policies/terms_and_conditions/terms_and_conditions_view.dart';
 import 'login_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -126,13 +128,18 @@ class _LoginViewState extends State<LoginView> {
                         "By clicking, I accept the ",
                         style: getAppStyle(fontSize: 12),
                       ),
-                      Text(
-                        "Terms & Conditions",
-                        style: getAppStyle(
-                          fontSize: 12,
-                          color: CommonColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          textDecorationColor: CommonColors.primaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          push(TermsAndConditionsView());
+                        },
+                        child: Text(
+                          "Terms & Conditions",
+                          style: getAppStyle(
+                            fontSize: 12,
+                            color: CommonColors.primaryColor,
+                            decoration: TextDecoration.underline,
+                            textDecorationColor: CommonColors.primaryColor,
+                          ),
                         ),
                       ),
                       Text(
@@ -141,13 +148,18 @@ class _LoginViewState extends State<LoginView> {
                           fontSize: 12,
                         ),
                       ),
-                      Text(
-                        "Privacy Policy",
-                        style: getAppStyle(
-                          fontSize: 12,
-                          color: CommonColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          textDecorationColor: CommonColors.primaryColor,
+                      GestureDetector(
+                        onTap: () {
+                          push(PrivacyPolicyView());
+                        },
+                        child: Text(
+                          "Privacy Policy",
+                          style: getAppStyle(
+                            fontSize: 12,
+                            color: CommonColors.primaryColor,
+                            decoration: TextDecoration.underline,
+                            textDecorationColor: CommonColors.primaryColor,
+                          ),
                         ),
                       ),
                     ],

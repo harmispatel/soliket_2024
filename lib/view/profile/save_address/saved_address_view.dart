@@ -137,7 +137,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                   ),
                 ),
               )
-            : mViewModel.addressList.isNotEmpty
+            : mViewModel.addressList.isEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -150,15 +150,6 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                           textAlign: TextAlign.center,
                           style: getAppStyle(
                               fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      kCommonSpaceV5,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Text(
-                          "You don't have any addresses saved. Saving addresses helps you checkout faster.",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(fontSize: 15, height: 1.2),
                         ),
                       ),
                       kCommonSpaceV10,

@@ -27,9 +27,6 @@ class MyOrderViewModel with ChangeNotifier {
     GetOrderMaster? master = await services.api!.getOrder(params: params);
     isInitialLoading = false;
     print(".......... Page ${currentPage}............");
-
-    notifyListeners();
-
     if (master == null) {
       CommonUtils.oopsMSG();
       return;

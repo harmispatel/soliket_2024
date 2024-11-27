@@ -406,26 +406,10 @@ class _CheckOutViewState extends State<CheckOutView>
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: getAppStyle(
-                                                                fontSize: 22,
+                                                                fontSize: 18,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500),
-                                                          ),
-                                                        ),
-                                                        kCommonSpaceV5,
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      40),
-                                                          child: Text(
-                                                            "You don't have any addresses saved. Saving addresses helps you checkout faster.",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: getAppStyle(
-                                                                fontSize: 16,
-                                                                height: 1.2),
                                                           ),
                                                         ),
                                                       ],

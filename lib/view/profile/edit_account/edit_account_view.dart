@@ -129,21 +129,36 @@ class _EditAccountViewState extends State<EditAccountView> {
                 kCommonSpaceV20,
                 TextFormFieldCustom(
                   maxLength: 10,
+                  verticalPadding: 15,
                   controller: edPhoneNumberController,
                   textInputType: TextInputType.number,
                   readOnly: true,
+                  bgColor: CommonColors.mGrey200,
                   hintText: "Phone Number",
                   labelText: "Phone Number",
                 ),
                 kCommonSpaceV20,
                 TextFormFieldCustom(
+                  verticalPadding: 15,
                   controller: edYourNameController,
                   textInputType: TextInputType.name,
                   hintText: "Your Name",
                   labelText: "Your Name",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter name.';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    if (_formKey.currentState?.validate() == true) {
+                      _formKey.currentState!.validate();
+                    }
+                  },
                 ),
                 kCommonSpaceV20,
                 TextFormFieldCustom(
+                  verticalPadding: 15,
                   controller: edEmailController,
                   textInputType: TextInputType.emailAddress,
                   hintText: "Email",
@@ -151,6 +166,7 @@ class _EditAccountViewState extends State<EditAccountView> {
                 ),
                 kCommonSpaceV20,
                 TextFormFieldCustom(
+                  verticalPadding: 15,
                   onTap: () {
                     selectBirthDate(context);
                   },
@@ -158,28 +174,36 @@ class _EditAccountViewState extends State<EditAccountView> {
                   controller: edBirthDateController,
                   hintText: "Birth Date",
                   labelText: "Birth Date",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter name. Birth Date.';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    if (_formKey.currentState?.validate() == true) {
+                      _formKey.currentState!.validate();
+                    }
+                  },
                   readOnly: true,
                 ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: PrimaryButton(
-                        height: 50,
-                        label: "Save Changes",
-                        lblSize: 18,
-                        borderRadius: BorderRadius.circular(16),
-                        onPress: () {
-                          if (_formKey.currentState!.validate()) {
-                            mViewModel.updateProfileApi(
-                                name: edYourNameController.text,
-                                email: edEmailController.text,
-                                birthday: edBirthDateController.text,
-                                profile: imagePath);
-                          }
-                        },
-                      ),
+                    child: PrimaryButton(
+                      height: 40,
+                      label: "Save",
+                      lblSize: 16,
+                      borderRadius: BorderRadius.circular(6),
+                      onPress: () {
+                        if (_formKey.currentState!.validate()) {
+                          mViewModel.updateProfileApi(
+                              name: edYourNameController.text,
+                              email: edEmailController.text,
+                              birthday: edBirthDateController.text,
+                              profile: imagePath);
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -207,6 +231,7 @@ class TextFormFieldCustom extends StatefulWidget {
   final bool readOnly;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
+  final Color? bgColor;
 
   const TextFormFieldCustom({
     super.key,
@@ -224,6 +249,7 @@ class TextFormFieldCustom extends StatefulWidget {
     this.onChanged,
     this.height,
     this.verticalPadding,
+    this.bgColor,
   });
 
   @override
@@ -258,77 +284,73 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: widget.height ?? 60,
-      child: TextFormField(
-        // focusNode: _focusNode,
-        onTap: widget.onTap,
-        validator: (value) {
-          _validateField();
-          return widget.validator?.call(value);
-        },
-        onChanged: widget.onChanged,
-        maxLines: widget.maxLines,
-        maxLength: widget.maxLength,
-        controller: widget.controller,
-        textInputAction: widget.textInputAction ?? TextInputAction.next,
-        keyboardType: widget.textInputType ?? TextInputType.text,
-        cursorColor: Colors.black,
-        readOnly: widget.readOnly,
-        style: getAppStyle(
-            color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
-        decoration: InputDecoration(
-          counterText: "",
-          hintText: widget.hintText ?? "",
-          filled: true,
-          labelText: widget.labelText ?? "",
-          labelStyle: getAppStyle(
-            color: Colors.black.withOpacity(0.5),
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: widget.verticalPadding ?? 12,
-          ),
-          floatingLabelStyle: getAppStyle(
-            color: _labelColor,
-            fontWeight: FontWeight.w500,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide:
-                BorderSide(color: Colors.grey.withOpacity(0.5), width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(
-              color: Colors.grey.withOpacity(0.5),
-            ),
-          ),
-          errorStyle: getAppStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.w500,
-            height: 1,
-            fontSize: 12,
-          ),
-          errorMaxLines: 1,
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: Colors.red, width: 1),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: Colors.red, width: 1),
-          ),
-          hintStyle: getAppStyle(
-            color: Colors.black.withOpacity(0.5),
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-          suffixIcon: widget.suffixIcon,
-          fillColor: Colors.transparent,
+    return TextFormField(
+      // focusNode: _focusNode,
+      onTap: widget.onTap,
+      validator: (value) {
+        _validateField();
+        return widget.validator?.call(value);
+      },
+      onChanged: widget.onChanged,
+      maxLines: widget.maxLines,
+      maxLength: widget.maxLength,
+      controller: widget.controller,
+      textInputAction: widget.textInputAction ?? TextInputAction.next,
+      keyboardType: widget.textInputType ?? TextInputType.text,
+      cursorColor: Colors.black,
+      readOnly: widget.readOnly,
+      style: getAppStyle(
+          color: Colors.black, fontWeight: FontWeight.w500, fontSize: 14),
+      decoration: InputDecoration(
+        counterText: "",
+        hintText: widget.hintText ?? "",
+        filled: true,
+        fillColor: widget.bgColor ?? Colors.transparent,
+        labelText: widget.labelText ?? "",
+        labelStyle: getAppStyle(
+          color: Colors.black.withOpacity(0.5),
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
         ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: widget.verticalPadding ?? 12,
+        ),
+        floatingLabelStyle: getAppStyle(
+          color: _labelColor,
+          fontWeight: FontWeight.w500,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: Colors.grey.withOpacity(0.5), width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.5),
+          ),
+        ),
+        errorStyle: getAppStyle(
+          color: Colors.red,
+          fontWeight: FontWeight.w500,
+          height: 1,
+          fontSize: 12,
+        ),
+        errorMaxLines: 1,
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+        hintStyle: getAppStyle(
+          color: Colors.black.withOpacity(0.5),
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+        ),
+        suffixIcon: widget.suffixIcon,
       ),
     );
   }

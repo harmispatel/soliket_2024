@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/order_master.dart';
 
@@ -107,19 +106,8 @@ class CheckOutViewModel with ChangeNotifier {
     if (master.status == true) {
       if (paymentMethod == "cod") {
         Navigator.pop(context);
-        AwesomeDialog(
-                context: context,
-                animType: AnimType.topSlide,
-                headerAnimationLoop: false,
-                dialogType: DialogType.success,
-                showCloseIcon: false,
-                title: 'Order placed',
-                desc: 'Congratulation order placed successfully',
-                autoHide: Duration(seconds: 2))
-            .show()
-            .whenComplete(() {
-          push(OrderSuccessView());
-        });
+
+        push(OrderSuccessView());
       } else if (paymentMethod == "online") {
         orderId = master.data?.orderId ?? '';
         print("........... Order id stored ....... $orderId");
@@ -152,19 +140,7 @@ class CheckOutViewModel with ChangeNotifier {
     }
 
     if (master.status == true) {
-      AwesomeDialog(
-              context: context,
-              animType: AnimType.topSlide,
-              headerAnimationLoop: false,
-              dialogType: DialogType.success,
-              showCloseIcon: false,
-              title: 'Order placed',
-              desc: 'Congratulation order placed successfully',
-              autoHide: Duration(seconds: 2))
-          .show()
-          .whenComplete(() {
-        push(OrderSuccessView());
-      });
+      push(OrderSuccessView());
     }
     notifyListeners();
   }

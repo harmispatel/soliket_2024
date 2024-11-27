@@ -82,7 +82,11 @@ class _FaqViewState extends State<FaqView> {
                       child: ExpansionTile(
                         title: Text(
                           mViewModel.faqList[index].qtn ?? '',
-                          style: getAppStyle(fontWeight: FontWeight.w500),
+                          style: getAppStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
                         ),
                         children: <Widget>[
                           ListTile(
