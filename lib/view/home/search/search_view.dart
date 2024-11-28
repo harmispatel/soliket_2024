@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/common_view/bottom_navbar/bottom_navbar_view.dart';
@@ -15,6 +16,7 @@ import '../../../widget/common_product_container_view.dart';
 import '../../../widget/common_text_field.dart';
 import '../../../widget/primary_button.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view_model.dart';
+import '../../common_view/common_img_slider/common_img_slider_view.dart';
 import '../home_view_model.dart';
 import '../sub_brand/sub_brand_view_model.dart';
 import '../sub_category/sub_category_view_model.dart';
@@ -35,6 +37,7 @@ class _SearchViewState extends State<SearchView> {
   bool _isListening = false;
   bool _isSpeaking = false;
   int itemCount = 0;
+  bool isBottomSheetOpen = false;
 
   late SearchViewModel mViewModel;
   late HomeViewModel mHomeViewModel;
@@ -263,6 +266,18 @@ class _SearchViewState extends State<SearchView> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: ProductContainer(
+                    onTapProduct: () async {
+                      var variantId = mViewModel.productList[index].variantId;
+                      if (!isBottomSheetOpen) {
+                        isBottomSheetOpen = true;
+                        await mHomeViewModel.getProductDetailsApi(
+                          variantId: variantId?.toString() ?? '',
+                        );
+                        if (mHomeViewModel.productDetailsData != null) {
+                          productDetailsBottomSheet(variantId!);
+                        }
+                      }
+                    },
                     imgUrl: mViewModel.productList[index].image ?? '',
                     productName:
                         mViewModel.productList[index].productName ?? '',
@@ -1251,6 +1266,437 @@ class _SearchViewState extends State<SearchView> {
               : SizedBox();
         },
       ),
+    );
+  }
+
+  void productDetailsBottomSheet(int variantId) {
+    isBottomSheetOpen = false;
+    mHomeViewModel.getProductDetailsApi(variantId: variantId.toString());
+    showModalBottomSheet(
+      context: mainNavKey.currentContext!,
+      clipBehavior: Clip.antiAlias,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.white,
+      builder: (_) {
+        return IntrinsicHeight(
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20) +
+                    const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  isBottomSheetOpen = false;
+                                },
+                                child: Container(
+                                  height: 26,
+                                  width: 26,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(
+                                          2.0,
+                                          2.0,
+                                        ),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                      BoxShadow(
+                                        color: CommonColors.primaryColor,
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 0.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                    ],
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            CommonImgSliderView(
+                              imgUrls: mHomeViewModel
+                                  .productDetailsData![0].image!
+                                  .map((imageData) => imageData.image ?? "")
+                                  .toList(),
+                            ),
+                            Text(
+                              mHomeViewModel.productDetailsData?.isNotEmpty ==
+                                      true
+                                  ? mHomeViewModel
+                                          .productDetailsData![0].productName ??
+                                      "No product name available"
+                                  : "No product details available",
+                              style: getAppStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              mHomeViewModel.productDetailsData?.isNotEmpty ==
+                                      true
+                                  ? mHomeViewModel
+                                          .productDetailsData![0].variantName ??
+                                      "No product Unit available"
+                                  : "No product details available",
+                              style: getAppStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "₹${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].discountPrice.toString() : "No product details available"}",
+                                  style: getAppStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  "₹${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].productPrice.toString() : "No product details available"}",
+                                  style: getAppStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                mHomeViewModel
+                                            .productDetailsData![0].discountPer
+                                            .toString() ==
+                                        "0"
+                                    ? const SizedBox.shrink()
+                                    : Container(
+                                        margin: const EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orangeAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              color: Colors.white, width: 2),
+                                        ),
+                                        child: Text(
+                                          "${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
+                                          style: getAppStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            kCommonSpaceV10,
+                            Text(
+                              "Description",
+                              style: getAppStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                            HtmlWidget(
+                              mHomeViewModel
+                                      .productDetailsData![0].description ??
+                                  "--",
+                              textStyle: getAppStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: IntrinsicWidth(
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    mHomeViewModel.productDetailsData
+                                                ?.isNotEmpty ==
+                                            true
+                                        ? mHomeViewModel.productDetailsData![0]
+                                                .variantName ??
+                                            "No product Unit available"
+                                        : "No product details available",
+                                    style: getAppStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "₹${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].discountPrice.toString() : "No product details available"}",
+                                        style: getAppStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        "₹${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].productPrice.toString() : "No product details available"}",
+                                        style: getAppStyle(
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      mHomeViewModel.productDetailsData![0]
+                                                  .discountPer
+                                                  .toString() ==
+                                              "0"
+                                          ? const SizedBox(width: 50)
+                                          : Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 8),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 3),
+                                              decoration: BoxDecoration(
+                                                color: Colors.orangeAccent,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 2),
+                                              ),
+                                              child: Text(
+                                                "${mHomeViewModel.productDetailsData?.isNotEmpty == true ? mHomeViewModel.productDetailsData![0].discountPer.toString() : "No product details available"}% off",
+                                                style: getAppStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 70),
+                              const Spacer(),
+                              if (mHomeViewModel.productDetailsData![0].stock !=
+                                  0) ...[
+                                mHomeViewModel
+                                            .productDetailsData![0].cartCount! >
+                                        0
+                                    ? Container(
+                                        height: 55,
+                                        width: 240,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: CommonColors.primaryColor,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (mHomeViewModel
+                                                        .productDetailsData![0]
+                                                        .cartCount! >
+                                                    0) {
+                                                  await mHomeViewModel
+                                                      .addToCartApi(
+                                                    variantId: mHomeViewModel
+                                                        .productDetailsData![0]
+                                                        .variantId
+                                                        .toString(),
+                                                    type: 'm',
+                                                  );
+                                                  setState(() {
+                                                    mHomeViewModel
+                                                        .productDetailsData![0]
+                                                        .cartCount = mHomeViewModel
+                                                            .productDetailsData![
+                                                                0]
+                                                            .cartCount! -
+                                                        1;
+                                                  });
+                                                }
+                                              },
+                                              child: const Icon(
+                                                Icons.remove,
+                                                size: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Text(
+                                              mHomeViewModel
+                                                  .productDetailsData![0]
+                                                  .cartCount
+                                                  .toString(),
+                                              style: getAppStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                // Ensure productDetailsData is non-null and has at least one item
+                                                if (mHomeViewModel
+                                                            .productDetailsData !=
+                                                        null &&
+                                                    mHomeViewModel
+                                                        .productDetailsData!
+                                                        .isNotEmpty) {
+                                                  int stock = mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .stock ??
+                                                      0; // Provide a default value (e.g., 0)
+
+                                                  if (mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount! <
+                                                      stock) {
+                                                    await mHomeViewModel
+                                                        .addToCartApi(
+                                                      variantId: mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .variantId
+                                                          .toString(),
+                                                      type: 'p',
+                                                    );
+                                                    setState(() {
+                                                      mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount = mHomeViewModel
+                                                              .productDetailsData![
+                                                                  0]
+                                                              .cartCount! +
+                                                          1;
+                                                    });
+                                                  } else {
+                                                    String msg =
+                                                        "Only $stock product(s) available in stock";
+                                                    CommonUtils.showCustomToast(
+                                                        context, msg);
+                                                  }
+                                                }
+                                              },
+                                              // onTap: () async {
+                                              //   await mViewModel.addToCartApi(
+                                              //     variantId: mViewModel
+                                              //         .productDetailsData![0]
+                                              //         .variantId
+                                              //         .toString(),
+                                              //     type: 'p',
+                                              //   );
+                                              //   setState(() {
+                                              //     mViewModel
+                                              //         .productDetailsData![0]
+                                              //         .cartCount = mViewModel
+                                              //             .productDetailsData![
+                                              //                 0]
+                                              //             .cartCount! +
+                                              //         1;
+                                              //   });
+                                              // },
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () async {
+                                          await mHomeViewModel.addToCartApi(
+                                            variantId: mHomeViewModel
+                                                .productDetailsData![0]
+                                                .variantId
+                                                .toString(),
+                                            type: 'p',
+                                          );
+                                          setState(() {
+                                            mHomeViewModel
+                                                .productDetailsData![0]
+                                                .cartCount = 1;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 55,
+                                          width: 240,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: CommonColors.primaryColor,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Add to Cart",
+                                              style: getAppStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

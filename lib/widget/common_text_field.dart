@@ -616,7 +616,7 @@ class LabeledTextField extends StatelessWidget {
           labelStyle: getAppStyle(
             color: Colors.grey.shade400,
             fontSize: 18,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.normal,
           ),
 
           hintText: hintText, // Placeholder text
@@ -629,7 +629,7 @@ class LabeledTextField extends StatelessWidget {
         style: getAppStyle(
           color: Colors.grey.shade600,
           fontSize: 16,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.normal,
         ),
         maxLines: maxLines ?? 1,
         maxLength: maxLength ?? 200,

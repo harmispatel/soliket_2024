@@ -15,7 +15,7 @@ class ProductContainer extends StatefulWidget {
   final double? width;
   final Function onIncrement;
   final Function onDecrement;
-  final Function? onTapProduct;
+  final Function onTapProduct;
   final int cartCount;
 
   const ProductContainer({
@@ -27,7 +27,7 @@ class ProductContainer extends StatefulWidget {
     this.width,
     required this.onIncrement,
     required this.onDecrement,
-    this.onTapProduct,
+    required this.onTapProduct,
     required this.stock,
     required this.variantName,
     required this.discountPrice,
@@ -59,7 +59,7 @@ class _ProductContainerState extends State<ProductContainer> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    widget.onTapProduct!();
+                    widget.onTapProduct();
                   },
                   child: Stack(
                     children: [
@@ -91,7 +91,7 @@ class _ProductContainerState extends State<ProductContainer> {
                 const SizedBox(height: 5),
                 GestureDetector(
                   onTap: () {
-                    widget.onTapProduct!();
+                    widget.onTapProduct();
                   },
                   child: SizedBox(
                     height: 40,

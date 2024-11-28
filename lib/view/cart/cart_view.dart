@@ -69,27 +69,15 @@ class _MyCartViewState extends State<MyCartView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.network(
-                        height: 200,
-                        "https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?ga=GA1.1.13293824.1730713797&semt=ais_hybrid",
+                        height: 240,
+                        "https://cdn3d.iconscout.com/3d/premium/thumb/package-cart-9581643-7838126.png?f=webp",
                       ),
-                      kCommonSpaceV20,
+                      kCommonSpaceV10,
                       Text(
                         "Your cart is empty",
                         textAlign: TextAlign.center,
                         style: getAppStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      kCommonSpaceV10,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 70),
-                        child: Text(
-                          "Looks like you haven't added any product to your cart yet.",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(
-                              height: 1.2,
-                              fontSize: 18,
-                              color: CommonColors.black54),
-                        ),
+                            fontSize: 22, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
                       PrimaryButton(

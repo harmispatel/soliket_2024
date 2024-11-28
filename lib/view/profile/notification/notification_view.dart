@@ -105,17 +105,8 @@ class _NotificationViewState extends State<NotificationView> {
                             "No Notification Here",
                             textAlign: TextAlign.center,
                             style: getAppStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                                fontSize: 22, fontWeight: FontWeight.w500),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 70),
-                            child: Text(
-                              "There is no notification to show right now.",
-                              textAlign: TextAlign.center,
-                              style: getAppStyle(
-                                  fontSize: 18, color: CommonColors.black54),
-                            ),
-                          )
                         ],
                       ),
                     ),

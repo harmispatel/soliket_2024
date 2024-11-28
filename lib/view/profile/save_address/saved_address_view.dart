@@ -138,53 +138,55 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                 ),
               )
             : mViewModel.addressList.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(height: 130, LocalImages.img_delivery_boy),
-                      kCommonSpaceV10,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
-                        child: Text(
-                          "Where do you want us to deliver?",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(height: 130, LocalImages.img_delivery_boy),
+                        kCommonSpaceV10,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 60),
+                          child: Text(
+                            "Where do you want us to deliver?",
+                            textAlign: TextAlign.center,
+                            style: getAppStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      kCommonSpaceV10,
-                      GestureDetector(
-                        onTap: () {
-                          final latLng = LatLng(
-                            double.parse(gUserLat),
-                            double.parse(gUserLong),
-                          );
-                          print(latLng.latitude);
-                          print(latLng.longitude);
-                          push(SelectAddressMapView(
-                            selectedPlace: latLng,
-                            isFromEdit: false,
-                          ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border:
-                                  Border.all(color: CommonColors.primaryColor)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 6),
-                            child: Text(
-                              "ADD NEW ADDRESS",
-                              style: getAppStyle(
-                                  color: CommonColors.primaryColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400),
+                        kCommonSpaceV10,
+                        GestureDetector(
+                          onTap: () {
+                            final latLng = LatLng(
+                              double.parse(gUserLat),
+                              double.parse(gUserLong),
+                            );
+                            print(latLng.latitude);
+                            print(latLng.longitude);
+                            push(SelectAddressMapView(
+                              selectedPlace: latLng,
+                              isFromEdit: false,
+                            ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                    color: CommonColors.primaryColor)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 6),
+                              child: Text(
+                                "ADD NEW ADDRESS",
+                                style: getAppStyle(
+                                    color: CommonColors.primaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 : ListView.builder(
                     padding:

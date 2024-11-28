@@ -55,7 +55,6 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<OtpViewModel>(context);
-
     return SafeArea(
       child: Scaffold(
         appBar: CommonAppBar(
@@ -205,7 +204,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
       androidSmsAutofillMethod: AndroidSmsAutofillMethod.none, // Corrected here
-      onCompleted: (pin) {
+      onCompleted: (pin) async {
         // Optionally trigger verification here
         mViewModel.otpVerifyApi(
           user_id: gUserId,

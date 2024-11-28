@@ -25,11 +25,8 @@ class LoginViewModel with ChangeNotifier {
   void attachedContext(BuildContext context) {
     this.context = context;
     getAppVersionApi().then((_) {
-      checkAppVersion(); // Now check version after API call completes
+      checkAppVersion();
     });
-    print("AAAAAAAAAAAAAAAAA");
-    print(latestAppVersion.toString());
-    print("AAAAAAAAAAAAAAAAA");
     notifyListeners();
   }
 
@@ -37,9 +34,7 @@ class LoginViewModel with ChangeNotifier {
   //   this.context = context;
   //   checkAppVersion();
   //   getAppVersionApi();
-  //   print("AAAAAAAAAAAAAAAAA");
   //   print(latestAppVersion.toString());
-  //   print("AAAAAAAAAAAAAAAAA");
   //   notifyListeners();
   // }
 
@@ -65,6 +60,7 @@ class LoginViewModel with ChangeNotifier {
 
       // AppPreferences.instance.setAccessToken(master.sessionId ?? '');
       gUserId = master.data?.userId.toString() ?? '';
+      await CommonUtils.hideKeyboard();
       push(OtpView(
         mobileNo: mobile_no,
       ));

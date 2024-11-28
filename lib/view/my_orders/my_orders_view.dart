@@ -96,7 +96,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                         style: getAppStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
-                            color: CommonColors.mRed),
+                            color: CommonColors.blackColor),
                       ),
                     ],
                   ),
