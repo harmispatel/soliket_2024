@@ -1100,9 +1100,10 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
+                                                        color: CommonColors.blackColor,
                                                           fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
+                                                              FontWeight.w500,
+                                                          fontSize: 16),
                                                     ),
                                                     Row(
                                                       children: [
@@ -1114,8 +1115,8 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          mHomeViewModel
-                                                              .cartTotalPrice,
+                                                          "₹${mHomeViewModel
+                                                              .cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1143,7 +1144,7 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: Colors.white,
+                                                          color: CommonColors.primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1158,6 +1159,7 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
+                                                        color: CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1571,7 +1573,7 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                       labelColor: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              10),
                                                       onPress: () {
                                                         Navigator.pop(context);
                                                         mainNavKey

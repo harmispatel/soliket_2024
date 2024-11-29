@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:solikat_2024/utils/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../database/app_preferences.dart';
 import '../../models/app_version_master.dart';
 import '../../models/login_master.dart';
 import '../../services/api_para.dart';
@@ -84,6 +86,7 @@ class LoginViewModel with ChangeNotifier {
     } else if (master.status!) {
       log("Success :: true");
       latestAppVersion = master.data?.appVersion;
+      AppPreferences.instance.setAppVersion(jsonEncode(master.data?.appVersion));
       //latestAppVersion = "1.0.1";
     }
     notifyListeners();
@@ -126,7 +129,7 @@ class LoginViewModel with ChangeNotifier {
       isScrollControlled: true,
       useSafeArea: true,
       isDismissible: false,
-      // enableDrag: false,
+      enableDrag: false,
       backgroundColor: CommonColors.mWhite,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

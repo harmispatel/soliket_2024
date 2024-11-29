@@ -1087,10 +1087,12 @@ class _HomeViewState extends State<HomeView> {
                                                         Text(
                                                           'Review Cart',
                                                           style: getAppStyle(
+                                                              color: CommonColors
+                                                                  .blackColor,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
-                                                              fontSize: 18),
+                                                                      .w500,
+                                                              fontSize: 16),
                                                         ),
                                                         Row(
                                                           children: [
@@ -1101,8 +1103,7 @@ class _HomeViewState extends State<HomeView> {
                                                                       .black54),
                                                             ),
                                                             Text(
-                                                              mViewModel
-                                                                  .cartTotalPrice,
+                                                              "₹${mViewModel.cartTotalPrice}",
                                                               style: getAppStyle(
                                                                   fontWeight:
                                                                       FontWeight
@@ -1134,8 +1135,8 @@ class _HomeViewState extends State<HomeView> {
                                                               spreadRadius: 0.0,
                                                             ), //BoxShadow
                                                             BoxShadow(
-                                                              color:
-                                                                  Colors.white,
+                                                              color: CommonColors
+                                                                  .primaryColor,
                                                               offset:
                                                                   const Offset(
                                                                       0.0, 0.0),
@@ -1151,6 +1152,8 @@ class _HomeViewState extends State<HomeView> {
                                                           child: Icon(
                                                             Icons.close,
                                                             size: 15,
+                                                            color: CommonColors
+                                                                .mWhite,
                                                           ),
                                                         ),
                                                       ),
@@ -1549,7 +1552,7 @@ class _HomeViewState extends State<HomeView> {
                                                               Colors.white,
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(12),
+                                                                  .circular(10),
                                                           onPress: () {
                                                             Navigator.pop(
                                                                 context);

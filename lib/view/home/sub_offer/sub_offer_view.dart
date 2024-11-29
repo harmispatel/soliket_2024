@@ -1284,9 +1284,11 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
+                                                          color: CommonColors
+                                                              .blackColor,
                                                           fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
+                                                              FontWeight.w500,
+                                                          fontSize: 16),
                                                     ),
                                                     Row(
                                                       children: [
@@ -1298,8 +1300,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          mHomeViewModel
-                                                              .cartTotalPrice,
+                                                          "₹${mHomeViewModel.cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1327,7 +1328,8 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: Colors.white,
+                                                          color: CommonColors
+                                                              .primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1342,6 +1344,8 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
+                                                        color:
+                                                            CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1755,7 +1759,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                       labelColor: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              10),
                                                       onPress: () {
                                                         Navigator.pop(context);
                                                         mainNavKey

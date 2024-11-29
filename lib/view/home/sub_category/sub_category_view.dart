@@ -1354,9 +1354,10 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
+                                                          color: CommonColors.blackColor,
                                                           fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
+                                                          FontWeight.w500,
+                                                          fontSize: 16),
                                                     ),
                                                     Row(
                                                       children: [
@@ -1368,8 +1369,8 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          mHomeViewModel
-                                                              .cartTotalPrice,
+                                                          "₹${mHomeViewModel
+                                                              .cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1397,7 +1398,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: Colors.white,
+                                                          color: CommonColors.primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1412,6 +1413,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
+                                                        color: CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1825,7 +1827,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                       labelColor: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              10),
                                                       onPress: () {
                                                         Navigator.pop(context);
                                                         mainNavKey

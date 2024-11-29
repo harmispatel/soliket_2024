@@ -728,9 +728,10 @@ class _SearchViewState extends State<SearchView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
+                                                        color: CommonColors.blackColor,
                                                           fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
+                                                              FontWeight.w500,
+                                                          fontSize: 16),
                                                     ),
                                                     Row(
                                                       children: [
@@ -742,8 +743,8 @@ class _SearchViewState extends State<SearchView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          mHomeViewModel
-                                                              .cartTotalPrice,
+                                                          "₹${mHomeViewModel
+                                                              .cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -771,7 +772,7 @@ class _SearchViewState extends State<SearchView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: Colors.white,
+                                                          color: CommonColors.primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -786,6 +787,7 @@ class _SearchViewState extends State<SearchView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
+                                                        color: CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1199,7 +1201,7 @@ class _SearchViewState extends State<SearchView> {
                                                       labelColor: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              10),
                                                       onPress: () {
                                                         Navigator.pop(context);
                                                         mainNavKey

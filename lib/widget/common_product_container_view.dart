@@ -125,111 +125,116 @@ class _ProductContainerState extends State<ProductContainer> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.discountPrice.toString(),
-                            style: getAppStyle(
-                              fontSize: 14,
-                              color: widget.stock == 0
-                                  ? Colors.grey[400]
-                                  : Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            widget.productPrice.toString(),
-                            style: getAppStyle(
-                              color: widget.stock == 0
-                                  ? Colors.grey[400]
-                                  : Colors.black54,
-                              fontSize: 12,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        ],
-                      ),
-                      widget.cartCount > 0
-                          ? Container(
-                              // padding: const EdgeInsets.symmetric(
-                              //     horizontal: 4, vertical: 4),
-                              // margin: const EdgeInsets.only(bottom: 4),
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
+                FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "₹ ${widget.discountPrice.toString()}",
+                              style: getAppStyle(
+                                fontSize: 13,
                                 color: widget.stock == 0
-                                    ? CommonColors.primaryColor.withOpacity(0.4)
-                                    : CommonColors.primaryColor,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => widget.onDecrement(),
-                                    child: const Icon(
-                                      Icons.remove,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.cartCount.toString(),
-                                    style: getAppStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => widget.onIncrement(),
-                                    child: const Icon(
-                                      Icons.add,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : InkWell(
-                              onTap: () => widget.onIncrement(),
-                              child: Container(
-                                width: 100,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: widget.stock == 0
-                                          ? CommonColors.primaryColor
-                                              .withOpacity(0.4)
-                                          : CommonColors.primaryColor,
-                                      width: 1),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Add",
-                                    style: getAppStyle(
-                                      color: widget.stock == 0
-                                          ? CommonColors.primaryColor
-                                              .withOpacity(0.4)
-                                          : CommonColors.primaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                    ? Colors.grey[400]
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                    ],
+                            Text(
+                              "₹ ${widget.productPrice.toString()}",
+                              style: getAppStyle(
+                                color: widget.stock == 0
+                                    ? Colors.grey[400]
+                                    : Colors.black54,
+                                fontSize: 12,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                        kCommonSpaceH20,
+                        kCommonSpaceH10,
+                        widget.cartCount > 0
+                            ? Container(
+                                // padding: const EdgeInsets.symmetric(
+                                //     horizontal: 4, vertical: 4),
+                                // margin: const EdgeInsets.only(bottom: 4),
+                                height: 35,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: widget.stock == 0
+                                      ? CommonColors.primaryColor
+                                          .withOpacity(0.4)
+                                      : CommonColors.primaryColor,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => widget.onDecrement(),
+                                      child: const Icon(
+                                        Icons.remove,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      widget.cartCount.toString(),
+                                      style: getAppStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => widget.onIncrement(),
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () => widget.onIncrement(),
+                                child: Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: widget.stock == 0
+                                            ? CommonColors.primaryColor
+                                                .withOpacity(0.4)
+                                            : CommonColors.primaryColor,
+                                        width: 1),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Add",
+                                      style: getAppStyle(
+                                        color: widget.stock == 0
+                                            ? CommonColors.primaryColor
+                                                .withOpacity(0.4)
+                                            : CommonColors.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -1312,9 +1312,10 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
+                                                        color: CommonColors.blackColor,
                                                           fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
+                                                              FontWeight.w500,
+                                                          fontSize: 16),
                                                     ),
                                                     Row(
                                                       children: [
@@ -1326,8 +1327,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          mHomeViewModel
-                                                              .cartTotalPrice,
+                                                          "₹${mHomeViewModel
+                                                              .cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1355,7 +1356,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: Colors.white,
+                                                          color: CommonColors.primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1370,6 +1371,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
+                                                        color: CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1783,7 +1785,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                       labelColor: Colors.white,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              10),
                                                       onPress: () {
                                                         Navigator.pop(context);
                                                         mainNavKey

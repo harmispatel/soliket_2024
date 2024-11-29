@@ -830,18 +830,19 @@ class _CheckOutViewState extends State<CheckOutView>
                   selectedIndex != -1) {
                 if (selectedPayment == "online") {
                   mViewModel.placeOrderApi(
-                      addressId: mSavedAddressViewModel
-                          .addressList[selectedIndex!].addressId
-                          .toString(),
-                      paymentMethod: "online",
-                      transactionId: "null");
+                    addressId: mSavedAddressViewModel
+                        .addressList[selectedIndex!].addressId
+                        .toString(),
+                    paymentMethod: "online",
+                    transactionId: "null",
+                  );
                   Razorpay razorpay = Razorpay();
                   double totalAmount = double.parse(mViewModel.total ?? '');
                   var options = {
                     // 'key': 'rzp_live_u7SbpfQeUr70kp',
                     'key': 'rzp_test_gdFvpbKhIrcbLc',
                     'amount': (totalAmount * 100).toInt(),
-                    'name': 'Krunal',
+                    'name': 'Soliket',
                     'description': 'Testing payment',
                     'retry': {'enabled': true, 'max_count': 1},
                     'send_sms_hash': true,
@@ -851,7 +852,10 @@ class _CheckOutViewState extends State<CheckOutView>
                     },
                     'external': {
                       'wallets': ['paytm']
-                    }
+                    },
+                    'theme': {
+                      'color': '#EA7D08',
+                    },
                   };
                   razorpay.on(
                       Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);

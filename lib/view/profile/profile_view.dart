@@ -253,9 +253,9 @@ class _ProfileViewState extends State<ProfileView> {
               onTap: () {},
               child: Center(
                 child: Text(
-                  "v2.6.1.5(198)",
+                  "v${mViewModel.latestAppVersion.toString().replaceAll('"', '')}",
                   style: getAppStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey,
                   ),

@@ -14,6 +14,7 @@ class AppPreferences {
   final String keyDeviceToken = "KEY_DEVICE_TOKEN";
   final String keyAccessToken = "keyAccessToken";
   final String keyLoginOption = "keyLoginOption";
+  final String keyAppVersion = "keyAppVersion";
   final String keyFCMToken = "keyFCMToken";
   final String keyUserLat = "keyUserLat";
   final String keyUserLong = "keyUserLong";
@@ -101,6 +102,16 @@ class AppPreferences {
     } else {
       return null;
     }
+  }
+
+  // Method to set login option
+  Future<bool> setAppVersion(String value) async {
+    return _pref!.setString(keyAppVersion, value);
+  }
+
+  // Method to get login option
+  String getAppVersion() {
+    return _pref!.getString(keyAppVersion) ?? "";
   }
 
   // //

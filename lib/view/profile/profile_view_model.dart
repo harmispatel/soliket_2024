@@ -17,9 +17,11 @@ class ProfileViewModel with ChangeNotifier {
   final _services = Services();
   ProfileData? profileData;
   bool isInitialLoading = true;
+  String? latestAppVersion;
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    latestAppVersion = AppPreferences.instance.getAppVersion();
     notifyListeners();
   }
 
