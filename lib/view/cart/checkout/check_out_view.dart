@@ -223,6 +223,7 @@ class _CheckOutViewState extends State<CheckOutView>
                                   context: context,
                                   builder: (BuildContext context) {
                                     return Scaffold(
+                                      backgroundColor: Color(0xFFFFF4E8),
                                       body: Container(
                                         color: CommonColors.mGrey200
                                             .withOpacity(0.5),
@@ -876,16 +877,16 @@ class _CheckOutViewState extends State<CheckOutView>
                     dismissOnBackKeyPress: false,
                     headerAnimationLoop: false,
                     animType: AnimType.topSlide,
-                    title: 'Order Confirm',
-                    desc: 'Are you sure to want place this Order?',
+                    title: 'Confirm Your Order',
+                    desc: 'Are you sure you want to place this order?',
                     buttonsTextStyle: getAppStyle(),
-                    descTextStyle: getAppStyle(fontSize: 16),
+                    descTextStyle: getAppStyle(fontSize: 15),
                     titleTextStyle:
-                        getAppStyle(fontWeight: FontWeight.w600, fontSize: 22),
+                        getAppStyle(fontWeight: FontWeight.w600, fontSize: 18),
                     showCloseIcon: false,
                     btnOk: PrimaryButton(
-                      label: "Yes",
-                      buttonColor: CommonColors.greenColor,
+                      label: "Confirm",
+                      buttonColor: CommonColors.primaryColor,
                       labelColor: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                       onPress: () {

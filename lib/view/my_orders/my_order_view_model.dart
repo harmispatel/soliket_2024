@@ -19,14 +19,16 @@ class MyOrderViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getOrdersApi() async {
+  Future<void> getOrdersApi({
+    required String status,
+  }) async {
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.page: currentPage.toString(),
+      ApiParams.status: status,
     };
 
     GetOrderMaster? master = await services.api!.getOrder(params: params);
     isInitialLoading = false;
-    print(".......... Page ${currentPage}............");
     if (master == null) {
       CommonUtils.oopsMSG();
       return;
@@ -48,13 +50,16 @@ class MyOrderViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetPage() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      currentPage = 1;
-      isPageFinish = false;
-      isInitialLoading = true;
-      orderList.clear();
-      notifyListeners();
-    });
+  Future<void> resetPage() async {
+    await Future.delayed(Duration.zero);
+    currentPage = 1;
+    isPageFinish = false;
+    isInitialLoading = true;
+    orderList.clear();
+    print("................All Clear.................. ${currentPage}");
+    print("................All Clear.................. ${isPageFinish}");
+    print("................All Clear.................. ${isInitialLoading}");
+    print("................All Clear.................. ${orderList.length}");
+    notifyListeners(); // Notify listeners to update UI after resetting
   }
 }

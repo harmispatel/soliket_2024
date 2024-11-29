@@ -83,7 +83,6 @@ class _LoginViewState extends State<LoginView> {
                 hintText: "Phone Number",
                 inputType: TextInputType.number,
                 maxLength: 10,
-                autofocus: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(top: 13, left: 12),

@@ -36,7 +36,7 @@ class _ContactUsViewState extends State<ContactUsView> {
   Widget build(BuildContext context) {
     mViewModel = Provider.of<ContactUsViewModel>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Color(0xFFFFF4E8),
       appBar: CommonAppBar(
         title: "Contact Us",
         isShowShadow: true,

@@ -25,7 +25,7 @@ class SplashViewModel with ChangeNotifier {
   }
 
   startTimer() async {
-    Future.delayed(const Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       String accessToken = await AppPreferences.instance.getAccessToken();
       gUserLocation = await AppPreferences.instance.getUserLocation();
       String userLat = await AppPreferences.instance.getUserLat();

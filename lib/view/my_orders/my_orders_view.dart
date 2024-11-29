@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/local_images.dart';
-import 'package:solikat_2024/view/my_orders/order_details/order_details_view.dart';
 import 'package:solikat_2024/view/my_orders/tracking_orders/tracking_orders_view.dart';
-import 'package:solikat_2024/widget/primary_button.dart';
 
-import '../../../../utils/common_utils.dart';
 import '../../../../utils/constant.dart';
 import '../../../../widget/common_appbar.dart';
 import '../../utils/common_colors.dart';
+import '../../utils/common_utils.dart';
+import '../../widget/primary_button.dart';
 import 'my_order_view_model.dart';
+import 'order_details/order_details_view.dart';
 
 class MyOrdersView extends StatefulWidget {
   const MyOrdersView({super.key});
@@ -19,23 +19,45 @@ class MyOrdersView extends StatefulWidget {
   State<MyOrdersView> createState() => _MyOrdersViewState();
 }
 
-class _MyOrdersViewState extends State<MyOrdersView> {
+class _MyOrdersViewState extends State<MyOrdersView>
+    with TickerProviderStateMixin {
   late MyOrderViewModel mViewModel;
   final ScrollController _scrollController = ScrollController();
+  late final TabController _tabController;
+  String currentStatus = 'p';
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      _scrollController.addListener(_scrollListener);
-      mViewModel.getOrdersApi();
+
+      _tabController.addListener(() {
+        if (_tabController.indexIsChanging) {
+          mViewModel.resetPage().whenComplete(() {
+            setState(() {
+              currentStatus = _tabController.index == 0 ? 'p' : 'c';
+              mViewModel.getOrdersApi(status: currentStatus);
+            });
+          });
+        }
+      });
+
+      // Initial API call to fetch orders for the first tab
+      Future.delayed(Duration.zero, () {
+        mViewModel.attachedContext(context);
+        _scrollController.addListener(_scrollListener);
+        mViewModel.getOrdersApi(status: currentStatus);
+      });
     });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _tabController.dispose();
     mViewModel.resetPage();
     super.dispose();
   }
@@ -45,7 +67,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
     if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent &&
         !mViewModel.isPageFinish) {
-      mViewModel.getOrdersApi();
+      mViewModel.getOrdersApi(status: currentStatus);
     }
   }
 
@@ -54,250 +76,537 @@ class _MyOrdersViewState extends State<MyOrdersView> {
     mViewModel = Provider.of<MyOrderViewModel>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFFFF4E8),
-      appBar: CommonAppBar(
-        title: "My Orders",
-        isShowShadow: true,
-        isTitleBold: true,
-        iconTheme: IconThemeData(color: CommonColors.blackColor),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0),
+        child: CommonAppBar(
+          title: "My Orders",
+          isShowShadow: true,
+          isTitleBold: true,
+          iconTheme: IconThemeData(color: CommonColors.blackColor),
+          bottom: TabBar(
+            controller: _tabController,
+            unselectedLabelColor: Colors.black,
+            dividerColor: Colors.white,
+            tabs: <Widget>[
+              Tab(
+                child: Text(
+                  "Pending",
+                  style: getAppStyle(fontSize: 16),
+                ),
+              ),
+              Tab(
+                child: Text("Complete", style: getAppStyle(fontSize: 16)),
+              ),
+            ],
+          ),
+        ),
       ),
-      body: mViewModel.isInitialLoading
-          ? Shimmer.fromColors(
-              baseColor: Colors.grey.shade400,
-              highlightColor: Colors.grey.shade100,
-              enabled: true,
-              child: ListView.builder(
-                  itemCount: 5,
-                  shrinkWrap: true,
-                  padding: kCommonScreenPadding,
-                  // physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Container(
-                        width: double.infinity,
-                        height: 200.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  }),
-            )
-          : mViewModel.orderList.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(height: 270, LocalImages.img_order_not_found),
-                      kCommonSpaceV15,
-                      Text(
-                        "No order Found!",
-                        style: getAppStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                            color: CommonColors.blackColor),
-                      ),
-                    ],
-                  ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          mViewModel.isInitialLoading
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey.shade400,
+                  highlightColor: Colors.grey.shade100,
+                  enabled: true,
+                  child: ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      padding: kCommonScreenPadding,
+                      // physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Container(
+                            width: double.infinity,
+                            height: 200.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      }),
                 )
-              : ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: mViewModel.orderList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.only(top: 16),
-                      margin: const EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: CommonColors.primaryColor.withOpacity(0.4),
-                          width: 0.8,
-                        ),
-                      ),
+              : mViewModel.orderList.isEmpty
+                  ? Center(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Image.network(
-                                        "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
-                                        height: 40,
+                          Image.asset(
+                              height: 270, LocalImages.img_order_not_found),
+                          kCommonSpaceV15,
+                          Text(
+                            "No order Found!",
+                            style: getAppStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                                color: CommonColors.blackColor),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      controller: _scrollController,
+                      padding:
+                          const EdgeInsets.only(top: 12, left: 15, right: 15),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: mViewModel.orderList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(top: 16),
+                          margin: const EdgeInsets.only(bottom: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: CommonColors.primaryColor.withOpacity(0.4),
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 14),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Image.network(
+                                            "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
+                                            height: 40,
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  mViewModel.orderList[index]
+                                                          .orderNumber ??
+                                                      '',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: getAppStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  mViewModel.orderList[index]
+                                                          .created ??
+                                                      '',
+                                                  style: getAppStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 22,
+                                            color: CommonColors.primaryColor,
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(width: 20),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 4),
+                                      child: Divider(
+                                        color: CommonColors.mGrey,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
                                           children: [
                                             Text(
-                                              mViewModel.orderList[index]
-                                                      .orderNumber ??
-                                                  '',
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
+                                              "Payment Type",
                                               style: getAppStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              mViewModel.orderList[index]
-                                                      .created ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: Colors.grey,
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14,
                                               ),
                                             ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .paymentMethod ??
+                                                  '',
+                                              style: getAppStyle(
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 22,
-                                        color: CommonColors.primaryColor,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
-                                  child: Divider(
-                                    color: CommonColors.mGrey,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Total",
+                                              style: getAppStyle(
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              "₹${mViewModel.orderList[index].total ?? ''}",
+                                              style: getAppStyle(
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Status",
+                                              style: getAppStyle(
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .orderStatus ??
+                                                  '',
+                                              style: getAppStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    kCommonSpaceV20,
+                                    kCommonSpaceV10,
+                                    Row(
                                       children: [
-                                        Text(
-                                          "Payment type",
-                                          style: getAppStyle(
-                                            color: Colors.grey.withOpacity(0.6),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
+                                        Expanded(
+                                          child: PrimaryButton(
+                                            height: 46,
+                                            label: "Tracking",
+                                            buttonColor: Colors.transparent,
+                                            borderColor:
+                                                CommonColors.primaryColor,
+                                            labelColor:
+                                                CommonColors.primaryColor,
+                                            onPress: () {
+                                              push(TrackingOrdersView(
+                                                  orderId: mViewModel
+                                                      .orderList[index].orderId
+                                                      .toString()));
+                                            },
                                           ),
                                         ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          mViewModel.orderList[index]
-                                                  .paymentMethod ??
-                                              '',
-                                          style: getAppStyle(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
+                                        kCommonSpaceH15,
+                                        Expanded(
+                                          child: PrimaryButton(
+                                            height: 46,
+                                            label: "View Details",
+                                            buttonColor:
+                                                CommonColors.primaryColor,
+                                            labelColor: CommonColors.mWhite,
+                                            onPress: () {
+                                              push(OrderDetailsView(
+                                                  orderId: mViewModel
+                                                      .orderList[index].orderId
+                                                      .toString()));
+                                            },
                                           ),
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Total",
-                                          style: getAppStyle(
-                                            color: Colors.grey.withOpacity(0.6),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          "₹${mViewModel.orderList[index].total ?? ''}",
-                                          style: getAppStyle(
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Status",
-                                          style: getAppStyle(
-                                            color: Colors.grey.withOpacity(0.6),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          mViewModel.orderList[index]
-                                                  .orderStatus ??
-                                              '',
-                                          style: getAppStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    kCommonSpaceV15,
                                   ],
                                 ),
-                                kCommonSpaceV20,
-                                kCommonSpaceV10,
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: PrimaryButton(
-                                        height: 46,
-                                        label: "Tracking",
-                                        buttonColor: Colors.transparent,
-                                        borderColor: CommonColors.primaryColor,
-                                        labelColor: CommonColors.primaryColor,
-                                        onPress: () {
-                                          push(TrackingOrdersView(
-                                              orderId: mViewModel
-                                                  .orderList[index].orderId
-                                                  .toString()));
-                                        },
-                                      ),
-                                    ),
-                                    kCommonSpaceH15,
-                                    Expanded(
-                                      child: PrimaryButton(
-                                        height: 46,
-                                        label: "View Details",
-                                        buttonColor: CommonColors.primaryColor,
-                                        labelColor: CommonColors.mWhite,
-                                        onPress: () {
-                                          push(OrderDetailsView(
-                                              orderId: mViewModel
-                                                  .orderList[index].orderId
-                                                  .toString()));
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                kCommonSpaceV15,
-                              ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+
+          /// complete view design
+
+          mViewModel.isInitialLoading
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey.shade400,
+                  highlightColor: Colors.grey.shade100,
+                  enabled: true,
+                  child: ListView.builder(
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      padding: kCommonScreenPadding,
+                      // physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Container(
+                            width: double.infinity,
+                            height: 200.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Colors.white,
                             ),
+                          ),
+                        );
+                      }),
+                )
+              : mViewModel.orderList.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                              height: 270, LocalImages.img_order_not_found),
+                          kCommonSpaceV15,
+                          Text(
+                            "No order Found!",
+                            style: getAppStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                                color: CommonColors.blackColor),
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
+                    )
+                  : ListView.builder(
+                      controller: _scrollController,
+                      padding:
+                          const EdgeInsets.only(top: 12, left: 15, right: 15),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: mViewModel.orderList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(top: 16),
+                          margin: const EdgeInsets.only(bottom: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: CommonColors.primaryColor.withOpacity(0.4),
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 14),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Image.network(
+                                            "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
+                                            height: 40,
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  mViewModel.orderList[index]
+                                                          .orderNumber ??
+                                                      '',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: getAppStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  mViewModel.orderList[index]
+                                                          .created ??
+                                                      '',
+                                                  style: getAppStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 22,
+                                            color: CommonColors.primaryColor,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 4),
+                                      child: Divider(
+                                        color: CommonColors.mGrey,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Payment Type",
+                                              style: getAppStyle(
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .paymentMethod ??
+                                                  '',
+                                              style: getAppStyle(
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Total",
+                                              style: getAppStyle(
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              "₹${mViewModel.orderList[index].total ?? ''}",
+                                              style: getAppStyle(
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Status",
+                                              style: getAppStyle(
+                                                color: Colors.grey
+                                                    .withOpacity(0.6),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .orderStatus ??
+                                                  '',
+                                              style: getAppStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    kCommonSpaceV20,
+                                    kCommonSpaceV10,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: PrimaryButton(
+                                            height: 46,
+                                            label: "Tracking",
+                                            buttonColor: Colors.transparent,
+                                            borderColor:
+                                                CommonColors.primaryColor,
+                                            labelColor:
+                                                CommonColors.primaryColor,
+                                            onPress: () {
+                                              push(TrackingOrdersView(
+                                                  orderId: mViewModel
+                                                      .orderList[index].orderId
+                                                      .toString()));
+                                            },
+                                          ),
+                                        ),
+                                        kCommonSpaceH15,
+                                        Expanded(
+                                          child: PrimaryButton(
+                                            height: 46,
+                                            label: "View Details",
+                                            buttonColor:
+                                                CommonColors.primaryColor,
+                                            labelColor: CommonColors.mWhite,
+                                            onPress: () {
+                                              push(OrderDetailsView(
+                                                  orderId: mViewModel
+                                                      .orderList[index].orderId
+                                                      .toString()));
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    kCommonSpaceV15,
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+        ],
+      ),
     );
   }
 }

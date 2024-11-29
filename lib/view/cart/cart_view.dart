@@ -47,7 +47,7 @@ class _MyCartViewState extends State<MyCartView> {
     mViewModel = Provider.of<CartViewModel>(context);
     mHomeViewModel = Provider.of<HomeViewModel>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: mViewModel.cartList.isEmpty ? Color(0xFFFFF4E8) : null,
       appBar: const CommonAppBar(
         title: "My Cart",
         isShowShadow: true,

@@ -30,6 +30,7 @@ class _FaqViewState extends State<FaqView> {
   Widget build(BuildContext context) {
     mViewModel = Provider.of<FaqViewModel>(context);
     return Scaffold(
+      backgroundColor: Color(0xFFFFF4E8),
       appBar: CommonAppBar(
         title: "FAQ",
         isShowShadow: true,

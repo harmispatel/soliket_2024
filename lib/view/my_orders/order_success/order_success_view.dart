@@ -8,6 +8,7 @@ import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/global_variables.dart';
+import '../../../utils/local_images.dart';
 import '../../../widget/common_appbar.dart';
 import '../../../widget/primary_button.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view.dart';
@@ -122,13 +123,13 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
               ),
               body: Padding(
                 padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 160, bottom: 30),
+                    left: 16, right: 16, top: 140, bottom: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.network(
-                      "https://img.freepik.com/premium-vector/3d-cardboard-box-clipboard-with-tick-confirmed-order-delivery-concept-shipment-checklist-delivery-order-cardboard-box-fast-delivery-concept-mail-by-courier-vector-3d-illustration_221648-1115.jpg",
+                    Image.asset(
+                      LocalImages.img_order_success,
                       height: 250,
                     ),
                     Padding(
@@ -143,8 +144,9 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                             color: CommonColors.blackColor),
                       ),
                     ),
+                    kCommonSpaceV10,
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         "Your order has been placed successfully.",
                         textAlign: TextAlign.center,
@@ -166,7 +168,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                       child: Column(
                         children: [
                           Text(
-                            "Order Tracking",
+                            "My Order",
                             textAlign: TextAlign.center,
                             style: getAppStyle(
                               color: CommonColors.primaryColor,
@@ -176,7 +178,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                           ),
                           Container(
                             height: 1,
-                            width: 112,
+                            width: 70,
                             color: CommonColors.primaryColor,
                           )
                         ],
@@ -185,7 +187,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                     kCommonSpaceV10,
                     PrimaryButton(
                       height: 55,
-                      label: "Order Continue",
+                      label: "Home",
                       buttonColor: CommonColors.primaryColor,
                       labelColor: CommonColors.mWhite,
                       onPress: () {

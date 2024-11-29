@@ -14,6 +14,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? bgColor;
   final bool? automaticallyImplyLeading;
   final IconThemeData? iconTheme;
+  final PreferredSizeWidget? bottom;
 
   const CommonAppBar({
     this.leading,
@@ -25,6 +26,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.bgColor,
     this.automaticallyImplyLeading,
     this.iconTheme,
+    this.bottom,
     super.key,
   });
 
@@ -52,29 +54,31 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             : [],
       ),
       child: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: iconTheme,
-        leading: leading,
-        centerTitle: centerTitle ?? true,
-        automaticallyImplyLeading: automaticallyImplyLeading ?? true,
-        title: Text(
-          title!,
-          style: isTitleBold!
-              ? getAppStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                )
-              : getAppStyle(
-                  fontSize: 18,
-                  fontWeight:
-                      Theme.of(context).appBarTheme.titleTextStyle!.fontWeight,
-                  color: Colors.black87,
-                ),
-        ),
-        actions: actions ?? [],
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: iconTheme,
+          leading: leading,
+          centerTitle: centerTitle ?? true,
+          automaticallyImplyLeading: automaticallyImplyLeading ?? true,
+          title: Text(
+            title!,
+            style: isTitleBold!
+                ? getAppStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  )
+                : getAppStyle(
+                    fontSize: 18,
+                    fontWeight: Theme.of(context)
+                        .appBarTheme
+                        .titleTextStyle!
+                        .fontWeight,
+                    color: Colors.black87,
+                  ),
+          ),
+          actions: actions ?? [],
+          bottom: bottom),
     ));
   }
 

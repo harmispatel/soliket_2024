@@ -364,24 +364,6 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 10),
-                                      InkWell(
-                                        onTap: () {
-                                          debugPrint("OnTap Change");
-                                        },
-                                        child: Text(
-                                          "View Details",
-                                          style: getAppStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              color: mViewModel
-                                                          .couponList[index]
-                                                          .isEnabled ==
-                                                      "n"
-                                                  ? CommonColors.black45
-                                                  : CommonColors.primaryColor),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -430,13 +412,14 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: CommonColors.mGrey200),
+                          shape: BoxShape.circle,
+                          color: CommonColors.primaryColor),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Icon(
                           Icons.close,
                           size: 15,
-                          color: CommonColors.mGrey500,
+                          color: CommonColors.mWhite,
                         ),
                       ),
                     ),

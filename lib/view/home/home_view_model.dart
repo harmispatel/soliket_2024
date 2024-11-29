@@ -221,21 +221,13 @@ class HomeViewModel with ChangeNotifier {
   void attachedContext(BuildContext context) {
     this.context = context;
     loginViewModel = LoginViewModel();
-    loginViewModel.getAppVersionApi().then((_) {
-      loginViewModel.checkAppVersion();
-    });
+    if (currentPage == 1) {
+      loginViewModel.getAppVersionApi().then((_) {
+        loginViewModel.checkAppVersion();
+      });
+    }
     notifyListeners();
   }
-
-  // void updateCartCount(int variantId, int newCount) {
-  //   for (var product in section4DataList) {
-  //     if (product.variantId == variantId) {
-  //       product.cartCount = newCount;
-  //       notifyListeners();
-  //       break;
-  //     }
-  //   }
-  // }
 
   Future<void> getCartApi() async {
     GetCartMaster? master = await services.api!.getCartApi();
@@ -326,7 +318,7 @@ class HomeViewModel with ChangeNotifier {
                           children: [
                             Spacer(),
                             Text(
-                              "Today's Offer",
+                              infoPopUpData[0].title ?? '',
                               style: getAppStyle(
                                   color: CommonColors.blackColor, fontSize: 18),
                             ),
@@ -382,15 +374,17 @@ class HomeViewModel with ChangeNotifier {
                           ),
                         ),
                       ),
-                      kCommonSpaceV15,
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 8),
-                        child: Text(
-                          infoPopUpData[0].description ?? '',
-                          style: getAppStyle(),
+                      if (infoPopUpData[0].isContent == "y") ...[
+                        kCommonSpaceV15,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 8),
+                          child: Text(
+                            infoPopUpData[0].description ?? '',
+                            style: getAppStyle(),
+                          ),
                         ),
-                      ),
+                      ]
                     ],
                   ),
                 );

@@ -900,7 +900,7 @@ class S implements WidgetsLocalizations {
 
   String get otpValid => "Enter OTP";
 
-  String get noInternet => "No internet";
+  String get noInternet => "No internet Connection";
 
   String get yourWishList => "your wish list is empty";
 

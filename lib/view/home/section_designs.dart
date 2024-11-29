@@ -399,7 +399,7 @@ class Section6 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 300,
+          height: 250,
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -594,6 +594,7 @@ class Section8 extends StatelessWidget {
                     print("Category id...... ${section8[0].offerId}");
                     push(SubOfferView(
                       offerId: section8[0].offerId,
+                      title: section8Title,
                     ));
                   },
                   child: Container(
@@ -614,6 +615,7 @@ class Section8 extends StatelessWidget {
                     print("Category id...... ${section8[1].offerId}");
                     push(SubOfferView(
                       offerId: section8[1].offerId,
+                      title: section8Title,
                     ));
                   },
                   child: Container(
@@ -634,6 +636,7 @@ class Section8 extends StatelessWidget {
                     print("Category id...... ${section8[2].offerId}");
                     push(SubOfferView(
                       offerId: section8[2].offerId,
+                      title: section8Title,
                     ));
                   },
                   child: Container(

@@ -197,7 +197,9 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                             mViewModel.getCategoryProductApi(
                               latitude: gUserLat,
                               longitude: gUserLong,
-                              categoryId: widget.categoryId.toString(),
+                              categoryId: mViewModel
+                                  .subCategoryList[index].subCategoryId
+                                  .toString(),
                             );
                           },
                           child: Column(

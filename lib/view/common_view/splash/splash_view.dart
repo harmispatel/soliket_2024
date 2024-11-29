@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/common_view/splash/splash_view_model.dart';
 
+import '../../../utils/common_colors.dart';
 import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 
@@ -57,12 +58,13 @@ class _SplashViewState extends State<SplashView> {
     // );
     mViewModel = Provider.of<SplashViewModel>(context);
     return Scaffold(
-      // backgroundColor: CommonColors.primaryColor,
-      body: Image.asset(
-        height: kDeviceHeight,
-        width: kDeviceWidth,
-        LocalImages.img_splash_logo,
-        fit: BoxFit.fill,
+      backgroundColor: CommonColors.mWhite,
+      body: Center(
+        child: Image.asset(
+          height: kDeviceHeight,
+          width: kDeviceWidth,
+          LocalImages.img_splash_logo,
+        ),
       ),
     );
   }

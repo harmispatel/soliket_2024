@@ -74,9 +74,9 @@ class _SaveAddressViewState extends State<SaveAddressView> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: CommonColors.mGrey200,
+        backgroundColor: Color(0xFFFFF4E8),
         appBar: CommonAppBar(
-          title: "My Addresses",
+          title: "My Address",
           isShowShadow: true,
           isTitleBold: true,
           automaticallyImplyLeading: false,
@@ -145,15 +145,15 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                         Image.asset(height: 130, LocalImages.img_delivery_boy),
                         kCommonSpaceV10,
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 60),
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Text(
                             "Where do you want us to deliver?",
                             textAlign: TextAlign.center,
                             style: getAppStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
+                                fontSize: 20, fontWeight: FontWeight.w500),
                           ),
                         ),
-                        kCommonSpaceV10,
+                        kCommonSpaceV20,
                         GestureDetector(
                           onTap: () {
                             final latLng = LatLng(

@@ -49,7 +49,7 @@ class _NotificationViewState extends State<NotificationView> {
     mViewModel = Provider.of<NotificationViewModel>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: CommonColors.grayShade200,
+        backgroundColor: Color(0xFFFFF4E8),
         appBar: const CommonAppBar(
           title: "Notification",
           isShowShadow: true,

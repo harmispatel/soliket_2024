@@ -449,7 +449,7 @@ class CommonUtils {
     fToast.init(context);
 
     Widget toast = Padding(
-      padding: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.only(bottom: 18, right: 15, left: 15),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         decoration: BoxDecoration(
@@ -479,7 +479,7 @@ class CommonUtils {
 
     fToast.showToast(
       child: toast,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.SNACKBAR,
       toastDuration: const Duration(seconds: 3),
     );
   }

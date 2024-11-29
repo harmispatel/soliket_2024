@@ -22,6 +22,7 @@ class LocalImages {
   static const String img_notification = 'assets/images/img_notification.png';
   static const String img_app_logo = 'assets/images/img_app_logo.png';
   static const String img_delivery_boy = 'assets/images/img_delivery_boy.png';
+  static const String img_order_success = 'assets/images/img_order_success.png';
   static const String img_order_not_found =
       'assets/images/img_order_not_found.png';
   static const String img_total_saving_bg =

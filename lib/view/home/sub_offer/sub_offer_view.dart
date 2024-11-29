@@ -24,7 +24,8 @@ import '../view_all_products/view_all_products_view_model.dart';
 
 class SubOfferView extends StatefulWidget {
   final int offerId;
-  const SubOfferView({super.key, required this.offerId});
+  final String title;
+  const SubOfferView({super.key, required this.offerId, required this.title});
 
   @override
   State<SubOfferView> createState() => _SubOfferViewState();
@@ -127,7 +128,7 @@ class _SubOfferViewState extends State<SubOfferView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
-        title: "Products",
+        title: widget.title,
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -188,7 +189,8 @@ class _SubOfferViewState extends State<SubOfferView> {
                         mViewModel.getOfferProductApi(
                             latitude: gUserLat,
                             longitude: gUserLong,
-                            offerId: widget.offerId.toString());
+                            offerId: mViewModel.offerCategoryList[index].offerId
+                                .toString());
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
