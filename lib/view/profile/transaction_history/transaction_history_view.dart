@@ -275,7 +275,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                     ),
                                     kCommonSpaceV5,
                                     Text(
-                                      "₹ ${mViewModel.transactionHistoryTotal.isNotEmpty ? mViewModel.transactionHistoryTotal.first.totalAmount.toString() : "0.00"}",
+                                      "₹${mViewModel.transactionHistoryTotal.isNotEmpty ? mViewModel.transactionHistoryTotal.first.totalAmount.toString() : "0.00"}",
                                       style: getAppStyle(
                                         fontSize: 16,
                                         color: CommonColors.mWhite,
@@ -348,7 +348,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                             CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            "₹ ${transactionHistoryData.amount.toString()}",
+                                            "₹${transactionHistoryData.amount.toString()}",
                                             style: getAppStyle(
                                               fontSize: 14,
                                               color: CommonColors.greenColor,

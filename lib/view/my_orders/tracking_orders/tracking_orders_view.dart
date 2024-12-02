@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/view/my_orders/tracking_orders/tracking_orders_view_model.dart';
-
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/constant.dart';
 import '../../../../../widget/common_appbar.dart';
+import 'package:image/image.dart' as img;
 
 class TrackingOrdersView extends StatefulWidget {
   final String orderId;
@@ -39,9 +40,33 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       getTrackingData();
     });
   }
+  // void getTrackingData() {
+  //   mViewModel.trackingOrderApi(orderId: widget.orderId).whenComplete(() {
+  //     fromLatitude =
+  //         double.parse(mViewModel.trackOrderData[0].fromLatitude ?? '');
+  //     fromLongitude =
+  //         double.parse(mViewModel.trackOrderData[0].fromLongitude ?? '');
+  //     toLatitude = double.parse(mViewModel.trackOrderData[0].toLatitude ?? '');
+  //     toLongitude =
+  //         double.parse(mViewModel.trackOrderData[0].toLongitude ?? '');
+  //   }).whenComplete(() {
+  //     _addMarker(LatLng(fromLatitude, fromLongitude), "origin",
+  //         BitmapDescriptor.defaultMarker);
+  //
+  //     _addMarker(LatLng(toLatitude, toLongitude), "destination",
+  //         BitmapDescriptor.defaultMarkerWithHue(90));
+  //
+  //     _getPolyline();
+  //
+  //     print("From latitude.................. $fromLatitude");
+  //     print("From longitude................. $fromLongitude");
+  //     print("to latitude.................... $toLatitude");
+  //     print("to longitude................... $toLongitude");
+  //   });
+  // }
 
-  void getTrackingData() {
-    mViewModel.trackingOrderApi(orderId: widget.orderId).whenComplete(() {
+  void getTrackingData() async {
+    await mViewModel.trackingOrderApi(orderId: widget.orderId).whenComplete(() {
       fromLatitude =
           double.parse(mViewModel.trackOrderData[0].fromLatitude ?? '');
       fromLongitude =
@@ -49,20 +74,41 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       toLatitude = double.parse(mViewModel.trackOrderData[0].toLatitude ?? '');
       toLongitude =
           double.parse(mViewModel.trackOrderData[0].toLongitude ?? '');
-    }).whenComplete(() {
-      _addMarker(LatLng(fromLatitude, fromLongitude), "origin",
-          BitmapDescriptor.defaultMarker);
+    }).whenComplete(() async {
+      // //Optionally, you can load custom images:
+      // BitmapDescriptor originIcon = await BitmapDescriptor.fromAssetImage(
+      //   ImageConfiguration(devicePixelRatio: 4),
+      //   'assets/images/img_app_logo.png',
+      // );
+      // BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      //   ImageConfiguration(devicePixelRatio: 4),
+      //   'assets/images/img_app_logo.png',
+      // );
+      BitmapDescriptor originIcon =
+          await _getCustomMarker('assets/images/img_app_logo.png', 200, 200);
+      BitmapDescriptor destinationIcon =
+          await _getCustomMarker('assets/images/img_app_logo.png', 200, 200);
 
-      _addMarker(LatLng(toLatitude, toLongitude), "destination",
-          BitmapDescriptor.defaultMarkerWithHue(90));
-
+      _addMarker(LatLng(fromLatitude, fromLongitude), "origin", originIcon);
+      _addMarker(
+          LatLng(toLatitude, toLongitude), "destination", destinationIcon);
       _getPolyline();
-
       print("From latitude.................. $fromLatitude");
       print("From longitude................. $fromLongitude");
-      print("to latitude.................... $toLatitude");
-      print("to longitude................... $toLongitude");
+      print("To latitude.................... $toLatitude");
+      print("To longitude................... $toLongitude");
     });
+  }
+
+  Future<BitmapDescriptor> _getCustomMarker(
+      String assetPath, double width, double height) async {
+    final ByteData data = await rootBundle.load(assetPath);
+    final List<int> bytes = data.buffer.asUint8List();
+    img.Image image = img.decodeImage(Uint8List.fromList(bytes))!;
+    img.Image resizedImage =
+        img.copyResize(image, width: width.toInt(), height: height.toInt());
+    final resizedBytes = Uint8List.fromList(img.encodePng(resizedImage));
+    return BitmapDescriptor.fromBytes(resizedBytes);
   }
 
   @override
@@ -144,19 +190,65 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      width: kDeviceWidth,
+                      color: CommonColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white30,
+                                  shape: BoxShape.circle),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.access_time,
+                                  color: CommonColors.mWhite,
+                                ),
+                              ),
+                            ),
+                            kCommonSpaceH15,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Order Status",
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      color: CommonColors.mWhite),
+                                ),
+                                Text(
+                                  mViewModel.trackOrderData[0].orderStatus ??
+                                      '',
+                                  style: getAppStyle(
+                                      fontSize: 16, color: CommonColors.mWhite),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    kCommonSpaceV10,
                     Padding(
-                      padding: kCommonScreenPadding,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 6),
                       child: Row(
                         children: [
                           Container(
-                            height: 50,
-                            width: 50,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.red),
-                            child: const Icon(
-                              Icons.clear,
-                              color: CommonColors.mWhite,
+                                color: CommonColors.primaryColor
+                                    .withOpacity(0.3 / 2),
+                                shape: BoxShape.circle),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.person,
+                                color: CommonColors.primaryColor,
+                              ),
                             ),
                           ),
                           kCommonSpaceH15,
@@ -164,128 +256,72 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Order Status",
+                                "Driver Name",
                                 style: getAppStyle(
-                                    color: CommonColors.blackColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: CommonColors.blackColor),
                               ),
-                              kCommonSpaceV3,
                               Text(
-                                mViewModel.trackOrderData[0].orderStatus ?? '',
+                                mViewModel.trackOrderData[0].riderName ?? '',
                                 style: getAppStyle(
-                                    color: CommonColors.mGrey500,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14),
+                                    fontSize: 14, color: CommonColors.black54),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 5, right: 5),
                       child: Divider(
-                        color: CommonColors.mGrey300,
-                        thickness: 4,
+                        color: CommonColors.mGrey500,
+                        thickness: 1,
                       ),
                     ),
                     Padding(
-                      padding: kCommonScreenPadding,
-                      child: Column(
+                      padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 6) +
+                          const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    shape: BoxShape.circle),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.person,
-                                  ),
-                                ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: CommonColors.primaryColor
+                                    .withOpacity(0.3 / 2),
+                                shape: BoxShape.circle),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.call,
+                                color: CommonColors.primaryColor,
                               ),
-                              kCommonSpaceH15,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Delivery Boy Name",
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: CommonColors.blackColor),
-                                  ),
-                                  Text(
-                                    mViewModel.trackOrderData[0].riderName ??
-                                        '',
-                                    style: getAppStyle(
-                                        fontSize: 14,
-                                        color: CommonColors.black54),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 5, right: 5),
-                                child: Divider(
-                                  color: CommonColors.mGrey300,
-                                  thickness: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Divider(
-                              color: CommonColors.mGrey300,
-                              thickness: 1,
                             ),
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    shape: BoxShape.circle),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.call,
-                                  ),
+                          kCommonSpaceH15,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Driver Mobile No",
+                                  style: getAppStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: CommonColors.blackColor),
                                 ),
-                              ),
-                              kCommonSpaceH15,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Mobile Number",
-                                    style: getAppStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: CommonColors.blackColor),
-                                  ),
-                                  Text(
-                                    mViewModel.trackOrderData[0].riderMobile ??
-                                        '',
-                                    style: getAppStyle(
-                                        fontSize: 14,
-                                        color: CommonColors.black54),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 5, right: 5),
-                                child: Divider(
-                                  color: CommonColors.mGrey300,
-                                  thickness: 1,
+                                Text(
+                                  mViewModel.trackOrderData[0].riderMobile ??
+                                      '',
+                                  maxLines: 5,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: getAppStyle(
+                                      fontSize: 14,
+                                      color: CommonColors.black54),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -313,7 +349,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                         markers: Set<Marker>.of(markers.values),
                         polylines: Set<Polyline>.of(polylines.values),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

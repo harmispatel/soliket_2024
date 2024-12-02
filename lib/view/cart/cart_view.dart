@@ -260,55 +260,60 @@ class _MyCartViewState extends State<MyCartView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            mViewModel.appliedCouponList[index]
-                                                    .message ??
-                                                '',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: getAppStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 13,
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              mViewModel
+                                                      .appliedCouponList[index]
+                                                      .message ??
+                                                  '',
+                                              maxLines: 5,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: getAppStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 13,
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          RichText(
-                                            overflow: TextOverflow.clip,
-                                            textAlign: TextAlign.end,
-                                            textDirection: TextDirection.rtl,
-                                            softWrap: true,
-                                            maxLines: 1,
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Code ',
-                                                  style: getAppStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
+                                            const SizedBox(height: 4),
+                                            RichText(
+                                              overflow: TextOverflow.clip,
+                                              textAlign: TextAlign.end,
+                                              textDirection: TextDirection.rtl,
+                                              softWrap: true,
+                                              maxLines: 1,
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Code ',
+                                                    style: getAppStyle(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text: mViewModel
-                                                          .appliedCouponList[
-                                                              index]
-                                                          .couponCode ??
-                                                      '',
-                                                  style: getAppStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12,
-                                                    color: Colors.black54,
+                                                  TextSpan(
+                                                    text: mViewModel
+                                                            .appliedCouponList[
+                                                                index]
+                                                            .couponCode ??
+                                                        '',
+                                                    style: getAppStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                      color: Colors.black54,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       GestureDetector(
                                         onTap: () {

@@ -135,17 +135,17 @@ class _ProductContainerState extends State<ProductContainer> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "₹ ${widget.discountPrice.toString()}",
+                              "₹${widget.discountPrice.toString()}",
                               style: getAppStyle(
                                 fontSize: 13,
                                 color: widget.stock == 0
                                     ? Colors.grey[400]
                                     : Colors.black,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              "₹ ${widget.productPrice.toString()}",
+                              "₹${widget.productPrice.toString()}",
                               style: getAppStyle(
                                 color: widget.stock == 0
                                     ? Colors.grey[400]

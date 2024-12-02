@@ -40,7 +40,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     mViewModel = Provider.of<OrderDetailsViewModel>(context);
     return Scaffold(
       appBar: CommonAppBar(
-        title: "Track order",
+        title: "Order Details",
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -115,7 +115,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   ),
                   kCommonSpaceV10,
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6),
                     child: Row(
                       children: [
                         Container(
@@ -134,7 +135,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Rider",
+                              "Driver Details",
                               style: getAppStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
@@ -157,10 +158,11 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       thickness: 1,
                     ),
                   ),
-                  kCommonSpaceV10,
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           decoration: BoxDecoration(
@@ -174,23 +176,28 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           ),
                         ),
                         kCommonSpaceH15,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Delivery Location",
-                              style: getAppStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: CommonColors.blackColor),
-                            ),
-                            Text(
-                              mViewModel.orderDetailsList[0].deliveryLocation ??
-                                  '',
-                              style: getAppStyle(
-                                  fontSize: 14, color: CommonColors.black54),
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Delivery Location",
+                                style: getAppStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: CommonColors.blackColor),
+                              ),
+                              Text(
+                                mViewModel
+                                        .orderDetailsList[0].deliveryLocation ??
+                                    '',
+                                maxLines: 5,
+                                overflow: TextOverflow.ellipsis,
+                                style: getAppStyle(
+                                    fontSize: 14, color: CommonColors.black54),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -202,9 +209,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       thickness: 1,
                     ),
                   ),
-                  kCommonSpaceV10,
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6),
                     child: Row(
                       children: [
                         Container(
@@ -252,22 +259,111 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     child: Text(
                       "${mViewModel.orderItemList.length ?? ''} items in this order",
                       style: getAppStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ),
                   kCommonSpaceV10,
+                  // ListView.builder(
+                  //   padding:
+                  //       const EdgeInsets.only(top: 12,right: 15),
+                  //   shrinkWrap: true,
+                  //   scrollDirection: Axis.vertical,
+                  //   itemCount: mViewModel.orderItemList.length,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   itemBuilder: (BuildContext context, int index) {
+                  //     return Column(
+                  //       children: [
+                  //         Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 6),
+                  //           child: Row(
+                  //             children: [
+                  //               Container(
+                  //                 width: 70,
+                  //                 height: 50,
+                  //                 decoration: BoxDecoration(
+                  //                   image: DecorationImage(
+                  //                       image: NetworkImage(mViewModel
+                  //                               .orderItemList[index].image ??
+                  //                           ''),
+                  //                       fit: BoxFit.cover),
+                  //                 ),
+                  //               ),
+                  //               kCommonSpaceH10,
+                  //               Expanded(
+                  //                 child: Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Text(
+                  //                       mViewModel.orderItemList[index]
+                  //                               .productName ??
+                  //                           '',
+                  //                       overflow: TextOverflow.ellipsis,
+                  //                       maxLines: 1,
+                  //                       style: getAppStyle(
+                  //                           fontWeight: FontWeight.w500,
+                  //                           fontSize: 16,
+                  //                           color: CommonColors.blackColor),
+                  //                     ),
+                  //                     Text(
+                  //                       "x${mViewModel.orderItemList[index].qty ?? ''}",
+                  //                       style: getAppStyle(
+                  //                           fontSize: 14,
+                  //                           color: CommonColors.black54),
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //               // const Spacer(),
+                  //               kCommonSpaceH10,
+                  //               Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.end,
+                  //                 children: [
+                  //                   Text(
+                  //                     "₹${mViewModel.orderItemList[index].discountedPrice ?? ''}",
+                  //                     style: getAppStyle(
+                  //                         fontWeight: FontWeight.w600,
+                  //                         fontSize: 16,
+                  //                         color: CommonColors.blackColor),
+                  //                   ),
+                  //                   Text(
+                  //                     "₹${mViewModel.orderItemList[index].price ?? ''}",
+                  //                     style: getAppStyle(
+                  //                         decoration:
+                  //                             TextDecoration.lineThrough,
+                  //                         fontSize: 14,
+                  //                         color: CommonColors.black54),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: const EdgeInsets.only(left: 5, right: 5),
+                  //           child: Divider(
+                  //             color: CommonColors.mGrey500,
+                  //             thickness: 1,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   },
+                  // ),
                   ListView.builder(
-                    padding:
-                        const EdgeInsets.only(top: 12, left: 15, right: 15),
+                    padding: const EdgeInsets.only(top: 12, right: 15),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     itemCount: mViewModel.orderItemList.length,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
+                      bool isLastItem =
+                          index == mViewModel.orderItemList.length - 1;
                       return Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 6),
                             child: Row(
                               children: [
                                 Container(
@@ -275,10 +371,11 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                   height: 50,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: NetworkImage(mViewModel
-                                                .orderItemList[index].image ??
-                                            ''),
-                                        fit: BoxFit.cover),
+                                      image: NetworkImage(mViewModel
+                                              .orderItemList[index].image ??
+                                          ''),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 kCommonSpaceH10,
@@ -294,51 +391,55 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: getAppStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                            color: CommonColors.blackColor),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: CommonColors.blackColor,
+                                        ),
                                       ),
                                       Text(
                                         "x${mViewModel.orderItemList[index].qty ?? ''}",
                                         style: getAppStyle(
-                                            fontSize: 14,
-                                            color: CommonColors.black54),
+                                          fontSize: 14,
+                                          color: CommonColors.black54,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                // const Spacer(),
                                 kCommonSpaceH10,
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "₹ ${mViewModel.orderItemList[index].discountedPrice ?? ''}",
+                                      "₹${mViewModel.orderItemList[index].discountedPrice ?? ''}",
                                       style: getAppStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: CommonColors.blackColor),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: CommonColors.blackColor,
+                                      ),
                                     ),
                                     Text(
-                                      "₹ ${mViewModel.orderItemList[index].price ?? ''}",
+                                      "₹${mViewModel.orderItemList[index].price ?? ''}",
                                       style: getAppStyle(
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 14,
-                                          color: CommonColors.black54),
+                                        decoration: TextDecoration.lineThrough,
+                                        fontSize: 14,
+                                        color: CommonColors.black54,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
-                            child: Divider(
-                              color: CommonColors.mGrey500,
-                              thickness: 1,
+                          // Add divider only if it's not the last item
+                          if (!isLastItem)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5, right: 5),
+                              child: Divider(
+                                color: CommonColors.mGrey500,
+                                thickness: 1,
+                              ),
                             ),
-                          ),
                         ],
                       );
                     },
@@ -363,8 +464,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 14, left: 15, right: 15),
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 8, left: 15, right: 15),
                     child: Row(
                       children: [
                         Text(
@@ -375,7 +476,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             fontSize: 14,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           "₹${mViewModel.billDetailsList[0].itemTotal}",
                           style: getAppStyle(
@@ -388,7 +489,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 14, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(bottom: 8, left: 15, right: 15),
                     child: Row(
                       children: [
                         Text(
@@ -399,7 +501,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             fontSize: 14,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         // Text(
                         //   "₹${"9"}",
                         //   style: getAppStyle(
@@ -409,7 +511,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         //     fontSize: 13,
                         //   ),
                         // ),
-                        SizedBox(width: 10),
+                        kCommonSpaceH10,
                         Text(
                           "+ ₹${mViewModel.billDetailsList[0].deliveryCharge}",
                           style: getAppStyle(
@@ -423,7 +525,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 14, right: 15, left: 15),
+                    padding:
+                        const EdgeInsets.only(bottom: 14, right: 15, left: 15),
                     child: Row(
                       children: [
                         Text(
@@ -434,7 +537,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             fontSize: 14,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         // Text(
                         //   "₹${"9"}",
                         //   style: getAppStyle(
@@ -444,7 +547,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         //     fontSize: 13,
                         //   ),
                         // ),
-                        SizedBox(width: 10),
+                        kCommonSpaceH10,
                         Text(
                           "+ ₹${mViewModel.billDetailsList[0].tax}",
                           style: getAppStyle(
@@ -497,7 +600,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "To Pay",
+                          "Paid",
                           style: getAppStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,

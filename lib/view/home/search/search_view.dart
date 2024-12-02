@@ -1296,46 +1296,56 @@ class _SearchViewState extends State<SearchView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  isBottomSheetOpen = false;
-                                },
-                                child: Container(
-                                  height: 26,
-                                  width: 26,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: Offset(
-                                          2.0,
-                                          2.0,
-                                        ),
-                                        blurRadius: 5.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                      BoxShadow(
-                                        color: CommonColors.primaryColor,
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 0.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                    ],
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.close_rounded,
-                                      color: Colors.white,
-                                      size: 18,
+                            kCommonSpaceV10,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Product Details',
+                                  style: getAppStyle(
+                                      color: CommonColors.blackColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    isBottomSheetOpen = false;
+                                  },
+                                  child: Container(
+                                    height: 26,
+                                    width: 26,
+                                    margin: const EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(
+                                            2.0,
+                                            2.0,
+                                          ),
+                                          blurRadius: 5.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                        BoxShadow(
+                                          color: CommonColors.primaryColor,
+                                          offset: Offset(0.0, 0.0),
+                                          blurRadius: 0.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.close_rounded,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             CommonImgSliderView(
                               imgUrls: mHomeViewModel
@@ -1366,7 +1376,7 @@ class _SearchViewState extends State<SearchView> {
                               style: getAppStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 12,
+                                fontSize: 13,
                               ),
                             ),
                             Row(
@@ -1418,7 +1428,10 @@ class _SearchViewState extends State<SearchView> {
                             ),
                             kCommonSpaceV10,
                             Text(
-                              "Description",
+                              mHomeViewModel.productDetailsData![0].description!
+                                  .isEmpty
+                                  ? ""
+                                  : "Description",
                               style: getAppStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
@@ -1449,20 +1462,20 @@ class _SearchViewState extends State<SearchView> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    mHomeViewModel.productDetailsData
-                                                ?.isNotEmpty ==
-                                            true
-                                        ? mHomeViewModel.productDetailsData![0]
-                                                .variantName ??
-                                            "No product Unit available"
-                                        : "No product details available",
-                                    style: getAppStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   mHomeViewModel.productDetailsData
+                                  //               ?.isNotEmpty ==
+                                  //           true
+                                  //       ? mHomeViewModel.productDetailsData![0]
+                                  //               .variantName ??
+                                  //           "No product Unit available"
+                                  //       : "No product details available",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 13,
+                                  //   ),
+                                  // ),
                                   Row(
                                     children: [
                                       Text(
@@ -1470,7 +1483,7 @@ class _SearchViewState extends State<SearchView> {
                                         style: getAppStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontSize: 18,
                                         ),
                                       ),
                                       const SizedBox(width: 8),
@@ -1481,7 +1494,7 @@ class _SearchViewState extends State<SearchView> {
                                               TextDecoration.lineThrough,
                                           color: Colors.grey,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12,
+                                          fontSize: 16,
                                         ),
                                       ),
                                       mHomeViewModel.productDetailsData![0]
@@ -1680,7 +1693,7 @@ class _SearchViewState extends State<SearchView> {
                                               style: getAppStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 14,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           ),

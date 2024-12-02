@@ -35,7 +35,7 @@ class _ProfileViewState extends State<ProfileView> {
     {'icon': Icons.shopping_cart_outlined, 'title': ' My Orders'},
     {'icon': Icons.bookmark_add_outlined, 'title': ' Saved Addresses'},
     {'icon': Icons.receipt_long, 'title': ' Transaction History'},
-    {'icon': Icons.notifications_none_outlined, 'title': ' Notification'},
+    // {'icon': Icons.notifications_none_outlined, 'title': ' Notification'},
     {'icon': Icons.info_outline, 'title': ' About Us'},
     {'icon': Icons.headset_mic_outlined, 'title': ' Contact Us'},
     {'icon': Icons.policy_outlined, 'title': ' Policies'},
@@ -185,21 +185,23 @@ class _ProfileViewState extends State<ProfileView> {
                       push(SaveAddressView());
                     } else if (index == 2) {
                       push(TransactionHistoryView());
-                    } else if (index == 3) {
-                      push(NotificationView());
-                    } else if (index == 4) {
+                    }
+                    // else if (index == 3) {
+                    //   push(NotificationView());
+                    // }
+                    else if (index == 3) {
                       push(AboutUsView());
-                    } else if (index == 5) {
+                    } else if (index == 4) {
                       push(ContactUsView());
-                    } else if (index == 6) {
+                    } else if (index == 5) {
                       push(PoliciesView());
-                    } else if (index == 7) {
+                    } else if (index == 6) {
                       push(FaqView());
-                    } else if (index == 8) {
+                    } else if (index == 7) {
                       _rateUsURL();
-                    } else if (index == 9) {
+                    } else if (index == 8) {
                       _shareText();
-                    } else if (index == 10) {
+                    } else if (index == 9) {
                       showConfirmationBottomSheet(
                         title: "Logout",
                         message:
@@ -208,7 +210,7 @@ class _ProfileViewState extends State<ProfileView> {
                           mViewModel.logOutApi();
                         },
                       );
-                    } else if (index == 11) {
+                    } else if (index == 10) {
                       showConfirmationBottomSheet(
                         title: "Delete Account",
                         message:

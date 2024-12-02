@@ -134,27 +134,30 @@ class _SubCategoryViewState extends State<SubCategoryView> {
         title: widget.title,
         isShowShadow: true,
         isTitleBold: true,
-        iconTheme: IconThemeData(color: CommonColors.blackColor),
+        iconTheme: const IconThemeData(color: CommonColors.blackColor),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 8, right: 20),
-            child: GestureDetector(
-              onTap: () {
-                push(
-                  SearchView(
-                    voiceText: '',
+          mViewModel.categoryProductList.isEmpty
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      push(
+                        SearchView(
+                          voiceText: '',
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
                   ),
-                );
-              },
-              child: Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-            ),
-          ),
+                ),
         ],
       ),
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (mViewModel.subCategoryList.isNotEmpty) ...[
             Column(
@@ -333,7 +336,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                     enabled: true,
                     child: SingleChildScrollView(
                       padding: mViewModel.subCategoryList.isNotEmpty
-                          ? EdgeInsets.only(
+                          ? const EdgeInsets.only(
                               left: 8, right: 15, bottom: 15, top: 15)
                           : kCommonScreenPadding,
                       child: Column(
@@ -834,95 +837,121 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                     ),
                   ),
                 )
-              : Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: mViewModel.subCategoryList.isEmpty
-                              ? EdgeInsets.all(15)
-                              : EdgeInsets.only(top: 15, right: 5),
-                          child: GridView.builder(
-                            padding: EdgeInsets.zero,
-                            controller: _scrollController,
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.6,
-                              crossAxisSpacing: 2,
-                              mainAxisSpacing: 5,
-                            ),
-                            itemCount: mViewModel.categoryProductList.length,
-                            itemBuilder: (context, index) {
-                              return FittedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: ProductContainer(
-                                    onTapProduct: () async {
-                                      var variantId = mViewModel
-                                          .categoryProductList[index].variantId;
-                                      if (!isBottomSheetOpen) {
-                                        isBottomSheetOpen = true;
-                                        await mHomeViewModel
-                                            .getProductDetailsApi(
-                                          variantId:
-                                              variantId?.toString() ?? '',
-                                        );
-                                        if (mHomeViewModel.productDetailsData !=
-                                            null) {
-                                          productDetailsBottomSheet(variantId!);
-                                        }
-                                      }
-                                    },
-                                    imgUrl: mViewModel
-                                            .categoryProductList[index].image ??
-                                        '',
-                                    productName: mViewModel
-                                            .categoryProductList[index]
-                                            .productName ??
-                                        '',
-                                    onIncrement: () => incrementItem(index),
-                                    onDecrement: () => decrementItem(index),
-                                    stock: mViewModel
-                                            .categoryProductList[index].stock ??
-                                        0,
-                                    variantName: mViewModel
-                                            .categoryProductList[index]
-                                            .variantName ??
-                                        '',
-                                    discountPrice: mViewModel
-                                            .categoryProductList[index]
-                                            .discountPrice ??
-                                        0,
-                                    productPrice: mViewModel
-                                            .categoryProductList[index]
-                                            .productPrice ??
-                                        0,
-                                    discountPer: mViewModel
-                                            .categoryProductList[index]
-                                            .discountPer ??
-                                        0,
-                                    cartCount: mViewModel
-                                            .categoryProductList[index]
-                                            .cartCount ??
-                                        0,
-                                    productId: mViewModel
-                                        .categoryProductList[index].productId
-                                        .toString(),
-                                    variantId: mViewModel
-                                        .categoryProductList[index].variantId
-                                        .toString(),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+              : mViewModel.categoryProductList.isEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.network(
+                          height: 240,
+                          "https://cdn3d.iconscout.com/3d/premium/thumb/no-results-found-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--empty-box-result-not-connection-timeout-pack-miscellaneous-illustrations-4812665.png?f=webp",
                         ),
+                        kCommonSpaceV10,
+                        Text(
+                          "Product not found",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: mViewModel.subCategoryList.isEmpty
+                                  ? EdgeInsets.all(15)
+                                  : EdgeInsets.only(top: 15, right: 5),
+                              child: GridView.builder(
+                                padding: EdgeInsets.zero,
+                                controller: _scrollController,
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.6,
+                                  crossAxisSpacing: 2,
+                                  mainAxisSpacing: 5,
+                                ),
+                                itemCount:
+                                    mViewModel.categoryProductList.length,
+                                itemBuilder: (context, index) {
+                                  return FittedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: ProductContainer(
+                                        onTapProduct: () async {
+                                          var variantId = mViewModel
+                                              .categoryProductList[index]
+                                              .variantId;
+                                          if (!isBottomSheetOpen) {
+                                            isBottomSheetOpen = true;
+                                            await mHomeViewModel
+                                                .getProductDetailsApi(
+                                              variantId:
+                                                  variantId?.toString() ?? '',
+                                            );
+                                            if (mHomeViewModel
+                                                    .productDetailsData !=
+                                                null) {
+                                              productDetailsBottomSheet(
+                                                  variantId!);
+                                            }
+                                          }
+                                        },
+                                        imgUrl: mViewModel
+                                                .categoryProductList[index]
+                                                .image ??
+                                            '',
+                                        productName: mViewModel
+                                                .categoryProductList[index]
+                                                .productName ??
+                                            '',
+                                        onIncrement: () => incrementItem(index),
+                                        onDecrement: () => decrementItem(index),
+                                        stock: mViewModel
+                                                .categoryProductList[index]
+                                                .stock ??
+                                            0,
+                                        variantName: mViewModel
+                                                .categoryProductList[index]
+                                                .variantName ??
+                                            '',
+                                        discountPrice: mViewModel
+                                                .categoryProductList[index]
+                                                .discountPrice ??
+                                            0,
+                                        productPrice: mViewModel
+                                                .categoryProductList[index]
+                                                .productPrice ??
+                                            0,
+                                        discountPer: mViewModel
+                                                .categoryProductList[index]
+                                                .discountPer ??
+                                            0,
+                                        cartCount: mViewModel
+                                                .categoryProductList[index]
+                                                .cartCount ??
+                                            0,
+                                        productId: mViewModel
+                                            .categoryProductList[index]
+                                            .productId
+                                            .toString(),
+                                        variantId: mViewModel
+                                            .categoryProductList[index]
+                                            .variantId
+                                            .toString(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
         ],
       ),
       bottomNavigationBar: Consumer<HomeViewModel>(
@@ -1356,9 +1385,10 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
-                                                          color: CommonColors.blackColor,
+                                                          color: CommonColors
+                                                              .blackColor,
                                                           fontWeight:
-                                                          FontWeight.w500,
+                                                              FontWeight.w500,
                                                           fontSize: 16),
                                                     ),
                                                     Row(
@@ -1371,8 +1401,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          "₹${mHomeViewModel
-                                                              .cartTotalPrice}",
+                                                          "₹${mHomeViewModel.cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1400,7 +1429,8 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: CommonColors.primaryColor,
+                                                          color: CommonColors
+                                                              .primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1415,7 +1445,8 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
-                                                        color: CommonColors.mWhite,
+                                                        color:
+                                                            CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -1924,46 +1955,55 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  isBottomSheetOpen = false;
-                                },
-                                child: Container(
-                                  height: 26,
-                                  width: 26,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: Offset(
-                                          2.0,
-                                          2.0,
-                                        ),
-                                        blurRadius: 5.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                      BoxShadow(
-                                        color: CommonColors.primaryColor,
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 0.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                    ],
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.close_rounded,
-                                      color: Colors.white,
-                                      size: 18,
+                            kCommonSpaceV10,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Product Details',
+                                  style: getAppStyle(
+                                      color: CommonColors.blackColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    isBottomSheetOpen = false;
+                                  },
+                                  child: Container(
+                                    height: 26,
+                                    width: 26,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(
+                                            2.0,
+                                            2.0,
+                                          ),
+                                          blurRadius: 5.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                        BoxShadow(
+                                          color: CommonColors.primaryColor,
+                                          offset: Offset(0.0, 0.0),
+                                          blurRadius: 0.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.close_rounded,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             CommonImgSliderView(
                               imgUrls: mHomeViewModel
@@ -1994,7 +2034,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                               style: getAppStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 12,
+                                fontSize: 13,
                               ),
                             ),
                             Row(
@@ -2046,7 +2086,10 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                             ),
                             kCommonSpaceV10,
                             Text(
-                              "Description",
+                              mHomeViewModel.productDetailsData![0].description!
+                                      .isEmpty
+                                  ? ""
+                                  : "Description",
                               style: getAppStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
@@ -2077,20 +2120,20 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    mHomeViewModel.productDetailsData
-                                                ?.isNotEmpty ==
-                                            true
-                                        ? mHomeViewModel.productDetailsData![0]
-                                                .variantName ??
-                                            "No product Unit available"
-                                        : "No product details available",
-                                    style: getAppStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   mHomeViewModel.productDetailsData
+                                  //               ?.isNotEmpty ==
+                                  //           true
+                                  //       ? mHomeViewModel.productDetailsData![0]
+                                  //               .variantName ??
+                                  //           "No product Unit available"
+                                  //       : "No product details available",
+                                  //   style: getAppStyle(
+                                  //     color: Colors.grey,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     fontSize: 13,
+                                  //   ),
+                                  // ),
                                   Row(
                                     children: [
                                       Text(
@@ -2098,7 +2141,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                         style: getAppStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontSize: 18,
                                         ),
                                       ),
                                       const SizedBox(width: 8),
@@ -2109,7 +2152,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                               TextDecoration.lineThrough,
                                           color: Colors.grey,
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12,
+                                          fontSize: 16,
                                         ),
                                       ),
                                       mHomeViewModel.productDetailsData![0]
@@ -2308,7 +2351,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                               style: getAppStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 14,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           ),

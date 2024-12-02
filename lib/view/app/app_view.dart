@@ -28,6 +28,7 @@ import '../home/sub_offer/sub_offer_view_model.dart';
 import '../home/view_all_products/view_all_products_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
+import '../maintenance/maintenance_view.dart';
 import '../my_orders/my_order_view_model.dart';
 import '../my_orders/order_details/order_details_view_model.dart';
 import '../my_orders/tracking_orders/tracking_orders_view_model.dart';
