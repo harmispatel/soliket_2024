@@ -23,8 +23,9 @@ import '../view_all_products/view_all_products_view_model.dart';
 
 class SubBrandView extends StatefulWidget {
   final int brandId;
+  final String title;
 
-  SubBrandView({super.key, required this.brandId});
+  SubBrandView({super.key, required this.brandId, required this.title});
 
   @override
   State<SubBrandView> createState() => _SubBrandViewState();
@@ -128,7 +129,7 @@ class _SubBrandViewState extends State<SubBrandView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
-        title: "Sub Category name",
+        title: widget.title,
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
@@ -184,7 +185,9 @@ class _SubBrandViewState extends State<SubBrandView> {
                           mViewModel.getBrandProductApi(
                               latitude: gUserLat,
                               longitude: gUserLong,
-                              brandId: widget.brandId.toString());
+                              brandId: mViewModel
+                                  .brandCategoryList[index].brandId
+                                  .toString());
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1312,7 +1315,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
-                                                        color: CommonColors.blackColor,
+                                                          color: CommonColors
+                                                              .blackColor,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontSize: 16),
@@ -1327,8 +1331,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          "₹${mHomeViewModel
-                                                              .cartTotalPrice}",
+                                                          "₹${mHomeViewModel.cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -1356,7 +1359,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: CommonColors.primaryColor,
+                                                          color: CommonColors
+                                                              .primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -1371,7 +1375,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
-                                                        color: CommonColors.mWhite,
+                                                        color:
+                                                            CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),

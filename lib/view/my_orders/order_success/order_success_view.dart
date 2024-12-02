@@ -145,16 +145,18 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                       ),
                     ),
                     kCommonSpaceV10,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Your order has been placed successfully.",
-                        textAlign: TextAlign.center,
-                        style: getAppStyle(
-                            fontWeight: FontWeight.w500,
-                            height: 1.5,
-                            fontSize: 18,
-                            color: CommonColors.blackColor),
+                    FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          "Your order has been placed successfully.",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                              fontWeight: FontWeight.w500,
+                              height: 1.5,
+                              fontSize: 18,
+                              color: CommonColors.blackColor),
+                        ),
                       ),
                     ),
                     const Spacer(),

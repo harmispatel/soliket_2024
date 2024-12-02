@@ -2,9 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:solikat_2024/utils/constant.dart';
 
 import '../../../utils/common_colors.dart';
-import '../../../utils/common_utils.dart';
 import '../../../widget/primary_button.dart';
 import '../../cart/cart_view.dart';
 import '../../category/category_view.dart';
@@ -55,11 +55,14 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
           dismissOnBackKeyPress: false,
           headerAnimationLoop: false,
           animType: AnimType.topSlide,
+          descTextStyle: getAppStyle(fontSize: 15),
+          titleTextStyle:
+              getAppStyle(fontSize: 18, fontWeight: FontWeight.w500),
           title: 'Close App',
           desc: 'Are you sure you want to close the app?',
           btnOk: PrimaryButton(
             label: "Yes",
-            buttonColor: CommonColors.greenColor,
+            buttonColor: CommonColors.primaryColor,
             labelColor: Colors.white,
             borderRadius: BorderRadius.circular(8),
             onPress: () {

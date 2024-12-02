@@ -1191,8 +1191,10 @@ class _HomeViewState extends State<HomeView> {
                                                               NeverScrollableScrollPhysics(),
                                                           shrinkWrap: true,
                                                           padding:
-                                                              EdgeInsets.all(
-                                                                  18),
+                                                              EdgeInsets.only(
+                                                                  left: 18,
+                                                                  right: 18,
+                                                                  top: 18),
                                                           scrollDirection:
                                                               Axis.vertical,
                                                           itemCount:

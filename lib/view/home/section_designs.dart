@@ -314,40 +314,38 @@ class _Section4State extends State<Section4> {
         ],
         SizedBox(
           height: kDeviceHeight / 3.2,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.section4.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return FittedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: ProductContainer(
-                      onTapProduct: () {
-                        if (widget.onTapProDetails != null) {
-                          widget.onTapProDetails!(
-                              widget.section4[index].variantId);
-                        }
-                      },
-                      imgUrl: widget.section4[index].image,
-                      productName: widget.section4[index].productName,
-                      onIncrement: () => incrementItem(index),
-                      onDecrement: () => decrementItem(index),
-                      stock: widget.section4[index].stock,
-                      variantName: widget.section4[index].variantName,
-                      discountPrice: widget.section4[index].discountPrice,
-                      productPrice: widget.section4[index].productPrice,
-                      discountPer: widget.section4[index].discountPer,
-                      cartCount: widget.section4[index].cartCount,
-                      productId: widget.section4[index].productId.toString(),
-                      variantId: widget.section4[index].variantId.toString(),
-                    ),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.section4.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 10),
+            itemBuilder: (context, index) {
+              return FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ProductContainer(
+                    onTapProduct: () {
+                      if (widget.onTapProDetails != null) {
+                        widget
+                            .onTapProDetails!(widget.section4[index].variantId);
+                      }
+                    },
+                    imgUrl: widget.section4[index].image,
+                    productName: widget.section4[index].productName,
+                    onIncrement: () => incrementItem(index),
+                    onDecrement: () => decrementItem(index),
+                    stock: widget.section4[index].stock,
+                    variantName: widget.section4[index].variantName,
+                    discountPrice: widget.section4[index].discountPrice,
+                    productPrice: widget.section4[index].productPrice,
+                    discountPer: widget.section4[index].discountPer,
+                    cartCount: widget.section4[index].cartCount,
+                    productId: widget.section4[index].productId.toString(),
+                    variantId: widget.section4[index].variantId.toString(),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
         kCommonSpaceV15,
@@ -526,6 +524,7 @@ class Section7 extends StatelessWidget {
                   push(
                     SubBrandView(
                       brandId: section7[index].brandId,
+                      title: section7[index].title,
                     ),
                   );
                 },
@@ -728,40 +727,38 @@ class _Section9State extends State<Section9> {
               const Spacer(),
               SizedBox(
                 height: kDeviceHeight / 3.2,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.section9.first.products.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        var product = widget.section9.first.products[index];
-                        return FittedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: ProductContainer(
-                              onTapProduct: () {
-                                if (widget.onTapProDetails != null) {
-                                  widget.onTapProDetails!(product.variantId);
-                                }
-                              },
-                              imgUrl: product.image,
-                              productName: product.productName,
-                              onIncrement: () => incrementItem(0, index),
-                              onDecrement: () => decrementItem(0, index),
-                              stock: product.stock,
-                              variantName: product.variantName,
-                              discountPrice: product.discountPrice,
-                              productPrice: product.productPrice,
-                              discountPer: product.discountPer,
-                              cartCount: product.cartCount,
-                              productId: product.productId.toString(),
-                              variantId: product.variantId.toString(),
-                            ),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.section9.first.products.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 10),
+                    itemBuilder: (context, index) {
+                      var product = widget.section9.first.products[index];
+                      return FittedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ProductContainer(
+                            onTapProduct: () {
+                              if (widget.onTapProDetails != null) {
+                                widget.onTapProDetails!(product.variantId);
+                              }
+                            },
+                            imgUrl: product.image,
+                            productName: product.productName,
+                            onIncrement: () => incrementItem(0, index),
+                            onDecrement: () => decrementItem(0, index),
+                            stock: product.stock,
+                            variantName: product.variantName,
+                            discountPrice: product.discountPrice,
+                            productPrice: product.productPrice,
+                            discountPer: product.discountPer,
+                            cartCount: product.cartCount,
+                            productId: product.productId.toString(),
+                            variantId: product.variantId.toString(),
                           ),
-                        );
-                      }),
-                ),
+                        ),
+                      );
+                    }),
               ),
               kCommonSpaceV15,
             ],

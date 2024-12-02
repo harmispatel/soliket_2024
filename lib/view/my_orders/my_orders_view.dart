@@ -23,28 +23,14 @@ class _MyOrdersViewState extends State<MyOrdersView>
     with TickerProviderStateMixin {
   late MyOrderViewModel mViewModel;
   final ScrollController _scrollController = ScrollController();
-  late final TabController _tabController;
   String currentStatus = 'p';
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
 
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-
-      _tabController.addListener(() {
-        if (_tabController.indexIsChanging) {
-          mViewModel.resetPage().whenComplete(() {
-            setState(() {
-              currentStatus = _tabController.index == 0 ? 'p' : 'c';
-              mViewModel.getOrdersApi(status: currentStatus);
-            });
-          });
-        }
-      });
-
       // Initial API call to fetch orders for the first tab
       Future.delayed(Duration.zero, () {
         mViewModel.attachedContext(context);
@@ -57,7 +43,6 @@ class _MyOrdersViewState extends State<MyOrdersView>
   @override
   void dispose() {
     _scrollController.dispose();
-    _tabController.dispose();
     mViewModel.resetPage();
     super.dispose();
   }
@@ -77,536 +62,372 @@ class _MyOrdersViewState extends State<MyOrdersView>
     return Scaffold(
       backgroundColor: const Color(0xFFFFF4E8),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
+        preferredSize: const Size.fromHeight(90.0),
         child: CommonAppBar(
           title: "My Orders",
-          isShowShadow: true,
           isTitleBold: true,
           iconTheme: IconThemeData(color: CommonColors.blackColor),
-          bottom: TabBar(
-            controller: _tabController,
-            unselectedLabelColor: Colors.black,
-            dividerColor: Colors.white,
-            tabs: <Widget>[
-              Tab(
-                child: Text(
-                  "Pending",
-                  style: getAppStyle(fontSize: 16),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(40.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        currentStatus = 'p';
+                      });
+                      await mViewModel.resetPage();
+                      mViewModel.getOrdersApi(status: currentStatus);
+                    },
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.2),
+                        //     spreadRadius: 0,
+                        //     blurRadius: 2,
+                        //     offset: Offset(0, 1),
+                        //   ),
+                        // ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(),
+                          Text(
+                            "Pending",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: currentStatus == 'p'
+                                  ? CommonColors.primaryColor
+                                  : Colors.black,
+                            ),
+                          ),
+                          Container(
+                            height: 2,
+                            decoration: BoxDecoration(
+                                color: currentStatus == 'p'
+                                    ? CommonColors.primaryColor
+                                    : Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              Tab(
-                child: Text("Complete", style: getAppStyle(fontSize: 16)),
-              ),
-            ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        currentStatus = 'c';
+                      });
+                      await mViewModel.resetPage();
+                      mViewModel.getOrdersApi(status: currentStatus);
+                    },
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.2),
+                        //     spreadRadius: 0,
+                        //     blurRadius: 2,
+                        //     offset: Offset(0, 1),
+                        //   ),
+                        // ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(),
+                          Text(
+                            "Complete",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: currentStatus == 'c'
+                                  ? CommonColors.primaryColor
+                                  : Colors.black,
+                            ),
+                          ),
+                          Container(
+                            height: 2,
+                            decoration: BoxDecoration(
+                              color: currentStatus == 'c'
+                                  ? CommonColors.primaryColor
+                                  : Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          mViewModel.isInitialLoading
-              ? Shimmer.fromColors(
-                  baseColor: Colors.grey.shade400,
-                  highlightColor: Colors.grey.shade100,
-                  enabled: true,
-                  child: ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      padding: kCommonScreenPadding,
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Container(
-                            width: double.infinity,
-                            height: 200.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              color: Colors.white,
-                            ),
-                          ),
-                        );
-                      }),
+      body: mViewModel.isInitialLoading
+          ? Shimmer.fromColors(
+              baseColor: Colors.grey.shade400,
+              highlightColor: Colors.grey.shade100,
+              enabled: true,
+              child: ListView.builder(
+                  itemCount: 5,
+                  shrinkWrap: true,
+                  padding: kCommonScreenPadding,
+                  // physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Container(
+                        width: double.infinity,
+                        height: 200.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  }),
+            )
+          : mViewModel.orderList.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(height: 270, LocalImages.img_order_not_found),
+                      kCommonSpaceV15,
+                      Text(
+                        "No order Found!",
+                        style: getAppStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: CommonColors.blackColor),
+                      ),
+                    ],
+                  ),
                 )
-              : mViewModel.orderList.isEmpty
-                  ? Center(
+              : ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: mViewModel.orderList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(top: 16),
+                      margin: const EdgeInsets.only(bottom: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                        border: Border.all(
+                          color: CommonColors.primaryColor.withOpacity(0.4),
+                          width: 0.8,
+                        ),
+                      ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                              height: 270, LocalImages.img_order_not_found),
-                          kCommonSpaceV15,
-                          Text(
-                            "No order Found!",
-                            style: getAppStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                                color: CommonColors.blackColor),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {},
+                                  child: Row(
+                                    children: [
+                                      Image.network(
+                                        "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
+                                        height: 40,
+                                      ),
+                                      const SizedBox(width: 20),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .orderNumber ??
+                                                  '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: getAppStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            Text(
+                                              mViewModel.orderList[index]
+                                                      .created ??
+                                                  '',
+                                              style: getAppStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          push(
+                                            OrderDetailsView(
+                                              orderId: mViewModel
+                                                  .orderList[index].orderId
+                                                  .toString(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 22,
+                                          color: CommonColors.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                  child: Divider(
+                                    color: CommonColors.mGrey,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Payment Type",
+                                          style: getAppStyle(
+                                            color: Colors.grey.withOpacity(0.6),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          mViewModel.orderList[index]
+                                                  .paymentMethod ??
+                                              '',
+                                          style: getAppStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Total",
+                                          style: getAppStyle(
+                                            color: Colors.grey.withOpacity(0.6),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          "₹${mViewModel.orderList[index].total ?? ''}",
+                                          style: getAppStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          "Status",
+                                          style: getAppStyle(
+                                            color: Colors.grey.withOpacity(0.6),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          mViewModel.orderList[index]
+                                                  .orderStatus ??
+                                              '',
+                                          style: getAppStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                kCommonSpaceV20,
+                                kCommonSpaceV10,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: PrimaryButton(
+                                        height: 46,
+                                        label: "Tracking",
+                                        buttonColor: Colors.transparent,
+                                        borderColor: CommonColors.primaryColor,
+                                        labelColor: CommonColors.primaryColor,
+                                        onPress: () {
+                                          push(
+                                            TrackingOrdersView(
+                                              orderId: mViewModel
+                                                  .orderList[index].orderId
+                                                  .toString(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    kCommonSpaceH15,
+                                    Expanded(
+                                      child: PrimaryButton(
+                                        height: 46,
+                                        label: "View Details",
+                                        buttonColor: CommonColors.primaryColor,
+                                        labelColor: CommonColors.mWhite,
+                                        onPress: () {
+                                          push(
+                                            OrderDetailsView(
+                                              orderId: mViewModel
+                                                  .orderList[index].orderId
+                                                  .toString(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                kCommonSpaceV15,
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  : ListView.builder(
-                      controller: _scrollController,
-                      padding:
-                          const EdgeInsets.only(top: 12, left: 15, right: 15),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: mViewModel.orderList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.only(top: 16),
-                          margin: const EdgeInsets.only(bottom: 14),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: CommonColors.primaryColor.withOpacity(0.4),
-                              width: 0.8,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 14),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          Image.network(
-                                            "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
-                                            height: 40,
-                                          ),
-                                          const SizedBox(width: 20),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  mViewModel.orderList[index]
-                                                          .orderNumber ??
-                                                      '',
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: getAppStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  mViewModel.orderList[index]
-                                                          .created ??
-                                                      '',
-                                                  style: getAppStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            size: 22,
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 4),
-                                      child: Divider(
-                                        color: CommonColors.mGrey,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Payment Type",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              mViewModel.orderList[index]
-                                                      .paymentMethod ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Total",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              "₹${mViewModel.orderList[index].total ?? ''}",
-                                              style: getAppStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Status",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              mViewModel.orderList[index]
-                                                      .orderStatus ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    kCommonSpaceV20,
-                                    kCommonSpaceV10,
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: PrimaryButton(
-                                            height: 46,
-                                            label: "Tracking",
-                                            buttonColor: Colors.transparent,
-                                            borderColor:
-                                                CommonColors.primaryColor,
-                                            labelColor:
-                                                CommonColors.primaryColor,
-                                            onPress: () {
-                                              push(TrackingOrdersView(
-                                                  orderId: mViewModel
-                                                      .orderList[index].orderId
-                                                      .toString()));
-                                            },
-                                          ),
-                                        ),
-                                        kCommonSpaceH15,
-                                        Expanded(
-                                          child: PrimaryButton(
-                                            height: 46,
-                                            label: "View Details",
-                                            buttonColor:
-                                                CommonColors.primaryColor,
-                                            labelColor: CommonColors.mWhite,
-                                            onPress: () {
-                                              push(OrderDetailsView(
-                                                  orderId: mViewModel
-                                                      .orderList[index].orderId
-                                                      .toString()));
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    kCommonSpaceV15,
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-
-          /// complete view design
-
-          mViewModel.isInitialLoading
-              ? Shimmer.fromColors(
-                  baseColor: Colors.grey.shade400,
-                  highlightColor: Colors.grey.shade100,
-                  enabled: true,
-                  child: ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      padding: kCommonScreenPadding,
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: Container(
-                            width: double.infinity,
-                            height: 200.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              color: Colors.white,
-                            ),
-                          ),
-                        );
-                      }),
-                )
-              : mViewModel.orderList.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                              height: 270, LocalImages.img_order_not_found),
-                          kCommonSpaceV15,
-                          Text(
-                            "No order Found!",
-                            style: getAppStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                                color: CommonColors.blackColor),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      controller: _scrollController,
-                      padding:
-                          const EdgeInsets.only(top: 12, left: 15, right: 15),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: mViewModel.orderList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.only(top: 16),
-                          margin: const EdgeInsets.only(bottom: 14),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: CommonColors.primaryColor.withOpacity(0.4),
-                              width: 0.8,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 14),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          Image.network(
-                                            "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
-                                            height: 40,
-                                          ),
-                                          const SizedBox(width: 20),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  mViewModel.orderList[index]
-                                                          .orderNumber ??
-                                                      '',
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: getAppStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  mViewModel.orderList[index]
-                                                          .created ??
-                                                      '',
-                                                  style: getAppStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            size: 22,
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 4),
-                                      child: Divider(
-                                        color: CommonColors.mGrey,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Payment Type",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              mViewModel.orderList[index]
-                                                      .paymentMethod ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Total",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              "₹${mViewModel.orderList[index].total ?? ''}",
-                                              style: getAppStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "Status",
-                                              style: getAppStyle(
-                                                color: Colors.grey
-                                                    .withOpacity(0.6),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              mViewModel.orderList[index]
-                                                      .orderStatus ??
-                                                  '',
-                                              style: getAppStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    kCommonSpaceV20,
-                                    kCommonSpaceV10,
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: PrimaryButton(
-                                            height: 46,
-                                            label: "Tracking",
-                                            buttonColor: Colors.transparent,
-                                            borderColor:
-                                                CommonColors.primaryColor,
-                                            labelColor:
-                                                CommonColors.primaryColor,
-                                            onPress: () {
-                                              push(TrackingOrdersView(
-                                                  orderId: mViewModel
-                                                      .orderList[index].orderId
-                                                      .toString()));
-                                            },
-                                          ),
-                                        ),
-                                        kCommonSpaceH15,
-                                        Expanded(
-                                          child: PrimaryButton(
-                                            height: 46,
-                                            label: "View Details",
-                                            buttonColor:
-                                                CommonColors.primaryColor,
-                                            labelColor: CommonColors.mWhite,
-                                            onPress: () {
-                                              push(OrderDetailsView(
-                                                  orderId: mViewModel
-                                                      .orderList[index].orderId
-                                                      .toString()));
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    kCommonSpaceV15,
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-        ],
-      ),
+                    );
+                  },
+                ),
     );
   }
 }
