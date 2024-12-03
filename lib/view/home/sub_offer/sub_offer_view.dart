@@ -25,6 +25,7 @@ import '../view_all_products/view_all_products_view_model.dart';
 class SubOfferView extends StatefulWidget {
   final int offerId;
   final String title;
+
   const SubOfferView({super.key, required this.offerId, required this.title});
 
   @override
@@ -788,71 +789,99 @@ class _SubOfferViewState extends State<SubOfferView> {
                     ),
                   ),
                 )
-              : Expanded(
-                  child: GridView.builder(
-                    padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.6,
-                      crossAxisSpacing: 2,
-                      mainAxisSpacing: 5,
-                    ),
-                    itemCount: mViewModel.offerProductList.length,
-                    itemBuilder: (context, index) {
-                      return FittedBox(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: ProductContainer(
-                            onTapProduct: () async {
-                              var variantId =
-                                  mViewModel.offerProductList[index].variantId;
-                              if (!isBottomSheetOpen) {
-                                isBottomSheetOpen = true;
-                                await mHomeViewModel.getProductDetailsApi(
-                                  variantId: variantId?.toString() ?? '',
-                                );
-                                if (mHomeViewModel.productDetailsData != null) {
-                                  productDetailsBottomSheet(variantId!);
-                                }
-                              }
-                            },
-                            imgUrl:
-                                mViewModel.offerProductList[index].image ?? '',
-                            productName: mViewModel
-                                    .offerProductList[index].productName ??
-                                '',
-                            onIncrement: () => incrementItem(index),
-                            onDecrement: () => decrementItem(index),
-                            stock:
-                                mViewModel.offerProductList[index].stock ?? 0,
-                            variantName: mViewModel
-                                    .offerProductList[index].variantName ??
-                                '',
-                            discountPrice: mViewModel
-                                    .offerProductList[index].discountPrice ??
-                                0,
-                            productPrice: mViewModel
-                                    .offerProductList[index].productPrice ??
-                                0,
-                            discountPer: mViewModel
-                                    .offerProductList[index].discountPer ??
-                                0,
-                            cartCount:
-                                mViewModel.offerProductList[index].cartCount ??
-                                    0,
-                            productId: mViewModel
-                                .offerProductList[index].productId
-                                .toString(),
-                            variantId: mViewModel
-                                .offerProductList[index].variantId
-                                .toString(),
-                          ),
+              : mViewModel.offerProductList.isNotEmpty
+                  ? Expanded(
+                      child: GridView.builder(
+                        padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.6,
+                          crossAxisSpacing: 2,
+                          mainAxisSpacing: 5,
                         ),
-                      );
-                    },
-                  ),
-                ),
+                        itemCount: mViewModel.offerProductList.length,
+                        itemBuilder: (context, index) {
+                          return FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ProductContainer(
+                                onTapProduct: () async {
+                                  var variantId = mViewModel
+                                      .offerProductList[index].variantId;
+                                  if (!isBottomSheetOpen) {
+                                    isBottomSheetOpen = true;
+                                    await mHomeViewModel.getProductDetailsApi(
+                                      variantId: variantId?.toString() ?? '',
+                                    );
+                                    if (mHomeViewModel.productDetailsData !=
+                                        null) {
+                                      productDetailsBottomSheet(variantId!);
+                                    }
+                                  }
+                                },
+                                imgUrl:
+                                    mViewModel.offerProductList[index].image ??
+                                        '',
+                                productName: mViewModel
+                                        .offerProductList[index].productName ??
+                                    '',
+                                onIncrement: () => incrementItem(index),
+                                onDecrement: () => decrementItem(index),
+                                stock:
+                                    mViewModel.offerProductList[index].stock ??
+                                        0,
+                                variantName: mViewModel
+                                        .offerProductList[index].variantName ??
+                                    '',
+                                discountPrice: mViewModel
+                                        .offerProductList[index]
+                                        .discountPrice ??
+                                    0,
+                                productPrice: mViewModel
+                                        .offerProductList[index].productPrice ??
+                                    0,
+                                discountPer: mViewModel
+                                        .offerProductList[index].discountPer ??
+                                    0,
+                                cartCount: mViewModel
+                                        .offerProductList[index].cartCount ??
+                                    0,
+                                productId: mViewModel
+                                    .offerProductList[index].productId
+                                    .toString(),
+                                variantId: mViewModel
+                                    .offerProductList[index].variantId
+                                    .toString(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 180),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                              height: 240,
+                              "https://cdn3d.iconscout.com/3d/premium/thumb/courier-guy-wearing-facemask-and-carrying-packages-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--delivery-man-medical-mask-pack-e-commerce-shopping-illustrations-4054667.png"
+                              // "https://cdn3d.iconscout.com/3d/premium/thumb/no-results-found-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--empty-box-result-not-connection-timeout-pack-miscellaneous-illustrations-4812665.png?f=webp",
+                              ),
+                          kCommonSpaceV10,
+                          Text(
+                            "Product not found!",
+                            textAlign: TextAlign.center,
+                            style: getAppStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                    ),
         ],
       ),
       bottomNavigationBar: Consumer<HomeViewModel>(
@@ -1382,8 +1411,10 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                       physics:
                                                           NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,
-                                                      padding:
-                                                          EdgeInsets.all(18),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8,
+                                                          right: 8,
+                                                          top: 8),
                                                       scrollDirection:
                                                           Axis.vertical,
                                                       itemCount: homeViewModel
@@ -1858,6 +1889,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                           children: [
                             kCommonSpaceV10,
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Product Details',
@@ -1987,7 +2019,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                             kCommonSpaceV10,
                             Text(
                               mHomeViewModel.productDetailsData![0].description!
-                                  .isEmpty
+                                      .isEmpty
                                   ? ""
                                   : "Description",
                               style: getAppStyle(
@@ -2089,36 +2121,86 @@ class _SubOfferViewState extends State<SubOfferView> {
                               ),
                               const SizedBox(width: 70),
                               const Spacer(),
-                              if (mHomeViewModel.productDetailsData![0].stock !=
-                                  0) ...[
-                                mHomeViewModel
-                                            .productDetailsData![0].cartCount! >
-                                        0
-                                    ? Container(
-                                        height: 55,
-                                        width: 240,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: CommonColors.primaryColor,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () async {
+                              mHomeViewModel.productDetailsData![0].cartCount! >
+                                      0
+                                  ? Container(
+                                      height: 55,
+                                      width: 240,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: CommonColors.primaryColor,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .cartCount! >
+                                                  0) {
+                                                await mHomeViewModel
+                                                    .addToCartApi(
+                                                  variantId: mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .variantId
+                                                      .toString(),
+                                                  type: 'm',
+                                                );
+                                                setState(() {
+                                                  mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .cartCount = mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount! -
+                                                      1;
+                                                });
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Icons.remove,
+                                              size: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            mHomeViewModel
+                                                .productDetailsData![0]
+                                                .cartCount
+                                                .toString(),
+                                            style: getAppStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              // Ensure productDetailsData is non-null and has at least one item
+                                              if (mHomeViewModel
+                                                          .productDetailsData !=
+                                                      null &&
+                                                  mHomeViewModel
+                                                      .productDetailsData!
+                                                      .isNotEmpty) {
+                                                int stock = mHomeViewModel
+                                                        .productDetailsData![0]
+                                                        .stock ??
+                                                    0; // Provide a default value (e.g., 0)
+
                                                 if (mHomeViewModel
                                                         .productDetailsData![0]
-                                                        .cartCount! >
-                                                    0) {
+                                                        .cartCount! <
+                                                    stock) {
                                                   await mHomeViewModel
                                                       .addToCartApi(
                                                     variantId: mHomeViewModel
                                                         .productDetailsData![0]
                                                         .variantId
                                                         .toString(),
-                                                    type: 'm',
+                                                    type: 'p',
                                                   );
                                                   setState(() {
                                                     mHomeViewModel
@@ -2126,104 +2208,49 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                         .cartCount = mHomeViewModel
                                                             .productDetailsData![
                                                                 0]
-                                                            .cartCount! -
+                                                            .cartCount! +
                                                         1;
                                                   });
+                                                } else {
+                                                  String msg =
+                                                      "Only $stock product(s) available in stock";
+                                                  CommonUtils.showCustomToast(
+                                                      context, msg);
                                                 }
-                                              },
-                                              child: const Icon(
-                                                Icons.remove,
-                                                size: 16,
-                                                color: Colors.white,
-                                              ),
+                                              }
+                                            },
+                                            // onTap: () async {
+                                            //   await mViewModel.addToCartApi(
+                                            //     variantId: mViewModel
+                                            //         .productDetailsData![0]
+                                            //         .variantId
+                                            //         .toString(),
+                                            //     type: 'p',
+                                            //   );
+                                            //   setState(() {
+                                            //     mViewModel
+                                            //         .productDetailsData![0]
+                                            //         .cartCount = mViewModel
+                                            //             .productDetailsData![
+                                            //                 0]
+                                            //             .cartCount! +
+                                            //         1;
+                                            //   });
+                                            // },
+                                            child: const Icon(
+                                              Icons.add,
+                                              size: 16,
+                                              color: Colors.white,
                                             ),
-                                            Text(
-                                              mHomeViewModel
-                                                  .productDetailsData![0]
-                                                  .cartCount
-                                                  .toString(),
-                                              style: getAppStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                // Ensure productDetailsData is non-null and has at least one item
-                                                if (mHomeViewModel
-                                                            .productDetailsData !=
-                                                        null &&
-                                                    mHomeViewModel
-                                                        .productDetailsData!
-                                                        .isNotEmpty) {
-                                                  int stock = mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .stock ??
-                                                      0; // Provide a default value (e.g., 0)
-
-                                                  if (mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .cartCount! <
-                                                      stock) {
-                                                    await mHomeViewModel
-                                                        .addToCartApi(
-                                                      variantId: mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .variantId
-                                                          .toString(),
-                                                      type: 'p',
-                                                    );
-                                                    setState(() {
-                                                      mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .cartCount = mHomeViewModel
-                                                              .productDetailsData![
-                                                                  0]
-                                                              .cartCount! +
-                                                          1;
-                                                    });
-                                                  } else {
-                                                    String msg =
-                                                        "Only $stock product(s) available in stock";
-                                                    CommonUtils.showCustomToast(
-                                                        context, msg);
-                                                  }
-                                                }
-                                              },
-                                              // onTap: () async {
-                                              //   await mViewModel.addToCartApi(
-                                              //     variantId: mViewModel
-                                              //         .productDetailsData![0]
-                                              //         .variantId
-                                              //         .toString(),
-                                              //     type: 'p',
-                                              //   );
-                                              //   setState(() {
-                                              //     mViewModel
-                                              //         .productDetailsData![0]
-                                              //         .cartCount = mViewModel
-                                              //             .productDetailsData![
-                                              //                 0]
-                                              //             .cartCount! +
-                                              //         1;
-                                              //   });
-                                              // },
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 16,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () async {
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () async {
+                                        if (mHomeViewModel
+                                                .productDetailsData![0].stock !=
+                                            0) {
                                           await mHomeViewModel.addToCartApi(
                                             variantId: mHomeViewModel
                                                 .productDetailsData![0]
@@ -2236,28 +2263,31 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                 .productDetailsData![0]
                                                 .cartCount = 1;
                                           });
-                                        },
-                                        child: Container(
-                                          height: 55,
-                                          width: 240,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "Add to Cart",
-                                              style: getAppStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
+                                        } else {
+                                          CommonUtils.showCustomToast(context,
+                                              "Only 0 item available in stock");
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 55,
+                                        width: 240,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: CommonColors.primaryColor,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Add to Cart",
+                                            style: getAppStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
                                         ),
                                       ),
-                              ],
+                                    ),
                             ],
                           ),
                         ),

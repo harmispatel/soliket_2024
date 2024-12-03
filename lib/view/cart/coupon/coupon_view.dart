@@ -8,7 +8,6 @@ import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 import '../../../utils/common_colors.dart';
 import '../../../widget/common_appbar.dart';
 import '../../../widget/primary_button.dart';
-import '../../profile/edit_account/edit_account_view.dart';
 
 class CouponsOffersView extends StatefulWidget {
   const CouponsOffersView({super.key});
@@ -52,32 +51,32 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
         padding: kCommonScreenPadding,
         child: Column(
           children: [
-            TextFormFieldCustom(
-              // controller: edBuildingController,
-              textInputType: TextInputType.text,
-              hintText: "Enter Coupon Code",
-              labelText: "Enter Coupon Code",
-              suffixIcon: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 80,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        color: CommonColors.mGrey300,
-                        borderRadius: BorderRadius.circular(6)),
-                    child: Center(
-                      child: Text(
-                        "Apply",
-                        style: getAppStyle(color: CommonColors.mGrey),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            kCommonSpaceV15,
+            // TextFormFieldCustom(
+            //   // controller: edBuildingController,
+            //   textInputType: TextInputType.text,
+            //   hintText: "Enter Coupon Code",
+            //   labelText: "Enter Coupon Code",
+            //   suffixIcon: Padding(
+            //     padding: const EdgeInsets.all(6.0),
+            //     child: GestureDetector(
+            //       onTap: () {},
+            //       child: Container(
+            //         width: 80,
+            //         height: 20,
+            //         decoration: BoxDecoration(
+            //             color: CommonColors.mGrey300,
+            //             borderRadius: BorderRadius.circular(6)),
+            //         child: Center(
+            //           child: Text(
+            //             "Apply",
+            //             style: getAppStyle(color: CommonColors.mGrey),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // kCommonSpaceV15,
             mViewModel.isInitialLoading
                 ? Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,

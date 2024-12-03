@@ -728,7 +728,8 @@ class _SearchViewState extends State<SearchView> {
                                                     Text(
                                                       'Review Cart',
                                                       style: getAppStyle(
-                                                        color: CommonColors.blackColor,
+                                                          color: CommonColors
+                                                              .blackColor,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontSize: 16),
@@ -743,8 +744,7 @@ class _SearchViewState extends State<SearchView> {
                                                                       .black54),
                                                         ),
                                                         Text(
-                                                          "₹${mHomeViewModel
-                                                              .cartTotalPrice}",
+                                                          "₹${mHomeViewModel.cartTotalPrice}",
                                                           style: getAppStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -772,7 +772,8 @@ class _SearchViewState extends State<SearchView> {
                                                           spreadRadius: 0.0,
                                                         ), //BoxShadow
                                                         BoxShadow(
-                                                          color: CommonColors.primaryColor,
+                                                          color: CommonColors
+                                                              .primaryColor,
                                                           offset: const Offset(
                                                               0.0, 0.0),
                                                           blurRadius: 0.0,
@@ -787,7 +788,8 @@ class _SearchViewState extends State<SearchView> {
                                                       child: Icon(
                                                         Icons.close,
                                                         size: 15,
-                                                        color: CommonColors.mWhite,
+                                                        color:
+                                                            CommonColors.mWhite,
                                                       ),
                                                     ),
                                                   ),
@@ -822,8 +824,10 @@ class _SearchViewState extends State<SearchView> {
                                                       physics:
                                                           NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,
-                                                      padding:
-                                                          EdgeInsets.all(18),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8,
+                                                          right: 8,
+                                                          top: 8),
                                                       scrollDirection:
                                                           Axis.vertical,
                                                       itemCount: homeViewModel
@@ -1429,7 +1433,7 @@ class _SearchViewState extends State<SearchView> {
                             kCommonSpaceV10,
                             Text(
                               mHomeViewModel.productDetailsData![0].description!
-                                  .isEmpty
+                                      .isEmpty
                                   ? ""
                                   : "Description",
                               style: getAppStyle(
@@ -1531,36 +1535,86 @@ class _SearchViewState extends State<SearchView> {
                               ),
                               const SizedBox(width: 70),
                               const Spacer(),
-                              if (mHomeViewModel.productDetailsData![0].stock !=
-                                  0) ...[
-                                mHomeViewModel
-                                            .productDetailsData![0].cartCount! >
-                                        0
-                                    ? Container(
-                                        height: 55,
-                                        width: 240,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: CommonColors.primaryColor,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () async {
+                              mHomeViewModel.productDetailsData![0].cartCount! >
+                                      0
+                                  ? Container(
+                                      height: 55,
+                                      width: 240,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: CommonColors.primaryColor,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              if (mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .cartCount! >
+                                                  0) {
+                                                await mHomeViewModel
+                                                    .addToCartApi(
+                                                  variantId: mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .variantId
+                                                      .toString(),
+                                                  type: 'm',
+                                                );
+                                                setState(() {
+                                                  mHomeViewModel
+                                                      .productDetailsData![0]
+                                                      .cartCount = mHomeViewModel
+                                                          .productDetailsData![
+                                                              0]
+                                                          .cartCount! -
+                                                      1;
+                                                });
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Icons.remove,
+                                              size: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            mHomeViewModel
+                                                .productDetailsData![0]
+                                                .cartCount
+                                                .toString(),
+                                            style: getAppStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              // Ensure productDetailsData is non-null and has at least one item
+                                              if (mHomeViewModel
+                                                          .productDetailsData !=
+                                                      null &&
+                                                  mHomeViewModel
+                                                      .productDetailsData!
+                                                      .isNotEmpty) {
+                                                int stock = mHomeViewModel
+                                                        .productDetailsData![0]
+                                                        .stock ??
+                                                    0; // Provide a default value (e.g., 0)
+
                                                 if (mHomeViewModel
                                                         .productDetailsData![0]
-                                                        .cartCount! >
-                                                    0) {
+                                                        .cartCount! <
+                                                    stock) {
                                                   await mHomeViewModel
                                                       .addToCartApi(
                                                     variantId: mHomeViewModel
                                                         .productDetailsData![0]
                                                         .variantId
                                                         .toString(),
-                                                    type: 'm',
+                                                    type: 'p',
                                                   );
                                                   setState(() {
                                                     mHomeViewModel
@@ -1568,104 +1622,49 @@ class _SearchViewState extends State<SearchView> {
                                                         .cartCount = mHomeViewModel
                                                             .productDetailsData![
                                                                 0]
-                                                            .cartCount! -
+                                                            .cartCount! +
                                                         1;
                                                   });
+                                                } else {
+                                                  String msg =
+                                                      "Only $stock product(s) available in stock";
+                                                  CommonUtils.showCustomToast(
+                                                      context, msg);
                                                 }
-                                              },
-                                              child: const Icon(
-                                                Icons.remove,
-                                                size: 16,
-                                                color: Colors.white,
-                                              ),
+                                              }
+                                            },
+                                            // onTap: () async {
+                                            //   await mViewModel.addToCartApi(
+                                            //     variantId: mViewModel
+                                            //         .productDetailsData![0]
+                                            //         .variantId
+                                            //         .toString(),
+                                            //     type: 'p',
+                                            //   );
+                                            //   setState(() {
+                                            //     mViewModel
+                                            //         .productDetailsData![0]
+                                            //         .cartCount = mViewModel
+                                            //             .productDetailsData![
+                                            //                 0]
+                                            //             .cartCount! +
+                                            //         1;
+                                            //   });
+                                            // },
+                                            child: const Icon(
+                                              Icons.add,
+                                              size: 16,
+                                              color: Colors.white,
                                             ),
-                                            Text(
-                                              mHomeViewModel
-                                                  .productDetailsData![0]
-                                                  .cartCount
-                                                  .toString(),
-                                              style: getAppStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                // Ensure productDetailsData is non-null and has at least one item
-                                                if (mHomeViewModel
-                                                            .productDetailsData !=
-                                                        null &&
-                                                    mHomeViewModel
-                                                        .productDetailsData!
-                                                        .isNotEmpty) {
-                                                  int stock = mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .stock ??
-                                                      0; // Provide a default value (e.g., 0)
-
-                                                  if (mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .cartCount! <
-                                                      stock) {
-                                                    await mHomeViewModel
-                                                        .addToCartApi(
-                                                      variantId: mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .variantId
-                                                          .toString(),
-                                                      type: 'p',
-                                                    );
-                                                    setState(() {
-                                                      mHomeViewModel
-                                                          .productDetailsData![
-                                                              0]
-                                                          .cartCount = mHomeViewModel
-                                                              .productDetailsData![
-                                                                  0]
-                                                              .cartCount! +
-                                                          1;
-                                                    });
-                                                  } else {
-                                                    String msg =
-                                                        "Only $stock product(s) available in stock";
-                                                    CommonUtils.showCustomToast(
-                                                        context, msg);
-                                                  }
-                                                }
-                                              },
-                                              // onTap: () async {
-                                              //   await mViewModel.addToCartApi(
-                                              //     variantId: mViewModel
-                                              //         .productDetailsData![0]
-                                              //         .variantId
-                                              //         .toString(),
-                                              //     type: 'p',
-                                              //   );
-                                              //   setState(() {
-                                              //     mViewModel
-                                              //         .productDetailsData![0]
-                                              //         .cartCount = mViewModel
-                                              //             .productDetailsData![
-                                              //                 0]
-                                              //             .cartCount! +
-                                              //         1;
-                                              //   });
-                                              // },
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 16,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () async {
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () async {
+                                        if (mHomeViewModel
+                                                .productDetailsData![0].stock !=
+                                            0) {
                                           await mHomeViewModel.addToCartApi(
                                             variantId: mHomeViewModel
                                                 .productDetailsData![0]
@@ -1678,28 +1677,31 @@ class _SearchViewState extends State<SearchView> {
                                                 .productDetailsData![0]
                                                 .cartCount = 1;
                                           });
-                                        },
-                                        child: Container(
-                                          height: 55,
-                                          width: 240,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              "Add to Cart",
-                                              style: getAppStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
+                                        } else {
+                                          CommonUtils.showCustomToast(context,
+                                              "Only 0 item available in stock");
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 55,
+                                        width: 240,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: CommonColors.primaryColor,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Add to Cart",
+                                            style: getAppStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
                                         ),
                                       ),
-                              ],
+                                    ),
                             ],
                           ),
                         ),

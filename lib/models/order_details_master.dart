@@ -120,6 +120,8 @@ class OrderDetailsData {
 
 class OrderDetails {
   int? _orderId;
+  String? _title;
+  String? _subTitle;
   String? _riderName;
   String? _deliveryLocation;
   String? _orderNo;
@@ -130,6 +132,8 @@ class OrderDetails {
 
   OrderDetails(
       {int? orderId,
+      String? title,
+      String? subTitle,
       String? riderName,
       String? deliveryLocation,
       String? orderNo,
@@ -139,6 +143,12 @@ class OrderDetails {
       String? paymentMethod}) {
     if (orderId != null) {
       this._orderId = orderId;
+    }
+    if (title != null) {
+      this._title = title;
+    }
+    if (subTitle != null) {
+      this._subTitle = subTitle;
     }
     if (riderName != null) {
       this._riderName = riderName;
@@ -165,6 +175,10 @@ class OrderDetails {
 
   int? get orderId => _orderId;
   set orderId(int? orderId) => _orderId = orderId;
+  String? get title => _title;
+  set title(String? title) => _title = title;
+  String? get subTitle => _subTitle;
+  set subTitle(String? subTitle) => _subTitle = subTitle;
   String? get riderName => _riderName;
   set riderName(String? riderName) => _riderName = riderName;
   String? get deliveryLocation => _deliveryLocation;
@@ -183,6 +197,8 @@ class OrderDetails {
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
     _orderId = json['order_id'];
+    _title = json['title'];
+    _subTitle = json['sub_title'];
     _riderName = json['rider_name'];
     _deliveryLocation = json['delivery_location'];
     _orderNo = json['order_no'];
@@ -195,6 +211,8 @@ class OrderDetails {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this._orderId;
+    data['title'] = this._title;
+    data['sub_title'] = this._subTitle;
     data['rider_name'] = this._riderName;
     data['delivery_location'] = this._deliveryLocation;
     data['order_no'] = this._orderNo;

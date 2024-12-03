@@ -137,11 +137,11 @@ class _ProductContainerState extends State<ProductContainer> {
                             Text(
                               "₹${widget.discountPrice.toString()}",
                               style: getAppStyle(
-                                fontSize: 13,
+                                fontSize: 15,
                                 color: widget.stock == 0
                                     ? Colors.grey[400]
-                                    : Colors.black,
-                                fontWeight: FontWeight.w500,
+                                    : Colors.black87.withOpacity(0.7),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
@@ -150,7 +150,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                 color: widget.stock == 0
                                     ? Colors.grey[400]
                                     : Colors.black54,
-                                fontSize: 12,
+                                fontSize: 11,
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
@@ -163,7 +163,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                 // padding: const EdgeInsets.symmetric(
                                 //     horizontal: 4, vertical: 4),
                                 // margin: const EdgeInsets.only(bottom: 4),
-                                height: 35,
+                                height: 40,
                                 width: 100,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
@@ -207,7 +207,7 @@ class _ProductContainerState extends State<ProductContainer> {
                                 onTap: () => widget.onIncrement(),
                                 child: Container(
                                   width: 100,
-                                  height: 35,
+                                  height: 40,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),

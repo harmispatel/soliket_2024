@@ -26,6 +26,7 @@ class LocalImages {
   static const String img_location = 'assets/images/img_location_mark.png';
   static const String img_motorbike = 'assets/images/img_motorbike.png';
   static const String img_order_success = 'assets/images/img_order_success.png';
+  static const String img_delivered = 'assets/images/img_delivered.png';
   static const String img_order_not_found =
       'assets/images/img_order_not_found.png';
   static const String img_total_saving_bg =

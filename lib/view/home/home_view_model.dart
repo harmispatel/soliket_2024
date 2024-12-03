@@ -518,21 +518,36 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetPage() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      currentPage = 1;
-      isPageFinish = false;
-      homePageData.clear();
-      section1DataList.clear();
-      section2DataList.clear();
-      section3DataList.clear();
-      section4DataList.clear();
-      section5DataList.clear();
-      section6DataList.clear();
-      section7DataList.clear();
-      section8DataList.clear();
-      section9DataList.clear();
-      notifyListeners();
-    });
+  Future<void> resetPage() async {
+    await Future.delayed(Duration.zero);
+    currentPage = 1;
+    isPageFinish = false;
+    homePageData.clear();
+    section1DataList.clear();
+    section2DataList.clear();
+    section3DataList.clear();
+    section4DataList.clear();
+    section5DataList.clear();
+    section6DataList.clear();
+    section7DataList.clear();
+    section8DataList.clear();
+    section9DataList.clear();
+    notifyListeners();
+
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     currentPage = 1;
+    //     isPageFinish = false;
+    //     homePageData.clear();
+    //     section1DataList.clear();
+    //     section2DataList.clear();
+    //     section3DataList.clear();
+    //     section4DataList.clear();
+    //     section5DataList.clear();
+    //     section6DataList.clear();
+    //     section7DataList.clear();
+    //     section8DataList.clear();
+    //     section9DataList.clear();
+    //     notifyListeners();
+    //   });
   }
 }

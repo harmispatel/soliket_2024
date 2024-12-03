@@ -76,7 +76,7 @@ class Section2 extends StatelessWidget {
             Text(
               section2Title,
               style: getAppStyle(
-                  fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
+                  fontWeight: FontWeight.bold, fontSize: 14, height: 1.2),
             ),
             kCommonSpaceV15,
           ],
@@ -120,7 +120,7 @@ class Section2 extends StatelessWidget {
                       Text(
                         section2[index].title,
                         style: getAppStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: const Color(0xff45461b),
                             fontWeight: FontWeight.w500),
                       ),
@@ -159,7 +159,10 @@ class Section3 extends StatelessWidget {
             Text(
               section3Title,
               style: getAppStyle(
-                  fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  height: 1.2,
+                  color: Colors.black54),
             ),
             kCommonSpaceV15,
           ],
@@ -191,9 +194,9 @@ class Section3 extends StatelessWidget {
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade100.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                            color: Colors.orange.shade100.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(8),
+                            shape: BoxShape.rectangle),
                         child: Container(
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
@@ -213,9 +216,9 @@ class Section3 extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: getAppStyle(
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             height: 1,
-                            fontSize: 12),
+                            fontSize: 10),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -297,13 +300,16 @@ class _Section4State extends State<Section4> {
                 Text(
                   widget.section4Title,
                   style: getAppStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      height: 1.2,
+                      color: Colors.black54),
                 ),
                 Text(
                   "View All >",
                   style: getAppStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      fontSize: 14,
                       height: 1.2,
                       color: CommonColors.primaryColor),
                 ),
@@ -467,7 +473,9 @@ class Section6 extends StatelessWidget {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: getAppStyle(
-                                        fontWeight: FontWeight.w500, height: 1),
+                                        fontWeight: FontWeight.w400,
+                                        height: 1,
+                                        fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -578,7 +586,10 @@ class Section8 extends StatelessWidget {
             child: Text(
               section8Title,
               style: getAppStyle(
-                  fontWeight: FontWeight.bold, fontSize: 18, height: 1.2),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  height: 1.2,
+                  color: Colors.black54),
             ),
           ),
           kCommonSpaceV15,
@@ -782,7 +793,7 @@ class _Section9State extends State<Section9> {
                     style: getAppStyle(
                         color: CommonColors.mWhite,
                         fontWeight: FontWeight.w500,
-                        fontSize: 15),
+                        fontSize: 14),
                   ),
                   Icon(
                     Icons.chevron_right_outlined,

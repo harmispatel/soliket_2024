@@ -96,14 +96,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Order Schedule For",
+                                mViewModel.orderDetailsList[0].title ?? '',
                                 style: getAppStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18,
                                     color: CommonColors.mWhite),
                               ),
                               Text(
-                                mViewModel.orderDetailsList[0].orderDate ?? '',
+                                mViewModel.orderDetailsList[0].subTitle ?? '',
                                 style: getAppStyle(
                                     fontSize: 16, color: CommonColors.mWhite),
                               ),
@@ -121,12 +121,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: CommonColors.primaryColor
+                                  .withOpacity(0.3 / 2),
                               shape: BoxShape.circle),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.directions_bike_rounded,
+                              color: CommonColors.primaryColor,
                             ),
                           ),
                         ),
@@ -166,12 +168,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: CommonColors.primaryColor
+                                  .withOpacity(0.3 / 2),
                               shape: BoxShape.circle),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.location_on_outlined,
+                              color: CommonColors.primaryColor,
                             ),
                           ),
                         ),
@@ -216,12 +220,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: CommonColors.primaryColor
+                                  .withOpacity(0.3 / 2),
                               shape: BoxShape.circle),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.card_travel,
+                              color: CommonColors.primaryColor,
                             ),
                           ),
                         ),
@@ -230,7 +236,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Order ID ${mViewModel.orderDetailsList[0].orderId ?? ''}",
+                              "Order ID - ${mViewModel.orderDetailsList[0].orderNo ?? ''}",
                               style: getAppStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
@@ -351,7 +357,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   //   },
                   // ),
                   ListView.builder(
-                    padding: const EdgeInsets.only(top: 12, right: 15),
+                    padding: const EdgeInsets.only(top: 0, right: 15),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     itemCount: mViewModel.orderItemList.length,
@@ -363,18 +369,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 6),
+                                horizontal: 0.0, vertical: 6),
                             child: Row(
                               children: [
                                 Container(
                                   width: 70,
-                                  height: 50,
+                                  height: 70,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(mViewModel
                                               .orderItemList[index].image ??
                                           ''),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
@@ -444,7 +450,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       );
                     },
                   ),
-                  kCommonSpaceV10,
+                  kCommonSpaceV5,
                   Padding(
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Divider(
@@ -619,58 +625,61 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   kCommonSpaceV10,
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: Colors.green.withOpacity(0.3),
-                      image: DecorationImage(
-                          image: AssetImage(LocalImages.img_total_saving_bg),
-                          fit: BoxFit.fill),
-                    ),
-                    child: Center(
-                      child: RichText(
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.end,
-                        textDirection: TextDirection.rtl,
-                        softWrap: true,
-                        maxLines: 1,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Saving ',
-                              style: getAppStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: Colors.green,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Container(
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.green.withOpacity(0.3),
+                        image: DecorationImage(
+                            image: AssetImage(LocalImages.img_total_saving_bg),
+                            fit: BoxFit.fill),
+                      ),
+                      child: Center(
+                        child: RichText(
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.end,
+                          textDirection: TextDirection.rtl,
+                          softWrap: true,
+                          maxLines: 1,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Saving ',
+                                style: getAppStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  color: Colors.green,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text:
-                                  "₹${mViewModel.billDetailsList[0].savingAmount}",
-                              style: getAppStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                color: Colors.green,
+                              TextSpan(
+                                text:
+                                    "₹${mViewModel.billDetailsList[0].savingAmount}",
+                                style: getAppStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.green,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: " on this order.",
-                              style: getAppStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: Colors.green,
+                              TextSpan(
+                                text: " on this order.",
+                                style: getAppStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  color: Colors.green,
+                                ),
                               ),
-                            ),
-                            WidgetSpan(
-                              child: Icon(
-                                Icons.star_rate_outlined,
-                                size: 17,
-                                color: Colors.green,
+                              WidgetSpan(
+                                child: Icon(
+                                  Icons.star_rate_outlined,
+                                  size: 17,
+                                  color: Colors.green,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

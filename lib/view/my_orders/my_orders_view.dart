@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/local_images.dart';
@@ -381,24 +382,52 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                 kCommonSpaceV10,
                                 Row(
                                   children: [
-                                    Expanded(
-                                      child: PrimaryButton(
-                                        height: 46,
-                                        label: "Tracking",
-                                        buttonColor: Colors.transparent,
-                                        borderColor: CommonColors.primaryColor,
-                                        labelColor: CommonColors.primaryColor,
-                                        onPress: () {
-                                          push(
-                                            TrackingOrdersView(
-                                              orderId: mViewModel
-                                                  .orderList[index].orderId
-                                                  .toString(),
+                                    mViewModel.orderList[index].orderStatus ==
+                                            "Delivered"
+                                        ? Expanded(
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  height: 40,
+                                                  width: 70,
+                                                  child: Image.asset(LocalImages
+                                                      .img_delivered),
+                                                ),
+                                                Text(
+                                                  " Delivered",
+                                                  style: GoogleFonts
+                                                      .eduNswActFoundation(
+                                                          color: CommonColors
+                                                              .primaryColor,
+                                                          fontSize: 21,
+                                                          height: 1.1,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )
+                                              ],
                                             ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                          )
+                                        : Expanded(
+                                            child: PrimaryButton(
+                                              height: 46,
+                                              label: "Tracking",
+                                              buttonColor: Colors.transparent,
+                                              borderColor:
+                                                  CommonColors.primaryColor,
+                                              labelColor:
+                                                  CommonColors.primaryColor,
+                                              onPress: () {
+                                                push(
+                                                  TrackingOrdersView(
+                                                    orderId: mViewModel
+                                                        .orderList[index]
+                                                        .orderId
+                                                        .toString(),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
                                     kCommonSpaceH15,
                                     Expanded(
                                       child: PrimaryButton(
