@@ -9,6 +9,7 @@ import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/constant.dart';
 import '../../../../../widget/common_appbar.dart';
 import 'package:image/image.dart' as img;
+import '../../../utils/local_images.dart';
 
 class TrackingOrdersView extends StatefulWidget {
   final String orderId;
@@ -21,15 +22,21 @@ class TrackingOrdersView extends StatefulWidget {
 
 class _TrackingOrdersViewState extends State<TrackingOrdersView> {
   late GoogleMapController mapController;
+
   late TrackingOrdersViewModel mViewModel;
 
   double fromLatitude = 0.0, fromLongitude = 0.0;
+
   double toLatitude = 0.0, toLongitude = 0.0;
 
   Map<MarkerId, Marker> markers = {};
+
   Map<PolylineId, Polyline> polylines = {};
+
   List<LatLng> polylineCoordinates = [];
+
   PolylinePoints polylinePoints = PolylinePoints();
+
   String googleAPiKey = "AIzaSyBuZVlcMCQy7Y8rRfhYEXSODG0_Ryx14R8";
 
   @override
@@ -40,30 +47,6 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       getTrackingData();
     });
   }
-  // void getTrackingData() {
-  //   mViewModel.trackingOrderApi(orderId: widget.orderId).whenComplete(() {
-  //     fromLatitude =
-  //         double.parse(mViewModel.trackOrderData[0].fromLatitude ?? '');
-  //     fromLongitude =
-  //         double.parse(mViewModel.trackOrderData[0].fromLongitude ?? '');
-  //     toLatitude = double.parse(mViewModel.trackOrderData[0].toLatitude ?? '');
-  //     toLongitude =
-  //         double.parse(mViewModel.trackOrderData[0].toLongitude ?? '');
-  //   }).whenComplete(() {
-  //     _addMarker(LatLng(fromLatitude, fromLongitude), "origin",
-  //         BitmapDescriptor.defaultMarker);
-  //
-  //     _addMarker(LatLng(toLatitude, toLongitude), "destination",
-  //         BitmapDescriptor.defaultMarkerWithHue(90));
-  //
-  //     _getPolyline();
-  //
-  //     print("From latitude.................. $fromLatitude");
-  //     print("From longitude................. $fromLongitude");
-  //     print("to latitude.................... $toLatitude");
-  //     print("to longitude................... $toLongitude");
-  //   });
-  // }
 
   void getTrackingData() async {
     await mViewModel.trackingOrderApi(orderId: widget.orderId).whenComplete(() {
@@ -74,30 +57,39 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       toLatitude = double.parse(mViewModel.trackOrderData[0].toLatitude ?? '');
       toLongitude =
           double.parse(mViewModel.trackOrderData[0].toLongitude ?? '');
-    }).whenComplete(() async {
-      // //Optionally, you can load custom images:
-      // BitmapDescriptor originIcon = await BitmapDescriptor.fromAssetImage(
-      //   ImageConfiguration(devicePixelRatio: 4),
-      //   'assets/images/img_app_logo.png',
-      // );
-      // BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
-      //   ImageConfiguration(devicePixelRatio: 4),
-      //   'assets/images/img_app_logo.png',
-      // );
-      BitmapDescriptor originIcon =
-          await _getCustomMarker('assets/images/img_app_logo.png', 200, 200);
-      BitmapDescriptor destinationIcon =
-          await _getCustomMarker('assets/images/img_app_logo.png', 200, 200);
 
-      _addMarker(LatLng(fromLatitude, fromLongitude), "origin", originIcon);
-      _addMarker(
-          LatLng(toLatitude, toLongitude), "destination", destinationIcon);
-      _getPolyline();
-      print("From latitude.................. $fromLatitude");
-      print("From longitude................. $fromLongitude");
-      print("To latitude.................... $toLatitude");
-      print("To longitude................... $toLongitude");
-    });
+      // =======> Test Lat & Long <======= //
+      // fromLatitude = 23.0330;
+      // fromLongitude = 72.5670;
+      // toLatitude = 23.0310;
+      // toLongitude = 72.5263;
+    }).whenComplete(
+      () async {
+        BitmapDescriptor originIcon = await _getCustomMarker(
+            mViewModel.trackOrderData[0].riderMobile!.isEmpty &&
+                    mViewModel.trackOrderData[0].riderMobile!.isEmpty
+                ? LocalImages.img_stores
+                : LocalImages.img_motorbike,
+            100,
+            100);
+        BitmapDescriptor destinationIcon =
+            await _getCustomMarker(LocalImages.img_location, 110, 110);
+        _addMarker(LatLng(fromLatitude, fromLongitude), "origin", originIcon);
+        _addMarker(
+            LatLng(toLatitude, toLongitude), "destination", destinationIcon);
+
+        // _addMarker(LatLng(fromLatitude, fromLongitude), "origin",
+        //     BitmapDescriptor.defaultMarker);
+        // _addMarker(LatLng(toLatitude, toLongitude), "destination",
+        //     BitmapDescriptor.defaultMarkerWithHue(90));
+
+        _getPolyline();
+        print("From latitude.................. $fromLatitude");
+        print("From longitude................. $fromLongitude");
+        print("To latitude.................... $toLatitude");
+        print("To longitude................... $toLongitude");
+      },
+    );
   }
 
   Future<BitmapDescriptor> _getCustomMarker(
@@ -170,7 +162,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                     itemCount: 15,
                     padding: kCommonScreenPadding,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -214,15 +206,14 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Order Status",
+                                  mViewModel.trackOrderData[0].title ?? '',
                                   style: getAppStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18,
                                       color: CommonColors.mWhite),
                                 ),
                                 Text(
-                                  mViewModel.trackOrderData[0].orderStatus ??
-                                      '',
+                                  mViewModel.trackOrderData[0].subTitle ?? '',
                                   style: getAppStyle(
                                       fontSize: 16, color: CommonColors.mWhite),
                                 ),
@@ -263,7 +254,10 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                     color: CommonColors.blackColor),
                               ),
                               Text(
-                                mViewModel.trackOrderData[0].riderName ?? '',
+                                mViewModel.trackOrderData[0].riderName!.isEmpty
+                                    ? "The delivery boy is not assign."
+                                    : mViewModel.trackOrderData[0].riderName ??
+                                        '',
                                 style: getAppStyle(
                                     fontSize: 14, color: CommonColors.black54),
                               ),
@@ -312,8 +306,12 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                       color: CommonColors.blackColor),
                                 ),
                                 Text(
-                                  mViewModel.trackOrderData[0].riderMobile ??
-                                      '',
+                                  mViewModel
+                                          .trackOrderData[0].riderName!.isEmpty
+                                      ? "The delivery boy is not assign."
+                                      : mViewModel
+                                              .trackOrderData[0].riderMobile ??
+                                          '',
                                   maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
                                   style: getAppStyle(
@@ -338,7 +336,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                       child: GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: LatLng(fromLatitude, fromLongitude),
-                          zoom: 10,
+                          zoom: 12.6,
                         ),
                         myLocationEnabled: true,
                         tiltGesturesEnabled: true,
@@ -374,9 +372,9 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
 
   // Add polyline to map
   _addPolyLine() {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
-      width: 5,
+      width: 3,
       polylineId: id,
       color: CommonColors.primaryColor,
       points: polylineCoordinates,
@@ -385,8 +383,31 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
     setState(() {});
   }
 
-  // Get polyline between origin and destination
+  void _animateCameraToRoute() {
+    LatLngBounds bounds = _getLatLngBounds(polylineCoordinates);
+    mapController.animateCamera(
+      CameraUpdate.newLatLngBounds(bounds, 100.0),
+    );
+  }
+
+  LatLngBounds _getLatLngBounds(List<LatLng> coordinates) {
+    double minLat = coordinates[0].latitude, maxLat = coordinates[0].latitude;
+    double minLng = coordinates[0].longitude, maxLng = coordinates[0].longitude;
+    for (var coord in coordinates) {
+      if (coord.latitude < minLat) minLat = coord.latitude;
+      if (coord.latitude > maxLat) maxLat = coord.latitude;
+      if (coord.longitude < minLng) minLng = coord.longitude;
+      if (coord.longitude > maxLng) maxLng = coord.longitude;
+    }
+    return LatLngBounds(
+      southwest: LatLng(minLat, minLng),
+      northeast: LatLng(maxLat, maxLng),
+    );
+  }
+
+  //Get polyline between origin and destination
   _getPolyline() async {
+    polylineCoordinates.clear();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey: googleAPiKey,
       request: PolylineRequest(
@@ -400,7 +421,10 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
+    } else {
+      print("No polyline points returned");
     }
     _addPolyLine();
+    _animateCameraToRoute();
   }
 }

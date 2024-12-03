@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:solikat_2024/view/app/app_view.dart';
 
+import 'core/remote_config/remote_global_config.dart';
 import 'database/app_preferences.dart';
 
 // Initialize FlutterLocalNotificationsPlugin
@@ -87,6 +88,7 @@ Future<void> main() async {
 
   await AppPreferences.initPref();
   await Future.delayed(const Duration(milliseconds: 300));
+  await RemoteGlobalConfig.init();
   runApp(App());
 }
 

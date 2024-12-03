@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../core/remote_config/model/app_down_model.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/constant.dart';
 
 class MaintenanceView extends StatelessWidget {
-  const MaintenanceView({super.key});
+  final AppDownMaster? appDownMaster;
+  const MaintenanceView({this.appDownMaster, super.key});
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: CommonColors.grayShade200,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: CommonColors.grayShade200),
+    );
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -17,12 +26,13 @@ class MaintenanceView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.network(
-                  "https://cdn3d.iconscout.com/3d/premium/thumb/gears-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--cogwheel-configuration-cog-glass-morphism-pack-user-interface-illustrations-4696750.png?f=webp",
+                  appDownMaster?.appDownImageUrl ??
+                      "https://cdn3d.iconscout.com/3d/premium/thumb/gears-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--cogwheel-configuration-cog-glass-morphism-pack-user-interface-illustrations-4696750.png?f=webp",
                   height: 240,
                 ),
                 kCommonSpaceV10,
                 Text(
-                  "Under Maintenance",
+                  appDownMaster?.appDownMessage ?? "Under Maintenance",
                   textAlign: TextAlign.center,
                   style: getAppStyle(
                     color: CommonColors.primaryColor,
@@ -32,7 +42,8 @@ class MaintenanceView extends StatelessWidget {
                 ),
                 kCommonSpaceV10,
                 Text(
-                  "Delivery service closed today, it will resume from tomorrow.",
+                  appDownMaster?.appDownHeader ??
+                      "Delivery service closed today, it will resume from tomorrow.",
                   textAlign: TextAlign.center,
                   style: getAppStyle(
                     color: CommonColors.blackColor,

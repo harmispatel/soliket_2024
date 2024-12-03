@@ -22,6 +22,9 @@ class LocalImages {
   static const String img_notification = 'assets/images/img_notification.png';
   static const String img_app_logo = 'assets/images/img_app_logo.png';
   static const String img_delivery_boy = 'assets/images/img_delivery_boy.png';
+  static const String img_stores = 'assets/images/img_stores.png';
+  static const String img_location = 'assets/images/img_location_mark.png';
+  static const String img_motorbike = 'assets/images/img_motorbike.png';
   static const String img_order_success = 'assets/images/img_order_success.png';
   static const String img_order_not_found =
       'assets/images/img_order_not_found.png';

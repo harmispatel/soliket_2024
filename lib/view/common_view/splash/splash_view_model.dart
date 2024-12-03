@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../../../core/remote_config/remote_global_config.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/confirm_location_master.dart';
 import '../../../services/api_para.dart';
@@ -13,6 +13,7 @@ import '../../../utils/global_variables.dart';
 import '../../home/soliket_not_available_view.dart';
 import '../../location/location_donNot_allow_view.dart';
 import '../../login/login_view.dart';
+import '../../maintenance/maintenance_view.dart';
 import '../bottom_navbar/bottom_navbar_view.dart';
 
 class SplashViewModel with ChangeNotifier {
@@ -21,7 +22,21 @@ class SplashViewModel with ChangeNotifier {
 
   Future<void> attachedContext(BuildContext context) async {
     this.context = context;
-    startTimer();
+    appCheck();
+  }
+
+  Future<void> appCheck() async {
+    final appDownConfig = RemoteGlobalConfig.remoteGlobalModel.appDownMaster;
+    if (appDownConfig?.appDown == true) {
+      Navigator.of(context).pushAndRemoveUntil(
+        CupertinoPageRoute(
+          builder: (context) => MaintenanceView(appDownMaster: appDownConfig),
+        ),
+            (Route<dynamic> route) => false,
+      );
+    } else {
+      startTimer();
+    }
   }
 
   startTimer() async {

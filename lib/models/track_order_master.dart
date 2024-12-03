@@ -58,6 +58,8 @@ class TrackOrderMaster {
 
 class TrackOrderData {
   int? _orderId;
+  String? _title;
+  String? _subTitle;
   String? _orderNo;
   String? _riderName;
   String? _riderMobile;
@@ -71,6 +73,8 @@ class TrackOrderData {
 
   TrackOrderData(
       {int? orderId,
+      String? title,
+      String? subTitle,
       String? orderNo,
       String? riderName,
       String? riderMobile,
@@ -83,6 +87,12 @@ class TrackOrderData {
       String? toLongitude}) {
     if (orderId != null) {
       this._orderId = orderId;
+    }
+    if (title != null) {
+      this._title = title;
+    }
+    if (subTitle != null) {
+      this._subTitle = subTitle;
     }
     if (orderNo != null) {
       this._orderNo = orderNo;
@@ -118,6 +128,10 @@ class TrackOrderData {
 
   int? get orderId => _orderId;
   set orderId(int? orderId) => _orderId = orderId;
+  String? get title => _title;
+  set title(String? title) => _title = title;
+  String? get subTitle => _subTitle;
+  set subTitle(String? subTitle) => _subTitle = subTitle;
   String? get orderNo => _orderNo;
   set orderNo(String? orderNo) => _orderNo = orderNo;
   String? get riderName => _riderName;
@@ -141,6 +155,8 @@ class TrackOrderData {
 
   TrackOrderData.fromJson(Map<String, dynamic> json) {
     _orderId = json['order_id'];
+    _title = json['title'];
+    _subTitle = json['sub_title'];
     _orderNo = json['order_no'];
     _riderName = json['rider_name'];
     _riderMobile = json['rider_mobile'];
@@ -156,6 +172,8 @@ class TrackOrderData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this._orderId;
+    data['title'] = this._title;
+    data['sub_title'] = this._subTitle;
     data['order_no'] = this._orderNo;
     data['rider_name'] = this._riderName;
     data['rider_mobile'] = this._riderMobile;

@@ -404,6 +404,7 @@ class AppState extends State<App> {
                         fallback:
                             const Locale(AppConstants.LANGUAGE_ENGLISH, '')),
                     home: SplashView(),
+                    //home: HomePage(),
                   ),
                 );
               },
