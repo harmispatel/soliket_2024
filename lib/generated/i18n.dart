@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../database/app_preferences.dart';
 import '../utils/constant.dart';
+
+String appName = AppPreferences.instance.getAppColor();
 
 class S implements WidgetsLocalizations {
   const S();

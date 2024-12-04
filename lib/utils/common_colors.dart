@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../database/app_preferences.dart';
+
+String appColor = AppPreferences.instance.getAppColor();
+
 class CommonColors {
   static const primaryColor = Color(0xffEA7D08);
+  static final primarysColor = Color(int.parse(appColor));
   static const primaryLite = Color(0xFFFFD73A);
   static const mWhite = Colors.white;
   static const mTransparent = Colors.transparent;

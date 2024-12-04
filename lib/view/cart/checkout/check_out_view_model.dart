@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/order_master.dart';
 
+import '../../../database/app_preferences.dart';
+import '../../../models/app_credensials_master.dart';
 import '../../../models/check_delivery_available_master.dart';
 import '../../../models/common_master.dart';
 import '../../../models/update_bill_details_master.dart';
@@ -23,10 +26,13 @@ class CheckOutViewModel with ChangeNotifier {
   String savingAmount = '';
   String isFreeDelivery = '';
   bool isDeliveryAvailable = true;
+  bool isAppCredensials = true;
   String orderId = '';
+  List<AppCredensialsData>? appCredensialsData;
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    getAppCredensials();
     notifyListeners();
   }
 
@@ -141,6 +147,28 @@ class CheckOutViewModel with ChangeNotifier {
 
     if (master.status == true) {
       push(OrderSuccessView());
+    }
+    notifyListeners();
+  }
+
+  Future<void> getAppCredensials() async {
+    AppCredensialsMaster? master = await services.api!.getAppCredensials();
+    isAppCredensials = false;
+    if (master == null) {
+      CommonUtils.oopsMSG();
+    } else if (!master.status!) {
+      CommonUtils.showCustomToast(context, master.message);
+    } else if (master.status!) {
+      log("Success :: true");
+      appCredensialsData = master.data;
+      AppPreferences.instance
+          .setAppMapKey(jsonEncode(master.data?.first.mapKey));
+      AppPreferences.instance
+          .setAppColor(jsonEncode(master.data?.first.appColor));
+      AppPreferences.instance
+          .setAppName(jsonEncode(master.data?.first.appName));
+      print(master.data?.first.appColor.toString());
+      print("fdfdfdfddfdfdfdfdfdf");
     }
     notifyListeners();
   }

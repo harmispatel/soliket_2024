@@ -191,6 +191,284 @@ class _MyCartViewState extends State<MyCartView> {
                           ),
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: CommonColors.primaryColor,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        offset: const Offset(
+                                          2.0,
+                                          2.0,
+                                        ),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                      const BoxShadow(
+                                        color: Colors.white,
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 0.0,
+                                        spreadRadius: 0.0,
+                                      ), //BoxShadow
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Image.asset(
+                                      LocalImages.img_tag,
+                                      height: 26,
+                                      color: CommonColors.mWhite,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Special Price Deals",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: getAppStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "2/2 Unlocked",
+                                        style: getAppStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kCommonSpaceV20,
+                            SizedBox(
+                              height: kDeviceHeight / 3,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 13,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return FittedBox(
+                                    child: Container(
+                                      width: 170,
+                                      clipBehavior: Clip.antiAlias,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            CommonColors.primaryColor
+                                                .withOpacity(0.3),
+                                            CommonColors.mWhite
+                                                .withOpacity(0.5),
+                                            CommonColors.mWhite,
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                        border: Border.all(
+                                          color: Colors.grey.withOpacity(0.5),
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 16, right: 16),
+                                              child: Center(
+                                                child: Image.network(
+                                                  "https:\/\/newadmin.soliket.com\/upload\/products\/1708006157_88274.jpg",
+                                                  fit: BoxFit.contain,
+                                                  height: 170,
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {},
+                                              child: SizedBox(
+                                                height: 40,
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8)+EdgeInsets.only(right: 3),
+                                                  child: Text(
+                                                    "Fresh Potato Aalu 2Kg",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: getAppStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black87,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Text(
+                                                "2 kg",
+                                                style: getAppStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[400],
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            FittedBox(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "₹${"62"}",
+                                                          style: getAppStyle(
+                                                            fontSize: 15,
+                                                            color: Colors
+                                                                .black87
+                                                                .withOpacity(
+                                                                    0.7),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          "₹${"00000"}",
+                                                          style: getAppStyle(
+                                                            color: Colors
+                                                                .grey[400],
+                                                            fontSize: 11,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    kCommonSpaceH20,
+                                                    kCommonSpaceH5,
+                                                    kCommonSpaceH2,
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: Container(
+                                                        width: 100,
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          border: Border.all(
+                                                              color: CommonColors
+                                                                  .primaryColor,
+                                                              width: 1),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Add",
+                                                            style: getAppStyle(
+                                                              color: CommonColors
+                                                                  .primaryColor,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
+                                              width: double.infinity,
+                                              height: 5,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: CommonColors
+                                                      .primaryColor),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Text(
+                                                "Deal Unlocked!",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: getAppStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      kCommonSpaceV15,
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.grey.withOpacity(0.5),
+                          ),
+                        ),
+                        child: Column(
                           children: [
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,

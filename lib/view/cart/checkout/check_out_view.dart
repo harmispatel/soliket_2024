@@ -85,7 +85,6 @@ class _CheckOutViewState extends State<CheckOutView>
   Widget build(BuildContext context) {
     mViewModel = Provider.of<CheckOutViewModel>(context);
     mSavedAddressViewModel = Provider.of<SavedAddressViewModel>(context);
-
     return WillPopScope(
       onWillPop: () async {
         mainNavKey.currentContext!
@@ -840,8 +839,9 @@ class _CheckOutViewState extends State<CheckOutView>
                   Razorpay razorpay = Razorpay();
                   double totalAmount = double.parse(mViewModel.total ?? '');
                   var options = {
-                    // 'key': 'rzp_live_u7SbpfQeUr70kp',
-                    'key': 'rzp_test_gdFvpbKhIrcbLc',
+                    //'key': 'rzp_test_gdFvpbKhIrcbLc',
+                    'key':
+                        mViewModel.appCredensialsData?.first.razzorpayKey ?? "",
                     'amount': (totalAmount * 100).toInt(),
                     'name': 'Soliket',
                     'description': 'Testing payment',

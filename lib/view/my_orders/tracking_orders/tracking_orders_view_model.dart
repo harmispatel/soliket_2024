@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../database/app_preferences.dart';
 import '../../../models/track_order_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
@@ -10,8 +11,11 @@ class TrackingOrdersViewModel with ChangeNotifier {
   final services = Services();
   bool isInitialLoading = true;
   List<TrackOrderData> trackOrderData = [];
-
+  String? mapKey = "";
   void attachedContext(BuildContext context) {
+    mapKey = AppPreferences.instance.getAppMapKey();
+    print(mapKey);
+    print("mapKey");
     this.context = context;
     notifyListeners();
   }

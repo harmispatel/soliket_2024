@@ -376,7 +376,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
     Polyline polyline = Polyline(
       width: 3,
       polylineId: id,
-      color: CommonColors.primaryColor,
+      color: CommonColors.primarysColor,
       points: polylineCoordinates,
     );
     polylines[id] = polyline;
@@ -409,6 +409,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
   _getPolyline() async {
     polylineCoordinates.clear();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      //googleApiKey: mViewModel.mapKey.toString(),
       googleApiKey: googleAPiKey,
       request: PolylineRequest(
         origin: PointLatLng(fromLatitude, fromLongitude),

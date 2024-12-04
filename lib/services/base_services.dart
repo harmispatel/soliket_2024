@@ -6,6 +6,7 @@ import 'package:solikat_2024/models/return_policy_master.dart';
 import '../models/about_us_master.dart';
 import '../models/add_to_cart_api.dart';
 import '../models/address_master.dart';
+import '../models/app_credensials_master.dart';
 import '../models/app_version_master.dart';
 import '../models/brand_product_master.dart';
 import '../models/button_product_master.dart';
@@ -186,4 +187,6 @@ abstract class BaseServices {
   });
 
   Future<getInfoMaster?> getInfoPopUp();
+
+  Future<AppCredensialsMaster?> getAppCredensials();
 }

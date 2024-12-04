@@ -14,6 +14,7 @@ import '../../home/soliket_not_available_view.dart';
 import '../../location/location_donNot_allow_view.dart';
 import '../../login/login_view.dart';
 import '../../maintenance/maintenance_view.dart';
+import '../../profile/edit_account/edit_account_view.dart';
 import '../bottom_navbar/bottom_navbar_view.dart';
 
 class SplashViewModel with ChangeNotifier {
@@ -40,7 +41,7 @@ class SplashViewModel with ChangeNotifier {
   }
 
   startTimer() async {
-    Future.delayed(const Duration(seconds: 0), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       String accessToken = await AppPreferences.instance.getAccessToken();
       gUserLocation = await AppPreferences.instance.getUserLocation();
       String userLat = await AppPreferences.instance.getUserLat();
@@ -88,7 +89,18 @@ class SplashViewModel with ChangeNotifier {
       CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
-      pushAndRemoveUntil(BottomNavBarView());
+      if (globalUserMaster?.isProfileComplete == "n") {
+        pushAndRemoveUntil(EditAccountView(
+          name: globalUserMaster?.name,
+          email: globalUserMaster?.email,
+          phone: globalUserMaster?.mobile,
+          birthDate: globalUserMaster?.birthday,
+          profileImage: globalUserMaster?.profile,
+        ));
+      } else {
+        pushAndRemoveUntil(BottomNavBarView());
+      }
+      //pushAndRemoveUntil(BottomNavBarView());
     }
     notifyListeners();
   }

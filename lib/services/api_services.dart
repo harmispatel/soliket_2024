@@ -12,6 +12,7 @@ import 'package:solikat_2024/services/api_url.dart';
 import '../models/about_us_master.dart';
 import '../models/add_to_cart_api.dart';
 import '../models/address_master.dart';
+import '../models/app_credensials_master.dart';
 import '../models/app_version_master.dart';
 import '../models/button_product_master.dart';
 import '../models/cancellation_policy_master.dart';
@@ -906,6 +907,23 @@ class ApiServices extends BaseServices {
     if (response != null) {
       try {
         return getInfoMaster.fromJson(response);
+      } on Exception catch (e) {
+        log("Exception :: $e");
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<AppCredensialsMaster?> getAppCredensials() async {
+    dynamic response = await appBaseClient.getApiCall(
+      url: ApiUrl.GET_APP_CREDENSIALS,
+    );
+    if (response != null) {
+      try {
+        return AppCredensialsMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

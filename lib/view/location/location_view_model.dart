@@ -4,19 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:solikat_2024/models/confirm_location_master.dart';
 
 import '../../database/app_preferences.dart';
+import '../../models/product_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/global_variables.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view.dart';
 import '../home/soliket_not_available_view.dart';
+import '../profile/edit_account/edit_account_view.dart';
 
 class LocationViewModel with ChangeNotifier {
   late BuildContext context;
+
   final _services = Services();
+
+  ProfileData? profileData;
+
+
 
   void attachedContext(BuildContext context) async {
     this.context = context;
+    globalUserMaster = AppPreferences.instance.getUserDetails();
     //await checkAppVersion();
     notifyListeners();
   }
@@ -57,7 +65,17 @@ class LocationViewModel with ChangeNotifier {
       String userLong = await AppPreferences.instance.getUserLong();
       gUserLat = userLat;
       gUserLong = userLong;
-      pushAndRemoveUntil(BottomNavBarView());
+      if (globalUserMaster?.isProfileComplete == "n") {
+        pushAndRemoveUntil(EditAccountView(
+          name: globalUserMaster?.name,
+          email: globalUserMaster?.email,
+          phone: globalUserMaster?.mobile,
+          birthDate: globalUserMaster?.birthday,
+          profileImage: globalUserMaster?.profile,
+        ));
+      } else {
+        pushAndRemoveUntil(BottomNavBarView());
+      }
     }
     notifyListeners();
   }

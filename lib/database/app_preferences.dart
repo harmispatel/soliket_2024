@@ -15,6 +15,9 @@ class AppPreferences {
   final String keyAccessToken = "keyAccessToken";
   final String keyLoginOption = "keyLoginOption";
   final String keyAppVersion = "keyAppVersion";
+  final String keyAppMapKey = "keyAppColor";
+  final String keyAppColor = "keyAppColor";
+  final String keyAppName = "keyAppName";
   final String keyFCMToken = "keyFCMToken";
   final String keyUserLat = "keyUserLat";
   final String keyUserLong = "keyUserLong";
@@ -112,6 +115,36 @@ class AppPreferences {
   // Method to get login option
   String getAppVersion() {
     return _pref!.getString(keyAppVersion) ?? "";
+  }
+
+  // Method to set login option
+  Future<bool> setAppMapKey(String value) async {
+    return _pref!.setString(keyAppMapKey, value);
+  }
+
+  // Method to get login option
+  String getAppMapKey() {
+    return _pref!.getString(keyAppMapKey) ?? "";
+  }
+
+  // Method to set login option
+  Future<bool> setAppColor(String value) async {
+    return _pref!.setString(keyAppColor, value);
+  }
+
+  // Method to get login option
+  String getAppColor() {
+    return _pref!.getString(keyAppColor) ?? "";
+  }
+
+  // Method to set login option
+  Future<bool> setAppName(String value) async {
+    return _pref!.setString(keyAppName, value);
+  }
+
+  // Method to get login option
+  String getAppName() {
+    return _pref!.getString(keyAppName) ?? "";
   }
 
   // //

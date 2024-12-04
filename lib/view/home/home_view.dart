@@ -91,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         setState(() {});
-        checkProfileDone();
+        //checkProfileDone();
       });
       _scrollController.addListener(
         () {
@@ -125,11 +125,11 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void checkProfileDone() {
-    if (globalUserMaster?.isProfileComplete == "n") {
-      profileDialog(context);
-    }
-  }
+  // void checkProfileDone() {
+  //   if (globalUserMaster?.isProfileComplete == "n") {
+  //     profileDialog(context);
+  //   }
+  // }
 
   Future<void> selectBirthDate(BuildContext context) async {
     final DateTime now = DateTime.now();
@@ -155,152 +155,152 @@ class _HomeViewState extends State<HomeView> {
   //   super.dispose();
   // }
 
-  Future<void> profileDialog(BuildContext context) {
-    return showGeneralDialog(
-      context: context,
-      barrierDismissible: false,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      barrierColor: CommonColors.black45,
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (BuildContext context, Animation animation,
-          Animation secondaryAnimation) {
-        return WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Material(
-                type: MaterialType.transparency,
-                child: Center(
-                  child: Dialog(
-                    child: StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              color: CommonColors.mWhite,
-                              borderRadius: BorderRadius.circular(26)),
-                          child: Padding(
-                            padding: kCommonScreenPadding,
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  kCommonSpaceV15,
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final image = await pickSinglePhoto();
-                                      if (image != null) {
-                                        setState(() {
-                                          selectedImage = image;
-                                          imagePath = image.path;
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      width: 110,
-                                      height: 110,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        color: CommonColors.primaryColor
-                                            .withOpacity(0.3),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: (() {
-                                        if (selectedImage != null) {
-                                          // Display the selected image if available
-                                          return Image.file(
-                                            selectedImage!,
-                                            fit: BoxFit.contain,
-                                          );
-                                        } else if (globalUserMaster?.profile !=
-                                            null) {
-                                          // Display the user's stored image if available
-                                          return Image.network(
-                                            globalUserMaster!.profile!,
-                                            fit: BoxFit.contain,
-                                          );
-                                        }
-                                        // else {
-                                        //   // Display a default icon if no image is available
-                                        //   return const Icon(
-                                        //     Icons.collections,
-                                        //     size: 30,
-                                        //     color: CommonColors.primaryColor,
-                                        //   );
-                                        // }
-                                      })(),
-                                    ),
-                                  ),
-                                  kCommonSpaceV20,
-                                  TextFormFieldCustom(
-                                    textInputType: TextInputType.emailAddress,
-                                    controller: nameController,
-                                    hintText: "Your Name",
-                                    labelText: "Your Name",
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your name';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) {
-                                      if (_formKey.currentState?.validate() ==
-                                          true) {
-                                        _formKey.currentState!.validate();
-                                      }
-                                    },
-                                  ),
-                                  kCommonSpaceV10,
-                                  TextFormFieldCustom(
-                                    textInputType: TextInputType.emailAddress,
-                                    controller: emailController,
-                                    hintText: "Email",
-                                    labelText: "Email",
-                                  ),
-                                  kCommonSpaceV10,
-                                  TextFormFieldCustom(
-                                    onTap: () {
-                                      selectBirthDate(context);
-                                    },
-                                    textInputType: TextInputType.emailAddress,
-                                    controller: birthDateController,
-                                    hintText: "Birth Date",
-                                    labelText: "Birth Date",
-                                    readOnly: true,
-                                  ),
-                                  kCommonSpaceV10,
-                                  PrimaryButton(
-                                    label: "Update",
-                                    onPress: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        mProfileViewModel.updateProfileApi(
-                                            name: nameController.text,
-                                            email: emailController.text,
-                                            birthday: birthDateController.text,
-                                            profile: imagePath);
-                                      }
-                                    },
-                                  ),
-                                  kCommonSpaceV15,
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // Future<void> profileDialog(BuildContext context) {
+  //   return showGeneralDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+  //     barrierColor: CommonColors.black45,
+  //     transitionDuration: const Duration(milliseconds: 200),
+  //     pageBuilder: (BuildContext context, Animation animation,
+  //         Animation secondaryAnimation) {
+  //       return WillPopScope(
+  //         onWillPop: () async {
+  //           return false;
+  //         },
+  //         child: SafeArea(
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(24.0),
+  //             child: Material(
+  //               type: MaterialType.transparency,
+  //               child: Center(
+  //                 child: Dialog(
+  //                   child: StatefulBuilder(
+  //                     builder: (BuildContext context, StateSetter setState) {
+  //                       return Container(
+  //                         decoration: BoxDecoration(
+  //                             color: CommonColors.mWhite,
+  //                             borderRadius: BorderRadius.circular(26)),
+  //                         child: Padding(
+  //                           padding: kCommonScreenPadding,
+  //                           child: Form(
+  //                             key: _formKey,
+  //                             child: Column(
+  //                               mainAxisSize: MainAxisSize.min,
+  //                               children: [
+  //                                 kCommonSpaceV15,
+  //                                 GestureDetector(
+  //                                   onTap: () async {
+  //                                     final image = await pickSinglePhoto();
+  //                                     if (image != null) {
+  //                                       setState(() {
+  //                                         selectedImage = image;
+  //                                         imagePath = image.path;
+  //                                       });
+  //                                     }
+  //                                   },
+  //                                   child: Container(
+  //                                     width: 110,
+  //                                     height: 110,
+  //                                     clipBehavior: Clip.antiAlias,
+  //                                     decoration: BoxDecoration(
+  //                                       color: CommonColors.primaryColor
+  //                                           .withOpacity(0.3),
+  //                                       shape: BoxShape.circle,
+  //                                     ),
+  //                                     child: (() {
+  //                                       if (selectedImage != null) {
+  //                                         // Display the selected image if available
+  //                                         return Image.file(
+  //                                           selectedImage!,
+  //                                           fit: BoxFit.contain,
+  //                                         );
+  //                                       } else if (globalUserMaster?.profile !=
+  //                                           null) {
+  //                                         // Display the user's stored image if available
+  //                                         return Image.network(
+  //                                           globalUserMaster!.profile!,
+  //                                           fit: BoxFit.contain,
+  //                                         );
+  //                                       }
+  //                                       // else {
+  //                                       //   // Display a default icon if no image is available
+  //                                       //   return const Icon(
+  //                                       //     Icons.collections,
+  //                                       //     size: 30,
+  //                                       //     color: CommonColors.primaryColor,
+  //                                       //   );
+  //                                       // }
+  //                                     })(),
+  //                                   ),
+  //                                 ),
+  //                                 kCommonSpaceV20,
+  //                                 TextFormFieldCustom(
+  //                                   textInputType: TextInputType.emailAddress,
+  //                                   controller: nameController,
+  //                                   hintText: "Your Name",
+  //                                   labelText: "Your Name",
+  //                                   validator: (value) {
+  //                                     if (value == null || value.isEmpty) {
+  //                                       return 'Please enter your name';
+  //                                     }
+  //                                     return null;
+  //                                   },
+  //                                   onChanged: (value) {
+  //                                     if (_formKey.currentState?.validate() ==
+  //                                         true) {
+  //                                       _formKey.currentState!.validate();
+  //                                     }
+  //                                   },
+  //                                 ),
+  //                                 kCommonSpaceV10,
+  //                                 TextFormFieldCustom(
+  //                                   textInputType: TextInputType.emailAddress,
+  //                                   controller: emailController,
+  //                                   hintText: "Email",
+  //                                   labelText: "Email",
+  //                                 ),
+  //                                 kCommonSpaceV10,
+  //                                 TextFormFieldCustom(
+  //                                   onTap: () {
+  //                                     selectBirthDate(context);
+  //                                   },
+  //                                   textInputType: TextInputType.emailAddress,
+  //                                   controller: birthDateController,
+  //                                   hintText: "Birth Date",
+  //                                   labelText: "Birth Date",
+  //                                   readOnly: true,
+  //                                 ),
+  //                                 kCommonSpaceV10,
+  //                                 PrimaryButton(
+  //                                   label: "Update",
+  //                                   onPress: () {
+  //                                     if (_formKey.currentState!.validate()) {
+  //                                       mProfileViewModel.updateProfileApi(
+  //                                           name: nameController.text,
+  //                                           email: emailController.text,
+  //                                           birthday: birthDateController.text,
+  //                                           profile: imagePath);
+  //                                     }
+  //                                   },
+  //                                 ),
+  //                                 kCommonSpaceV15,
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> _onRefresh() async {
     await mViewModel.resetPage();
