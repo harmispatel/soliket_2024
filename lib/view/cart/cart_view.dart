@@ -55,7 +55,7 @@ class _MyCartViewState extends State<MyCartView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: mViewModel.isInitialLoading
-          ?  Center(
+          ? Center(
               child: CircularProgressIndicator(
                 color: CommonColors.primaryColor,
               ),
@@ -179,7 +179,6 @@ class _MyCartViewState extends State<MyCartView> {
                                 });
                               },
                             ),
-                      kCommonSpaceV15,
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
@@ -261,7 +260,7 @@ class _MyCartViewState extends State<MyCartView> {
                               height: kDeviceHeight / 3,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 13,
+                                itemCount: 6,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return FittedBox(
@@ -273,9 +272,9 @@ class _MyCartViewState extends State<MyCartView> {
                                         gradient: LinearGradient(
                                           colors: [
                                             CommonColors.primaryColor
-                                                .withOpacity(0.3),
+                                                .withOpacity(0.1),
                                             CommonColors.mWhite
-                                                .withOpacity(0.5),
+                                                .withOpacity(0.2),
                                             CommonColors.mWhite,
                                           ],
                                           begin: Alignment.topCenter,
@@ -310,7 +309,9 @@ class _MyCartViewState extends State<MyCartView> {
                                                 height: 40,
                                                 child: Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8)+EdgeInsets.only(right: 3),
+                                                          .symmetric(
+                                                          horizontal: 8) +
+                                                      EdgeInsets.only(right: 3),
                                                   child: Text(
                                                     "Fresh Potato Aalu 2Kg",
                                                     maxLines: 2,
@@ -659,7 +660,7 @@ class _MyCartViewState extends State<MyCartView> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 14),
+                              padding: EdgeInsets.only(top: 10, bottom: 8),
                               child: Row(
                                 children: [
                                   Text(
@@ -693,7 +694,7 @@ class _MyCartViewState extends State<MyCartView> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 14),
+                              padding: EdgeInsets.only(bottom: 8),
                               child: Row(
                                 children: [
                                   Text(
@@ -732,7 +733,7 @@ class _MyCartViewState extends State<MyCartView> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 14),
+                              padding: EdgeInsets.only(bottom: 8),
                               child: Row(
                                 children: [
                                   Text(
@@ -771,7 +772,7 @@ class _MyCartViewState extends State<MyCartView> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 14),
+                              padding: EdgeInsets.only(bottom: 8),
                               child: Row(
                                 children: [
                                   Text(
@@ -1225,7 +1226,7 @@ class _MyCartListState extends State<MyCartList> {
                   children: [
                     CachedNetworkImage(
                       height: 60,
-                      width: 80,
+                      width: 70,
                       imageUrl: cartListDate.image ?? "",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
@@ -1251,7 +1252,8 @@ class _MyCartListState extends State<MyCartList> {
                         ),
                       ),
                     ),
-                    kCommonSpaceH15,
+                    kCommonSpaceH5,
+                    kCommonSpaceH2,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

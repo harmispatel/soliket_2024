@@ -28,6 +28,7 @@ class AppPreferences {
   final String keyUserCurrency = "keyUserCurrency";
   final String keyIsFirstTimeInHome = "keyIsFirstTimeInHome";
   static const String _hasShownModalKey = 'has_shown_modal';
+  final String keyIsFirstTimeInHome = "KEY_IS_FIRST_TIME_IN_HOME";
 
   static final AppPreferences instance = AppPreferences.internal();
 
@@ -41,6 +42,17 @@ class AppPreferences {
     _pref = await SharedPreferences.getInstance();
     log("initAppPreferences called");
     return _pref!;
+  }
+
+  // Method to set isFirstTime
+  Future<bool> setIsFirstTime(bool value) async {
+    return _pref!.setBool(keyIsFirstTimeInHome, value);
+  }
+
+// Method to get isFirstTime
+  bool getIsFirstTime() {
+    return _pref!.getBool(keyIsFirstTimeInHome) ??
+        true; // Default to true if not set
   }
 
   static Future<bool> hasShownModal() async {
@@ -139,7 +151,6 @@ class AppPreferences {
     return _pref!.getString(keyAppVersion) ?? "";
   }
 
-
   // Method to set login option
   Future<bool> setCartTotal(String value) async {
     return _pref!.setString(keyCartTotal, value);
@@ -149,7 +160,6 @@ class AppPreferences {
   String getCartTotal() {
     return _pref!.getString(keyCartTotal) ?? "";
   }
-
 
   // //
   // // // Method to get domain user details

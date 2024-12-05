@@ -29,22 +29,18 @@ class _MyOrdersViewState extends State<MyOrdersView>
   @override
   void initState() {
     super.initState();
-
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      // Initial API call to fetch orders for the first tab
-      Future.delayed(Duration.zero, () {
-        mViewModel.attachedContext(context);
-        _scrollController.addListener(_scrollListener);
-        mViewModel.getOrdersApi(status: currentStatus);
-      });
+      _scrollController.addListener(_scrollListener);
+      mViewModel.getOrdersApi(status: currentStatus);
     });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    mViewModel.resetPage();
+    currentStatus = 'p';
+    // mViewModel.resetPage();
     super.dispose();
   }
 
@@ -100,7 +96,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                           SizedBox(),
                           Text(
                             "Pending",
-                            style: TextStyle(
+                            style: getAppStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: currentStatus == 'p'
@@ -128,6 +124,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                       });
                       await mViewModel.resetPage();
                       mViewModel.getOrdersApi(status: currentStatus);
+                      print("called....4");
                     },
                     child: Container(
                       height: 40,
@@ -147,8 +144,8 @@ class _MyOrdersViewState extends State<MyOrdersView>
                         children: [
                           SizedBox(),
                           Text(
-                            "Complete",
-                            style: TextStyle(
+                            "Completed",
+                            style: getAppStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: currentStatus == 'c'
@@ -290,7 +287,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                             ),
                                           );
                                         },
-                                        child:  Icon(
+                                        child: Icon(
                                           Icons.arrow_forward_ios_rounded,
                                           size: 22,
                                           color: CommonColors.primaryColor,

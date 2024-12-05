@@ -55,7 +55,7 @@ dependencies:
   cloud_firestore: ^5.5.0
   carousel_slider: ^5.0.0
   google_fonts: ^6.2.1
-  firebase_messaging: ^15.1.5
+  firebase_messaging: ^15.1.6
   #  flutter_local_notifications: ^16.3.2
   #  image_gallery_saver: ^2.0.3
   permission_handler: ^11.3.1

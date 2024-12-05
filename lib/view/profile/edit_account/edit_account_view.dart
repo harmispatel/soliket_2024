@@ -176,7 +176,7 @@ class _EditAccountViewState extends State<EditAccountView> {
                   labelText: "Birth Date",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter name. Birth Date.';
+                      return 'Please select your birthday';
                     }
                     return null;
                   },

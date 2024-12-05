@@ -7,6 +7,7 @@ import '../../../../services/index.dart';
 import '../../../../utils/common_utils.dart';
 import '../../models/search_master.dart';
 import '../../models/update_bill_details_master.dart';
+import '../../utils/common_colors.dart';
 
 class CartViewModel with ChangeNotifier {
   late BuildContext context;
@@ -32,9 +33,12 @@ class CartViewModel with ChangeNotifier {
   Future<void> getCartApi() async {
     GetCartMaster? master = await _services.api!.getCartApi();
     isInitialLoading = false;
-    if (master == null) {
+    if (master == null && master?.statusCode != 401) {
       CommonUtils.oopsMSG();
-    } else if (!master.status!) {
+    } else if (master?.statusCode == 401) {
+      CommonUtils.showSnackBar("Invalid Token",
+          color: CommonColors.primaryColor);
+    } else if (!master!.status!) {
       CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");

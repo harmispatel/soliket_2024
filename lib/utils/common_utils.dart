@@ -499,7 +499,7 @@ class CommonUtils {
             ),
           ),
           padding: const EdgeInsets.all(5),
-          backgroundColor: Colors.red,
+          backgroundColor: CommonColors.primaryColor,
         ),
       );
     }

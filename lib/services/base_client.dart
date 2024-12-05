@@ -5,12 +5,14 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../../../utils/common_colors.dart';
 import '../../../utils/common_utils.dart';
 import '../../../utils/global_variables.dart';
 import '../database/app_preferences.dart';
 import '../generated/i18n.dart';
+import '../view/common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../view/login/login_view.dart';
 import 'api_para.dart';
 
@@ -38,6 +40,13 @@ class AppBaseClient {
         if (response.statusCode == 200) {
           return jsonDecode(response.body);
         } else if (response.statusCode == 401) {
+          await AppPreferences.instance.clear();
+          gUserId = '';
+          globalUserMaster = null;
+
+          mainNavKey.currentContext!
+              .read<BottomNavbarViewModel>()
+              .selectedIndex = 0;
           pushAndRemoveUntil(LoginView());
           print("........Get 401 code in response..........");
         } else {
@@ -266,6 +275,12 @@ class AppBaseClient {
         if (response.statusCode == 200) {
           return jsonDecode(response.body);
         } else if (response.statusCode == 401) {
+          await AppPreferences.instance.clear();
+          gUserId = '';
+          globalUserMaster = null;
+          mainNavKey.currentContext!
+              .read<BottomNavbarViewModel>()
+              .selectedIndex = 0;
           pushAndRemoveUntil(LoginView());
           print("........Get 401 code in response..........");
         } else {

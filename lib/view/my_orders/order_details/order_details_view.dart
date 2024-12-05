@@ -236,14 +236,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Order ID - ${mViewModel.orderDetailsList[0].orderNo ?? ''}",
+                              "Order ID",
                               style: getAppStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                   color: CommonColors.blackColor),
                             ),
                             Text(
-                              mViewModel.orderDetailsList[0].orderDate ?? '',
+                              mViewModel.orderDetailsList[0].orderNo ?? '',
                               style: getAppStyle(
                                   fontSize: 14, color: CommonColors.black54),
                             ),
@@ -369,7 +369,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 0.0, vertical: 6),
+                                horizontal: 5.0, vertical: 0),
                             child: Row(
                               children: [
                                 Container(
@@ -532,7 +532,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 14, right: 15, left: 15),
+                        const EdgeInsets.only(bottom: 8, right: 15, left: 15),
                     child: Row(
                       children: [
                         Text(
@@ -567,7 +567,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 14, left: 15, right: 15),
+                    padding: EdgeInsets.only(bottom: 8, left: 15, right: 15),
                     child: Row(
                       children: [
                         Text(

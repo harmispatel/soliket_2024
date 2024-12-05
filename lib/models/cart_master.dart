@@ -4,9 +4,10 @@ class GetCartMaster {
   bool? _status;
   int? _statusCode;
   String? _message;
-  Data? _data;
+  CartData? _data;
 
-  GetCartMaster({bool? status, int? statusCode, String? message, Data? data}) {
+  GetCartMaster(
+      {bool? status, int? statusCode, String? message, CartData? data}) {
     if (status != null) {
       this._status = status;
     }
@@ -33,15 +34,15 @@ class GetCartMaster {
 
   set message(String? message) => _message = message;
 
-  Data? get data => _data;
+  CartData? get data => _data;
 
-  set data(Data? data) => _data = data;
+  set data(CartData? data) => _data = data;
 
   GetCartMaster.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
     _statusCode = json['status_code'];
     _message = json['message'];
-    _data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    _data = json['data'] != null ? new CartData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -56,12 +57,12 @@ class GetCartMaster {
   }
 }
 
-class Data {
+class CartData {
   List<ProductData>? _cartItem;
   List<CartCouponData>? _coupon;
   CartTotal? _cartTotal;
 
-  Data(
+  CartData(
       {List<ProductData>? cartItem,
       List<CartCouponData>? coupon,
       CartTotal? cartTotal}) {
@@ -88,7 +89,7 @@ class Data {
 
   set cartTotal(CartTotal? cartTotal) => _cartTotal = cartTotal;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  CartData.fromJson(Map<String, dynamic> json) {
     if (json['cart_item'] != null) {
       _cartItem = <ProductData>[];
       json['cart_item'].forEach((v) {

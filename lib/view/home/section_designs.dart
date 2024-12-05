@@ -103,7 +103,7 @@ class Section2 extends StatelessWidget {
                 child: Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    // color: Colors.green.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -216,9 +216,10 @@ class Section3 extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: getAppStyle(
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             height: 1,
-                            fontSize: 10),
+                            color: Colors.black87.withOpacity(0.6),
+                            fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -475,7 +476,7 @@ class Section6 extends StatelessWidget {
                                     style: getAppStyle(
                                         fontWeight: FontWeight.w400,
                                         height: 1,
-                                        fontSize: 12),
+                                        fontSize: 13),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
