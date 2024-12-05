@@ -292,7 +292,7 @@ void showDatePickerDialog({TextEditingController? dateController}) async {
         data: ThemeData.light().copyWith(
           primaryColor: CommonColors.primaryColor,
           hintColor: CommonColors.primaryColor,
-          colorScheme: const ColorScheme.light(
+          colorScheme: ColorScheme.light(
             primary: CommonColors.primaryColor,
           ),
           buttonTheme:
@@ -607,7 +607,7 @@ class CommonUtils {
   }
 
   static Widget getItemProgressBar() {
-    return const Center(
+    return Center(
       child: CircularProgressIndicator(
         color: CommonColors.primaryColor,
         strokeWidth: 2,

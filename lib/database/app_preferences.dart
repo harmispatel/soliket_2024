@@ -15,18 +15,18 @@ class AppPreferences {
   final String keyAccessToken = "keyAccessToken";
   final String keyLoginOption = "keyLoginOption";
   final String keyAppVersion = "keyAppVersion";
-  final String keyAppMapKey = "keyAppColor";
-  final String keyAppColor = "keyAppColor";
-  final String keyAppName = "keyAppName";
+  final String keyCartTotal = "keyCartTotal";
   final String keyFCMToken = "keyFCMToken";
   final String keyUserLat = "keyUserLat";
   final String keyUserLong = "keyUserLong";
+  final String keyMapKey = "keyMapKey";
   final String keyUserLocation = "keyUserLocation";
   final String keyUserDetails = "KEY_USER_DETAILS";
   final String keyDUserDetails = "KEY_D_USER_DETAILS";
   final String keyCurrencyDate = "keyCurrencyDate";
   final String keyCurrencyList = "keyCurrencyList";
   final String keyUserCurrency = "keyUserCurrency";
+  static const String _hasShownModalKey = 'has_shown_modal';
 
   static final AppPreferences instance = AppPreferences.internal();
 
@@ -40,6 +40,16 @@ class AppPreferences {
     _pref = await SharedPreferences.getInstance();
     log("initAppPreferences called");
     return _pref!;
+  }
+
+  static Future<bool> hasShownModal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_hasShownModalKey) ?? false;
+  }
+
+  static Future<void> setHasShownModal(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_hasShownModalKey, value);
   }
 
   // Method to set auth token
@@ -117,35 +127,17 @@ class AppPreferences {
     return _pref!.getString(keyAppVersion) ?? "";
   }
 
+
   // Method to set login option
-  Future<bool> setAppMapKey(String value) async {
-    return _pref!.setString(keyAppMapKey, value);
+  Future<bool> setCartTotal(String value) async {
+    return _pref!.setString(keyCartTotal, value);
   }
 
   // Method to get login option
-  String getAppMapKey() {
-    return _pref!.getString(keyAppMapKey) ?? "";
+  String getCartTotal() {
+    return _pref!.getString(keyCartTotal) ?? "";
   }
 
-  // Method to set login option
-  Future<bool> setAppColor(String value) async {
-    return _pref!.setString(keyAppColor, value);
-  }
-
-  // Method to get login option
-  String getAppColor() {
-    return _pref!.getString(keyAppColor) ?? "";
-  }
-
-  // Method to set login option
-  Future<bool> setAppName(String value) async {
-    return _pref!.setString(keyAppName, value);
-  }
-
-  // Method to get login option
-  String getAppName() {
-    return _pref!.getString(keyAppName) ?? "";
-  }
 
   // //
   // // // Method to get domain user details

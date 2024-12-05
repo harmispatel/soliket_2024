@@ -163,6 +163,7 @@
 //   }
 // }
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -171,6 +172,7 @@ import 'package:solikat_2024/models/get_info_master.dart';
 import 'package:solikat_2024/models/home_master.dart';
 import 'package:solikat_2024/models/search_master.dart';
 
+import '../../database/app_preferences.dart';
 import '../../models/cart_master.dart';
 import '../../models/product_details_master.dart';
 import '../../services/api_para.dart';
@@ -220,6 +222,7 @@ class HomeViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
+    cartTotalPrice = AppPreferences.instance.getCartTotal();
     loginViewModel = LoginViewModel();
     if (currentPage == 1) {
       loginViewModel.getAppVersionApi().then((_) {
@@ -291,108 +294,230 @@ class HomeViewModel with ChangeNotifier {
       return;
     }
 
+    // if (currentPage == 1) {
+    //   getInfoPopUpApi().whenComplete(
+    //     () {
+    //       if (infoPopUpData[0].isEnabled == "y") {
+    //         showModalBottomSheet(
+    //           context: context,
+    //           backgroundColor: Colors.white,
+    //           enableDrag: false,
+    //           isDismissible: false,
+    //           shape: const Border(
+    //               top: BorderSide.none,
+    //               bottom: BorderSide.none,
+    //               left: BorderSide.none,
+    //               right: BorderSide.none),
+    //           builder: (_) {
+    //             return StatefulBuilder(
+    //               builder: (BuildContext context, StateSetter setState) {
+    //                 return SizedBox(
+    //                   height: kDeviceHeight / 2.5,
+    //                   child: Column(
+    //                     children: [
+    //                       Padding(
+    //                         padding: const EdgeInsets.only(
+    //                             left: 15, right: 15, top: 15),
+    //                         child: Row(
+    //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                           children: [
+    //                             const Spacer(),
+    //                             Text(
+    //                               infoPopUpData[0].title ?? '',
+    //                               style: getAppStyle(
+    //                                   color: CommonColors.blackColor,
+    //                                   fontSize: 18),
+    //                             ),
+    //                             const Spacer(),
+    //                             InkWell(
+    //                               onTap: () {
+    //                                 Navigator.pop(context);
+    //                               },
+    //                               child: Container(
+    //                                 decoration: BoxDecoration(
+    //                                   shape: BoxShape.circle,
+    //                                   color: CommonColors.primaryColor,
+    //                                   boxShadow: [
+    //                                     BoxShadow(
+    //                                       color: Colors.grey,
+    //                                       offset: const Offset(
+    //                                         2.0,
+    //                                         2.0,
+    //                                       ),
+    //                                       blurRadius: 5.0,
+    //                                       spreadRadius: 0.0,
+    //                                     ), //BoxShadow
+    //                                     BoxShadow(
+    //                                       color: Colors.white,
+    //                                       offset: const Offset(0.0, 0.0),
+    //                                       blurRadius: 0.0,
+    //                                       spreadRadius: 0.0,
+    //                                     ), //BoxShadow
+    //                                   ],
+    //                                 ),
+    //                                 child: Padding(
+    //                                   padding: const EdgeInsets.all(8.0),
+    //                                   child: Icon(
+    //                                     Icons.close,
+    //                                     color: CommonColors.mWhite,
+    //                                     size: 15,
+    //                                   ),
+    //                                 ),
+    //                               ),
+    //                             ),
+    //                           ],
+    //                         ),
+    //                       ),
+    //                       kCommonSpaceV10,
+    //                       kCommonSpaceV3,
+    //                       Expanded(
+    //                         child: Container(
+    //                           decoration: BoxDecoration(
+    //                             image: DecorationImage(
+    //                                 image: NetworkImage(
+    //                                     infoPopUpData[0].image ?? ''),
+    //                                 fit: BoxFit.fill),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       if (infoPopUpData[0].isContent == "y") ...[
+    //                         kCommonSpaceV15,
+    //                         Padding(
+    //                           padding: const EdgeInsets.only(
+    //                               left: 10, right: 10, bottom: 8),
+    //                           child: Text(
+    //                             infoPopUpData[0].description ?? '',
+    //                             style: getAppStyle(),
+    //                           ),
+    //                         ),
+    //                       ]
+    //                     ],
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           },
+    //         );
+    //       }
+    //     },
+    //   );
+    // }
+
     if (currentPage == 1) {
-      getInfoPopUpApi().whenComplete(() {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: Colors.white,
-          enableDrag: false,
-          isDismissible: false,
-          shape: Border(
-              top: BorderSide.none,
-              bottom: BorderSide.none,
-              left: BorderSide.none,
-              right: BorderSide.none),
-          builder: (_) {
-            return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return SizedBox(
-                  height: kDeviceHeight / 2.5,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 15, right: 15, top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      Future<void> showModalIfFirstTime(BuildContext context) async {
+        bool hasShownModal = await AppPreferences.hasShownModal();
+        if (!hasShownModal) {
+          getInfoPopUpApi().whenComplete(() {
+            if (infoPopUpData[0].isEnabled == "y") {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.white,
+                enableDrag: false,
+                isDismissible: false,
+                shape: const Border(
+                  top: BorderSide.none,
+                  bottom: BorderSide.none,
+                  left: BorderSide.none,
+                  right: BorderSide.none,
+                ),
+                builder: (_) {
+                  return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return SizedBox(
+                        height: kDeviceHeight / 2.5,
+                        child: Column(
                           children: [
-                            Spacer(),
-                            Text(
-                              infoPopUpData[0].title ?? '',
-                              style: getAppStyle(
-                                  color: CommonColors.blackColor, fontSize: 18),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Spacer(),
+                                  Text(
+                                    infoPopUpData[0].title ?? '',
+                                    style: getAppStyle(
+                                        color: CommonColors.blackColor,
+                                        fontSize: 18),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: CommonColors.primaryColor,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(2.0, 2.0),
+                                            blurRadius: 5.0,
+                                            spreadRadius: 0.0,
+                                          ),
+                                          BoxShadow(
+                                            color: Colors.white,
+                                            offset: Offset(0.0, 0.0),
+                                            blurRadius: 0.0,
+                                            spreadRadius: 0.0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: CommonColors.mWhite,
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
+                            kCommonSpaceV10,
+                            kCommonSpaceV3,
+                            Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: CommonColors.primaryColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      offset: const Offset(
-                                        2.0,
-                                        2.0,
-                                      ),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 0.0,
-                                    ), //BoxShadow
-                                    BoxShadow(
-                                      color: Colors.white,
-                                      offset: const Offset(0.0, 0.0),
-                                      blurRadius: 0.0,
-                                      spreadRadius: 0.0,
-                                    ), //BoxShadow
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: CommonColors.mWhite,
-                                    size: 15,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        infoPopUpData[0].image ?? ''),
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
                             ),
+                            if (infoPopUpData[0].isContent == "y") ...[
+                              kCommonSpaceV15,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 8),
+                                child: Text(
+                                  infoPopUpData[0].description ?? '',
+                                  style: getAppStyle(),
+                                ),
+                              ),
+                            ]
                           ],
                         ),
-                      ),
-                      kCommonSpaceV10,
-                      kCommonSpaceV3,
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    NetworkImage(infoPopUpData[0].image ?? ''),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                      ),
-                      if (infoPopUpData[0].isContent == "y") ...[
-                        kCommonSpaceV15,
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, bottom: 8),
-                          child: Text(
-                            infoPopUpData[0].description ?? '',
-                            style: getAppStyle(),
-                          ),
-                        ),
-                      ]
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        );
-      });
+                      );
+                    },
+                  );
+                },
+              ).whenComplete(() async {
+                await AppPreferences.setHasShownModal(true);
+              });
+            }
+          });
+        }
+      }
+
+      // Call the function
+      showModalIfFirstTime(context);
     }
 
     if (currentPage == master.totalPage!) {
@@ -486,6 +611,11 @@ class HomeViewModel with ChangeNotifier {
       // });
       cartDataList = master.data?.product ?? [];
       cartTotalPrice = master.data?.total?.totalAmount.toString() ?? '';
+      String totalAmount = master.data?.total?.totalAmount.toString() ?? "";
+      AppPreferences.instance.setCartTotal(totalAmount);
+      print("Total Amount: $totalAmount");
+      String storedAmount = AppPreferences.instance.getCartTotal();
+      print("Stored Total Amount from SharedPreferences: $storedAmount");
     }
     notifyListeners();
   }

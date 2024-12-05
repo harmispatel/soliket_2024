@@ -223,8 +223,12 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                         begin: Alignment.bottomRight,
                                         colors: _selectedIndex == index
                                             ? [
-                                                Colors.orange.withOpacity(0.5),
-                                                Colors.yellow.withOpacity(0.1)
+                                                CommonColors.primaryColor
+                                                    .withOpacity(0.5),
+                                                CommonColors.primaryColor
+                                                    .withOpacity(0.2),
+                                                CommonColors.primaryColor
+                                                    .withOpacity(0.02)
                                               ]
                                             : [
                                                 Colors.grey.shade50,
@@ -1846,7 +1850,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                               fontSize: 12,
                                                             ),
                                                           ),
-                                                          const Icon(
+                                                          Icon(
                                                             Icons
                                                                 .arrow_drop_down,
                                                             color: CommonColors
@@ -1901,7 +1905,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.arrow_drop_up_rounded,
                                   color: CommonColors.primaryColor,
                                   size: 30,
@@ -1981,7 +1985,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                   child: Container(
                                     height: 26,
                                     width: 26,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

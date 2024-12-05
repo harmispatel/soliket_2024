@@ -55,7 +55,7 @@ class _MyCartViewState extends State<MyCartView> {
         iconTheme: IconThemeData(color: CommonColors.blackColor),
       ),
       body: mViewModel.isInitialLoading
-          ? const Center(
+          ?  Center(
               child: CircularProgressIndicator(
                 color: CommonColors.primaryColor,
               ),

@@ -212,8 +212,12 @@ class _SubOfferViewState extends State<SubOfferView> {
                                 gradient: LinearGradient(
                                   colors: _selectedIndex == index
                                       ? [
-                                          Colors.yellow.withOpacity(0.1),
-                                          Colors.orange
+                                          CommonColors.primaryColor
+                                              .withOpacity(0.02),
+                                          CommonColors.primaryColor
+                                              .withOpacity(0.2),
+                                          CommonColors.primaryColor
+                                              .withOpacity(0.5)
                                         ]
                                       : [
                                           Colors.grey.shade50,
@@ -263,7 +267,11 @@ class _SubOfferViewState extends State<SubOfferView> {
                                 ),
                                 gradient: LinearGradient(
                                   colors: _selectedIndex == index
-                                      ? [Colors.yellow.shade700, Colors.orange]
+                                      ? [
+                                          CommonColors.primaryColor
+                                              .withOpacity(0.5),
+                                          CommonColors.primaryColor
+                                        ]
                                       : [
                                           Colors.transparent,
                                           Colors.transparent
@@ -1771,7 +1779,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                               fontSize: 12,
                                                             ),
                                                           ),
-                                                          const Icon(
+                                                          Icon(
                                                             Icons
                                                                 .arrow_drop_down,
                                                             color: CommonColors
@@ -1826,7 +1834,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.arrow_drop_up_rounded,
                                   color: CommonColors.primaryColor,
                                   size: 30,
@@ -1906,7 +1914,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                   child: Container(
                                     height: 26,
                                     width: 26,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

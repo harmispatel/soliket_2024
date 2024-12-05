@@ -9,6 +9,7 @@ import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/constant.dart';
 import '../../../../../widget/common_appbar.dart';
 import 'package:image/image.dart' as img;
+import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 
 class TrackingOrdersView extends StatefulWidget {
@@ -36,8 +37,6 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
   List<LatLng> polylineCoordinates = [];
 
   PolylinePoints polylinePoints = PolylinePoints();
-
-  String googleAPiKey = "AIzaSyBuZVlcMCQy7Y8rRfhYEXSODG0_Ryx14R8";
 
   @override
   void initState() {
@@ -234,7 +233,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                 color: CommonColors.primaryColor
                                     .withOpacity(0.3 / 2),
                                 shape: BoxShape.circle),
-                            child: const Padding(
+                            child:  Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.person,
@@ -285,7 +284,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                 color: CommonColors.primaryColor
                                     .withOpacity(0.3 / 2),
                                 shape: BoxShape.circle),
-                            child: const Padding(
+                            child:  Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.call,
@@ -376,7 +375,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
     Polyline polyline = Polyline(
       width: 3,
       polylineId: id,
-      color: CommonColors.primarysColor,
+      color: CommonColors.primaryColor,
       points: polylineCoordinates,
     );
     polylines[id] = polyline;
@@ -409,8 +408,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
   _getPolyline() async {
     polylineCoordinates.clear();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      //googleApiKey: mViewModel.mapKey.toString(),
-      googleApiKey: googleAPiKey,
+      googleApiKey: mapKey,
       request: PolylineRequest(
         origin: PointLatLng(fromLatitude, fromLongitude),
         destination: PointLatLng(toLatitude, toLongitude),

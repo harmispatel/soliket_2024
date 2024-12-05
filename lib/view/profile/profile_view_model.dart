@@ -1,11 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:solikat_2024/models/common_master.dart';
 import 'package:solikat_2024/utils/global_variables.dart';
 import 'package:solikat_2024/view/login/login_view.dart';
-
 import '../../../database/app_preferences.dart';
 import '../../../models/product_master.dart';
 import '../../../services/index.dart';

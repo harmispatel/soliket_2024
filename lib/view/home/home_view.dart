@@ -1534,7 +1534,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   fontSize: 12,
                                                                 ),
                                                               ),
-                                                              const Icon(
+                                                               Icon(
                                                                 Icons
                                                                     .arrow_drop_down,
                                                                 color: CommonColors
@@ -1591,7 +1591,7 @@ class _HomeViewState extends State<HomeView> {
                                         fontSize: 12,
                                       ),
                                     ),
-                                    const Icon(
+                                     Icon(
                                       Icons.arrow_drop_up_rounded,
                                       color: CommonColors.primaryColor,
                                       size: 30,
@@ -1791,7 +1791,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Container(
                                     height: 26,
                                     width: 26,
-                                    decoration: const BoxDecoration(
+                                    decoration:  BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

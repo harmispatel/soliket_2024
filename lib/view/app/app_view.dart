@@ -333,7 +333,7 @@ class AppState extends State<App> {
                         backgroundColor: CommonColors.mWhite,
                         foregroundColor: CommonColors.mWhite,
                         surfaceTintColor: Colors.transparent,
-                        iconTheme: const IconThemeData(
+                        iconTheme:  IconThemeData(
                           color: CommonColors.primaryColor,
                         ),
                         scrolledUnderElevation: 0,
@@ -355,7 +355,7 @@ class AppState extends State<App> {
                           elevation: const MaterialStatePropertyAll(20),
                         ),
                       ),
-                      progressIndicatorTheme: const ProgressIndicatorThemeData(
+                      progressIndicatorTheme:  ProgressIndicatorThemeData(
                         color: CommonColors.primaryColor,
                         linearMinHeight: 2,
                       ),

@@ -840,8 +840,7 @@ class _CheckOutViewState extends State<CheckOutView>
                   double totalAmount = double.parse(mViewModel.total ?? '');
                   var options = {
                     //'key': 'rzp_test_gdFvpbKhIrcbLc',
-                    'key':
-                        mViewModel.appCredensialsData?.first.razzorpayKey ?? "",
+                    'key': razorpayKey,
                     'amount': (totalAmount * 100).toInt(),
                     'name': 'Soliket',
                     'description': 'Testing payment',
@@ -855,7 +854,7 @@ class _CheckOutViewState extends State<CheckOutView>
                       'wallets': ['paytm']
                     },
                     'theme': {
-                      'color': '#EA7D08',
+                      'color': appColor.replaceAll('0xff', '#'),
                     },
                   };
                   razorpay.on(

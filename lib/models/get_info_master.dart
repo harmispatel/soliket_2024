@@ -61,9 +61,15 @@ class GetInfoData {
   String? _isContent;
   String? _description;
   String? _image;
+  String? _isEnabled;
 
-  GetInfoData(
-      {String? title, String? isContent, String? description, String? image}) {
+  GetInfoData({
+    String? title,
+    String? isContent,
+    String? description,
+    String? image,
+    String? isEnabled,
+  }) {
     if (title != null) {
       this._title = title;
     }
@@ -76,6 +82,9 @@ class GetInfoData {
     if (image != null) {
       this._image = image;
     }
+    if (isEnabled != null) {
+      this._isEnabled = isEnabled;
+    }
   }
 
   String? get title => _title;
@@ -86,12 +95,15 @@ class GetInfoData {
   set description(String? description) => _description = description;
   String? get image => _image;
   set image(String? image) => _image = image;
+  String? get isEnabled => _isEnabled;
+  set isEnabled(String? image) => _isEnabled = image;
 
   GetInfoData.fromJson(Map<String, dynamic> json) {
     _title = json['title'];
     _isContent = json['is_content'];
     _description = json['description'];
     _image = json['image'];
+    isEnabled = json['is_enabled'];
   }
 
   Map<String, dynamic> toJson() {

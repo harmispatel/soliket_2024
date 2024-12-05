@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../core/remote_config/remote_global_config.dart';
 import '../../../database/app_preferences.dart';
+import '../../../models/app_credensials_master.dart';
 import '../../../models/confirm_location_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
@@ -20,10 +21,14 @@ import '../bottom_navbar/bottom_navbar_view.dart';
 class SplashViewModel with ChangeNotifier {
   late BuildContext context;
   final services = Services();
+  List<AppCredensialsData>? appCredensialsData;
+  bool isAppCredensials = true;
 
   Future<void> attachedContext(BuildContext context) async {
     this.context = context;
     appCheck();
+    getAppCredensials();
+    notifyListeners();
   }
 
   Future<void> appCheck() async {
@@ -33,7 +38,7 @@ class SplashViewModel with ChangeNotifier {
         CupertinoPageRoute(
           builder: (context) => MaintenanceView(appDownMaster: appDownConfig),
         ),
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
       );
     } else {
       startTimer();
@@ -101,6 +106,28 @@ class SplashViewModel with ChangeNotifier {
         pushAndRemoveUntil(BottomNavBarView());
       }
       //pushAndRemoveUntil(BottomNavBarView());
+    }
+    notifyListeners();
+  }
+
+  Future<void> getAppCredensials() async {
+    AppCredensialsMaster? master = await services.api!.getAppCredensials();
+    isAppCredensials = false;
+    if (master == null) {
+      CommonUtils.oopsMSG();
+    } else if (!master.status!) {
+      CommonUtils.showCustomToast(context, master.message);
+    } else if (master.status!) {
+      log("Success :: true");
+      appCredensialsData = master.data;
+      appName = master.data?.first.appName.toString() ?? '';
+      mapKey = master.data?.first.mapKey.toString() ?? '';
+      appColor = master.data?.first.appColor.toString() ?? '';
+      razorpayKey = master.data?.first.razzorpayKey.toString() ?? '';
+      print("AppCredensials App Name =====> $appName");
+      print("AppCredensials App MapKey =====> $mapKey");
+      print("AppCredensials App Color =====> $appColor");
+      print("AppCredensials App RazorpayKey =====> $razorpayKey");
     }
     notifyListeners();
   }

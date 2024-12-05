@@ -290,7 +290,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                             ),
                                           );
                                         },
-                                        child: const Icon(
+                                        child:  Icon(
                                           Icons.arrow_forward_ios_rounded,
                                           size: 22,
                                           color: CommonColors.primaryColor,

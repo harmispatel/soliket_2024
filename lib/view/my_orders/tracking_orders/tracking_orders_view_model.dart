@@ -11,11 +11,7 @@ class TrackingOrdersViewModel with ChangeNotifier {
   final services = Services();
   bool isInitialLoading = true;
   List<TrackOrderData> trackOrderData = [];
-  String? mapKey = "";
   void attachedContext(BuildContext context) {
-    mapKey = AppPreferences.instance.getAppMapKey();
-    print(mapKey);
-    print("mapKey");
     this.context = context;
     notifyListeners();
   }

@@ -1184,7 +1184,7 @@ class _SearchViewState extends State<SearchView> {
                                                               fontSize: 12,
                                                             ),
                                                           ),
-                                                          const Icon(
+                                                           Icon(
                                                             Icons
                                                                 .arrow_drop_down,
                                                             color: CommonColors
@@ -1239,7 +1239,7 @@ class _SearchViewState extends State<SearchView> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                const Icon(
+                                 Icon(
                                   Icons.arrow_drop_up_rounded,
                                   color: CommonColors.primaryColor,
                                   size: 30,
@@ -1320,7 +1320,7 @@ class _SearchViewState extends State<SearchView> {
                                     height: 26,
                                     width: 26,
                                     margin: const EdgeInsets.only(top: 10),
-                                    decoration: const BoxDecoration(
+                                    decoration:  BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
