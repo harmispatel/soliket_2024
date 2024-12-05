@@ -26,6 +26,7 @@ class AppPreferences {
   final String keyCurrencyDate = "keyCurrencyDate";
   final String keyCurrencyList = "keyCurrencyList";
   final String keyUserCurrency = "keyUserCurrency";
+  final String keyIsFirstTimeInHome = "keyIsFirstTimeInHome";
   static const String _hasShownModalKey = 'has_shown_modal';
 
   static final AppPreferences instance = AppPreferences.internal();
@@ -50,6 +51,17 @@ class AppPreferences {
   static Future<void> setHasShownModal(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_hasShownModalKey, value);
+  }
+
+  // Method to set isFirstTime
+  Future<bool> setIsFirstTime(bool value) async {
+    return _pref!.setBool(keyIsFirstTimeInHome, value);
+  }
+
+// Method to get isFirstTime
+  bool getIsFirstTime() {
+    return _pref!.getBool(keyIsFirstTimeInHome) ??
+        true; // Default to true if not set
   }
 
   // Method to set auth token
