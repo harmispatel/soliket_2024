@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/cart_master.dart';
+import 'package:solikat_2024/models/search_master.dart';
 
 import '../../../../services/index.dart';
 import '../../../../utils/common_utils.dart';
-import '../../models/search_master.dart';
 import '../../models/update_bill_details_master.dart';
 import '../../utils/common_colors.dart';
 
@@ -15,6 +15,7 @@ class CartViewModel with ChangeNotifier {
   bool isInitialLoading = true;
   List<ProductData> cartList = [];
   List<CartCouponData> appliedCouponList = [];
+  List<DealProductData> dealProductList = [];
   String discountAmount = '';
   String itemTotal = '';
   String deliveryCharge = '';
@@ -44,6 +45,7 @@ class CartViewModel with ChangeNotifier {
       log("Success :: true");
       cartList = master.data?.cartItem ?? [];
       appliedCouponList = master.data?.coupon ?? [];
+      dealProductList = master.data?.dealProduct ?? [];
       discountAmount = master.data?.cartTotal?.discountAmount ?? '';
       itemTotal = master.data?.cartTotal?.itemTotal ?? '';
       deliveryCharge = master.data?.cartTotal?.deliveryCharge ?? '';

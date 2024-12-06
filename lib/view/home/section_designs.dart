@@ -474,9 +474,10 @@ class Section6 extends StatelessWidget {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: getAppStyle(
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                         height: 1,
-                                        fontSize: 13),
+                                        color: Colors.black87.withOpacity(0.6),
+                                        fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

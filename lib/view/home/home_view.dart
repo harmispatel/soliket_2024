@@ -29,7 +29,6 @@ import '../../utils/local_images.dart';
 import '../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../common_view/common_img_slider/common_img_slider_view.dart';
 import '../location/location_donNot_allow_view.dart';
-import '../profile/edit_account/edit_account_view.dart';
 import '../profile/edit_account/edit_account_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -1534,7 +1533,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   fontSize: 12,
                                                                 ),
                                                               ),
-                                                               Icon(
+                                                              Icon(
                                                                 Icons
                                                                     .arrow_drop_down,
                                                                 color: CommonColors
@@ -1591,7 +1590,7 @@ class _HomeViewState extends State<HomeView> {
                                         fontSize: 12,
                                       ),
                                     ),
-                                     Icon(
+                                    Icon(
                                       Icons.arrow_drop_up_rounded,
                                       color: CommonColors.primaryColor,
                                       size: 30,
@@ -1791,7 +1790,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: Container(
                                     height: 26,
                                     width: 26,
-                                    decoration:  BoxDecoration(
+                                    decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

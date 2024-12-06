@@ -260,7 +260,7 @@ class _MyCartViewState extends State<MyCartView> {
                               height: kDeviceHeight / 3,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 6,
+                                itemCount: mViewModel.dealProductList.length,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return FittedBox(
@@ -293,13 +293,16 @@ class _MyCartViewState extends State<MyCartView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 16, right: 16),
+                                              padding: const EdgeInsets.all(16),
                                               child: Center(
                                                 child: Image.network(
-                                                  "https:\/\/newadmin.soliket.com\/upload\/products\/1708006157_88274.jpg",
+                                                  mViewModel
+                                                          .dealProductList[
+                                                              index]
+                                                          .image ??
+                                                      '',
                                                   fit: BoxFit.contain,
-                                                  height: 170,
+                                                  height: 150,
                                                 ),
                                               ),
                                             ),
@@ -313,7 +316,11 @@ class _MyCartViewState extends State<MyCartView> {
                                                           horizontal: 8) +
                                                       EdgeInsets.only(right: 3),
                                                   child: Text(
-                                                    "Fresh Potato Aalu 2Kg",
+                                                    mViewModel
+                                                            .dealProductList[
+                                                                index]
+                                                            .productName ??
+                                                        '',
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -332,7 +339,10 @@ class _MyCartViewState extends State<MyCartView> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8),
                                               child: Text(
-                                                "2 kg",
+                                                mViewModel
+                                                        .dealProductList[index]
+                                                        .variantName ??
+                                                    '',
                                                 style: getAppStyle(
                                                   fontSize: 14,
                                                   color: Colors.grey[400],
@@ -357,7 +367,7 @@ class _MyCartViewState extends State<MyCartView> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          "₹${"62"}",
+                                                          "₹${mViewModel.dealProductList[index].discountPrice ?? ''}",
                                                           style: getAppStyle(
                                                             fontSize: 15,
                                                             color: Colors
@@ -369,7 +379,7 @@ class _MyCartViewState extends State<MyCartView> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          "₹${"00000"}",
+                                                          "₹${mViewModel.dealProductList[index].productPrice ?? ''}",
                                                           style: getAppStyle(
                                                             color: Colors
                                                                 .grey[400],
@@ -384,37 +394,84 @@ class _MyCartViewState extends State<MyCartView> {
                                                     kCommonSpaceH20,
                                                     kCommonSpaceH5,
                                                     kCommonSpaceH2,
-                                                    InkWell(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        width: 100,
-                                                        height: 40,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          border: Border.all(
-                                                              color: CommonColors
-                                                                  .primaryColor,
-                                                              width: 1),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            "Add",
-                                                            style: getAppStyle(
-                                                              color: CommonColors
-                                                                  .primaryColor,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                    mViewModel
+                                                                .dealProductList[
+                                                                    index]
+                                                                .isAdd ==
+                                                            'y'
+                                                        ? InkWell(
+                                                            onTap: () async {
+                                                              await mHomeViewModel
+                                                                  .addToCartApi(
+                                                                      variantId: mViewModel
+                                                                          .dealProductList[
+                                                                              index]
+                                                                          .variantId
+                                                                          .toString(),
+                                                                      type: 'p')
+                                                                  .whenComplete(
+                                                                      () async {
+                                                                await mViewModel
+                                                                    .getCartApi();
+                                                                await mViewModel
+                                                                    .updateBillDetailsApi();
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              width: 100,
+                                                              height: 40,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                                border: Border.all(
+                                                                    color: CommonColors
+                                                                        .primaryColor,
+                                                                    width: 1),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "Add",
+                                                                  style:
+                                                                      getAppStyle(
+                                                                    color: CommonColors
+                                                                        .primaryColor,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                          )
+                                                        : Container(
+                                                            width: 100,
+                                                            height: 40,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              border: Border.all(
+                                                                  color: CommonColors
+                                                                      .primaryColor,
+                                                                  width: 1),
+                                                            ),
+                                                            child: Icon(
+                                                              Icons.lock,
+                                                              color: CommonColors
+                                                                  .primaryColor,
+                                                            ),
+                                                          )
                                                   ],
                                                 ),
                                               ),
@@ -437,7 +494,10 @@ class _MyCartViewState extends State<MyCartView> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8),
                                               child: Text(
-                                                "Deal Unlocked!",
+                                                mViewModel
+                                                        .dealProductList[index]
+                                                        .dealText ??
+                                                    '',
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: getAppStyle(
@@ -1269,16 +1329,31 @@ class _MyCartListState extends State<MyCartList> {
                               fontSize: 13,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 02),
-                            child: Text(
-                              cartListDate.variantName ?? "",
-                              style: getAppStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 02),
+                                child: Text(
+                                  cartListDate.variantName ?? "",
+                                  style: getAppStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ),
-                            ),
+                              kCommonSpaceH10,
+                              if (cartListDate.isDeal == "y")
+                                Text(
+                                  "🎉 Deal Applied",
+                                  style: getAppStyle(
+                                      height: 1,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: CommonColors.primaryColor),
+                                )
+                            ],
                           ),
                         ],
                       ),
@@ -1289,47 +1364,92 @@ class _MyCartListState extends State<MyCartList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 4),
-                          margin: const EdgeInsets.only(bottom: 4),
-                          height: 30,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: CommonColors.primaryColor,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              GestureDetector(
-                                onTap: () => decrementItem(index),
-                                child: const Icon(
-                                  Icons.remove,
-                                  size: 16,
-                                  color: Colors.white,
+                        cartListDate.isDeal == "n"
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 4),
+                                margin: const EdgeInsets.only(bottom: 4),
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: CommonColors.primaryColor,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => decrementItem(index),
+                                      child: const Icon(
+                                        Icons.remove,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      cartListDate.cartCount.toString(),
+                                      //itemCount.toString(),
+                                      style: getAppStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => incrementItem(index),
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 4),
+                                margin: const EdgeInsets.only(bottom: 4),
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: CommonColors.primaryColor
+                                      .withOpacity(0.4),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: const Icon(
+                                        Icons.remove,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      cartListDate.cartCount.toString(),
+                                      //itemCount.toString(),
+                                      style: getAppStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {},
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Text(
-                                cartListDate.cartCount.toString(),
-                                //itemCount.toString(),
-                                style: getAppStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () => incrementItem(index),
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         Row(
                           children: [
                             Text(
