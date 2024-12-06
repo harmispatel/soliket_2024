@@ -23,10 +23,10 @@ import '../sub_brand/sub_brand_view_model.dart';
 import '../view_all_products/view_all_products_view_model.dart';
 
 class SubOfferView extends StatefulWidget {
-  final int offerId;
+  late int offerId;
   final String title;
 
-  const SubOfferView({super.key, required this.offerId, required this.title});
+  SubOfferView({super.key, required this.offerId, required this.title});
 
   @override
   State<SubOfferView> createState() => _SubOfferViewState();
@@ -34,7 +34,7 @@ class SubOfferView extends StatefulWidget {
 
 class _SubOfferViewState extends State<SubOfferView> {
   final ScrollController _scrollController = ScrollController();
-  int _selectedIndex = 0;
+  //int _selectedIndex = 0;
   int itemCount = 0;
   late SubOfferViewModel mViewModel;
   late SubBrandViewModel mBrandViewModel;
@@ -156,6 +156,7 @@ class _SubOfferViewState extends State<SubOfferView> {
         children: [
           if (mViewModel.offerCategoryList.isNotEmpty) ...[
             Container(
+              height: 102,
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
                   color: Colors.grey.shade300,
@@ -171,10 +172,13 @@ class _SubOfferViewState extends State<SubOfferView> {
                   scrollDirection: Axis.horizontal,
                   itemCount: mViewModel.offerCategoryList.length,
                   itemBuilder: (context, index) {
+                    bool isSelected = widget.offerId ==
+                        mViewModel.offerCategoryList[index].offerId;
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          _selectedIndex = index;
+                          widget.offerId =
+                              mViewModel.offerCategoryList[index].offerId!;
                         });
                         print(
                             "Category id :::: ${mViewModel.offerCategoryList[index].offerId}");
@@ -194,7 +198,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                 .toString());
                       },
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -210,7 +214,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                 //         : Colors.grey.shade50,
                                 //     width: 4),
                                 gradient: LinearGradient(
-                                  colors: _selectedIndex == index
+                                  colors: isSelected
                                       ? [
                                           CommonColors.primaryColor
                                               .withOpacity(0.02),
@@ -239,7 +243,19 @@ class _SubOfferViewState extends State<SubOfferView> {
                                 ),
                               ),
                             ),
-                            kCommonSpaceV10,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 2, bottom: 4, left: 8),
+                              child: Text(
+                                mViewModel.offerCategoryList[index].title ?? '',
+                                textAlign: TextAlign.center,
+                                style: getAppStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
                             // Padding(
                             //   padding: EdgeInsets.only(top: 2, bottom: 3),
                             //   child: SizedBox(
@@ -266,7 +282,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                                   topRight: Radius.circular(10),
                                 ),
                                 gradient: LinearGradient(
-                                  colors: _selectedIndex == index
+                                  colors: isSelected
                                       ? [
                                           CommonColors.primaryColor
                                               .withOpacity(0.5),

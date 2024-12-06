@@ -195,14 +195,22 @@ class _CheckOutViewState extends State<CheckOutView>
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      "+91-${mSavedAddressViewModel.addressList[selectedIndex!].mobile ?? ''}",
-                                      style: getAppStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                      ),
-                                    ),
+                                    mSavedAddressViewModel
+                                                .addressList[selectedIndex!]
+                                                .mobile ==
+                                            ""
+                                        ? const SizedBox.shrink()
+                                        : Text(
+                                            mSavedAddressViewModel
+                                                    .addressList[selectedIndex!]
+                                                    .mobile ??
+                                                '',
+                                            style: getAppStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                   ],
                                 ),
                               ),
@@ -358,18 +366,18 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Text(
-                                                                        "+91-${mSavedAddressViewModel.addressList[index].mobile ?? ''}",
-                                                                        style:
-                                                                            getAppStyle(
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          fontSize:
-                                                                              12,
-                                                                        ),
-                                                                      ),
+                                                                      mSavedAddressViewModel.addressList[index].mobile ==
+                                                                              ""
+                                                                          ? const SizedBox
+                                                                              .shrink()
+                                                                          : Text(
+                                                                              mSavedAddressViewModel.addressList[index].mobile ?? '',
+                                                                              style: getAppStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 12,
+                                                                              ),
+                                                                            ),
                                                                     ],
                                                                   ),
                                                                 ),

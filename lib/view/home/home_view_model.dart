@@ -166,6 +166,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:solikat_2024/models/add_to_cart_api.dart';
 import 'package:solikat_2024/models/get_info_master.dart';
 import 'package:solikat_2024/models/home_master.dart';
@@ -314,6 +315,7 @@ class HomeViewModel with ChangeNotifier {
                   return SizedBox(
                     height: kDeviceHeight / 2.5,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
@@ -370,24 +372,26 @@ class HomeViewModel with ChangeNotifier {
                         ),
                         kCommonSpaceV10,
                         kCommonSpaceV3,
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      infoPopUpData[0].image ?? ''),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
-                        ),
+                        infoPopUpData[0].image == ""
+                            ? const SizedBox.shrink()
+                            : Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            infoPopUpData[0].image ?? ''),
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                              ),
                         if (infoPopUpData[0].isContent == "y") ...[
                           kCommonSpaceV15,
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10, bottom: 8),
-                            child: Text(
+                            child: HtmlWidget(
                               infoPopUpData[0].description ?? '',
-                              style: getAppStyle(),
+                              textStyle: getAppStyle(),
                             ),
                           ),
                         ]

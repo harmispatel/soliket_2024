@@ -129,11 +129,15 @@ class OfferProductData {
 
 class Offer {
   String? _image;
+  String? _title;
   int? _offerId;
 
-  Offer({String? image, int? offerId}) {
+  Offer({String? image,String? title, int? offerId}) {
     if (image != null) {
       this._image = image;
+    }
+    if (title != null) {
+      this._title = title;
     }
     if (offerId != null) {
       this._offerId = offerId;
@@ -142,17 +146,21 @@ class Offer {
 
   String? get image => _image;
   set image(String? image) => _image = image;
+  String? get title => _title;
+  set title(String? title) => _title = title;
   int? get offerId => _offerId;
   set offerId(int? offerId) => _offerId = offerId;
 
   Offer.fromJson(Map<String, dynamic> json) {
     _image = json['image'];
+    _title = json['title'];
     _offerId = json['offer_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['image'] = this._image;
+    data['title'] = this._title;
     data['offer_id'] = this._offerId;
     return data;
   }

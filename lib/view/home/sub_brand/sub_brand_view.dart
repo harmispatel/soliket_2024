@@ -22,7 +22,7 @@ import '../sub_offer/sub_offer_view_model.dart';
 import '../view_all_products/view_all_products_view_model.dart';
 
 class SubBrandView extends StatefulWidget {
-  final int brandId;
+  late int brandId;
   final String title;
 
   SubBrandView({super.key, required this.brandId, required this.title});
@@ -33,7 +33,6 @@ class SubBrandView extends StatefulWidget {
 
 class _SubBrandViewState extends State<SubBrandView> {
   final ScrollController _scrollController = ScrollController();
-  int _selectedIndex = 0;
   int itemCount = 0;
   late SubBrandViewModel mViewModel;
   late HomeViewModel mHomeViewModel;
@@ -165,32 +164,29 @@ class _SubBrandViewState extends State<SubBrandView> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     scrollDirection: Axis.horizontal,
                     itemCount: mViewModel.brandCategoryList.length,
                     itemBuilder: (context, index) {
+                      bool isSelected = widget.brandId ==
+                          mViewModel.brandCategoryList[index].brandId;
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedIndex = index;
+                            widget.brandId =
+                                mViewModel.brandCategoryList[index].brandId!;
                           });
                           mViewModel.currentPage = 1;
                           mViewModel.isPageFinish = false;
                           mViewModel.isInitialLoading = true;
                           mViewModel.brandProductList.clear();
-                          // mViewModel.subCategoryList.clear();
-
                           mViewModel.getBrandProductApi(
                               latitude: gUserLat,
                               longitude: gUserLong,
-                              brandId: mViewModel
-                                  .brandCategoryList[index].brandId
-                                  .toString());
+                              brandId: widget.brandId.toString());
                         },
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -200,13 +196,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                                 margin: EdgeInsets.symmetric(horizontal: 10),
                                 padding: EdgeInsets.symmetric(horizontal: 6),
                                 decoration: BoxDecoration(
-                                  // border: Border.all(
-                                  //     color: _selectedIndex == index
-                                  //         ? Colors.orange
-                                  //         : Colors.grey.shade50,
-                                  //     width: 4),
                                   gradient: LinearGradient(
-                                    colors: _selectedIndex == index
+                                    colors: isSelected
                                         ? [
                                             CommonColors.primaryColor
                                                 .withOpacity(0.02),
@@ -219,8 +210,6 @@ class _SubBrandViewState extends State<SubBrandView> {
                                             Colors.grey.shade50,
                                             Colors.grey.shade50
                                           ],
-                                    //begin: Alignment.topLeft,
-                                    //end: Alignment.bottomRight,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -234,35 +223,6 @@ class _SubBrandViewState extends State<SubBrandView> {
                                     ),
                                   ),
                                 ),
-                                // CachedNetworkImage(
-                                //   imageUrl: mViewModel
-                                //           .brandCategoryList[index].image ??
-                                //       '',
-                                //   imageBuilder: (context, imageProvider) =>
-                                //       Container(
-                                //     decoration: BoxDecoration(
-                                //       image: DecorationImage(
-                                //         image: imageProvider,
-                                //         fit: BoxFit.contain,
-                                //       ),
-                                //     ),
-                                //   ),
-                                //   placeholder: (context, url) => Padding(
-                                //     padding: EdgeInsets.all(12.0),
-                                //     child: Center(
-                                //       child: CircularProgressIndicator(
-                                //         strokeWidth: 2,
-                                //         color: Colors.black,
-                                //       ),
-                                //     ),
-                                //   ),
-                                //   errorWidget: (context, url, error) => Center(
-                                //     child: Icon(
-                                //       Icons.error_outline,
-                                //       color: Colors.red,
-                                //     ),
-                                //   ),
-                                // ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 2, bottom: 3),
@@ -290,7 +250,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                                     topRight: Radius.circular(10),
                                   ),
                                   gradient: LinearGradient(
-                                    colors: _selectedIndex == index
+                                    colors: isSelected
                                         ? [
                                             CommonColors.primaryColor
                                                 .withOpacity(0.1),
@@ -828,9 +788,11 @@ class _SubBrandViewState extends State<SubBrandView> {
               : mViewModel.brandProductList.isNotEmpty
                   ? Expanded(
                       child: GridView.builder(
-                        padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                        padding: const EdgeInsets.only(
+                            left: 15, top: 15, bottom: 15),
                         shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 0.6,
                           crossAxisSpacing: 5,
@@ -903,9 +865,7 @@ class _SubBrandViewState extends State<SubBrandView> {
                         children: [
                           Image.network(
                               height: 240,
-                              "https://cdn3d.iconscout.com/3d/premium/thumb/courier-guy-wearing-facemask-and-carrying-packages-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--delivery-man-medical-mask-pack-e-commerce-shopping-illustrations-4054667.png"
-                              // "https://cdn3d.iconscout.com/3d/premium/thumb/no-results-found-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--empty-box-result-not-connection-timeout-pack-miscellaneous-illustrations-4812665.png?f=webp",
-                              ),
+                              "https://cdn3d.iconscout.com/3d/premium/thumb/courier-guy-wearing-facemask-and-carrying-packages-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--delivery-man-medical-mask-pack-e-commerce-shopping-illustrations-4054667.png"),
                           kCommonSpaceV10,
                           Text(
                             "Product not found!",
@@ -938,12 +898,10 @@ class _SubBrandViewState extends State<SubBrandView> {
                             color: Colors.transparent,
                             child: Stack(
                               children: List.generate(
-                                // Get the last three items or the total length if less than 3
                                 mHomeViewModel.cartDataList.length > 3
                                     ? 3
                                     : mHomeViewModel.cartDataList.length,
                                 (index) {
-                                  // Calculate the index from the end of the list
                                   int reverseIndex =
                                       mHomeViewModel.cartDataList.length -
                                           1 -

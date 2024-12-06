@@ -820,10 +820,10 @@ class _MyCartViewState extends State<MyCartView> {
                                     style: getAppStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
-                                      decoration:
-                                          mViewModel.isFreeDelivery == "y"
-                                              ? TextDecoration.lineThrough
-                                              : null,
+                                      // decoration:
+                                      //     mViewModel.isFreeDelivery == "y"
+                                      //         ? TextDecoration.lineThrough
+                                      //         : null,
                                       fontSize: 16,
                                       textDecorationColor: Colors.black,
                                     ),

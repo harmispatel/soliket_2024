@@ -34,6 +34,7 @@ class SubBrandViewModel with ChangeNotifier {
     BrandProductMaster? master =
         await services.api!.getBrandProductApi(params: params);
     isInitialLoading = false;
+    brandProductList.clear();
     notifyListeners();
 
     if (master == null) {
