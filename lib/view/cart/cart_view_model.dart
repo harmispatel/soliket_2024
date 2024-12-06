@@ -69,14 +69,15 @@ class CartViewModel with ChangeNotifier {
       CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
-      discountAmount = master.data?.discountAmount ?? '';
-      itemTotal = master.data?.itemTotal ?? '';
-      deliveryCharge = master.data?.deliveryCharge ?? '';
-      tax = master.data?.tax ?? '';
-      couponDiscount = master.data?.couponDiscount ?? '';
-      total = master.data?.total ?? '';
-      savingAmount = master.data?.savingAmount ?? '';
-      isFreeDelivery = master.data?.isFreeDelivery ?? '';
+      dealProductList = master.data?.dealProduct ?? [];
+      discountAmount = master.data?.billDetails?.discountAmount ?? '';
+      itemTotal = master.data?.billDetails?.itemTotal ?? '';
+      deliveryCharge = master.data?.billDetails?.deliveryCharge ?? '';
+      tax = master.data?.billDetails?.tax ?? '';
+      couponDiscount = master.data?.billDetails?.couponDiscount ?? '';
+      total = master.data?.billDetails?.total ?? '';
+      savingAmount = master.data?.billDetails?.savingAmount ?? '';
+      isFreeDelivery = master.data?.billDetails?.isFreeDelivery ?? '';
     }
     notifyListeners();
   }

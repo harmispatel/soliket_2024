@@ -3,6 +3,7 @@ import 'package:otp_autofill/otp_autofill.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
@@ -27,19 +28,20 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
+      mViewModel.startTimer();
+      otpController = OTPTextEditController(codeLength: 6)
+        ..startListenUserConsent(
+          (value) {
+            final exp = RegEx.otpLengthRegex;
+            final matchedString = exp.stringMatch(value ?? '') ?? '';
+            if (exp.hasMatch(value ?? '')) {
+              otpController.text = matchedString;
+              codeUpdated();
+            }
+            return matchedString;
+          },
+        );
     });
-    otpController = OTPTextEditController(codeLength: 6)
-      ..startListenUserConsent(
-        (value) {
-          final exp = RegEx.otpLengthRegex;
-          final matchedString = exp.stringMatch(value ?? '') ?? '';
-          if (exp.hasMatch(value ?? '')) {
-            otpController.text = matchedString;
-            codeUpdated();
-          }
-          return matchedString;
-        },
-      );
   }
 
   @override

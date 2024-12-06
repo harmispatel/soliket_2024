@@ -697,9 +697,6 @@ class _CheckOutViewState extends State<CheckOutView>
                             style: getAppStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
-                              decoration: mViewModel.isFreeDelivery == "y"
-                                  ? TextDecoration.lineThrough
-                                  : null,
                               fontSize: 16,
                               textDecorationColor: Colors.black,
                             ),

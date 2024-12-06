@@ -226,31 +226,17 @@ class _MyCartViewState extends State<MyCartView> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Special Price Deals",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: getAppStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        "2/2 Unlocked",
-                                        style: getAppStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
+                                const SizedBox(width: 10),
+                                Center(
+                                  child: Text(
+                                    "Soliket Special Price Deals",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: getAppStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -413,6 +399,7 @@ class _MyCartViewState extends State<MyCartView> {
                                                                       () async {
                                                                 await mViewModel
                                                                     .getCartApi();
+
                                                                 await mViewModel
                                                                     .updateBillDetailsApi();
                                                               });
@@ -501,8 +488,9 @@ class _MyCartViewState extends State<MyCartView> {
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: getAppStyle(
-                                                    fontSize: 14,
+                                                    fontSize: 13,
                                                     color: Colors.black,
+                                                    height: 1.1,
                                                     fontWeight:
                                                         FontWeight.normal),
                                               ),
@@ -1407,47 +1395,38 @@ class _MyCartListState extends State<MyCartList> {
                                   ],
                                 ),
                               )
-                            : Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 4),
-                                margin: const EdgeInsets.only(bottom: 4),
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.4),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: const Icon(
-                                        Icons.remove,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      cartListDate.cartCount.toString(),
-                                      //itemCount.toString(),
+                            : GestureDetector(
+                                onTap: () async {
+                                  await mHomeViewModel
+                                      .addToCartApi(
+                                          variantId:
+                                              cartListDate.variantId.toString(),
+                                          type: 'm')
+                                      .whenComplete(() async {
+                                    await mViewModel.getCartApi();
+                                    await mViewModel.updateBillDetailsApi();
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 4),
+                                  margin: const EdgeInsets.only(bottom: 4),
+                                  height: 30,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: CommonColors.primaryColor
+                                        .withOpacity(0.4),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Remove",
                                       style: getAppStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12),
                                     ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: const Icon(
-                                        Icons.add,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                         Row(

@@ -1,6 +1,8 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/order_master.dart';
+
 import '../../../models/check_delivery_available_master.dart';
 import '../../../models/common_master.dart';
 import '../../../models/update_bill_details_master.dart';
@@ -63,14 +65,14 @@ class CheckOutViewModel with ChangeNotifier {
       CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
-      discountAmount = master.data?.discountAmount ?? '';
-      itemTotal = master.data?.itemTotal ?? '';
-      deliveryCharge = master.data?.deliveryCharge ?? '';
-      tax = master.data?.tax ?? '';
-      couponDiscount = master.data?.couponDiscount ?? '';
-      total = master.data?.total ?? '';
-      savingAmount = master.data?.savingAmount ?? '';
-      isFreeDelivery = master.data?.isFreeDelivery ?? '';
+      discountAmount = master.data?.billDetails?.discountAmount ?? '';
+      itemTotal = master.data?.billDetails?.itemTotal ?? '';
+      deliveryCharge = master.data?.billDetails?.deliveryCharge ?? '';
+      tax = master.data?.billDetails?.tax ?? '';
+      couponDiscount = master.data?.billDetails?.couponDiscount ?? '';
+      total = master.data?.billDetails?.total ?? '';
+      savingAmount = master.data?.billDetails?.savingAmount ?? '';
+      isFreeDelivery = master.data?.billDetails?.isFreeDelivery ?? '';
     }
     notifyListeners();
   }

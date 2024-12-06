@@ -22,7 +22,6 @@ class OtpViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
-    startTimer();
     notifyListeners();
   }
 
