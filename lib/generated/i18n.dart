@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../utils/constant.dart';
 
-
-
 class S implements WidgetsLocalizations {
   const S();
 

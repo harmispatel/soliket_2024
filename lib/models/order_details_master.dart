@@ -129,6 +129,8 @@ class OrderDetails {
   String? _orderStatus;
   String? _estimateTime;
   String? _paymentMethod;
+  String? _isCancelOrder;
+  String? _cancelText;
 
   OrderDetails(
       {int? orderId,
@@ -140,7 +142,9 @@ class OrderDetails {
       String? orderDate,
       String? orderStatus,
       String? estimateTime,
-      String? paymentMethod}) {
+      String? paymentMethod,
+      String? isCancelOrder,
+      String? cancelText}) {
     if (orderId != null) {
       this._orderId = orderId;
     }
@@ -171,6 +175,12 @@ class OrderDetails {
     if (paymentMethod != null) {
       this._paymentMethod = paymentMethod;
     }
+    if (isCancelOrder != null) {
+      this._isCancelOrder = isCancelOrder;
+    }
+    if (cancelText != null) {
+      this._cancelText = cancelText;
+    }
   }
 
   int? get orderId => _orderId;
@@ -194,6 +204,10 @@ class OrderDetails {
   set estimateTime(String? estimateTime) => _estimateTime = estimateTime;
   String? get paymentMethod => _paymentMethod;
   set paymentMethod(String? paymentMethod) => _paymentMethod = paymentMethod;
+  String? get isCancelOrder => _isCancelOrder;
+  set isCancelOrder(String? isCancelOrder) => _isCancelOrder = isCancelOrder;
+  String? get cancelText => _cancelText;
+  set cancelText(String? cancelText) => _cancelText = cancelText;
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
     _orderId = json['order_id'];
@@ -206,6 +220,8 @@ class OrderDetails {
     _orderStatus = json['order_status'];
     _estimateTime = json['estimate_time'];
     _paymentMethod = json['payment_method'];
+    _isCancelOrder = json['is_cancel_order'];
+    _cancelText = json['cancel_text'];
   }
 
   Map<String, dynamic> toJson() {
@@ -220,6 +236,8 @@ class OrderDetails {
     data['order_status'] = this._orderStatus;
     data['estimate_time'] = this._estimateTime;
     data['payment_method'] = this._paymentMethod;
+    data['is_cancel_order'] = this._isCancelOrder;
+    data['cancel_text'] = this._cancelText;
     return data;
   }
 }

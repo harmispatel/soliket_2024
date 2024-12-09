@@ -88,8 +88,8 @@ class ProductData {
   int? _variantId;
   String? _productName;
   String? _variantName;
-  int? _productPrice;
-  int? _discountPrice;
+  String? _productPrice;
+  String? _discountPrice;
   int? _discountPer;
   String? _image;
   String? _isDeal;
@@ -101,8 +101,8 @@ class ProductData {
       int? variantId,
       String? productName,
       String? variantName,
-      int? productPrice,
-      int? discountPrice,
+      String? productPrice,
+      String? discountPrice,
       int? discountPer,
       String? image,
       String? isDeal,
@@ -151,10 +151,10 @@ class ProductData {
   set productName(String? productName) => _productName = productName;
   String? get variantName => _variantName;
   set variantName(String? variantName) => _variantName = variantName;
-  int? get productPrice => _productPrice;
-  set productPrice(int? productPrice) => _productPrice = productPrice;
-  int? get discountPrice => _discountPrice;
-  set discountPrice(int? discountPrice) => _discountPrice = discountPrice;
+  String? get productPrice => _productPrice;
+  set productPrice(String? productPrice) => _productPrice = productPrice;
+  String? get discountPrice => _discountPrice;
+  set discountPrice(String? discountPrice) => _discountPrice = discountPrice;
   int? get discountPer => _discountPer;
   set discountPer(int? discountPer) => _discountPer = discountPer;
   String? get image => _image;

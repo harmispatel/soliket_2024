@@ -40,7 +40,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
   void dispose() {
     _scrollController.dispose();
     currentStatus = 'p';
-    // mViewModel.resetPage();
+    mViewModel.resetPage();
     super.dispose();
   }
 

@@ -87,7 +87,7 @@ class GetOrderData {
   int? _orderId;
   String? _paymentMethod;
   String? _orderNumber;
-  int? _total;
+  String? _total;
   String? _orderStatus;
   String? _created;
 
@@ -95,7 +95,7 @@ class GetOrderData {
       {int? orderId,
       String? paymentMethod,
       String? orderNumber,
-      int? total,
+      String? total,
       String? orderStatus,
       String? created}) {
     if (orderId != null) {
@@ -124,8 +124,8 @@ class GetOrderData {
   set paymentMethod(String? paymentMethod) => _paymentMethod = paymentMethod;
   String? get orderNumber => _orderNumber;
   set orderNumber(String? orderNumber) => _orderNumber = orderNumber;
-  int? get total => _total;
-  set total(int? total) => _total = total;
+  String? get total => _total;
+  set total(String? total) => _total = total;
   String? get orderStatus => _orderStatus;
   set orderStatus(String? orderStatus) => _orderStatus = orderStatus;
   String? get created => _created;

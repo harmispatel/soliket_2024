@@ -189,4 +189,8 @@ abstract class BaseServices {
   Future<getInfoMaster?> getInfoPopUp();
 
   Future<AppCredensialsMaster?> getAppCredensials();
+
+  Future<CommonMaster?> cancelOrder({
+    required Map<String, dynamic> params,
+  });
 }

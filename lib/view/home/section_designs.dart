@@ -306,13 +306,25 @@ class _Section4State extends State<Section4> {
                       height: 1.2,
                       color: Colors.black54),
                 ),
-                Text(
-                  "View All >",
-                  style: getAppStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      height: 1.2,
-                      color: CommonColors.primaryColor),
+                GestureDetector(
+                  onTap: () {
+                    /// Important note :: in this only for section 4 in isDeal parameter get category id and that category id
+                    /// used for get view all products.
+                    push(
+                      SubCategoryView(
+                        categoryId: widget.section4[0].isDeal.toString(),
+                        title: widget.section4Title,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "View All >",
+                    style: getAppStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.2,
+                        color: CommonColors.primaryColor),
+                  ),
                 ),
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -6,10 +7,12 @@ import 'package:solikat_2024/utils/constant.dart';
 import '../../../../../utils/common_colors.dart';
 import '../../../../../widget/common_appbar.dart';
 import '../../../utils/local_images.dart';
+import '../../../widget/primary_button.dart';
 import 'order_details_view_model.dart';
 
 class OrderDetailsView extends StatefulWidget {
   final String orderId;
+
   const OrderDetailsView({super.key, required this.orderId});
 
   @override
@@ -44,6 +47,69 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         isShowShadow: true,
         isTitleBold: true,
         iconTheme: IconThemeData(color: CommonColors.blackColor),
+        actions: [
+          mViewModel.isInitialLoading
+              ? const SizedBox()
+              : GestureDetector(
+                  onTap: () {
+                    if (mViewModel.orderDetailsList[0].isCancelOrder == "y") {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.info,
+                        width: kDeviceWidth,
+                        buttonsBorderRadius: const BorderRadius.all(
+                          Radius.circular(2),
+                        ),
+                        dismissOnTouchOutside: false,
+                        dismissOnBackKeyPress: false,
+                        headerAnimationLoop: false,
+                        animType: AnimType.topSlide,
+                        title: 'Cancel Order',
+                        desc: 'Are you sure you want to Cancel this order?',
+                        buttonsTextStyle: getAppStyle(),
+                        descTextStyle: getAppStyle(fontSize: 15),
+                        titleTextStyle: getAppStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                        showCloseIcon: false,
+                        btnOk: PrimaryButton(
+                          label: "Yes",
+                          buttonColor: CommonColors.primaryColor,
+                          labelColor: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          onPress: () {
+                            Navigator.pop(context);
+                            mViewModel.cancelOrderApi(orderId: widget.orderId);
+                          },
+                        ),
+                        btnCancel: PrimaryButton(
+                          label: "No",
+                          buttonColor: CommonColors.mRed,
+                          labelColor: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          onPress: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ).show();
+                    }
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: CommonColors.primaryColor.withOpacity(0.1),
+                        border: Border.all(color: CommonColors.primaryColor)),
+                    child: Text(
+                      mViewModel.orderDetailsList[0].cancelText ?? '',
+                      style: getAppStyle(
+                          color: CommonColors.blackColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+        ],
       ),
       body: SingleChildScrollView(
         child: mViewModel.isInitialLoading

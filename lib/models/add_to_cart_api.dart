@@ -94,9 +94,9 @@ class CartData {
 
 class CartTotalData {
   int? _totalItem;
-  int? _totalAmount;
+  String? _totalAmount;
 
-  CartTotalData({int? totalItem, int? totalAmount}) {
+  CartTotalData({int? totalItem, String? totalAmount}) {
     if (totalItem != null) {
       this._totalItem = totalItem;
     }
@@ -107,8 +107,8 @@ class CartTotalData {
 
   int? get totalItem => _totalItem;
   set totalItem(int? totalItem) => _totalItem = totalItem;
-  int? get totalAmount => _totalAmount;
-  set totalAmount(int? totalAmount) => _totalAmount = totalAmount;
+  String? get totalAmount => _totalAmount;
+  set totalAmount(String? totalAmount) => _totalAmount = totalAmount;
 
   CartTotalData.fromJson(Map<String, dynamic> json) {
     _totalItem = json['total_item'];
