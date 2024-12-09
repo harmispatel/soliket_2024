@@ -36,8 +36,8 @@ class ProductDetailsData {
   String? productName;
   String? description;
   String? variantName;
-  int? productPrice;
-  int? discountPrice;
+  String? productPrice;
+  String? discountPrice;
   int? discountPer;
   String? isDeal;
   int? stock;

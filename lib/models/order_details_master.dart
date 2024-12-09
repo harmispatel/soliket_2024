@@ -245,15 +245,15 @@ class OrderDetails {
 class OrderItem {
   String? _productName;
   int? _qty;
-  int? _price;
-  int? _discountedPrice;
+  String? _price;
+  String? _discountedPrice;
   String? _image;
 
   OrderItem(
       {String? productName,
       int? qty,
-      int? price,
-      int? discountedPrice,
+      String? price,
+      String? discountedPrice,
       String? image}) {
     if (productName != null) {
       this._productName = productName;
@@ -276,10 +276,10 @@ class OrderItem {
   set productName(String? productName) => _productName = productName;
   int? get qty => _qty;
   set qty(int? qty) => _qty = qty;
-  int? get price => _price;
-  set price(int? price) => _price = price;
-  int? get discountedPrice => _discountedPrice;
-  set discountedPrice(int? discountedPrice) =>
+  String? get price => _price;
+  set price(String? price) => _price = price;
+  String? get discountedPrice => _discountedPrice;
+  set discountedPrice(String? discountedPrice) =>
       _discountedPrice = discountedPrice;
   String? get image => _image;
   set image(String? image) => _image = image;
@@ -304,20 +304,20 @@ class OrderItem {
 }
 
 class BillDetails {
-  int? _itemTotal;
-  int? _deliveryCharge;
-  int? _tax;
-  int? _offerDiscount;
+  String? _itemTotal;
+  String? _deliveryCharge;
+  String? _tax;
+  String? _offerDiscount;
   String? _savingAmount;
-  int? _toPaid;
+  String? _toPaid;
 
   BillDetails(
-      {int? itemTotal,
-      int? deliveryCharge,
-      int? tax,
-      int? offerDiscount,
-      String? savingAmount,
-      int? toPaid}) {
+      {String? itemTotal,
+        String? deliveryCharge,
+        String? tax,
+        String? offerDiscount,
+        String? savingAmount,
+        String? toPaid}) {
     if (itemTotal != null) {
       this._itemTotal = itemTotal;
     }
@@ -338,18 +338,18 @@ class BillDetails {
     }
   }
 
-  int? get itemTotal => _itemTotal;
-  set itemTotal(int? itemTotal) => _itemTotal = itemTotal;
-  int? get deliveryCharge => _deliveryCharge;
-  set deliveryCharge(int? deliveryCharge) => _deliveryCharge = deliveryCharge;
-  int? get tax => _tax;
-  set tax(int? tax) => _tax = tax;
-  int? get offerDiscount => _offerDiscount;
-  set offerDiscount(int? offerDiscount) => _offerDiscount = offerDiscount;
+  String? get itemTotal => _itemTotal;
+  set itemTotal(String? itemTotal) => _itemTotal = itemTotal;
+  String? get deliveryCharge => _deliveryCharge;
+  set deliveryCharge(String? deliveryCharge) => _deliveryCharge = deliveryCharge;
+  String? get tax => _tax;
+  set tax(String? tax) => _tax = tax;
+  String? get offerDiscount => _offerDiscount;
+  set offerDiscount(String? offerDiscount) => _offerDiscount = offerDiscount;
   String? get savingAmount => _savingAmount;
   set savingAmount(String? savingAmount) => _savingAmount = savingAmount;
-  int? get toPaid => _toPaid;
-  set toPaid(int? toPaid) => _toPaid = toPaid;
+  String? get toPaid => _toPaid;
+  set toPaid(String? toPaid) => _toPaid = toPaid;
 
   BillDetails.fromJson(Map<String, dynamic> json) {
     _itemTotal = json['item_total'];

@@ -282,7 +282,7 @@ class HomeViewModel with ChangeNotifier {
     isLoadingMore = false;
     notifyListeners();
 
-    print("............. ${master?.statusCode}.............");
+    print("............. ${master?.statusCode} .............");
 
     if (master == null) {
       CommonUtils.oopsMSG();

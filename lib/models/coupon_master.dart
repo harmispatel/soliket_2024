@@ -34,7 +34,7 @@ class CouponData {
   int? couponId;
   String? couponCode;
   String? message;
-  int? discountAmount;
+  String? discountAmount;
   String? isEnabled;
   String? isApplied;
   String? icon;
