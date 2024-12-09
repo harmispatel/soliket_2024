@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/cart_master.dart';
-import 'package:solikat_2024/models/search_master.dart';
 
 import '../../../../services/index.dart';
 import '../../../../utils/common_utils.dart';
+import '../../models/product_master.dart';
 import '../../models/update_bill_details_master.dart';
 import '../../utils/common_colors.dart';
 

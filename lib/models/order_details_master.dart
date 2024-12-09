@@ -130,6 +130,7 @@ class OrderDetails {
   String? _estimateTime;
   String? _paymentMethod;
   String? _isCancelOrder;
+  String? _isButtonShow;
   String? _cancelText;
 
   OrderDetails(
@@ -144,6 +145,7 @@ class OrderDetails {
       String? estimateTime,
       String? paymentMethod,
       String? isCancelOrder,
+      String? isButtonShow,
       String? cancelText}) {
     if (orderId != null) {
       this._orderId = orderId;
@@ -178,6 +180,9 @@ class OrderDetails {
     if (isCancelOrder != null) {
       this._isCancelOrder = isCancelOrder;
     }
+    if (isButtonShow != null) {
+      this._isButtonShow = isButtonShow;
+    }
     if (cancelText != null) {
       this._cancelText = cancelText;
     }
@@ -206,6 +211,8 @@ class OrderDetails {
   set paymentMethod(String? paymentMethod) => _paymentMethod = paymentMethod;
   String? get isCancelOrder => _isCancelOrder;
   set isCancelOrder(String? isCancelOrder) => _isCancelOrder = isCancelOrder;
+  String? get isButtonShow => _isButtonShow;
+  set isButtonShow(String? isButtonShow) => _isButtonShow = isButtonShow;
   String? get cancelText => _cancelText;
   set cancelText(String? cancelText) => _cancelText = cancelText;
 
@@ -221,6 +228,7 @@ class OrderDetails {
     _estimateTime = json['estimate_time'];
     _paymentMethod = json['payment_method'];
     _isCancelOrder = json['is_cancel_order'];
+    _isButtonShow = json['is_button_show'];
     _cancelText = json['cancel_text'];
   }
 
@@ -237,6 +245,7 @@ class OrderDetails {
     data['estimate_time'] = this._estimateTime;
     data['payment_method'] = this._paymentMethod;
     data['is_cancel_order'] = this._isCancelOrder;
+    data['is_button_show'] = this._isButtonShow;
     data['cancel_text'] = this._cancelText;
     return data;
   }
@@ -313,11 +322,11 @@ class BillDetails {
 
   BillDetails(
       {String? itemTotal,
-        String? deliveryCharge,
-        String? tax,
-        String? offerDiscount,
-        String? savingAmount,
-        String? toPaid}) {
+      String? deliveryCharge,
+      String? tax,
+      String? offerDiscount,
+      String? savingAmount,
+      String? toPaid}) {
     if (itemTotal != null) {
       this._itemTotal = itemTotal;
     }
@@ -341,7 +350,8 @@ class BillDetails {
   String? get itemTotal => _itemTotal;
   set itemTotal(String? itemTotal) => _itemTotal = itemTotal;
   String? get deliveryCharge => _deliveryCharge;
-  set deliveryCharge(String? deliveryCharge) => _deliveryCharge = deliveryCharge;
+  set deliveryCharge(String? deliveryCharge) =>
+      _deliveryCharge = deliveryCharge;
   String? get tax => _tax;
   set tax(String? tax) => _tax = tax;
   String? get offerDiscount => _offerDiscount;

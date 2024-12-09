@@ -1,0 +1,129 @@
+class ProfileMaster {
+  bool? _status;
+  int? _statusCode;
+  String? _message;
+  ProfileData? _data;
+
+  ProfileMaster(
+      {bool? status, int? statusCode, String? message, ProfileData? data}) {
+    if (status != null) {
+      this._status = status;
+    }
+    if (statusCode != null) {
+      this._statusCode = statusCode;
+    }
+    if (message != null) {
+      this._message = message;
+    }
+    if (data != null) {
+      this._data = data;
+    }
+  }
+
+  bool? get status => _status;
+  set status(bool? status) => _status = status;
+  int? get statusCode => _statusCode;
+  set statusCode(int? statusCode) => _statusCode = statusCode;
+  String? get message => _message;
+  set message(String? message) => _message = message;
+  ProfileData? get data => _data;
+  set data(ProfileData? data) => _data = data;
+
+  ProfileMaster.fromJson(Map<String, dynamic> json) {
+    _status = json['status'];
+    _statusCode = json['status_code'];
+    _message = json['message'];
+    _data =
+        json['data'] != null ? new ProfileData.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this._status;
+    data['status_code'] = this._statusCode;
+    data['message'] = this._message;
+    if (this._data != null) {
+      data['data'] = this._data!.toJson();
+    }
+    return data;
+  }
+}
+
+class ProfileData {
+  int? _userId;
+  String? _name;
+  String? _email;
+  String? _mobile;
+  String? _birthday;
+  String? _isProfileComplete;
+  String? _profile;
+
+  ProfileData(
+      {int? userId,
+      String? name,
+      String? email,
+      String? mobile,
+      String? birthday,
+      String? isProfileComplete,
+      String? profile}) {
+    if (userId != null) {
+      this._userId = userId;
+    }
+    if (name != null) {
+      this._name = name;
+    }
+    if (email != null) {
+      this._email = email;
+    }
+    if (mobile != null) {
+      this._mobile = mobile;
+    }
+    if (birthday != null) {
+      this._birthday = birthday;
+    }
+    if (isProfileComplete != null) {
+      this._isProfileComplete = isProfileComplete;
+    }
+    if (profile != null) {
+      this._profile = profile;
+    }
+  }
+
+  int? get userId => _userId;
+  set userId(int? userId) => _userId = userId;
+  String? get name => _name;
+  set name(String? name) => _name = name;
+  String? get email => _email;
+  set email(String? email) => _email = email;
+  String? get mobile => _mobile;
+  set mobile(String? mobile) => _mobile = mobile;
+  String? get birthday => _birthday;
+  set birthday(String? birthday) => _birthday = birthday;
+  String? get isProfileComplete => _isProfileComplete;
+  set isProfileComplete(String? isProfileComplete) =>
+      _isProfileComplete = isProfileComplete;
+  String? get profile => _profile;
+  set profile(String? profile) => _profile = profile;
+
+  ProfileData.fromJson(Map<String, dynamic> json) {
+    _userId = json['user_id'];
+    _name = json['name'];
+    _email = json['email'];
+    _mobile = json['mobile'];
+    _birthday = json['birthday'];
+    _isProfileComplete = json['is_profile_complete'];
+    _profile = json['profile'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_id'] = this._userId;
+    data['name'] = this._name;
+    data['email'] = this._email;
+    data['mobile'] = this._mobile;
+    data['birthday'] = this._birthday;
+    data['is_profile_complete'] = this._isProfileComplete;
+    data['profile'] = this._profile;
+    return data;
+  }
+}

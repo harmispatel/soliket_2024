@@ -60,6 +60,6 @@ class MyOrderViewModel with ChangeNotifier {
     print("................All Clear.................. ${isPageFinish}");
     print("................All Clear.................. ${isInitialLoading}");
     print("................All Clear.................. ${orderList.length}");
-    notifyListeners(); // Notify listeners to update UI after resetting
+    notifyListeners();
   }
 }

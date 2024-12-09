@@ -159,7 +159,7 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "Search Delivery Location",
           isTitleBold: true,
           isShowShadow: true,
@@ -209,7 +209,7 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Icon(
                               Icons.arrow_forward_ios_rounded,
                               color: CommonColors.primaryColor,
@@ -361,8 +361,8 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          shape: const RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(12.0))),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -376,8 +376,8 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
                   child: Container(
                     decoration: BoxDecoration(
                         color: CommonColors.mGrey300, shape: BoxShape.circle),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(2.0),
                       child: Icon(
                         Icons.close,
                         size: 15,

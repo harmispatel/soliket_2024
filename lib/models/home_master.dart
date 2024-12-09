@@ -20,7 +20,7 @@ class HomeMaster {
   factory HomeMaster.fromJson(Map<String, dynamic> json) {
     var sectionList = json['data'] as List? ?? [];
     List<Section> dataList =
-    sectionList.map((i) => Section.fromJson(i)).toList();
+        sectionList.map((i) => Section.fromJson(i)).toList();
 
     return HomeMaster(
       status: json['status'],
@@ -318,13 +318,13 @@ class Section9Data {
     return Section9Data(
       products: json['product'] != null
           ? (json['product'] as List<dynamic>)
-          .map((item) => Section9Product.fromJson(item))
-          .toList()
+              .map((item) => Section9Product.fromJson(item))
+              .toList()
           : [],
       setting: json['setting'] != null
           ? Section9Setting.fromJson(json['setting'])
           : Section9Setting(
-          backgroundImage: '', buttonColor: '', categoryId: ''),
+              backgroundImage: '', buttonColor: '', categoryId: ''),
     );
   }
 }
@@ -362,8 +362,8 @@ class Section9Product {
       variantId: json['variant_id'],
       productName: json['product_name'] ?? '',
       variantName: json['variant_name'] ?? '',
-      productPrice: (json['product_price'] ?? 0).toDouble(),
-      discountPrice: (json['discount_price'] ?? 0).toDouble(),
+      productPrice: (json['product_price'] ?? 0),
+      discountPrice: (json['discount_price'] ?? 0),
       discountPer: json['discount_per'] ?? 0,
       image: json['image'] ?? '',
       isDeal: json['is_deal'] ?? '',

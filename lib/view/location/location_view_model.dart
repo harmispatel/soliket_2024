@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:solikat_2024/models/confirm_location_master.dart';
 
 import '../../database/app_preferences.dart';
-import '../../models/product_master.dart';
+import '../../models/profile_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_utils.dart';
@@ -19,8 +19,6 @@ class LocationViewModel with ChangeNotifier {
   final _services = Services();
 
   ProfileData? profileData;
-
-
 
   void attachedContext(BuildContext context) async {
     this.context = context;

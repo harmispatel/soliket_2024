@@ -69,11 +69,11 @@ class _AddAddressViewState extends State<AddAddressView> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "Add Address",
           isShowShadow: true,
           isTitleBold: true,
-          iconTheme: IconThemeData(color: CommonColors.blackColor),
+          iconTheme: const IconThemeData(color: CommonColors.blackColor),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -83,7 +83,7 @@ class _AddAddressViewState extends State<AddAddressView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 60,
                 width: double.infinity,
-                color: Color(0xffe1ecfe),
+                color: const Color(0xffe1ecfe),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,9 +95,9 @@ class _AddAddressViewState extends State<AddAddressView> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: Colors.white,
-                        border: Border.all(color: Color(0xff195dc0)),
+                        border: Border.all(color: const Color(0xff195dc0)),
                       ),
-                      child: Icon(Icons.location_on_rounded,
+                      child: const Icon(Icons.location_on_rounded,
                           color: Color(0xff195dc0)),
                     ),
                     Flexible(
@@ -134,14 +134,14 @@ class _AddAddressViewState extends State<AddAddressView> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
                           color: Colors.white,
-                          border:
-                              Border.all(color: Color(0xff195dc0), width: 1.3),
+                          border: Border.all(
+                              color: const Color(0xff195dc0), width: 1.3),
                         ),
                         child: Center(
                           child: Text(
                             "Change",
                             style: getAppStyle(
-                              color: Color(0xff195dc0),
+                              color: const Color(0xff195dc0),
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             ),
@@ -245,7 +245,7 @@ class _AddAddressViewState extends State<AddAddressView> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                        padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: Text(
                           "Save this address as",
                           style: getAppStyle(
@@ -277,7 +277,7 @@ class _AddAddressViewState extends State<AddAddressView> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: selectedIndex == index
-                                      ? Color(0xffe1ecfe)
+                                      ? const Color(0xffe1ecfe)
                                       : Colors.white,
                                 ),
                                 child: Row(

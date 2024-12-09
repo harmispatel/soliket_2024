@@ -86,17 +86,6 @@ class _ContactUsViewState extends State<ContactUsView> {
               ),
             if (!mViewModel.isInitialLoading) ...[
               Card(
-                // decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.all(Radius.circular(10)),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: Colors.grey.shade200,
-                //         spreadRadius: 1,
-                //         blurRadius: 1,
-                //         offset: const Offset(0, 1),
-                //       ),
-                //     ]),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -117,19 +106,6 @@ class _ContactUsViewState extends State<ContactUsView> {
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               children: [
-                                // Container(
-                                //   decoration: BoxDecoration(
-                                //       shape: BoxShape.circle,
-                                //       color: CommonColors.mGrey200),
-                                //   child: const Padding(
-                                //     padding: EdgeInsets.all(8.0),
-                                //     child: Icon(
-                                //       Icons.email,
-                                //       color: CommonColors.black54,
-                                //       size: 22,
-                                //     ),
-                                //   ),
-                                // ),
                                 Image.network(
                                     height: 35,
                                     width: 35,

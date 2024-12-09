@@ -30,31 +30,31 @@ class _PoliciesViewState extends State<PoliciesView> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "Policies",
           isShowShadow: true,
           isTitleBold: true,
           iconTheme: IconThemeData(color: CommonColors.blackColor),
         ),
         body: ListView.builder(
-          padding: kCommonScreenPadding + EdgeInsets.only(top: 10),
+          padding: kCommonScreenPadding + const EdgeInsets.only(top: 10),
           itemCount: policiesOptions.length,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 print(index);
                 if (index == 0) {
-                  push(PrivacyPolicyView());
+                  push(const PrivacyPolicyView());
                 } else if (index == 1) {
-                  push(TermsAndConditionsView());
+                  push(const TermsAndConditionsView());
                 } else if (index == 2) {
-                  push(ShippingPolicyView());
+                  push(const ShippingPolicyView());
                 } else if (index == 3) {
-                  push(ReturnPolicyView());
+                  push(const ReturnPolicyView());
                 } else if (index == 4) {
-                  push(CancellationPolicyView());
+                  push(const CancellationPolicyView());
                 }
               },
               child: Column(

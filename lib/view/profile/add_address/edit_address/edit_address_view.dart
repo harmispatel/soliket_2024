@@ -87,7 +87,7 @@ class _EditAddressViewState extends State<EditAddressView> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "Edit Address",
           isShowShadow: true,
           isTitleBold: true,
@@ -101,7 +101,7 @@ class _EditAddressViewState extends State<EditAddressView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 55,
                 width: double.infinity,
-                color: Color(0xffe1ecfe),
+                color: const Color(0xffe1ecfe),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,9 +113,9 @@ class _EditAddressViewState extends State<EditAddressView> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         color: Colors.white,
-                        border: Border.all(color: Color(0xff195dc0)),
+                        border: Border.all(color: const Color(0xff195dc0)),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.location_on_rounded,
                         color: Color(0xff195dc0),
                       ),
@@ -159,14 +159,14 @@ class _EditAddressViewState extends State<EditAddressView> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
                           color: Colors.white,
-                          border:
-                              Border.all(color: Color(0xff195dc0), width: 1.3),
+                          border: Border.all(
+                              color: const Color(0xff195dc0), width: 1.3),
                         ),
                         child: Center(
                           child: Text(
                             "Change",
                             style: getAppStyle(
-                              color: Color(0xff195dc0),
+                              color: const Color(0xff195dc0),
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             ),
@@ -270,7 +270,7 @@ class _EditAddressViewState extends State<EditAddressView> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                        padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: Text(
                           "Save this address as",
                           style: getAppStyle(
@@ -302,7 +302,7 @@ class _EditAddressViewState extends State<EditAddressView> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: selectedIndex == index
-                                      ? Color(0xffe1ecfe)
+                                      ? const Color(0xffe1ecfe)
                                       : Colors.white,
                                 ),
                                 child: Row(

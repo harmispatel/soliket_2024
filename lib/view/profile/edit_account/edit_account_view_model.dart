@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../database/app_preferences.dart';
 import '../../../../models/otp_master.dart';
@@ -11,7 +10,6 @@ import '../../../../services/index.dart';
 import '../../../../utils/common_utils.dart';
 import '../../../../utils/global_variables.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view.dart';
-import '../../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 
 class EditAccountViewModel with ChangeNotifier {
   late BuildContext context;
@@ -43,10 +41,8 @@ class EditAccountViewModel with ChangeNotifier {
       CommonUtils.showCustomToast(context, master.message);
     } else if (master.status!) {
       log("Success :: true");
-      //CommonUtils.showCustomToast(context, master.message);
       AppPreferences.instance.setUserDetails(jsonEncode(master.data));
       globalUserMaster = AppPreferences.instance.getUserDetails();
-      //Navigator.pop(context,true);
       pushAndRemoveUntil(BottomNavBarView());
     }
     notifyListeners();

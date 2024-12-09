@@ -28,7 +28,6 @@ import '../home/sub_offer/sub_offer_view_model.dart';
 import '../home/view_all_products/view_all_products_view_model.dart';
 import '../location/location_view_model.dart';
 import '../login/login_view_model.dart';
-import '../maintenance/maintenance_view.dart';
 import '../my_orders/my_order_view_model.dart';
 import '../my_orders/order_details/order_details_view_model.dart';
 import '../my_orders/tracking_orders/tracking_orders_view_model.dart';
@@ -39,7 +38,6 @@ import '../profile/add_address/edit_address/edit_address_view_model.dart';
 import '../profile/contact_us/contact_us_view_model.dart';
 import '../profile/edit_account/edit_account_view_model.dart';
 import '../profile/faq/faq_view_model.dart';
-import '../profile/help_&_support/help_&_support_view_model.dart';
 import '../profile/notification/notification_view_model.dart';
 import '../profile/policies/cancellation_policy/cancellation_policy_view_model.dart';
 import '../profile/policies/privacy_policy/privacy_policy_view_model.dart';
@@ -118,118 +116,6 @@ class AppState extends State<App> {
   }
 
   @override
-  // Widget build(BuildContext context) {
-  //   return ChangeNotifierProvider<AppModel>.value(
-  //     value: _app,
-  //     child: Consumer<AppModel>(
-  //       builder: (context, value, child) {
-  //         value.isLoading = false;
-  //         if (value.isLoading) {
-  //           return Container();
-  //         }
-  //         return MultiProvider(
-  //           providers: [
-  //             ChangeNotifierProvider<SplashViewModel>(
-  //                 create: (_) => SplashViewModel()),
-  //           ],
-  //           child: MaterialApp(
-  //             debugShowCheckedModeBanner: false,
-  //             color: CommonColors.primaryColor,
-  //             navigatorKey: mainNavKey,
-  //             locale: Locale(Provider.of<AppModel>(context).locale, ""),
-  //             theme: ThemeData(
-  //               useMaterial3: true,
-  //               scaffoldBackgroundColor: CommonColors.mWhite,
-  //               primaryColor: CommonColors.primaryColor,
-  //               fontFamily: AppConstants.OUTFIT_FONT,
-  //               colorScheme: ColorScheme.light(
-  //                 primary: CommonColors.primaryColor,
-  //               ),
-  //               appBarTheme: AppBarTheme(
-  //                 backgroundColor: CommonColors.mWhite,
-  //                 foregroundColor: CommonColors.mWhite,
-  //                 surfaceTintColor: Colors.transparent,
-  //                 iconTheme: const IconThemeData(
-  //                   color: CommonColors.primaryColor,
-  //                 ),
-  //                 scrolledUnderElevation: 0,
-  //                 titleTextStyle: getAppStyle(
-  //                   fontSize: 20,
-  //                   fontWeight: FontWeight.w600,
-  //                   color: CommonColors.primaryColor,
-  //                 ),
-  //               ),
-  //               menuTheme: MenuThemeData(
-  //                 style: MenuStyle(
-  //                   surfaceTintColor:
-  //                       const MaterialStatePropertyAll(CommonColors.mWhite),
-  //                   shape: MaterialStatePropertyAll(
-  //                     RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.circular(8),
-  //                     ),
-  //                   ),
-  //                   elevation: const MaterialStatePropertyAll(20),
-  //                 ),
-  //               ),
-  //               progressIndicatorTheme: const ProgressIndicatorThemeData(
-  //                 color: CommonColors.primaryColor,
-  //                 linearMinHeight: 2,
-  //               ),
-  //               bottomSheetTheme: const BottomSheetThemeData(
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.only(
-  //                     topLeft: Radius.circular(15),
-  //                     topRight: Radius.circular(15),
-  //                   ),
-  //                 ),
-  //               ),
-  //               dialogBackgroundColor: CommonColors.mWhite,
-  //               drawerTheme: const DrawerThemeData(
-  //                 surfaceTintColor: CommonColors.mWhite,
-  //                 backgroundColor: CommonColors.mWhite,
-  //               ),
-  //               elevatedButtonTheme: ElevatedButtonThemeData(
-  //                 style: ElevatedButton.styleFrom(
-  //                   backgroundColor: CommonColors.primaryColor,
-  //                   foregroundColor: CommonColors.mWhite,
-  //                 ),
-  //               ),
-  //               listTileTheme: ListTileThemeData(
-  //                 shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(15),
-  //                 ),
-  //               ),
-  //               inputDecorationTheme: InputDecorationTheme(
-  //                 contentPadding: const EdgeInsets.all(0),
-  //                 border: InputBorder.none,
-  //                 enabledBorder: InputBorder.none,
-  //                 focusedBorder: InputBorder.none,
-  //                 hintStyle: getAppStyle(
-  //                   color: CommonColors.mGrey,
-  //                 ),
-  //               ),
-  //             ),
-  //             localizationsDelegates: const [
-  //               S.delegate,
-  //               GlobalMaterialLocalizations.delegate,
-  //               GlobalWidgetsLocalizations.delegate,
-  //               GlobalCupertinoLocalizations.delegate,
-  //             ],
-  //             supportedLocales: S.delegate.supportedLocales,
-  //             localeListResolutionCallback: S.delegate.listResolution(
-  //                 fallback: const Locale(AppConstants.LANGUAGE_ENGLISH, '')),
-  //             home: SplashView(),
-  //           ),
-  //         );
-  //       },
-  //       child: Builder(builder: (context) {
-  //         Provider.of<AppModel>(context, listen: false).attachContext(context);
-  //         return Container();
-  //       }),
-  //     ),
-  //   );
-  // }
-
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppModel>.value(
       value: _app,
@@ -275,8 +161,6 @@ class AppState extends State<App> {
                   create: (_) => SubOfferViewModel()),
               ChangeNotifierProvider<ViewAllProductsViewModel>(
                   create: (_) => ViewAllProductsViewModel()),
-              ChangeNotifierProvider<HelpSupportViewModel>(
-                  create: (_) => HelpSupportViewModel()),
               ChangeNotifierProvider<AboutUsViewModel>(
                   create: (_) => AboutUsViewModel()),
               ChangeNotifierProvider<FaqViewModel>(
@@ -333,7 +217,7 @@ class AppState extends State<App> {
                         backgroundColor: CommonColors.mWhite,
                         foregroundColor: CommonColors.mWhite,
                         surfaceTintColor: Colors.transparent,
-                        iconTheme:  IconThemeData(
+                        iconTheme: IconThemeData(
                           color: CommonColors.primaryColor,
                         ),
                         scrolledUnderElevation: 0,
@@ -355,7 +239,7 @@ class AppState extends State<App> {
                           elevation: const MaterialStatePropertyAll(20),
                         ),
                       ),
-                      progressIndicatorTheme:  ProgressIndicatorThemeData(
+                      progressIndicatorTheme: ProgressIndicatorThemeData(
                         color: CommonColors.primaryColor,
                         linearMinHeight: 2,
                       ),

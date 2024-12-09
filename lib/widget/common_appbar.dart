@@ -48,7 +48,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: Colors.black.withOpacity(0.2), // Shadow color
                   spreadRadius: 0, // Spread radius
                   blurRadius: 2, // Blur radius
-                  offset: Offset(0, 1), // Changes position of shadow
+                  offset: const Offset(0, 1), // Changes position of shadow
                 ),
               ]
             : [],

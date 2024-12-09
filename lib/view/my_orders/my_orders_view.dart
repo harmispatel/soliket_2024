@@ -63,7 +63,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
         child: CommonAppBar(
           title: "My Orders",
           isTitleBold: true,
-          iconTheme: IconThemeData(color: CommonColors.blackColor),
+          iconTheme: const IconThemeData(color: CommonColors.blackColor),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(40.0),
             child: Row(
@@ -79,21 +79,13 @@ class _MyOrdersViewState extends State<MyOrdersView>
                     },
                     child: Container(
                       height: 40,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.2),
-                        //     spreadRadius: 0,
-                        //     blurRadius: 2,
-                        //     offset: Offset(0, 1),
-                        //   ),
-                        // ],
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(),
+                          const SizedBox(),
                           Text(
                             "Pending",
                             style: getAppStyle(
@@ -128,21 +120,13 @@ class _MyOrdersViewState extends State<MyOrdersView>
                     },
                     child: Container(
                       height: 40,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.2),
-                        //     spreadRadius: 0,
-                        //     blurRadius: 2,
-                        //     offset: Offset(0, 1),
-                        //   ),
-                        // ],
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(),
+                          const SizedBox(),
                           Text(
                             "Completed",
                             style: getAppStyle(
@@ -242,8 +226,8 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                   onTap: () {},
                                   child: Row(
                                     children: [
-                                      Image.network(
-                                        "https://cdn-icons-png.freepik.com/256/4715/4715245.png?ga=GA1.1.769342102.1727942475&semt=ais_hybrid",
+                                      Image.asset(
+                                        LocalImages.img_order_basket,
                                         height: 40,
                                       ),
                                       const SizedBox(width: 20),

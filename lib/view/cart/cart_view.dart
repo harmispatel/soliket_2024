@@ -7,7 +7,7 @@ import 'package:solikat_2024/view/cart/cart_view_model.dart';
 import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 import 'package:solikat_2024/view/home/home_view_model.dart';
 
-import '../../models/search_master.dart';
+import '../../models/product_master.dart';
 import '../../utils/common_colors.dart';
 import '../../utils/common_utils.dart';
 import '../../utils/global_variables.dart';
@@ -68,9 +68,9 @@ class _MyCartViewState extends State<MyCartView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.network(
+                      Image.asset(
                         height: 240,
-                        "https://cdn3d.iconscout.com/3d/premium/thumb/package-cart-9581643-7838126.png?f=webp",
+                        LocalImages.img_cart_empty,
                       ),
                       kCommonSpaceV10,
                       Text(
@@ -528,8 +528,8 @@ class _MyCartViewState extends State<MyCartView> {
                               },
                               child: Row(
                                 children: [
-                                  Image.network(
-                                    "https://st2.depositphotos.com/5266903/9158/i/450/depositphotos_91586432-stock-photo-discount-coupons-icon.jpg",
+                                  Image.asset(
+                                    LocalImages.img_coupon_offer,
                                     height: 40,
                                   ),
                                   const SizedBox(width: 20),

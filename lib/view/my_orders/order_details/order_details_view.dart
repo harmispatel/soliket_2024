@@ -21,7 +21,6 @@ class OrderDetailsView extends StatefulWidget {
 
 class _OrderDetailsViewState extends State<OrderDetailsView> {
   late OrderDetailsViewModel mViewModel;
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -46,69 +45,74 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         title: "Order Details",
         isShowShadow: true,
         isTitleBold: true,
-        iconTheme: IconThemeData(color: CommonColors.blackColor),
+        iconTheme: const IconThemeData(color: CommonColors.blackColor),
         actions: [
           mViewModel.isInitialLoading
               ? const SizedBox()
-              : GestureDetector(
-                  onTap: () {
-                    if (mViewModel.orderDetailsList[0].isCancelOrder == "y") {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.info,
-                        width: kDeviceWidth,
-                        buttonsBorderRadius: const BorderRadius.all(
-                          Radius.circular(2),
+              : mViewModel.orderDetailsList[0].isButtonShow == "y"
+                  ? GestureDetector(
+                      onTap: () {
+                        if (mViewModel.orderDetailsList[0].isCancelOrder ==
+                            "y") {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            width: kDeviceWidth,
+                            buttonsBorderRadius: const BorderRadius.all(
+                              Radius.circular(2),
+                            ),
+                            dismissOnTouchOutside: false,
+                            dismissOnBackKeyPress: false,
+                            headerAnimationLoop: false,
+                            animType: AnimType.topSlide,
+                            title: 'Cancel Order',
+                            desc: 'Are you sure you want to Cancel this order?',
+                            buttonsTextStyle: getAppStyle(),
+                            descTextStyle: getAppStyle(fontSize: 15),
+                            titleTextStyle: getAppStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                            showCloseIcon: false,
+                            btnOk: PrimaryButton(
+                              label: "Yes",
+                              buttonColor: CommonColors.primaryColor,
+                              labelColor: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              onPress: () {
+                                Navigator.pop(context);
+                                mViewModel.cancelOrderApi(
+                                    orderId: widget.orderId);
+                              },
+                            ),
+                            btnCancel: PrimaryButton(
+                              label: "No",
+                              buttonColor: CommonColors.mRed,
+                              labelColor: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              onPress: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ).show();
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: CommonColors.primaryColor.withOpacity(0.1),
+                            border:
+                                Border.all(color: CommonColors.primaryColor)),
+                        child: Text(
+                          mViewModel.orderDetailsList[0].cancelText ?? '',
+                          style: getAppStyle(
+                              color: CommonColors.blackColor,
+                              fontWeight: FontWeight.w600),
                         ),
-                        dismissOnTouchOutside: false,
-                        dismissOnBackKeyPress: false,
-                        headerAnimationLoop: false,
-                        animType: AnimType.topSlide,
-                        title: 'Cancel Order',
-                        desc: 'Are you sure you want to Cancel this order?',
-                        buttonsTextStyle: getAppStyle(),
-                        descTextStyle: getAppStyle(fontSize: 15),
-                        titleTextStyle: getAppStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                        showCloseIcon: false,
-                        btnOk: PrimaryButton(
-                          label: "Yes",
-                          buttonColor: CommonColors.primaryColor,
-                          labelColor: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          onPress: () {
-                            Navigator.pop(context);
-                            mViewModel.cancelOrderApi(orderId: widget.orderId);
-                          },
-                        ),
-                        btnCancel: PrimaryButton(
-                          label: "No",
-                          buttonColor: CommonColors.mRed,
-                          labelColor: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          onPress: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ).show();
-                    }
-                  },
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: CommonColors.primaryColor.withOpacity(0.1),
-                        border: Border.all(color: CommonColors.primaryColor)),
-                    child: Text(
-                      mViewModel.orderDetailsList[0].cancelText ?? '',
-                      style: getAppStyle(
-                          color: CommonColors.blackColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
+                      ),
+                    )
+                  : const SizedBox()
         ],
       ),
       body: SingleChildScrollView(
@@ -121,7 +125,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     itemCount: 15,
                     padding: kCommonScreenPadding,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -147,10 +151,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       child: Row(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Colors.white30, shape: BoxShape.circle),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.access_time,
                                 color: CommonColors.mWhite,
@@ -329,99 +333,12 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Text(
-                      "${mViewModel.orderItemList.length ?? ''} items in this order",
+                      "${mViewModel.orderItemList.length} items in this order",
                       style: getAppStyle(
                           fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ),
                   kCommonSpaceV10,
-                  // ListView.builder(
-                  //   padding:
-                  //       const EdgeInsets.only(top: 12,right: 15),
-                  //   shrinkWrap: true,
-                  //   scrollDirection: Axis.vertical,
-                  //   itemCount: mViewModel.orderItemList.length,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   itemBuilder: (BuildContext context, int index) {
-                  //     return Column(
-                  //       children: [
-                  //         Padding(
-                  //           padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 6),
-                  //           child: Row(
-                  //             children: [
-                  //               Container(
-                  //                 width: 70,
-                  //                 height: 50,
-                  //                 decoration: BoxDecoration(
-                  //                   image: DecorationImage(
-                  //                       image: NetworkImage(mViewModel
-                  //                               .orderItemList[index].image ??
-                  //                           ''),
-                  //                       fit: BoxFit.cover),
-                  //                 ),
-                  //               ),
-                  //               kCommonSpaceH10,
-                  //               Expanded(
-                  //                 child: Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Text(
-                  //                       mViewModel.orderItemList[index]
-                  //                               .productName ??
-                  //                           '',
-                  //                       overflow: TextOverflow.ellipsis,
-                  //                       maxLines: 1,
-                  //                       style: getAppStyle(
-                  //                           fontWeight: FontWeight.w500,
-                  //                           fontSize: 16,
-                  //                           color: CommonColors.blackColor),
-                  //                     ),
-                  //                     Text(
-                  //                       "x${mViewModel.orderItemList[index].qty ?? ''}",
-                  //                       style: getAppStyle(
-                  //                           fontSize: 14,
-                  //                           color: CommonColors.black54),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //               // const Spacer(),
-                  //               kCommonSpaceH10,
-                  //               Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.end,
-                  //                 children: [
-                  //                   Text(
-                  //                     "₹${mViewModel.orderItemList[index].discountedPrice ?? ''}",
-                  //                     style: getAppStyle(
-                  //                         fontWeight: FontWeight.w600,
-                  //                         fontSize: 16,
-                  //                         color: CommonColors.blackColor),
-                  //                   ),
-                  //                   Text(
-                  //                     "₹${mViewModel.orderItemList[index].price ?? ''}",
-                  //                     style: getAppStyle(
-                  //                         decoration:
-                  //                             TextDecoration.lineThrough,
-                  //                         fontSize: 14,
-                  //                         color: CommonColors.black54),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         Padding(
-                  //           padding: const EdgeInsets.only(left: 5, right: 5),
-                  //           child: Divider(
-                  //             color: CommonColors.mGrey500,
-                  //             thickness: 1,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     );
-                  //   },
-                  // ),
                   ListView.builder(
                     padding: const EdgeInsets.only(top: 0, right: 15),
                     shrinkWrap: true,
@@ -610,15 +527,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           ),
                         ),
                         const Spacer(),
-                        // Text(
-                        //   "₹${"9"}",
-                        //   style: getAppStyle(
-                        //     color: Colors.grey,
-                        //     decoration: TextDecoration.lineThrough,
-                        //     fontWeight: FontWeight.w600,
-                        //     fontSize: 13,
-                        //   ),
-                        // ),
                         kCommonSpaceH10,
                         Text(
                           "+ ₹${mViewModel.billDetailsList[0].tax}",
@@ -633,7 +541,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(bottom: 8, left: 15, right: 15),
                     child: Row(
                       children: [
                         Text(
@@ -644,17 +553,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             fontSize: 14,
                           ),
                         ),
-                        Spacer(),
-                        // Text(
-                        //   "₹${"9"}",
-                        //   style: getAppStyle(
-                        //     color: Colors.grey,
-                        //     decoration: TextDecoration.lineThrough,
-                        //     fontWeight: FontWeight.w600,
-                        //     fontSize: 13,
-                        //   ),
-                        // ),
-                        // SizedBox(width: 10),
+                        const Spacer(),
                         Text(
                           "- ₹${mViewModel.billDetailsList[0].offerDiscount}",
                           style: getAppStyle(
@@ -699,7 +598,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         // color: Colors.green.withOpacity(0.3),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: AssetImage(LocalImages.img_total_saving_bg),
                             fit: BoxFit.fill),
                       ),
@@ -737,7 +636,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                   color: Colors.green,
                                 ),
                               ),
-                              WidgetSpan(
+                              const WidgetSpan(
                                 child: Icon(
                                   Icons.star_rate_outlined,
                                   size: 17,

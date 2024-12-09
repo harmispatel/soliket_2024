@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/view/my_orders/tracking_orders/tracking_orders_view_model.dart';
+
 import '../../../../../utils/common_colors.dart';
 import '../../../../../utils/constant.dart';
 import '../../../../../widget/common_appbar.dart';
-import 'package:image/image.dart' as img;
 import '../../../utils/global_variables.dart';
 import '../../../utils/local_images.dart';
 
@@ -56,12 +57,6 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
       toLatitude = double.parse(mViewModel.trackOrderData[0].toLatitude ?? '');
       toLongitude =
           double.parse(mViewModel.trackOrderData[0].toLongitude ?? '');
-
-      // =======> Test Lat & Long <======= //
-      // fromLatitude = 23.0330;
-      // fromLongitude = 72.5670;
-      // toLatitude = 23.0310;
-      // toLongitude = 72.5263;
     }).whenComplete(
       () async {
         BitmapDescriptor originIcon = await _getCustomMarker(
@@ -76,11 +71,6 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
         _addMarker(LatLng(fromLatitude, fromLongitude), "origin", originIcon);
         _addMarker(
             LatLng(toLatitude, toLongitude), "destination", destinationIcon);
-
-        // _addMarker(LatLng(fromLatitude, fromLongitude), "origin",
-        //     BitmapDescriptor.defaultMarker);
-        // _addMarker(LatLng(toLatitude, toLongitude), "destination",
-        //     BitmapDescriptor.defaultMarkerWithHue(90));
 
         _getPolyline();
         print("From latitude.................. $fromLatitude");
@@ -233,7 +223,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                 color: CommonColors.primaryColor
                                     .withOpacity(0.3 / 2),
                                 shape: BoxShape.circle),
-                            child:  Padding(
+                            child: Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.person,
@@ -284,7 +274,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                                 color: CommonColors.primaryColor
                                     .withOpacity(0.3 / 2),
                                 shape: BoxShape.circle),
-                            child:  Padding(
+                            child: Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.call,

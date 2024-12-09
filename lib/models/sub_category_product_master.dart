@@ -1,4 +1,4 @@
-import 'package:solikat_2024/models/search_master.dart';
+import 'package:solikat_2024/models/product_master.dart';
 
 class SubCategoryProductMaster {
   bool? _status;

@@ -52,7 +52,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
         Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                BottomNavBarView(),
+                const BottomNavBarView(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const begin = Offset(-1.0, 0.0);
@@ -74,14 +74,14 @@ class _SaveAddressViewState extends State<SaveAddressView> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: Color(0xFFFFF4E8),
+        backgroundColor: const Color(0xFFFFF4E8),
         appBar: CommonAppBar(
           title: "My Address",
           isShowShadow: true,
           isTitleBold: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: CommonColors.blackColor),
+            icon: const Icon(Icons.arrow_back, color: CommonColors.blackColor),
             onPressed: () {
               mainNavKey.currentContext!
                   .read<BottomNavbarViewModel>()
@@ -89,7 +89,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      BottomNavBarView(),
+                      const BottomNavBarView(),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     const begin = Offset(-1.0, 0.0); // Start from the left
@@ -121,7 +121,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                   child: ListView.builder(
                     itemCount: 10,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
@@ -226,8 +226,8 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 02),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 02),
                                         child: Text(
                                           mViewModel
                                                   .addressList[index].address ??
@@ -338,7 +338,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                     },
                   ),
         bottomNavigationBar: mViewModel.addressList.isEmpty
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : GestureDetector(
                 onTap: () {
                   final latLng = LatLng(
@@ -400,126 +400,3 @@ class _SaveAddressViewState extends State<SaveAddressView> {
     );
   }
 }
-
-// * My Cart List View * //
-//
-// class AddressListView extends StatefulWidget {
-//   const AddressListView({super.key});
-//
-//   @override
-//   State<AddressListView> createState() => _AddressListViewState();
-// }
-//
-// class _AddressListViewState extends State<AddressListView> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       padding: const EdgeInsets.only(top: 15),
-//       physics: const ClampingScrollPhysics(),
-//       shrinkWrap: true,
-//       scrollDirection: Axis.vertical,
-//       itemCount: 2,
-//       itemBuilder: (BuildContext context, int index) {
-//         return Container(
-//           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-//           margin: const EdgeInsets.only(bottom: 6),
-//           decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(12), color: Colors.white),
-//           child: Column(
-//             children: [
-//               Row(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Expanded(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           "Work",
-//                           maxLines: 2,
-//                           overflow: TextOverflow.ellipsis,
-//                           style: getAppStyle(
-//                             color: Colors.black,
-//                             fontWeight: FontWeight.bold,
-//                             fontSize: 15,
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: EdgeInsets.symmetric(vertical: 02),
-//                           child: Text(
-//                             "abc",
-//                             style: getAppStyle(
-//                               color: Colors.black,
-//                               fontWeight: FontWeight.w500,
-//                               fontSize: 12,
-//                             ),
-//                           ),
-//                         ),
-//                         Text(
-//                           "+91-1234567890",
-//                           style: getAppStyle(
-//                             color: Colors.black,
-//                             fontWeight: FontWeight.w500,
-//                             fontSize: 12,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   const SizedBox(width: 8),
-//                   Column(
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       GestureDetector(
-//                         onTap: () {
-//                           print("OnTap Edit Button");
-//                         },
-//                         child: Container(
-//                           padding: const EdgeInsets.symmetric(
-//                               horizontal: 4, vertical: 4),
-//                           margin: const EdgeInsets.only(bottom: 10),
-//                           height: 30,
-//                           width: 70,
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(6),
-//                             border: Border.all(
-//                                 color:
-//                                     CommonColors.primaryColor.withOpacity(0.2)),
-//                           ),
-//                           child: Center(
-//                             child: Text(
-//                               "Edit",
-//                               style: getAppStyle(
-//                                 color: CommonColors.primaryColor,
-//                                 fontWeight: FontWeight.w700,
-//                                 fontSize: 12,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       InkWell(
-//                         onTap: () {
-//                           print("OnTap Remove Text Button");
-//                         },
-//                         child: Text(
-//                           "Remove",
-//                           style: getAppStyle(
-//                             color: Colors.red,
-//                             fontWeight: FontWeight.bold,
-//                             fontSize: 12,
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }

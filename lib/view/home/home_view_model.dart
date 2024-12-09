@@ -170,11 +170,11 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:solikat_2024/models/add_to_cart_api.dart';
 import 'package:solikat_2024/models/get_info_master.dart';
 import 'package:solikat_2024/models/home_master.dart';
-import 'package:solikat_2024/models/search_master.dart';
 
 import '../../database/app_preferences.dart';
 import '../../models/cart_master.dart';
 import '../../models/product_details_master.dart';
+import '../../models/product_master.dart';
 import '../../services/api_para.dart';
 import '../../services/index.dart';
 import '../../utils/common_colors.dart';

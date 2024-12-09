@@ -47,8 +47,8 @@ class CommonTextField extends StatelessWidget {
     this.onEditComplete,
     this.height,
     this.focusNode,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class CommonTextField extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: CommonColors.mGrey300, width: 1.5),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         // boxShadow: [
         //   BoxShadow(
         //     color: CommonColors.black45,
@@ -80,7 +80,8 @@ class CommonTextField extends StatelessWidget {
           cursorColor: CommonColors.primaryColor,
           enabled: enabled ?? true,
           obscureText: obscureText,
-          readOnly: readOnly ?? false,
+          readOnly: readOnly,
+          style: getAppStyle(),
           validator: isRequired
               ? (value) {
                   if (value == null || value.isEmpty) {
@@ -161,8 +162,8 @@ class PrefixTextField extends StatelessWidget {
     this.height,
     this.onTap,
     this.margin,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -248,8 +249,8 @@ class OTPTextField extends StatelessWidget {
     this.height,
     this.onTap,
     this.margin,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -337,8 +338,8 @@ class SuffixTextField extends StatelessWidget {
     this.onTap,
     this.margin,
     this.borderRadius,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -400,117 +401,6 @@ class SuffixTextField extends StatelessWidget {
   }
 }
 
-// class LabeledTextField extends StatelessWidget {
-//   final TextEditingController? controller;
-//   final String? hintText;
-//   final TextInputType? inputType;
-//   final int? maxLines;
-//   final int? maxLength;
-//   final bool isRequired;
-//   final bool? enabled;
-//   final bool isShadow;
-//   final bool? readOnly;
-//   final TextInputAction? textInputAction;
-//   final void Function(String)? onEditComplete;
-//   final double? height;
-//   final bool? isObscure;
-//   final Widget? suffixIcon;
-//
-//   const LabeledTextField({
-//     this.controller,
-//     this.hintText,
-//     this.inputType,
-//     this.maxLines,
-//     this.maxLength,
-//     this.isRequired = false,
-//     this.enabled,
-//     this.isShadow = true,
-//     this.textInputAction,
-//     this.onEditComplete,
-//     this.height,
-//     this.isObscure,
-//     this.readOnly,
-//     this.suffixIcon,
-//     Key? key,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       alignment: Alignment.center,
-//       height: height ?? 60,
-//       clipBehavior: Clip.antiAlias,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         border: Border.all(color: CommonColors.primaryColor),
-//         borderRadius: BorderRadius.all(Radius.circular(10)),
-//         boxShadow: isShadow
-//             ? [
-//                 BoxShadow(
-//                   color: CommonColors.mGrey200,
-//                   blurRadius: 5,
-//                   offset: Offset(0, 4),
-//                   spreadRadius: 0,
-//                 ),
-//               ]
-//             : [],
-//       ),
-//       margin: const EdgeInsets.symmetric(vertical: 5),
-//       padding: const EdgeInsets.only(top: 5, left: 5.0),
-//       child: TextFormField(
-//         obscureText: isObscure ?? false,
-//         onChanged: onEditComplete,
-//         textInputAction: textInputAction,
-//         keyboardType: inputType,
-//         controller: controller,
-//         readOnly: readOnly ?? false,
-//         cursorColor: CommonColors.primaryColor,
-//         enabled: enabled ?? true,
-//         validator: isRequired
-//             ? (value) {
-//                 if (value == null || value.isEmpty) {
-//                   return 'Please fill this field';
-//                 }
-//                 return null;
-//               }
-//             : null,
-//         decoration: InputDecoration(
-//           suffixIcon: suffixIcon,
-//           counterText: "",
-//           contentPadding:
-//               const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-//           // enabledBorder: OutlineInputBorder(
-//           //   borderRadius: BorderRadius.circular(5),
-//           //   borderSide: const BorderSide(color: Colors.transparent),
-//           // ),
-//           // focusedBorder: OutlineInputBorder(
-//           //   borderRadius: BorderRadius.circular(5),
-//           //   borderSide: const BorderSide(color: Colors.transparent),
-//           // ),
-//           label: Text(hintText!),
-//           labelStyle: getAppStyle(
-//               color: CommonColors.blackColor,
-//               fontSize: 13,
-//               fontWeight: FontWeight.w500),
-//           hintText: hintText,
-//           hintStyle: getAppStyle(
-//               color: CommonColors.mGrey,
-//               fontSize: 13,
-//               fontWeight: FontWeight.normal),
-//           border: InputBorder.none,
-//         ),
-//         style: getAppStyle(
-//             color: CommonColors.mGrey,
-//             fontSize: 13,
-//             fontWeight: FontWeight.w500),
-//         maxLines: maxLines ?? 1,
-//         maxLength: maxLength ?? 200,
-//         autocorrect: false,
-//       ),
-//     );
-//   }
-// }
-
 class LabeledTextField extends StatelessWidget {
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatters;
@@ -548,8 +438,8 @@ class LabeledTextField extends StatelessWidget {
     this.autofocus = false,
     this.suffixIcon,
     this.prefixIcon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -557,19 +447,9 @@ class LabeledTextField extends StatelessWidget {
       alignment: Alignment.center,
       height: height ?? 65,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CommonColors.mTransparent,
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        // boxShadow: isShadow
-        //     ? [
-        //         BoxShadow(
-        //           color: Colors.grey.shade200,
-        //           blurRadius: 5,
-        //           offset: Offset(0, 4),
-        //           spreadRadius: 0,
-        //         ),
-        //       ]
-        //     : [],
       ),
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
@@ -719,7 +599,7 @@ class LabelTextField extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: bgColor ?? CommonColors.mWhite,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
           ),
           child: TextFormField(

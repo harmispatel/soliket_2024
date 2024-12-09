@@ -28,6 +28,11 @@ class LocalImages {
   static const String img_motorbike = 'assets/images/img_motorbike.png';
   static const String img_order_success = 'assets/images/img_order_success.png';
   static const String img_delivered = 'assets/images/img_delivered.png';
+  static const String img_cart_empty = 'assets/images/img_cart_empty.png';
+  static const String img_coupon_offer = 'assets/images/img_coupon_offer.png';
+  static const String img_order_basket = 'assets/images/img_order_basket.png';
+  static const String img_no_tran_his = 'assets/images/img_no_tran_his.png';
+  static const String img_up_side_arrow = 'assets/images/img_up_side_arrow.png';
   static const String img_order_not_found =
       'assets/images/img_order_not_found.png';
   static const String img_total_saving_bg =

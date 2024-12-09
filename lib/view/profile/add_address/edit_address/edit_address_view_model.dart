@@ -60,7 +60,7 @@ class EditAddressViewModel with ChangeNotifier {
 
     if (master.status == true) {
       log("Success :: true");
-      push(SaveAddressView());
+      push(const SaveAddressView());
       SavedAddressViewModel().getAddressApi();
     }
     notifyListeners();

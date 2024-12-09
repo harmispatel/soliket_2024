@@ -1,19 +1,19 @@
-class AppCredensialsMaster {
+class AppCredentialsMaster {
   bool? status;
   int? statusCode;
   String? message;
-  List<AppCredensialsData>? data;
+  List<AppCredentialsData>? data;
 
-  AppCredensialsMaster({this.status, this.statusCode, this.message, this.data});
+  AppCredentialsMaster({this.status, this.statusCode, this.message, this.data});
 
-  AppCredensialsMaster.fromJson(Map<String, dynamic> json) {
+  AppCredentialsMaster.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     statusCode = json['status_code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <AppCredensialsData>[];
+      data = <AppCredentialsData>[];
       json['data'].forEach((v) {
-        data!.add(AppCredensialsData.fromJson(v));
+        data!.add(AppCredentialsData.fromJson(v));
       });
     }
   }
@@ -30,23 +30,23 @@ class AppCredensialsMaster {
   }
 }
 
-class AppCredensialsData {
-  String? razzorpayKey;
-  String? razzorpaySecret;
+class AppCredentialsData {
+  String? razorPayKey;
+  String? razorPaySecret;
   String? mapKey;
   String? appName;
   String? appColor;
 
-  AppCredensialsData(
-      {this.razzorpayKey,
-      this.razzorpaySecret,
+  AppCredentialsData(
+      {this.razorPayKey,
+      this.razorPaySecret,
       this.mapKey,
       this.appName,
       this.appColor});
 
-  AppCredensialsData.fromJson(Map<String, dynamic> json) {
-    razzorpayKey = json['razzorpay_key'];
-    razzorpaySecret = json['razzorpay_secret'];
+  AppCredentialsData.fromJson(Map<String, dynamic> json) {
+    razorPayKey = json['razzorpay_key'];
+    razorPaySecret = json['razzorpay_secret'];
     mapKey = json['map_key'];
     appName = json['app_name'];
     appColor = json['app_color'];
@@ -54,8 +54,8 @@ class AppCredensialsData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['razzorpay_key'] = razzorpayKey;
-    data['razzorpay_secret'] = razzorpaySecret;
+    data['razzorpay_key'] = razorPayKey;
+    data['razzorpay_secret'] = razorPaySecret;
     data['map_key'] = mapKey;
     data['app_name'] = appName;
     data['app_color'] = appColor;

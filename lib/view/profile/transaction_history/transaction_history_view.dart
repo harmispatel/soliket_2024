@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
+import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/profile/transaction_history/transaction_history_view_model.dart';
 
 import '../../../../utils/common_colors.dart';
@@ -92,7 +93,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                       ListView.builder(
                         itemCount: 10,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6),
@@ -187,13 +188,12 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.network(
-                                height: 180,
-                                "https://cdni.iconscout.com/illustration/premium/thumb/no-data-found-illustration-download-in-svg-png-gif-file-formats--office-computer-digital-work-business-pack-illustrations-7265556.png"),
+                            Image.asset(
+                                height: 180, LocalImages.img_no_tran_his),
                             Text(
                               "No Transaction History Here",
                               textAlign: TextAlign.center,
@@ -204,7 +204,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   )
@@ -311,9 +311,8 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                           color: CommonColors.primaryColor
                                               .withOpacity(0.2),
                                         ),
-                                        child: Image.network(
-                                          //"https://cdn-icons-png.flaticon.com/128/608/608258.png",
-                                          "https://cdn-icons-png.flaticon.com/128/626/626075.png",
+                                        child: Image.asset(
+                                          LocalImages.img_up_side_arrow,
                                           color: Colors.green,
                                         ),
                                       ),

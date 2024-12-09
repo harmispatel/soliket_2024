@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:solikat_2024/models/brand_product_master.dart';
 
-import '../../../models/search_master.dart';
+import '../../../models/product_master.dart';
 import '../../../services/api_para.dart';
 import '../../../services/index.dart';
 import '../../../utils/common_utils.dart';

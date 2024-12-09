@@ -32,14 +32,6 @@ class LoginViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // void attachedContext(BuildContext context) {
-  //   this.context = context;
-  //   checkAppVersion();
-  //   getAppVersionApi();
-  //   print(latestAppVersion.toString());
-  //   notifyListeners();
-  // }
-
   Future<void> loginApi({
     required String country_code,
     required String mobile_no,
@@ -86,7 +78,8 @@ class LoginViewModel with ChangeNotifier {
     } else if (master.status!) {
       log("Success :: true");
       latestAppVersion = master.data?.appVersion;
-      AppPreferences.instance.setAppVersion(jsonEncode(master.data?.appVersion));
+      AppPreferences.instance
+          .setAppVersion(jsonEncode(master.data?.appVersion));
       //latestAppVersion = "1.0.1";
     }
     notifyListeners();

@@ -163,7 +163,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: CommonAppBar(
+        appBar: const CommonAppBar(
           title: "Confirm Delivery Location",
           isTitleBold: true,
           isShowShadow: true,
@@ -182,7 +182,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                 onCameraIdle: _onCameraIdle,
               ),
             if (_isLoading)
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
             if (!_isLoading && _locationError.isEmpty) ...[
@@ -195,14 +195,14 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                         color: CommonColors.primaryColor,
                         shape: TooltipShapeBorder(arrowArc: 0.2),
                         shadows: [
-                          BoxShadow(
+                          const BoxShadow(
                               color: Colors.black26,
                               blurRadius: 4.0,
                               offset: Offset(2, 2))
                         ],
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
                             Text(
@@ -239,7 +239,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                           color: CommonColors.mWhite,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Colors.black26,
                               blurRadius: 6,
                               offset: Offset(2, 5), // Shadow position
@@ -271,7 +271,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                     ),
                     kCommonSpaceV15,
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       color: Colors.white,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,14 +317,14 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                       children: [
                                         Text(
                                           _mainArea,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         kCommonSpaceV3,
                                         Text(
                                           _currentAddress,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 13, height: 1),
                                         ),
                                       ],
@@ -380,11 +380,11 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Container(
                             decoration: BoxDecoration(
                               color: CommonColors.primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(6),
                                   topRight: Radius.circular(6)),
                               border: Border(
@@ -464,7 +464,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
               Center(
                 child: Text(
                   _locationError,
-                  style: TextStyle(color: Colors.red, fontSize: 18),
+                  style: const TextStyle(color: Colors.red, fontSize: 18),
                 ),
               ),
           ],

@@ -31,7 +31,7 @@ import '../models/offer_product_master.dart';
 import '../models/order_details_master.dart';
 import '../models/order_master.dart';
 import '../models/privacy_policy_master.dart';
-import '../models/product_master.dart';
+import '../models/profile_master.dart';
 import '../models/return_policy_master.dart';
 import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
@@ -917,13 +917,13 @@ class ApiServices extends BaseServices {
   }
 
   @override
-  Future<AppCredensialsMaster?> getAppCredensials() async {
+  Future<AppCredentialsMaster?> getAppCredensials() async {
     dynamic response = await appBaseClient.getApiCall(
       url: ApiUrl.GET_APP_CREDENSIALS,
     );
     if (response != null) {
       try {
-        return AppCredensialsMaster.fromJson(response);
+        return AppCredentialsMaster.fromJson(response);
       } on Exception catch (e) {
         log("Exception :: $e");
         return null;

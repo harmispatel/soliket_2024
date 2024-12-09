@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import '../../../core/remote_config/remote_global_config.dart';
 import '../../../database/app_preferences.dart';
 import '../../../models/app_credensials_master.dart';
@@ -21,7 +22,7 @@ import '../bottom_navbar/bottom_navbar_view.dart';
 class SplashViewModel with ChangeNotifier {
   late BuildContext context;
   final services = Services();
-  List<AppCredensialsData>? appCredensialsData;
+  List<AppCredentialsData>? appCredensialsData;
   bool isAppCredensials = true;
 
   Future<void> attachedContext(BuildContext context) async {
@@ -111,7 +112,7 @@ class SplashViewModel with ChangeNotifier {
   }
 
   Future<void> getAppCredensials() async {
-    AppCredensialsMaster? master = await services.api!.getAppCredensials();
+    AppCredentialsMaster? master = await services.api!.getAppCredensials();
     isAppCredensials = false;
     if (master == null) {
       CommonUtils.oopsMSG();
@@ -123,7 +124,7 @@ class SplashViewModel with ChangeNotifier {
       appName = master.data?.first.appName.toString() ?? '';
       mapKey = master.data?.first.mapKey.toString() ?? '';
       appColor = master.data?.first.appColor.toString() ?? '';
-      razorpayKey = master.data?.first.razzorpayKey.toString() ?? '';
+      razorpayKey = master.data?.first.razorPayKey.toString() ?? '';
       print("AppCredensials App Name =====> $appName");
       print("AppCredensials App MapKey =====> $mapKey");
       print("AppCredensials App Color =====> $appColor");

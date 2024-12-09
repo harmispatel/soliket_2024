@@ -28,7 +28,7 @@ import '../models/offer_product_master.dart';
 import '../models/order_details_master.dart';
 import '../models/order_master.dart';
 import '../models/privacy_policy_master.dart';
-import '../models/product_master.dart';
+import '../models/profile_master.dart';
 import '../models/search_master.dart';
 import '../models/shipping_policy_master.dart';
 import '../models/sub_category_product_master.dart';
@@ -188,7 +188,7 @@ abstract class BaseServices {
 
   Future<getInfoMaster?> getInfoPopUp();
 
-  Future<AppCredensialsMaster?> getAppCredensials();
+  Future<AppCredentialsMaster?> getAppCredensials();
 
   Future<CommonMaster?> cancelOrder({
     required Map<String, dynamic> params,

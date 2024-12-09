@@ -811,43 +811,6 @@ class CommonUtils {
     }
   }
 
-  static Future<bool> handleLocationPermission() async {
-    if (Platform.isAndroid) {
-      while (!await Geolocator.isLocationServiceEnabled()) {
-        await openPermissionDialog(
-          Icons.location_on,
-          S.of(mainNavKey.currentContext!)!.locationService,
-          S.of(mainNavKey.currentContext!)!.plEnableLocationService,
-          S.of(mainNavKey.currentContext!)!.enableService,
-          () async {
-            await Geolocator.openLocationSettings();
-          },
-        );
-      }
-    } else {
-      await Geolocator.requestPermission();
-    }
-
-    while (LocationPermission.deniedForever ==
-            await Geolocator.checkPermission() ||
-        LocationPermission.denied == await Geolocator.checkPermission()) {
-      if (Platform.isAndroid) {
-        await openPermissionDialog(
-          Icons.my_location,
-          S.of(mainNavKey.currentContext!)!.locationPermission,
-          S.of(mainNavKey.currentContext!)!.plAllowLocationPermission,
-          S.of(mainNavKey.currentContext!)!.allowPermission,
-          () async {
-            await Geolocator.openAppSettings();
-          },
-        );
-      } else {
-        await Geolocator.requestPermission();
-      }
-    }
-    return true;
-  }
-
   static Future<Position?> getCurrentPosition() async {
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
@@ -933,47 +896,6 @@ class CommonUtils {
   }
 }
 
-Future<void> imagePickerOption(
-    {required Function()? onTapCamera,
-    required Function()? onTapPhotos}) async {
-  await showModalBottomSheet(
-    context: mainNavKey.currentContext!,
-    clipBehavior: Clip.antiAlias,
-    builder: (context) {
-      return Padding(
-        padding: kCommonAllBottomPadding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(
-                Icons.camera,
-                size: 25,
-              ),
-              title: Text(
-                S.of(context)!.camera,
-                style: getAppStyle(),
-              ),
-              onTap: onTapCamera,
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.photo,
-                size: 25,
-              ),
-              title: Text(
-                S.of(context)!.gallery,
-                style: getAppStyle(),
-              ),
-              onTap: onTapPhotos,
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
 Future<File?> openCamera({bool isSquare = false, bool isEdit = false}) async {
   File? image;
   final XFile? selectedImage = await ImagePicker().pickImage(
@@ -1013,66 +935,6 @@ Future<File?> pickSinglePhoto(
     }
   }
   return image;
-}
-
-Future<File?> pickOrTakeSinglePhoto(
-    {bool isSquare = false, bool isEdit = false}) async {
-  File? image;
-  await imagePickerOption(
-    onTapCamera: () async {
-      final XFile? selectedImage = await ImagePicker().pickImage(
-        source: ImageSource.camera,
-        imageQuality: 80,
-      );
-      if (selectedImage != null) {
-        image = File(selectedImage.path);
-        if (isSquare || isEdit) {
-          // image = await cropImage(selectedImage.path, isSquare: isSquare);
-        }
-      }
-      Navigator.pop(mainNavKey.currentContext!);
-    },
-    onTapPhotos: () async {
-      final XFile? selectedImage = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
-      if (selectedImage != null) {
-        image = File(selectedImage.path);
-        if (isSquare || isEdit) {
-          // image = await cropImage(selectedImage.path, isSquare: isSquare);
-        }
-      }
-      Navigator.pop(mainNavKey.currentContext!);
-    },
-  );
-  return image;
-}
-
-Future<File?> pickOrTakeSingleVideo() async {
-  File? video;
-  await imagePickerOption(
-    onTapCamera: () async {
-      final XFile? selectedImage = await ImagePicker().pickVideo(
-        source: ImageSource.camera,
-        maxDuration: const Duration(seconds: 30),
-      );
-      if (selectedImage != null) {
-        video = File(selectedImage.path);
-      }
-      Navigator.pop(mainNavKey.currentContext!);
-    },
-    onTapPhotos: () async {
-      final XFile? selectedImage = await ImagePicker().pickVideo(
-        source: ImageSource.gallery,
-      );
-      if (selectedImage != null) {
-        video = File(selectedImage.path);
-      }
-      Navigator.pop(mainNavKey.currentContext!);
-    },
-  );
-  return video;
 }
 
 Future<List<File>> pickMultiplePhotos() async {
@@ -1328,78 +1190,6 @@ int sentStatus({orderStatus}) {
   }
 }
 
-Future<void> openPermissionDialog(
-  IconData icon,
-  String dialogTitle,
-  String alertMsg,
-  String buttonLabel,
-  void Function()? onPressBtn,
-) async {
-  await showDialog<void>(
-    context: mainNavKey.currentContext!,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        icon: Icon(
-          icon,
-          // Icons.location_on,
-          color: CommonColors.primaryColor,
-        ),
-        title: Text(
-          dialogTitle,
-          // S.of(context)!.locationService,
-          style: getAppStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        content: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  alertMsg,
-                  style: getAppStyle(),
-                ),
-                kCommonSpaceV15,
-              ],
-            );
-          },
-        ),
-        actionsAlignment: MainAxisAlignment.spaceBetween,
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CommonColors.mRed,
-            ),
-            child: Text(
-              S.of(mainNavKey.currentContext!)!.done,
-              style: getAppStyle(
-                color: CommonColors.mWhite,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: onPressBtn,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CommonColors.mRed,
-            ),
-            child: Text(
-              buttonLabel,
-              style: getAppStyle(
-                color: CommonColors.mWhite,
-              ),
-            ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
 Widget getButton({onTap, color, notifyTxt, txtSize}) {
   return InkWell(
     onTap: onTap,
@@ -1429,16 +1219,6 @@ String getPHStatus({int? paymentStatus}) {
     return "Paid";
   } else {
     return "";
-  }
-}
-
-String getAlbumType({int? type}) {
-  if (type == AppConstants.PUBLIC) {
-    return S.of(mainNavKey.currentContext!)!.public;
-  } else if (type == AppConstants.PRIVATE) {
-    return S.of(mainNavKey.currentContext!)!.private;
-  } else {
-    return "--";
   }
 }
 

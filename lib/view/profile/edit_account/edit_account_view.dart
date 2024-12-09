@@ -257,14 +257,7 @@ class TextFormFieldCustom extends StatefulWidget {
 }
 
 class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
-  // final FocusNode _focusNode = FocusNode();
   Color _labelColor = Colors.black.withOpacity(0.5);
-
-  // @override
-  // void dispose() {
-  //   _focusNode.dispose();
-  //   super.dispose();
-  // }
 
   void _validateField() {
     if (widget.validator != null) {
@@ -285,7 +278,6 @@ class _TextFormFieldCustomState extends State<TextFormFieldCustom> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // focusNode: _focusNode,
       onTap: widget.onTap,
       validator: (value) {
         _validateField();
