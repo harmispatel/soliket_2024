@@ -6,7 +6,6 @@ import 'package:solikat_2024/models/cart_master.dart';
 import '../../../../services/index.dart';
 import '../../../../utils/common_utils.dart';
 import '../../models/product_master.dart';
-import '../../models/update_bill_details_master.dart';
 import '../../utils/common_colors.dart';
 
 class CartViewModel with ChangeNotifier {
@@ -58,27 +57,27 @@ class CartViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateBillDetailsApi() async {
-    CommonUtils.showProgressDialog();
-    UpdateBillDetailsMaster? master = await _services.api!.updateBillDetails();
-    CommonUtils.hideProgressDialog();
-    isInitialLoading = false;
-    if (master == null) {
-      CommonUtils.oopsMSG();
-    } else if (!master.status!) {
-      CommonUtils.showCustomToast(context, master.message);
-    } else if (master.status!) {
-      log("Success :: true");
-      dealProductList = master.data?.dealProduct ?? [];
-      discountAmount = master.data?.billDetails?.discountAmount ?? '';
-      itemTotal = master.data?.billDetails?.itemTotal ?? '';
-      deliveryCharge = master.data?.billDetails?.deliveryCharge ?? '';
-      tax = master.data?.billDetails?.tax ?? '';
-      couponDiscount = master.data?.billDetails?.couponDiscount ?? '';
-      total = master.data?.billDetails?.total ?? '';
-      savingAmount = master.data?.billDetails?.savingAmount ?? '';
-      isFreeDelivery = master.data?.billDetails?.isFreeDelivery ?? '';
-    }
-    notifyListeners();
-  }
+  // Future<void> updateBillDetailsApi() async {
+  //   CommonUtils.showProgressDialog();
+  //   UpdateBillDetailsMaster? master = await _services.api!.updateBillDetails();
+  //   CommonUtils.hideProgressDialog();
+  //   isInitialLoading = false;
+  //   if (master == null) {
+  //     CommonUtils.oopsMSG();
+  //   } else if (!master.status!) {
+  //     CommonUtils.showCustomToast(context, master.message);
+  //   } else if (master.status!) {
+  //     log("Success :: true");
+  //     dealProductList = master.data?.dealProduct ?? [];
+  //     discountAmount = master.data?.billDetails?.discountAmount ?? '';
+  //     itemTotal = master.data?.billDetails?.itemTotal ?? '';
+  //     deliveryCharge = master.data?.billDetails?.deliveryCharge ?? '';
+  //     tax = master.data?.billDetails?.tax ?? '';
+  //     couponDiscount = master.data?.billDetails?.couponDiscount ?? '';
+  //     total = master.data?.billDetails?.total ?? '';
+  //     savingAmount = master.data?.billDetails?.savingAmount ?? '';
+  //     isFreeDelivery = master.data?.billDetails?.isFreeDelivery ?? '';
+  //   }
+  //   notifyListeners();
+  // }
 }

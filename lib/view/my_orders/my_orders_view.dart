@@ -41,6 +41,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
     _scrollController.dispose();
     currentStatus = 'p';
     mViewModel.resetPage();
+    print("called.....1");
     super.dispose();
   }
 
@@ -63,6 +64,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
         child: CommonAppBar(
           title: "My Orders",
           isTitleBold: true,
+          // automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(color: CommonColors.blackColor),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(40.0),
@@ -75,6 +77,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                         currentStatus = 'p';
                       });
                       await mViewModel.resetPage();
+                      print("called.....2");
                       mViewModel.getOrdersApi(status: currentStatus);
                     },
                     child: Container(
@@ -115,8 +118,9 @@ class _MyOrdersViewState extends State<MyOrdersView>
                         currentStatus = 'c';
                       });
                       await mViewModel.resetPage();
+                      print("called....3");
+
                       mViewModel.getOrdersApi(status: currentStatus);
-                      print("called....4");
                     },
                     child: Container(
                       height: 40,

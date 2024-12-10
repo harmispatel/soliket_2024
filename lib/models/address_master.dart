@@ -60,6 +60,7 @@ class AddressData {
   int? _addressId;
   String? _type;
   String? _address;
+  String? _locationAddress;
   String? _name;
   String? _mobile;
   String? _latitude;
@@ -72,6 +73,7 @@ class AddressData {
     int? addressId,
     String? type,
     String? address,
+    String? locationAddress,
     String? name,
     String? mobile,
     String? latitude,
@@ -88,6 +90,9 @@ class AddressData {
     }
     if (address != null) {
       this._address = address;
+    }
+    if (locationAddress != null) {
+      this._locationAddress = locationAddress;
     }
     if (name != null) {
       this._name = name;
@@ -118,6 +123,9 @@ class AddressData {
   set type(String? type) => _type = type;
   String? get address => _address;
   set address(String? address) => _address = address;
+  String? get locationAddress => _locationAddress;
+  set locationAddress(String? locationAddress) =>
+      _locationAddress = locationAddress;
   String? get name => _name;
   set name(String? name) => _name = name;
   String? get mobile => _mobile;
@@ -137,6 +145,7 @@ class AddressData {
     _addressId = json['address_id'];
     _type = json['type'];
     _address = json['address'];
+    _locationAddress = json['location_address'];
     _name = json['name'];
     _mobile = json['mobile'];
     _latitude = json['latitude'];
@@ -151,6 +160,7 @@ class AddressData {
     data['address_id'] = this._addressId;
     data['type'] = this._type;
     data['address'] = this._address;
+    data['location_address'] = this._locationAddress;
     data['name'] = this._name;
     data['mobile'] = this._mobile;
     data['latitude'] = this._latitude;

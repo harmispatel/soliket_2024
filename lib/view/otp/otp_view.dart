@@ -36,7 +36,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
             final matchedString = exp.stringMatch(value ?? '') ?? '';
             if (exp.hasMatch(value ?? '')) {
               otpController.text = matchedString;
-              codeUpdated();
+              // codeUpdated();
             }
             return matchedString;
           },
@@ -214,7 +214,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
       submittedPinTheme: submittedPinTheme,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
-      androidSmsAutofillMethod: AndroidSmsAutofillMethod.none, // Corrected here
+      androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
       onCompleted: (pin) async {
         mViewModel.otpVerifyApi(
           user_id: gUserId,

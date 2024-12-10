@@ -154,7 +154,7 @@ class _MyCartViewState extends State<MyCartView> {
                                         variantId: variantId.toString(),
                                         type: 'p')
                                     .whenComplete(() async {
-                                  await mViewModel.updateBillDetailsApi();
+                                  await mViewModel.getCartApi();
                                   if (mViewModel.couponDiscount == "0" &&
                                       mViewModel.appliedCouponList.isNotEmpty) {
                                     setState(() {
@@ -169,7 +169,7 @@ class _MyCartViewState extends State<MyCartView> {
                                         variantId: variantId.toString(),
                                         type: 'm')
                                     .whenComplete(() async {
-                                  await mViewModel.updateBillDetailsApi();
+                                  await mViewModel.getCartApi();
                                   if (mViewModel.couponDiscount == "0" &&
                                       mViewModel.appliedCouponList.isNotEmpty) {
                                     setState(() {
@@ -179,232 +179,269 @@ class _MyCartViewState extends State<MyCartView> {
                                 });
                               },
                             ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.grey.withOpacity(0.5),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CommonColors.primaryColor,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        offset: const Offset(
-                                          2.0,
-                                          2.0,
-                                        ),
-                                        blurRadius: 5.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                      const BoxShadow(
-                                        color: Colors.white,
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 0.0,
-                                        spreadRadius: 0.0,
-                                      ), //BoxShadow
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2),
-                                    child: Image.asset(
-                                      LocalImages.img_tag,
-                                      height: 26,
-                                      color: CommonColors.mWhite,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Center(
-                                  child: Text(
-                                    "Soliket Special Price Deals",
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: getAppStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      if (mViewModel.dealProductList.isNotEmpty) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5),
                             ),
-                            kCommonSpaceV20,
-                            SizedBox(
-                              height: kDeviceHeight / 3,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: mViewModel.dealProductList.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return FittedBox(
-                                    child: Container(
-                                      width: 170,
-                                      clipBehavior: Clip.antiAlias,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            CommonColors.primaryColor
-                                                .withOpacity(0.1),
-                                            CommonColors.mWhite
-                                                .withOpacity(0.2),
-                                            CommonColors.mWhite,
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        border: Border.all(
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: CommonColors.primaryColor,
+                                      boxShadow: [
+                                        BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
+                                          offset: const Offset(
+                                            2.0,
+                                            2.0,
+                                          ),
+                                          blurRadius: 5.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                        const BoxShadow(
+                                          color: Colors.white,
+                                          offset: Offset(0.0, 0.0),
+                                          blurRadius: 0.0,
+                                          spreadRadius: 0.0,
+                                        ), //BoxShadow
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: Image.asset(
+                                        LocalImages.img_tag,
+                                        height: 26,
+                                        color: CommonColors.mWhite,
                                       ),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(16),
-                                              child: Center(
-                                                child: Image.network(
-                                                  mViewModel
-                                                          .dealProductList[
-                                                              index]
-                                                          .image ??
-                                                      '',
-                                                  fit: BoxFit.contain,
-                                                  height: 150,
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: SizedBox(
-                                                height: 40,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 8) +
-                                                      EdgeInsets.only(right: 3),
-                                                  child: Text(
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Center(
+                                    child: Text(
+                                      "Soliket Special Price Deals",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: getAppStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              kCommonSpaceV20,
+                              SizedBox(
+                                height: kDeviceHeight / 3,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: mViewModel.dealProductList.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return FittedBox(
+                                      child: Container(
+                                        width: 170,
+                                        clipBehavior: Clip.antiAlias,
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              CommonColors.primaryColor
+                                                  .withOpacity(0.1),
+                                              CommonColors.mWhite
+                                                  .withOpacity(0.2),
+                                              CommonColors.mWhite,
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.grey.withOpacity(0.5),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16),
+                                                child: Center(
+                                                  child: Image.network(
                                                     mViewModel
                                                             .dealProductList[
                                                                 index]
-                                                            .productName ??
+                                                            .image ??
                                                         '',
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: getAppStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black87,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                    fit: BoxFit.contain,
+                                                    height: 150,
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Text(
-                                                mViewModel
-                                                        .dealProductList[index]
-                                                        .variantName ??
-                                                    '',
-                                                style: getAppStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[400],
-                                                  fontWeight: FontWeight.w500,
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: SizedBox(
+                                                  height: 40,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8) +
+                                                        EdgeInsets.only(
+                                                            right: 3),
+                                                    child: Text(
+                                                      mViewModel
+                                                              .dealProductList[
+                                                                  index]
+                                                              .productName ??
+                                                          '',
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: getAppStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black87,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            FittedBox(
-                                              child: Padding(
+                                              const SizedBox(height: 5),
+                                              Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 8),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "₹${mViewModel.dealProductList[index].discountPrice ?? ''}",
-                                                          style: getAppStyle(
-                                                            fontSize: 15,
-                                                            color: Colors
-                                                                .black87
-                                                                .withOpacity(
-                                                                    0.7),
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                child: Text(
+                                                  mViewModel
+                                                          .dealProductList[
+                                                              index]
+                                                          .variantName ??
+                                                      '',
+                                                  style: getAppStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.grey[400],
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              FittedBox(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "₹${mViewModel.dealProductList[index].discountPrice ?? ''}",
+                                                            style: getAppStyle(
+                                                              fontSize: 15,
+                                                              color: Colors
+                                                                  .black87
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          "₹${mViewModel.dealProductList[index].productPrice ?? ''}",
-                                                          style: getAppStyle(
-                                                            color: Colors
-                                                                .grey[400],
-                                                            fontSize: 11,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
+                                                          Text(
+                                                            "₹${mViewModel.dealProductList[index].productPrice ?? ''}",
+                                                            style: getAppStyle(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontSize: 11,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    kCommonSpaceH20,
-                                                    kCommonSpaceH5,
-                                                    kCommonSpaceH2,
-                                                    mViewModel
-                                                                .dealProductList[
-                                                                    index]
-                                                                .isAdd ==
-                                                            'y'
-                                                        ? InkWell(
-                                                            onTap: () async {
-                                                              await mHomeViewModel
-                                                                  .addToCartApi(
-                                                                      variantId: mViewModel
-                                                                          .dealProductList[
-                                                                              index]
-                                                                          .variantId
-                                                                          .toString(),
-                                                                      type: 'p')
-                                                                  .whenComplete(
-                                                                      () async {
-                                                                await mViewModel
-                                                                    .getCartApi();
-
-                                                                await mViewModel
-                                                                    .updateBillDetailsApi();
-                                                              });
-                                                            },
-                                                            child: Container(
+                                                        ],
+                                                      ),
+                                                      kCommonSpaceH20,
+                                                      kCommonSpaceH5,
+                                                      kCommonSpaceH2,
+                                                      mViewModel
+                                                                  .dealProductList[
+                                                                      index]
+                                                                  .isAdd ==
+                                                              'y'
+                                                          ? InkWell(
+                                                              onTap: () async {
+                                                                await mHomeViewModel
+                                                                    .addToCartApi(
+                                                                        variantId: mViewModel
+                                                                            .dealProductList[
+                                                                                index]
+                                                                            .variantId
+                                                                            .toString(),
+                                                                        type:
+                                                                            'p')
+                                                                    .whenComplete(
+                                                                        () async {
+                                                                  await mViewModel
+                                                                      .getCartApi();
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                width: 100,
+                                                                height: 40,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  border: Border.all(
+                                                                      color: CommonColors
+                                                                          .primaryColor,
+                                                                      width: 1),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Add",
+                                                                    style:
+                                                                        getAppStyle(
+                                                                      color: CommonColors
+                                                                          .primaryColor,
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Container(
                                                               width: 100,
                                                               height: 40,
                                                               decoration:
@@ -420,93 +457,64 @@ class _MyCartViewState extends State<MyCartView> {
                                                                         .primaryColor,
                                                                     width: 1),
                                                               ),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "Add",
-                                                                  style:
-                                                                      getAppStyle(
-                                                                    color: CommonColors
-                                                                        .primaryColor,
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
+                                                              child: Icon(
+                                                                Icons.lock,
+                                                                color: CommonColors
+                                                                    .primaryColor,
                                                               ),
-                                                            ),
-                                                          )
-                                                        : Container(
-                                                            width: 100,
-                                                            height: 40,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8),
-                                                              border: Border.all(
-                                                                  color: CommonColors
-                                                                      .primaryColor,
-                                                                  width: 1),
-                                                            ),
-                                                            child: Icon(
-                                                              Icons.lock,
-                                                              color: CommonColors
-                                                                  .primaryColor,
-                                                            ),
-                                                          )
-                                                  ],
+                                                            )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 8),
-                                              width: double.infinity,
-                                              height: 5,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  color: CommonColors
-                                                      .primaryColor),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Text(
-                                                mViewModel
-                                                        .dealProductList[index]
-                                                        .dealText ??
-                                                    '',
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: getAppStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.black,
-                                                    height: 1.1,
-                                                    fontWeight:
-                                                        FontWeight.normal),
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
+                                                width: double.infinity,
+                                                height: 5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    color: CommonColors
+                                                        .primaryColor),
                                               ),
-                                            ),
-                                          ],
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Text(
+                                                  mViewModel
+                                                          .dealProductList[
+                                                              index]
+                                                          .dealText ??
+                                                      '',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: getAppStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.black,
+                                                      height: 1.1,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      kCommonSpaceV15,
+                        kCommonSpaceV15,
+                      ],
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
@@ -1260,7 +1268,7 @@ class _MyCartListState extends State<MyCartList> {
           ),
         ),
         ListView.builder(
-          padding: const EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.only(top: 12, bottom: 6),
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -1404,7 +1412,6 @@ class _MyCartListState extends State<MyCartList> {
                                           type: 'm')
                                       .whenComplete(() async {
                                     await mViewModel.getCartApi();
-                                    await mViewModel.updateBillDetailsApi();
                                   });
                                 },
                                 child: Container(

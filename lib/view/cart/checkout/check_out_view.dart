@@ -60,6 +60,8 @@ class _CheckOutViewState extends State<CheckOutView>
             } else {
               print('No item with isDefault "y" found');
             }
+          } else {
+            selectedIndex = -1;
           }
         }).whenComplete(() {
           if (selectedIndex != -1) {

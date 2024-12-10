@@ -240,7 +240,8 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                                         ),
                                       ),
                                       Text(
-                                        "+91-${mViewModel.addressList[index].mobile ?? ''}",
+                                        mViewModel.addressList[index].mobile ??
+                                            '',
                                         style: getAppStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
@@ -268,7 +269,7 @@ class _SaveAddressViewState extends State<SaveAddressView> {
                                                 ''),
                                             currentAddress: mViewModel
                                                     .addressList[index]
-                                                    .address ??
+                                                    .locationAddress ??
                                                 '',
                                             addressType: mViewModel
                                                     .addressList[index].type ??
