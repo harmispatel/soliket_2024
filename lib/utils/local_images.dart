@@ -33,6 +33,10 @@ class LocalImages {
   static const String img_order_basket = 'assets/images/img_order_basket.png';
   static const String img_no_tran_his = 'assets/images/img_no_tran_his.png';
   static const String img_up_side_arrow = 'assets/images/img_up_side_arrow.png';
+  static const String img_cash_on_del = 'assets/images/img_cash_on_del.png';
+  static const String img_razor_pay = 'assets/images/img_razor_pay.png';
+  static const String img_delivery_boy_2 =
+      'assets/images/img_delivery_boy_2.png';
   static const String img_order_not_found =
       'assets/images/img_order_not_found.png';
   static const String img_total_saving_bg =

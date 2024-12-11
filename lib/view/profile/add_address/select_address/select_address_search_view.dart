@@ -62,7 +62,7 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
   @override
   void initState() {
     super.initState();
-    // Add observer to listen to app lifecycle changes
+    _checkLocationPermission();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -87,19 +87,14 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
     var status = await Permission.location.status;
 
     if (status.isGranted) {
-      // Navigate to the next screen if permission is granted
-      // push(LocationAllowView());
-      isHavePermission = true;
+      setState(() {
+        isHavePermission = true;
+      });
     } else {
-      isHavePermission = false;
+      setState(() {
+        isHavePermission = false;
+      });
     }
-    // else {
-    //   // Handle cases where permission is not granted
-    //   CommonUtils.showSnackBar(
-    //     "Location permission is still required to proceed.",
-    //     color: CommonColors.mRed,
-    //   );
-    // }
   }
 
   Future<void> requestLocationPermission() async {
@@ -172,7 +167,6 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
               padding: const EdgeInsets.only(right: 15, left: 15),
               child: LabeledTextField(
                 hintText: "Search your location",
-                maxLength: 14,
                 onEditComplete: _onSearchChanged,
                 prefixIcon:
                     Icon(Icons.search, color: CommonColors.primaryColor),

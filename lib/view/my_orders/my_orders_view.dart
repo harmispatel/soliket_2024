@@ -41,7 +41,6 @@ class _MyOrdersViewState extends State<MyOrdersView>
     _scrollController.dispose();
     currentStatus = 'p';
     mViewModel.resetPage();
-    print("called.....1");
     super.dispose();
   }
 
@@ -77,7 +76,6 @@ class _MyOrdersViewState extends State<MyOrdersView>
                         currentStatus = 'p';
                       });
                       await mViewModel.resetPage();
-                      print("called.....2");
                       mViewModel.getOrdersApi(status: currentStatus);
                     },
                     child: Container(
@@ -118,7 +116,6 @@ class _MyOrdersViewState extends State<MyOrdersView>
                         currentStatus = 'c';
                       });
                       await mViewModel.resetPage();
-                      print("called....3");
 
                       mViewModel.getOrdersApi(status: currentStatus);
                     },
@@ -273,7 +270,11 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                                   .orderList[index].orderId
                                                   .toString(),
                                             ),
-                                          );
+                                          ).then((_) async {
+                                            await mViewModel.resetPage();
+                                            mViewModel.getOrdersApi(
+                                                status: currentStatus);
+                                          });
                                         },
                                         child: Icon(
                                           Icons.arrow_forward_ios_rounded,
@@ -368,7 +369,13 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                 Row(
                                   children: [
                                     mViewModel.orderList[index].orderStatus ==
-                                            "Delivered"
+                                                "Delivered" ||
+                                            mViewModel.orderList[index]
+                                                    .orderStatus ==
+                                                "Cancelled" ||
+                                            mViewModel.orderList[index]
+                                                    .orderStatus ==
+                                                "Returned"
                                         ? Expanded(
                                             child: Row(
                                               children: [
@@ -379,7 +386,9 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                                       .img_delivered),
                                                 ),
                                                 Text(
-                                                  " Delivered",
+                                                  mViewModel.orderList[index]
+                                                          .orderStatus ??
+                                                      '',
                                                   style: GoogleFonts
                                                       .eduNswActFoundation(
                                                           color: CommonColors
@@ -427,7 +436,11 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                                   .orderList[index].orderId
                                                   .toString(),
                                             ),
-                                          );
+                                          ).then((_) async {
+                                            await mViewModel.resetPage();
+                                            mViewModel.getOrdersApi(
+                                                status: currentStatus);
+                                          });
                                         },
                                       ),
                                     ),

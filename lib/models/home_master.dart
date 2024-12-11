@@ -241,12 +241,14 @@ class Section6Data {
 
 class Section6Setting {
   final String backgroundImage;
+  final String textColor;
 
-  Section6Setting({required this.backgroundImage});
+  Section6Setting({required this.backgroundImage, required this.textColor});
 
   factory Section6Setting.fromJson(Map<String, dynamic> json) {
     return Section6Setting(
       backgroundImage: json['background_image'],
+      textColor: json['text_color'],
     );
   }
 }

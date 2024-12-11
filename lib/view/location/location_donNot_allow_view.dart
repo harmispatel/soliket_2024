@@ -153,7 +153,6 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
               padding: const EdgeInsets.only(right: 15, left: 15),
               child: LabeledTextField(
                 hintText: "Search your location",
-                maxLength: 14,
                 onEditComplete: _onSearchChanged,
                 prefixIcon:
                     Icon(Icons.search, color: CommonColors.primaryColor),

@@ -29,6 +29,7 @@ class MyOrderViewModel with ChangeNotifier {
 
     GetOrderMaster? master = await services.api!.getOrder(params: params);
     isInitialLoading = false;
+
     if (master == null) {
       CommonUtils.oopsMSG();
       return;

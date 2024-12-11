@@ -86,7 +86,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
             .read<BottomNavbarViewModel>()
             .onMenuTapped(2);
 
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 BottomNavBarView(),
@@ -105,6 +105,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
               );
             },
           ),
+          (Route<dynamic> route) => false,
         );
 
         return false;
@@ -164,7 +165,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                         mainNavKey.currentContext!
                             .read<BottomNavbarViewModel>()
                             .onMenuTapped(2);
-                        pushReplacement(BottomNavBarView());
+                        pushAndRemoveUntil(BottomNavBarView());
                       },
                       child: Column(
                         children: [

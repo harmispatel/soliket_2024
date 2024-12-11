@@ -236,7 +236,7 @@ class _TrackingOrdersViewState extends State<TrackingOrdersView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Driver Name",
+                                "Delivery Boy Name",
                                 style: getAppStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,

@@ -24,6 +24,7 @@ import '../sub_offer/sub_offer_view_model.dart';
 
 class SearchView extends StatefulWidget {
   final String voiceText;
+
   const SearchView({super.key, required this.voiceText});
 
   @override
@@ -922,25 +923,29 @@ class _SearchViewState extends State<SearchView> {
                                                                               13,
                                                                         ),
                                                                       ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            vertical:
-                                                                                02),
-                                                                        child:
-                                                                            Text(
-                                                                          mHomeViewModel.cartDataList[index].variantName ??
-                                                                              '',
-                                                                          style:
-                                                                              getAppStyle(
-                                                                            color:
-                                                                                Colors.grey,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            fontSize:
-                                                                                12,
+                                                                      Row(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(vertical: 02),
+                                                                            child:
+                                                                                Text(
+                                                                              mHomeViewModel.cartDataList[index].variantName ?? "",
+                                                                              style: getAppStyle(
+                                                                                color: Colors.grey,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: 12,
+                                                                              ),
+                                                                            ),
                                                                           ),
-                                                                        ),
+                                                                          kCommonSpaceH10,
+                                                                          if (mHomeViewModel.cartDataList[index].isDeal ==
+                                                                              "y")
+                                                                            Text(
+                                                                              "🎉 Deal Applied",
+                                                                              style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
+                                                                            )
+                                                                        ],
                                                                       ),
                                                                     ],
                                                                   ),
@@ -955,70 +960,83 @@ class _SearchViewState extends State<SearchView> {
                                                                       MainAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    Container(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              4,
-                                                                          vertical:
-                                                                              4),
-                                                                      margin: const EdgeInsets
-                                                                          .only(
-                                                                          bottom:
-                                                                              4),
-                                                                      height:
-                                                                          30,
-                                                                      width: 80,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(6),
-                                                                        color: CommonColors
-                                                                            .primaryColor,
-                                                                      ),
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          GestureDetector(
+                                                                    mHomeViewModel.cartDataList[index].isDeal ==
+                                                                            "y"
+                                                                        ? GestureDetector(
                                                                             onTap:
                                                                                 () {
                                                                               decrementItem(index);
                                                                               setState(() {});
                                                                             },
                                                                             child:
-                                                                                const Icon(
-                                                                              Icons.remove,
-                                                                              size: 16,
-                                                                              color: Colors.white,
+                                                                                Container(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                                                              margin: const EdgeInsets.only(bottom: 4),
+                                                                              height: 30,
+                                                                              width: 80,
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(6),
+                                                                                color: CommonColors.primaryColor.withOpacity(0.4),
+                                                                              ),
+                                                                              child: Center(
+                                                                                child: Text(
+                                                                                  "Remove",
+                                                                                  style: getAppStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 12),
+                                                                                ),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          Text(
-                                                                            mHomeViewModel.cartDataList[index].cartCount.toString(),
-                                                                            style:
-                                                                                getAppStyle(
-                                                                              color: Colors.white,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontSize: 14,
+                                                                          )
+                                                                        : Container(
+                                                                            padding:
+                                                                                const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                                                                            margin:
+                                                                                const EdgeInsets.only(bottom: 4),
+                                                                            height:
+                                                                                30,
+                                                                            width:
+                                                                                80,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(6),
+                                                                              color: CommonColors.primaryColor,
                                                                             ),
-                                                                          ),
-                                                                          GestureDetector(
-                                                                            onTap:
-                                                                                () {
-                                                                              incrementItem(index);
-                                                                              setState(() {});
-                                                                            },
                                                                             child:
-                                                                                const Icon(
-                                                                              Icons.add,
-                                                                              size: 16,
-                                                                              color: Colors.white,
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                              children: [
+                                                                                GestureDetector(
+                                                                                  onTap: () {
+                                                                                    decrementItem(index);
+                                                                                    setState(() {});
+                                                                                  },
+                                                                                  child: const Icon(
+                                                                                    Icons.remove,
+                                                                                    size: 16,
+                                                                                    color: Colors.white,
+                                                                                  ),
+                                                                                ),
+                                                                                Text(
+                                                                                  mHomeViewModel.cartDataList[index].cartCount.toString(),
+                                                                                  style: getAppStyle(
+                                                                                    color: Colors.white,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontSize: 14,
+                                                                                  ),
+                                                                                ),
+                                                                                GestureDetector(
+                                                                                  onTap: () {
+                                                                                    incrementItem(index);
+                                                                                    setState(() {});
+                                                                                  },
+                                                                                  child: const Icon(
+                                                                                    Icons.add,
+                                                                                    size: 16,
+                                                                                    color: Colors.white,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
                                                                     Row(
                                                                       children: [
                                                                         Text(
@@ -1184,7 +1202,7 @@ class _SearchViewState extends State<SearchView> {
                                                               fontSize: 12,
                                                             ),
                                                           ),
-                                                           Icon(
+                                                          Icon(
                                                             Icons
                                                                 .arrow_drop_down,
                                                             color: CommonColors
@@ -1239,7 +1257,7 @@ class _SearchViewState extends State<SearchView> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                 Icon(
+                                Icon(
                                   Icons.arrow_drop_up_rounded,
                                   color: CommonColors.primaryColor,
                                   size: 30,
@@ -1320,7 +1338,7 @@ class _SearchViewState extends State<SearchView> {
                                     height: 26,
                                     width: 26,
                                     margin: const EdgeInsets.only(top: 10),
-                                    decoration:  BoxDecoration(
+                                    decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

@@ -207,7 +207,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Driver Details",
+                              "Delivery Boy Details",
                               style: getAppStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
@@ -513,40 +513,40 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 8, right: 15, left: 15),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Tax",
-                          style: getAppStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const Spacer(),
-                        kCommonSpaceH10,
-                        Text(
-                          "+ ₹${mViewModel.billDetailsList[0].tax}",
-                          style: getAppStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            textDecorationColor: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding:
+                  //       const EdgeInsets.only(bottom: 8, right: 15, left: 15),
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         "Tax",
+                  //         style: getAppStyle(
+                  //           color: Colors.black,
+                  //           fontWeight: FontWeight.w400,
+                  //           fontSize: 14,
+                  //         ),
+                  //       ),
+                  //       const Spacer(),
+                  //       kCommonSpaceH10,
+                  //       Text(
+                  //         "+ ₹${mViewModel.billDetailsList[0].tax}",
+                  //         style: getAppStyle(
+                  //           color: Colors.green,
+                  //           fontWeight: FontWeight.bold,
+                  //           fontSize: 16,
+                  //           textDecorationColor: Colors.black,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding:
                         const EdgeInsets.only(bottom: 8, left: 15, right: 15),
                     child: Row(
                       children: [
                         Text(
-                          "Offer Discount",
+                          "Coupon Discount",
                           style: getAppStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,

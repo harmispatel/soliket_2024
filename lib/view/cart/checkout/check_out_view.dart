@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -128,234 +127,251 @@ class _CheckOutViewState extends State<CheckOutView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DottedBorder(
-                borderType: BorderType.RRect,
-                radius: Radius.circular(12),
-                dashPattern: [5, 5, 5, 5],
-                color: CommonColors.mGrey300,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Address Detail",
-                          style: getAppStyle(),
-                        ),
-                        kCommonSpaceV10,
-                        if (selectedIndex == null || selectedIndex == -1) ...[
-                          Center(
-                            child: Text(
-                              "No delivery address selected",
-                              style: getAppStyle(
-                                  color: CommonColors.mRed, fontSize: 18),
-                            ),
-                          )
-                        ],
-                        if (selectedIndex != null &&
-                            selectedIndex != -1 &&
-                            mSavedAddressViewModel.addressList.isNotEmpty) ...[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color: Colors.grey.withOpacity(0.5), width: 0.8),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Address Detail",
+                        style: getAppStyle(),
+                      ),
+                      kCommonSpaceV10,
+                      if (selectedIndex == null || selectedIndex == -1) ...[
+                        Center(
+                          child: Text(
+                            "No delivery address selected",
+                            style: getAppStyle(
+                                color: CommonColors.mRed, fontSize: 18),
+                          ),
+                        )
+                      ],
+                      if (selectedIndex != null &&
+                          selectedIndex != -1 &&
+                          mSavedAddressViewModel.addressList.isNotEmpty) ...[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    mSavedAddressViewModel
+                                            .addressList[selectedIndex!].type ??
+                                        '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: getAppStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 02),
+                                    child: Text(
                                       mSavedAddressViewModel
                                               .addressList[selectedIndex!]
-                                              .type ??
+                                              .address ??
                                           '',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
                                       style: getAppStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
                                       ),
                                     ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 02),
-                                      child: Text(
-                                        mSavedAddressViewModel
-                                                .addressList[selectedIndex!]
-                                                .address ??
-                                            '',
-                                        style: getAppStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                    mSavedAddressViewModel
-                                                .addressList[selectedIndex!]
-                                                .mobile ==
-                                            ""
-                                        ? const SizedBox.shrink()
-                                        : Text(
-                                            mSavedAddressViewModel
-                                                    .addressList[selectedIndex!]
-                                                    .mobile ??
-                                                '',
-                                            style: getAppStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                            ),
+                                  ),
+                                  mSavedAddressViewModel
+                                              .addressList[selectedIndex!]
+                                              .mobile ==
+                                          ""
+                                      ? const SizedBox.shrink()
+                                      : Text(
+                                          mSavedAddressViewModel
+                                                  .addressList[selectedIndex!]
+                                                  .mobile ??
+                                              '',
+                                          style: getAppStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
                                           ),
-                                  ],
-                                ),
+                                        ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ],
-                        kCommonSpaceV15,
-                        Center(
-                          child: DottedBorder(
-                            borderType: BorderType.RRect,
-                            radius: Radius.circular(5),
-                            dashPattern: [5, 5, 5, 5],
-                            color: CommonColors.primaryColor.withOpacity(0.5),
-                            child: GestureDetector(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Scaffold(
-                                      backgroundColor: Color(0xFFFFF4E8),
-                                      body: Container(
-                                        color: CommonColors.mGrey200
-                                            .withOpacity(0.5),
-                                        width: double.infinity,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              if (mSavedAddressViewModel
-                                                  .addressList.isNotEmpty)
-                                                Text(
-                                                  "Select address :",
-                                                  style: getAppStyle(),
-                                                ),
-                                              kCommonSpaceV10,
-                                              if (mSavedAddressViewModel
-                                                  .addressList.isNotEmpty)
-                                                Expanded(
-                                                  child: ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount:
-                                                        mSavedAddressViewModel
-                                                            .addressList.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      return GestureDetector(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            selectedIndex =
-                                                                index;
-                                                          });
-                                                          mViewModel
-                                                              .setDefaultAddressApi(
-                                                                  addressId: mSavedAddressViewModel
+                            ),
+                          ],
+                        ),
+                      ],
+                      kCommonSpaceV15,
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Scaffold(
+                                  backgroundColor: Color(0xFFFFF4E8),
+                                  body: Container(
+                                    color:
+                                        CommonColors.mGrey200.withOpacity(0.5),
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (mSavedAddressViewModel
+                                              .addressList.isNotEmpty)
+                                            Text(
+                                              "Select address :",
+                                              style: getAppStyle(),
+                                            ),
+                                          kCommonSpaceV10,
+                                          if (mSavedAddressViewModel
+                                              .addressList.isNotEmpty)
+                                            Expanded(
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    mSavedAddressViewModel
+                                                        .addressList.length,
+                                                itemBuilder: (context, index) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedIndex = index;
+                                                      });
+                                                      mViewModel
+                                                          .setDefaultAddressApi(
+                                                              addressId:
+                                                                  mSavedAddressViewModel
                                                                       .addressList[
                                                                           index]
                                                                       .addressId
                                                                       .toString())
-                                                              .whenComplete(() {
-                                                            mViewModel.checkDeliveryAvailableApi(
-                                                                addressId: mSavedAddressViewModel
+                                                          .whenComplete(() {
+                                                        mViewModel.checkDeliveryAvailableApi(
+                                                            addressId:
+                                                                mSavedAddressViewModel
                                                                     .addressList[
                                                                         selectedIndex!]
                                                                     .addressId
                                                                     .toString());
-                                                          }).whenComplete(() {
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        },
-                                                        child: Card(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Radio<int>(
-                                                                  value: index,
-                                                                  groupValue:
-                                                                      selectedIndex,
-                                                                  onChanged:
-                                                                      (index) {
-                                                                    setState(
+                                                      }).whenComplete(() {
+                                                        Navigator.pop(context);
+                                                      });
+                                                    },
+                                                    child: Card(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Radio<int>(
+                                                              value: index,
+                                                              groupValue:
+                                                                  selectedIndex,
+                                                              onChanged:
+                                                                  (index) {
+                                                                setState(() {
+                                                                  selectedIndex =
+                                                                      index;
+                                                                });
+                                                                mViewModel
+                                                                    .setDefaultAddressApi(
+                                                                        addressId: mSavedAddressViewModel
+                                                                            .addressList[
+                                                                                index!]
+                                                                            .addressId
+                                                                            .toString())
+                                                                    .whenComplete(
                                                                         () {
-                                                                      selectedIndex =
-                                                                          index;
-                                                                    });
-                                                                    mViewModel
-                                                                        .setDefaultAddressApi(
-                                                                            addressId: mSavedAddressViewModel.addressList[index!].addressId
-                                                                                .toString())
-                                                                        .whenComplete(
-                                                                            () {
-                                                                      mViewModel.checkDeliveryAvailableApi(
-                                                                          addressId: mSavedAddressViewModel
-                                                                              .addressList[selectedIndex!]
-                                                                              .addressId
-                                                                              .toString());
-                                                                    }).whenComplete(
-                                                                            () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    });
-                                                                  },
-                                                                ),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        mSavedAddressViewModel.addressList[index].type ??
-                                                                            '',
-                                                                        maxLines:
-                                                                            2,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style:
-                                                                            getAppStyle(
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontSize:
-                                                                              15,
-                                                                        ),
+                                                                  mViewModel.checkDeliveryAvailableApi(
+                                                                      addressId: mSavedAddressViewModel
+                                                                          .addressList[
+                                                                              selectedIndex!]
+                                                                          .addressId
+                                                                          .toString());
+                                                                }).whenComplete(
+                                                                        () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                });
+                                                              },
+                                                            ),
+                                                            Expanded(
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    mSavedAddressViewModel
+                                                                            .addressList[index]
+                                                                            .type ??
+                                                                        '',
+                                                                    maxLines: 2,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style:
+                                                                        getAppStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          15,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        vertical:
+                                                                            02),
+                                                                    child: Text(
+                                                                      mSavedAddressViewModel
+                                                                              .addressList[index]
+                                                                              .address ??
+                                                                          '',
+                                                                      style:
+                                                                          getAppStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            12,
                                                                       ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            EdgeInsets.symmetric(vertical: 02),
-                                                                        child:
-                                                                            Text(
-                                                                          mSavedAddressViewModel.addressList[index].address ??
+                                                                    ),
+                                                                  ),
+                                                                  mSavedAddressViewModel
+                                                                              .addressList[
+                                                                                  index]
+                                                                              .mobile ==
+                                                                          ""
+                                                                      ? const SizedBox
+                                                                          .shrink()
+                                                                      : Text(
+                                                                          mSavedAddressViewModel.addressList[index].mobile ??
                                                                               '',
                                                                           style:
                                                                               getAppStyle(
@@ -367,156 +383,136 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                                 12,
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      mSavedAddressViewModel.addressList[index].mobile ==
-                                                                              ""
-                                                                          ? const SizedBox
-                                                                              .shrink()
-                                                                          : Text(
-                                                                              mSavedAddressViewModel.addressList[index].mobile ?? '',
-                                                                              style: getAppStyle(
-                                                                                color: Colors.black,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 12,
-                                                                              ),
-                                                                            ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              if (mSavedAddressViewModel
-                                                  .addressList.isEmpty)
-                                                Expanded(
-                                                  child: Center(
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Image.asset(
-                                                            height: 150,
-                                                            LocalImages
-                                                                .img_delivery_boy),
-                                                        kCommonSpaceV10,
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      60),
-                                                          child: Text(
-                                                            "Where do you want us to deliver?",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: getAppStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      bottomNavigationBar: GestureDetector(
-                                        onTap: () {
-                                          final latLng = LatLng(
-                                            double.parse(gUserLat),
-                                            double.parse(gUserLong),
-                                          );
-                                          print(latLng.latitude);
-                                          print(latLng.longitude);
-                                          push(SelectAddressMapView(
-                                            selectedPlace: latLng,
-                                            isFromEdit: false,
-                                            isFromCart: true,
-                                          ));
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 20, right: 10),
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          height: 48,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            color: CommonColors.primaryColor,
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Add New Address",
-                                                style: getAppStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          if (mSavedAddressViewModel
+                                              .addressList.isEmpty)
+                                            Expanded(
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Image.asset(
+                                                        height: 150,
+                                                        LocalImages
+                                                            .img_delivery_boy),
+                                                    kCommonSpaceV10,
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 60),
+                                                      child: Text(
+                                                        "Where do you want us to deliver?",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: getAppStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 2),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  color: Colors.white
-                                                      .withOpacity(0.8),
-                                                ),
-                                                child: Icon(
-                                                  Icons.add,
-                                                  color:
-                                                      CommonColors.primaryColor,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                            ),
+                                        ],
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
+                                  bottomNavigationBar: GestureDetector(
+                                    onTap: () {
+                                      final latLng = LatLng(
+                                        double.parse(gUserLat),
+                                        double.parse(gUserLong),
+                                      );
+                                      print(latLng.latitude);
+                                      print(latLng.longitude);
+                                      push(SelectAddressMapView(
+                                        selectedPlace: latLng,
+                                        isFromEdit: false,
+                                        isFromCart: true,
+                                      ));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, right: 10),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
+                                      height: 48,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: CommonColors.primaryColor,
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Add New Address",
+                                            style: getAppStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 3, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              color:
+                                                  Colors.white.withOpacity(0.8),
+                                            ),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: CommonColors.primaryColor,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 );
                               },
-                              child: Container(
-                                width: kDeviceWidth / 2,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    selectedIndex == null
-                                        ? "Select delivery address"
-                                        : "Change delivery address",
-                                    style: getAppStyle(
-                                        fontSize: 13,
-                                        color: CommonColors.black54),
-                                  ),
-                                ),
+                            );
+                          },
+                          child: Container(
+                            width: kDeviceWidth / 2,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  width: 0.8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                selectedIndex == null
+                                    ? "Select delivery address"
+                                    : "Change delivery address",
+                                style: getAppStyle(
+                                    fontSize: 13, color: CommonColors.black54),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -552,8 +548,7 @@ class _CheckOutViewState extends State<CheckOutView>
                           ),
                         ),
                         Image.network(
-                            height: 150,
-                            "https://cdn.dribbble.com/users/10331495/screenshots/19035859/media/955ded190607cf1693edb304ee3fe55e.png"),
+                            height: 150, LocalImages.img_delivery_boy_2),
                       ],
                     ),
                   ),
@@ -566,15 +561,13 @@ class _CheckOutViewState extends State<CheckOutView>
               ),
               kCommonSpaceV10,
               _buildPaymentOption(
-                image:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlmfDWOz_NvovSs7fMIVtGOluFu7ul-9EMhA&s",
+                image: LocalImages.img_cash_on_del,
                 title: 'Cash On Delivery',
                 value: 'cod',
               ),
               kCommonSpaceV15,
               _buildPaymentOption(
-                image:
-                    "https://images.saasworthy.com/tr:w-160,h-0,c-at_max,e-sharpen-1/razorpay_3762_logo_1603891770_dtlfw.jpg",
+                image: LocalImages.img_razor_pay,
                 title: 'UPI / Online / Card Payment',
                 value: 'online',
               ),
@@ -671,47 +664,47 @@ class _CheckOutViewState extends State<CheckOutView>
                         ],
                       ),
                     ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(bottom: 14),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "Tax",
+                    //         style: getAppStyle(
+                    //           color: Colors.black,
+                    //           fontWeight: FontWeight.w400,
+                    //           fontSize: 14,
+                    //         ),
+                    //       ),
+                    //       Spacer(),
+                    //       // Text(
+                    //       //   "₹${"9"}",
+                    //       //   style: getAppStyle(
+                    //       //     color: Colors.grey,
+                    //       //     decoration: TextDecoration.lineThrough,
+                    //       //     fontWeight: FontWeight.w600,
+                    //       //     fontSize: 13,
+                    //       //   ),
+                    //       // ),
+                    //       SizedBox(width: 10),
+                    //       Text(
+                    //         "+ ₹${mViewModel.tax}",
+                    //         style: getAppStyle(
+                    //           color: Colors.green,
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 16,
+                    //           textDecorationColor: Colors.black,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 14),
                       child: Row(
                         children: [
                           Text(
-                            "Tax",
-                            style: getAppStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Spacer(),
-                          // Text(
-                          //   "₹${"9"}",
-                          //   style: getAppStyle(
-                          //     color: Colors.grey,
-                          //     decoration: TextDecoration.lineThrough,
-                          //     fontWeight: FontWeight.w600,
-                          //     fontSize: 13,
-                          //   ),
-                          // ),
-                          SizedBox(width: 10),
-                          Text(
-                            "+ ₹${mViewModel.tax}",
-                            style: getAppStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              textDecorationColor: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 14),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Offer Discount",
+                            "Coupon Discount",
                             style: getAppStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
@@ -1017,7 +1010,7 @@ class _CheckOutViewState extends State<CheckOutView>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.network(height: 20, image),
+            Image.asset(height: 20, image),
             kCommonSpaceH10,
             Text(
               title,

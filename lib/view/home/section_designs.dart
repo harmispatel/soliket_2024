@@ -488,7 +488,8 @@ class Section6 extends StatelessWidget {
                                     style: getAppStyle(
                                         fontWeight: FontWeight.w500,
                                         height: 1,
-                                        color: Colors.black87.withOpacity(0.6),
+                                        color: Color(int.parse(
+                                            section6.first.setting.textColor)),
                                         fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),
@@ -552,24 +553,20 @@ class Section7 extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xffffdbdd),
-                        Color(0xffffdbdd),
-                        Color(0xffffbfc0)
-                      ],
-                    ),
+                    // color: Colors.pinkAccent,
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
+                    //   colors: [
+                    //     Color(0xffffdbdd),
+                    //     Color(0xffffdbdd),
+                    //     Color(0xffffbfc0)
+                    //   ],
+                    // ),
+                    image: DecorationImage(
+                        image: NetworkImage(section7[index].image),
+                        fit: BoxFit.fill),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.network(
-                      section7[index].image,
-                      fit: BoxFit.contain,
-                    ),
                   ),
                 ),
               );
