@@ -34,7 +34,6 @@ class SearchViewModel with ChangeNotifier {
     SearchMaster? master = await services.api!.getSearchDataApi(params: params);
 
     isInitialLoading = false;
-    notifyListeners();
 
     if (master == null) {
       CommonUtils.oopsMSG();
@@ -46,6 +45,8 @@ class SearchViewModel with ChangeNotifier {
       return;
     }
 
+    // print(".................... page : ${currentPage} ................");
+
     if (master.status == true) {
       if (currentPage == master.totalPage!) {
         isPageFinish = true;
@@ -55,6 +56,9 @@ class SearchViewModel with ChangeNotifier {
       // productList = master.data ?? [];
       productList.addAll(master.data ?? []);
     }
+
+    // print(".................... page : ${currentPage} ................");
+
     notifyListeners();
   }
 }

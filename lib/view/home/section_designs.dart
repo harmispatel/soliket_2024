@@ -5,6 +5,7 @@ import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
 import 'package:solikat_2024/view/home/sub_offer/sub_offer_view.dart';
 import 'package:solikat_2024/view/home/view_all_products/view_all_products_view.dart';
 import 'package:solikat_2024/widget/common_product_container_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/home_master.dart';
 import '../../utils/common_colors.dart';
@@ -12,10 +13,23 @@ import '../../utils/common_utils.dart';
 import '../../utils/constant.dart';
 import '../../utils/local_images.dart';
 
-class Section1 extends StatelessWidget {
+class Section1 extends StatefulWidget {
   final List<Section1Data> section1;
 
   const Section1({super.key, required this.section1});
+
+  @override
+  State<Section1> createState() => _Section1State();
+}
+
+class _Section1State extends State<Section1> {
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +37,28 @@ class Section1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CarouselSlider.builder(
-          itemCount: section1.length,
+          itemCount: widget.section1.length,
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) {
             return GestureDetector(
               onTap: () {
-                push(SubCategoryView(
-                  categoryId: section1[itemIndex].categoryId,
-                  title: 'Products',
-                ));
+                if (widget.section1[itemIndex].url.isNotEmpty) {
+                  _launchURL(widget.section1[itemIndex].url);
+                } else {
+                  push(
+                    SubCategoryView(
+                      categoryId: widget.section1[itemIndex].categoryId,
+                      title: 'Products',
+                    ),
+                  );
+                }
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   image: DecorationImage(
-                    image: NetworkImage(section1[itemIndex].image),
+                    image: NetworkImage(widget.section1[itemIndex].image),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -521,16 +541,16 @@ class Section7 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (section7Title.isNotEmpty) ...[
-            Image.asset(LocalImages.img_brand_spotlight),
-            kCommonSpaceV20,
-          ],
-          GridView.builder(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (section7Title.isNotEmpty) ...[
+          Image.asset(LocalImages.img_brand_spotlight),
+          kCommonSpaceV20,
+        ],
+        Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 15.0,
@@ -572,9 +592,9 @@ class Section7 extends StatelessWidget {
               );
             },
           ),
-          kCommonSpaceV15,
-        ],
-      ),
+        ),
+        kCommonSpaceV15,
+      ],
     );
   }
 }

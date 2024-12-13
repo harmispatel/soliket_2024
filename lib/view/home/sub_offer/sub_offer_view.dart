@@ -818,6 +818,7 @@ class _SubOfferViewState extends State<SubOfferView> {
                       child: GridView.builder(
                         padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
                         shrinkWrap: true,
+                        controller: _scrollController,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 0.6,

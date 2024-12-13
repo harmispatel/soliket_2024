@@ -165,7 +165,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                         mainNavKey.currentContext!
                             .read<BottomNavbarViewModel>()
                             .onMenuTapped(2);
-                        pushAndRemoveUntil(BottomNavBarView());
+                        pushReplacement(BottomNavBarView());
                       },
                       child: Column(
                         children: [

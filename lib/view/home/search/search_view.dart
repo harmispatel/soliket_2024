@@ -73,6 +73,7 @@ class _SearchViewState extends State<SearchView> {
   void dispose() {
     _scrollController.dispose();
     mViewModel.currentPage = 1;
+    mViewModel.isPageFinish = false;
     mViewModel.productList.clear();
     searchController.clear();
     super.dispose();

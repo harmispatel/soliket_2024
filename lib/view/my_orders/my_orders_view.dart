@@ -23,7 +23,7 @@ class MyOrdersView extends StatefulWidget {
 class _MyOrdersViewState extends State<MyOrdersView>
     with TickerProviderStateMixin {
   late MyOrderViewModel mViewModel;
-  final ScrollController _scrollController = ScrollController();
+  // final ScrollController _scrollController = ScrollController();
   String currentStatus = 'p';
 
   @override
@@ -31,27 +31,27 @@ class _MyOrdersViewState extends State<MyOrdersView>
     super.initState();
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
-      _scrollController.addListener(_scrollListener);
+      // _scrollController.addListener(_scrollListener);
       mViewModel.getOrdersApi(status: currentStatus);
     });
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    // _scrollController.dispose();
     currentStatus = 'p';
     mViewModel.resetPage();
     super.dispose();
   }
 
-  void _scrollListener() {
-    final mViewModel = context.read<MyOrderViewModel>();
-    if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
-        !mViewModel.isPageFinish) {
-      mViewModel.getOrdersApi(status: currentStatus);
-    }
-  }
+  // void _scrollListener() {
+  //   final mViewModel = context.read<MyOrderViewModel>();
+  //   if (_scrollController.position.pixels ==
+  //           _scrollController.position.maxScrollExtent &&
+  //       !mViewModel.isPageFinish) {
+  //     mViewModel.getOrdersApi(status: currentStatus);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +198,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                   ),
                 )
               : ListView.builder(
-                  controller: _scrollController,
+                  // controller: _scrollController,
                   padding: const EdgeInsets.only(top: 12, left: 15, right: 15),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -231,7 +231,7 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                         LocalImages.img_order_basket,
                                         height: 40,
                                       ),
-                                      const SizedBox(width: 20),
+                                      const SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:

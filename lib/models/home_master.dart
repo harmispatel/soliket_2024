@@ -108,16 +108,19 @@ class Section {
 class Section1Data {
   String image;
   String categoryId;
+  String url;
 
   Section1Data({
     required this.image,
     required this.categoryId,
+    required this.url,
   });
 
   factory Section1Data.fromJson(Map<String, dynamic> json) {
     return Section1Data(
       image: json['image'],
       categoryId: json['category_id'],
+      url: json['url'],
     );
   }
 }
