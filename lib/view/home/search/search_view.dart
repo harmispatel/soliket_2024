@@ -265,39 +265,42 @@ class _SearchViewState extends State<SearchView> {
               ),
               itemCount: mViewModel.productList.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: ProductContainer(
-                    onTapProduct: () async {
-                      var variantId = mViewModel.productList[index].variantId;
-                      if (!isBottomSheetOpen) {
-                        isBottomSheetOpen = true;
-                        await mHomeViewModel.getProductDetailsApi(
-                          variantId: variantId?.toString() ?? '',
-                        );
-                        if (mHomeViewModel.productDetailsData != null) {
-                          productDetailsBottomSheet(variantId!);
+                return FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: ProductContainer(
+                      onTapProduct: () async {
+                        var variantId = mViewModel.productList[index].variantId;
+                        if (!isBottomSheetOpen) {
+                          isBottomSheetOpen = true;
+                          await mHomeViewModel.getProductDetailsApi(
+                            variantId: variantId?.toString() ?? '',
+                          );
+                          if (mHomeViewModel.productDetailsData != null) {
+                            productDetailsBottomSheet(variantId!);
+                          }
                         }
-                      }
-                    },
-                    imgUrl: mViewModel.productList[index].image ?? '',
-                    productName:
-                        mViewModel.productList[index].productName ?? '',
-                    onIncrement: () => incrementItem(index),
-                    onDecrement: () => decrementItem(index),
-                    stock: mViewModel.productList[index].stock ?? 0,
-                    variantName:
-                        mViewModel.productList[index].variantName ?? '',
-                    discountPrice:
-                        mViewModel.productList[index].discountPrice ?? 0,
-                    productPrice:
-                        mViewModel.productList[index].productPrice ?? 0,
-                    discountPer: mViewModel.productList[index].discountPer ?? 0,
-                    cartCount: mViewModel.productList[index].cartCount ?? 0,
-                    productId:
-                        mViewModel.productList[index].productId.toString(),
-                    variantId:
-                        mViewModel.productList[index].variantId.toString(),
+                      },
+                      imgUrl: mViewModel.productList[index].image ?? '',
+                      productName:
+                          mViewModel.productList[index].productName ?? '',
+                      onIncrement: () => incrementItem(index),
+                      onDecrement: () => decrementItem(index),
+                      stock: mViewModel.productList[index].stock ?? 0,
+                      variantName:
+                          mViewModel.productList[index].variantName ?? '',
+                      discountPrice:
+                          mViewModel.productList[index].discountPrice ?? 0,
+                      productPrice:
+                          mViewModel.productList[index].productPrice ?? 0,
+                      discountPer:
+                          mViewModel.productList[index].discountPer ?? 0,
+                      cartCount: mViewModel.productList[index].cartCount ?? 0,
+                      productId:
+                          mViewModel.productList[index].productId.toString(),
+                      variantId:
+                          mViewModel.productList[index].variantId.toString(),
+                    ),
                   ),
                 );
               },
@@ -924,29 +927,30 @@ class _SearchViewState extends State<SearchView> {
                                                                               13,
                                                                         ),
                                                                       ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(vertical: 02),
-                                                                            child:
-                                                                                Text(
-                                                                              mHomeViewModel.cartDataList[index].variantName ?? "",
-                                                                              style: getAppStyle(
-                                                                                color: Colors.grey,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 12,
+                                                                      FittedBox(
+                                                                        child:
+                                                                            Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                              child: Text(
+                                                                                mHomeViewModel.cartDataList[index].variantName ?? "",
+                                                                                style: getAppStyle(
+                                                                                  color: Colors.grey,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 12,
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                          kCommonSpaceH10,
-                                                                          if (mHomeViewModel.cartDataList[index].isDeal ==
-                                                                              "y")
-                                                                            Text(
-                                                                              "🎉 Deal Applied",
-                                                                              style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
-                                                                            )
-                                                                        ],
+                                                                            kCommonSpaceH10,
+                                                                            if (mHomeViewModel.cartDataList[index].isDeal ==
+                                                                                "y")
+                                                                              Text(
+                                                                                "🎉 Deal Applied",
+                                                                                style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
+                                                                              )
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),

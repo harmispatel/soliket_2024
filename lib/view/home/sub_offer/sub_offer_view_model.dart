@@ -34,7 +34,6 @@ class SubOfferViewModel with ChangeNotifier {
     OfferProductMaster? master =
         await services.api!.getOfferProductApi(params: params);
     isInitialLoading = false;
-    notifyListeners();
 
     if (master == null) {
       CommonUtils.oopsMSG();

@@ -68,7 +68,11 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
   @override
   void initState() {
     super.initState();
-    _controllerTopCenter = ConfettiController();
+    // Initialize the ConfettiController
+    _controllerTopCenter =
+        ConfettiController(duration: const Duration(seconds: 1));
+
+    // Play the confetti animation only once
     _controllerTopCenter.play();
   }
 
@@ -86,7 +90,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
             .read<BottomNavbarViewModel>()
             .onMenuTapped(2);
 
-        Navigator.of(context).pushAndRemoveUntil(
+        Navigator.of(context).pushReplacement(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 BottomNavBarView(),
@@ -105,9 +109,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
               );
             },
           ),
-          (Route<dynamic> route) => false,
         );
-
         return false;
       },
       child: Stack(
@@ -119,6 +121,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                 title: "Order Confirmed",
                 iconTheme: IconThemeData(color: CommonColors.blackColor),
                 isShowShadow: true,
+                automaticallyImplyLeading: false,
                 isTitleBold: true,
               ),
               body: Padding(
@@ -209,8 +212,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
             child: ConfettiWidget(
               confettiController: _controllerTopCenter,
               blastDirectionality: BlastDirectionality.explosive,
-              shouldLoop: false,
-              // Confetti will only blast once
+              shouldLoop: false, // Ensure confetti does not loop
               colors: const [
                 Colors.green,
                 Colors.blue,
@@ -219,12 +221,9 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                 Colors.purple
               ],
               createParticlePath: drawRandomConfetti,
-              // randomly pick between paper and stars
-              numberOfParticles: 50,
-              // Number of particles
+              numberOfParticles: 20,
               emissionFrequency: 0.5,
-              // Faster emission frequency (lower value = more frequent emission)
-              gravity: 1, // Increased gravity to make the confetti fall faster
+              gravity: 1,
             ),
           ),
         ],

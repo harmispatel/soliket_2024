@@ -1534,29 +1534,30 @@ class _SubOfferViewState extends State<SubOfferView> {
                                                                               13,
                                                                         ),
                                                                       ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(vertical: 02),
-                                                                            child:
-                                                                                Text(
-                                                                              mHomeViewModel.cartDataList[index].variantName ?? "",
-                                                                              style: getAppStyle(
-                                                                                color: Colors.grey,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 12,
+                                                                      FittedBox(
+                                                                        child:
+                                                                            Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                              child: Text(
+                                                                                mHomeViewModel.cartDataList[index].variantName ?? "",
+                                                                                style: getAppStyle(
+                                                                                  color: Colors.grey,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 12,
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                          kCommonSpaceH10,
-                                                                          if (mHomeViewModel.cartDataList[index].isDeal ==
-                                                                              "y")
-                                                                            Text(
-                                                                              "🎉 Deal Applied",
-                                                                              style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
-                                                                            )
-                                                                        ],
+                                                                            kCommonSpaceH10,
+                                                                            if (mHomeViewModel.cartDataList[index].isDeal ==
+                                                                                "y")
+                                                                              Text(
+                                                                                "🎉 Deal Applied",
+                                                                                style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
+                                                                              )
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),

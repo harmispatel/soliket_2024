@@ -12,6 +12,7 @@ class SubCategoryViewModel with ChangeNotifier {
   int currentPage = 1;
   bool isPageFinish = false;
   bool isInitialLoading = true;
+  int selectedIndexCategoryId = 0;
 
   List<ProductData> categoryProductList = [];
   List<SubCategory> subCategoryList = [];
@@ -36,8 +37,6 @@ class SubCategoryViewModel with ChangeNotifier {
         await services.api!.getCategoryProductApi(params: params);
     isInitialLoading = false;
     print(".......... Page ${currentPage}............");
-
-    notifyListeners();
 
     if (master == null) {
       CommonUtils.oopsMSG();
@@ -68,6 +67,9 @@ class SubCategoryViewModel with ChangeNotifier {
           existingIds.add(item.subCategoryId);
         }
       }
+      if (selectedIndexCategoryId == 0) {
+        selectedIndexCategoryId = subCategoryList.first.subCategoryId ?? 0;
+      }
     }
     notifyListeners();
   }
@@ -75,6 +77,7 @@ class SubCategoryViewModel with ChangeNotifier {
   void resetPage() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       currentPage = 1;
+      selectedIndexCategoryId = 0;
       isPageFinish = false;
       isInitialLoading = true;
       categoryProductList.clear();

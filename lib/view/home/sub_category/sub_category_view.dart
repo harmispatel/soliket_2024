@@ -80,7 +80,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
       mViewModel.getCategoryProductApi(
         latitude: gUserLat,
         longitude: gUserLong,
-        categoryId: widget.categoryId.toString(),
+        categoryId: mViewModel.selectedIndexCategoryId.toString(),
       );
     }
   }
@@ -186,8 +186,14 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                               _selectedIndex = index;
                             });
 
+                            mViewModel.selectedIndexCategoryId = mViewModel
+                                    .subCategoryList[index].subCategoryId ??
+                                0;
+
                             print(
                                 "Category id :::: ${mViewModel.subCategoryList[index].subCategoryId}");
+                            print(
+                                "Category id :::: ${mViewModel.selectedIndexCategoryId}");
 
                             // mViewModel.resetPage();
 
@@ -1588,29 +1594,30 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                               13,
                                                                         ),
                                                                       ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.symmetric(vertical: 02),
-                                                                            child:
-                                                                                Text(
-                                                                              mHomeViewModel.cartDataList[index].variantName ?? "",
-                                                                              style: getAppStyle(
-                                                                                color: Colors.grey,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: 12,
+                                                                      FittedBox(
+                                                                        child:
+                                                                            Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 02),
+                                                                              child: Text(
+                                                                                mHomeViewModel.cartDataList[index].variantName ?? "",
+                                                                                style: getAppStyle(
+                                                                                  color: Colors.grey,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: 12,
+                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                          kCommonSpaceH10,
-                                                                          if (mHomeViewModel.cartDataList[index].isDeal ==
-                                                                              "y")
-                                                                            Text(
-                                                                              "🎉 Deal Applied",
-                                                                              style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
-                                                                            )
-                                                                        ],
+                                                                            kCommonSpaceH10,
+                                                                            if (mHomeViewModel.cartDataList[index].isDeal ==
+                                                                                "y")
+                                                                              Text(
+                                                                                "🎉 Deal Applied",
+                                                                                style: getAppStyle(height: 1, fontSize: 12, fontWeight: FontWeight.w500, color: CommonColors.primaryColor),
+                                                                              )
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
