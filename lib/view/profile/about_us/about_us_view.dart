@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,12 @@ class _AboutUsViewState extends State<AboutUsView> {
                 ),
               ),
             if (!mViewModel.isInitialLoading) ...[
-              Image.network(mViewModel.aboutUsList[0].image ?? ''),
+              // Image.network(mViewModel.aboutUsList[0].image ?? ''),
+              FancyShimmerImage(
+                width: kDeviceWidth,
+                shimmerBaseColor: Colors.white30,
+                imageUrl: mViewModel.aboutUsList[0].image ?? '',
+              ),
               kCommonSpaceV20,
               Padding(
                 padding: kCommonScreenPadding,

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -17,6 +16,7 @@ import '../../../widget/primary_button.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view.dart';
 import '../../common_view/bottom_navbar/bottom_navbar_view_model.dart';
 import '../../profile/add_address/select_address/select_address_map_view.dart';
+import '../../profile/profile_view_model.dart';
 import '../../profile/save_address/saved_address_view_model.dart';
 import 'check_out_view_model.dart';
 
@@ -30,12 +30,10 @@ class CheckOutView extends StatefulWidget {
 class _CheckOutViewState extends State<CheckOutView>
     with SingleTickerProviderStateMixin {
   late SavedAddressViewModel mSavedAddressViewModel;
+  late ProfileViewModel mProfileViewModel;
   late CheckOutViewModel mViewModel;
   int? selectedIndex;
-  String selectedPayment = 'cod';
-
-  bool _isBorderRed = true;
-  late Timer _timer;
+  String selectedPayment = '';
 
   @override
   void initState() {
@@ -43,49 +41,44 @@ class _CheckOutViewState extends State<CheckOutView>
     Future.delayed(Duration.zero, () {
       mViewModel.attachedContext(context);
       mSavedAddressViewModel.attachedContext(context);
-      _timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
-        setState(() {
-          _isBorderRed = !_isBorderRed;
-        });
-      });
+      mSavedAddressViewModel.getAddressApi().whenComplete(() {
+        mViewModel.getCheckOutDetailsApi().whenComplete(() {
+          if (mViewModel.isCodAvailable == "y" &&
+              mViewModel.isOnlineAvailable == "y") {
+            selectedPayment = 'cod';
+          } else if (mViewModel.isOnlineAvailable == "y" &&
+              mViewModel.isCodAvailable == "n") {
+            selectedPayment = 'online';
+          }
 
-      mViewModel.updateBillDetailsApi().whenComplete(() {
-        mSavedAddressViewModel.getAddressApi().whenComplete(() {
           if (mSavedAddressViewModel.addressList.isNotEmpty) {
-            selectedIndex = mSavedAddressViewModel.addressList
-                .indexWhere((item) => item.isDefault == "y");
-            if (selectedIndex != -1) {
-              print('Selected index: $selectedIndex');
-            } else {
-              print('No item with isDefault "y" found');
+            for (int i = 0;
+                i < mSavedAddressViewModel.addressList.length;
+                i++) {
+              if (mSavedAddressViewModel.addressList[i].addressId ==
+                  mViewModel.addressId) {
+                selectedIndex = i;
+                break;
+              }
             }
-          } else {
-            selectedIndex = -1;
-          }
-        }).whenComplete(() {
-          if (selectedIndex != -1) {
-            mViewModel.checkDeliveryAvailableApi(
-                addressId: mSavedAddressViewModel
-                    .addressList[selectedIndex!].addressId
-                    .toString());
+
+            if (selectedIndex != -1) {
+              print("Selected Index: $selectedIndex");
+            } else {
+              print("Address ID not found in the list.");
+            }
           }
         });
       });
+      mProfileViewModel.getProfileApi();
     });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    mViewModel.isDeliveryAvailable = true;
-
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<CheckOutViewModel>(context);
     mSavedAddressViewModel = Provider.of<SavedAddressViewModel>(context);
+    mProfileViewModel = Provider.of<ProfileViewModel>(context);
     return WillPopScope(
       onWillPop: () async {
         mainNavKey.currentContext!
@@ -149,13 +142,11 @@ class _CheckOutViewState extends State<CheckOutView>
                           child: Text(
                             "No delivery address selected",
                             style: getAppStyle(
-                                color: CommonColors.mRed, fontSize: 18),
+                                color: CommonColors.mRed, fontSize: 16),
                           ),
                         )
                       ],
-                      if (selectedIndex != null &&
-                          selectedIndex != -1 &&
-                          mSavedAddressViewModel.addressList.isNotEmpty) ...[
+                      if (mViewModel.addressId != 0)
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -165,9 +156,7 @@ class _CheckOutViewState extends State<CheckOutView>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    mSavedAddressViewModel
-                                            .addressList[selectedIndex!].type ??
-                                        '',
+                                    mViewModel.addressType,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: getAppStyle(
@@ -179,10 +168,7 @@ class _CheckOutViewState extends State<CheckOutView>
                                   Padding(
                                     padding: EdgeInsets.symmetric(vertical: 02),
                                     child: Text(
-                                      mSavedAddressViewModel
-                                              .addressList[selectedIndex!]
-                                              .address ??
-                                          '',
+                                      mViewModel.address,
                                       style: getAppStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
@@ -190,28 +176,19 @@ class _CheckOutViewState extends State<CheckOutView>
                                       ),
                                     ),
                                   ),
-                                  mSavedAddressViewModel
-                                              .addressList[selectedIndex!]
-                                              .mobile ==
-                                          ""
-                                      ? const SizedBox.shrink()
-                                      : Text(
-                                          mSavedAddressViewModel
-                                                  .addressList[selectedIndex!]
-                                                  .mobile ??
-                                              '',
-                                          style: getAppStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                  Text(
+                                    mViewModel.mobile,
+                                    style: getAppStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                      ],
                       kCommonSpaceV15,
                       Center(
                         child: GestureDetector(
@@ -261,15 +238,12 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                       .addressId
                                                                       .toString())
                                                           .whenComplete(() {
-                                                        mViewModel.checkDeliveryAvailableApi(
-                                                            addressId:
-                                                                mSavedAddressViewModel
-                                                                    .addressList[
-                                                                        selectedIndex!]
-                                                                    .addressId
-                                                                    .toString());
-                                                      }).whenComplete(() {
-                                                        Navigator.pop(context);
+                                                        mViewModel
+                                                            .getCheckOutDetailsApi()
+                                                            .whenComplete(() {
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
                                                       });
                                                     },
                                                     child: Card(
@@ -284,6 +258,9 @@ class _CheckOutViewState extends State<CheckOutView>
                                                           children: [
                                                             Radio<int>(
                                                               value: index,
+                                                              activeColor:
+                                                                  CommonColors
+                                                                      .primaryColor,
                                                               groupValue:
                                                                   selectedIndex,
                                                               onChanged:
@@ -296,21 +273,13 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                     .setDefaultAddressApi(
                                                                         addressId: mSavedAddressViewModel
                                                                             .addressList[
-                                                                                index!]
+                                                                                selectedIndex!]
                                                                             .addressId
                                                                             .toString())
                                                                     .whenComplete(
                                                                         () {
-                                                                  mViewModel.checkDeliveryAvailableApi(
-                                                                      addressId: mSavedAddressViewModel
-                                                                          .addressList[
-                                                                              selectedIndex!]
-                                                                          .addressId
-                                                                          .toString());
-                                                                }).whenComplete(
-                                                                        () {
-                                                                  Navigator.pop(
-                                                                      context);
+                                                                  mViewModel
+                                                                      .getCheckOutDetailsApi();
                                                                 });
                                                               },
                                                             ),
@@ -517,60 +486,47 @@ class _CheckOutViewState extends State<CheckOutView>
                 ),
               ),
               kCommonSpaceV15,
-              if (mViewModel.isDeliveryAvailable == false) ...[
-                AnimatedContainer(
-                  duration: Duration(
-                      milliseconds:
-                          500), // Animation duration for the border color change
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: _isBorderRed
-                          ? Colors.red
-                          : Colors
-                              .white30, // Toggle between red and transparent
-                      width: 1.6,
+              if (mViewModel.isErrorMsg.isNotEmpty) ...[
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.8),
+                      // border: Border.all(color: Colors.red, width: 0.8),
+                      // borderRadius: BorderRadius.circular(8.0),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 5),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Currently delivery not available on this address.",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.eduNswActFoundation(
-                                color: Colors.red,
-                                fontSize: 20,
-                                height: 1.1,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Image.network(
-                            height: 150, LocalImages.img_delivery_boy_2),
-                      ],
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Center(
+                      child: Text(
+                        mViewModel.isErrorMsg,
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            height: 1.1,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    )),
                 kCommonSpaceV15,
               ],
               Text(
                 "Payment Method",
                 style: getAppStyle(),
               ),
-              kCommonSpaceV10,
-              _buildPaymentOption(
-                image: LocalImages.img_cash_on_del,
-                title: 'Cash On Delivery',
-                value: 'cod',
-              ),
-              kCommonSpaceV15,
-              _buildPaymentOption(
-                image: LocalImages.img_razor_pay,
-                title: 'UPI / Online / Card Payment',
-                value: 'online',
-              ),
+              if (mViewModel.isCodAvailable == "y") ...[
+                kCommonSpaceV10,
+                _buildPaymentOption(
+                  image: LocalImages.img_cash_on_del,
+                  title: 'Cash On Delivery',
+                  value: 'cod',
+                ),
+              ],
+              if (mViewModel.isOnlineAvailable == "y") ...[
+                kCommonSpaceV15,
+                _buildPaymentOption(
+                  image: LocalImages.img_razor_pay,
+                  title: 'UPI / Online / Card Payment',
+                  value: 'online',
+                ),
+              ],
               kCommonSpaceV20,
               Container(
                 width: double.infinity,
@@ -821,13 +777,12 @@ class _CheckOutViewState extends State<CheckOutView>
           child: PrimaryButton(
             height: 45,
             label: "Place Order",
-            buttonColor: mViewModel.isDeliveryAvailable && selectedIndex != -1
+            buttonColor: mViewModel.isErrorMsg.isEmpty
                 ? CommonColors.primaryColor
                 : CommonColors.mGrey500,
             labelColor: CommonColors.mWhite,
             onPress: () {
-              if (mViewModel.isDeliveryAvailable == true &&
-                  selectedIndex != -1) {
+              if (mViewModel.isErrorMsg.isEmpty) {
                 if (selectedPayment == "online") {
                   mViewModel.placeOrderApi(
                     addressId: mSavedAddressViewModel
@@ -843,12 +798,12 @@ class _CheckOutViewState extends State<CheckOutView>
                     'key': razorpayKey,
                     'amount': (totalAmount * 100).toInt(),
                     'name': 'Soliket',
-                    'description': 'Testing payment',
+                    'description': 'Online Payment',
                     'retry': {'enabled': true, 'max_count': 1},
                     'send_sms_hash': true,
                     'prefill': {
-                      'contact': '8866181825',
-                      'email': 'test@razorpay.com'
+                      'contact': mProfileViewModel.profileData?.mobile,
+                      'email': mProfileViewModel.profileData?.email
                     },
                     'external': {
                       'wallets': ['paytm']

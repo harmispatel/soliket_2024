@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/view/home/sub_brand/sub_brand_view.dart';
 import 'package:solikat_2024/view/home/sub_category/sub_category_view.dart';
@@ -55,12 +56,19 @@ class _Section1State extends State<Section1> {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                width: kDeviceWidth,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.section1[itemIndex].image),
-                    fit: BoxFit.fill,
-                  ),
+                  // image: DecorationImage(
+                  //   image: NetworkImage(widget.section1[itemIndex].image),
+                  //   fit: BoxFit.fill,
+                  // ),
+                ),
+                child: FancyShimmerImage(
+                  shimmerBaseColor: Colors.white30,
+                  imageUrl: widget.section1[itemIndex].image,
+                  boxFit: BoxFit.fill,
                 ),
               ),
             );
@@ -130,12 +138,19 @@ class Section2 extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Image.network(
-                          width: double.infinity,
-                          section2[index].image,
-                          fit: BoxFit.fill,
+                        child: FancyShimmerImage(
+                          shimmerBaseColor: Colors.white30,
+                          imageUrl: section2[index].image,
+                          boxFit: BoxFit.fill,
                         ),
                       ),
+                      // Expanded(
+                      //   child: Image.network(
+                      //     width: double.infinity,
+                      //     section2[index].image,
+                      //     fit: BoxFit.fill,
+                      //   ),
+                      // ),
                       kCommonSpaceV5,
                       Text(
                         section2[index].title,
@@ -187,6 +202,7 @@ class Section3 extends StatelessWidget {
             kCommonSpaceV15,
           ],
           GridView.builder(
+            cacheExtent: 9999.0,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               crossAxisSpacing: 12.0,
@@ -217,15 +233,20 @@ class Section3 extends StatelessWidget {
                             color: Colors.orange.shade100.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(8),
                             shape: BoxShape.rectangle),
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(section3[index].image),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
+                        child: FancyShimmerImage(
+                          shimmerBaseColor: Colors.white30,
+                          imageUrl: section3[index].image,
+                          boxFit: BoxFit.fill,
                         ),
+                        // Container(
+                        //   clipBehavior: Clip.antiAlias,
+                        //   decoration: BoxDecoration(
+                        //     image: DecorationImage(
+                        //       image: NetworkImage(section3[index].image),
+                        //       fit: BoxFit.fill,
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -453,6 +474,7 @@ class Section6 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: GridView.builder(
+                    cacheExtent: 9999,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
@@ -488,15 +510,21 @@ class Section6 extends StatelessWidget {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(section6
-                                            .first.categories[index].image),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
+                                  child: FancyShimmerImage(
+                                    shimmerBaseColor: Colors.white30,
+                                    imageUrl:
+                                        section6.first.categories[index].image,
+                                    boxFit: BoxFit.fill,
                                   ),
+                                  // Container(
+                                  //   decoration: BoxDecoration(
+                                  //     image: DecorationImage(
+                                  //       image: NetworkImage(section6
+                                  //           .first.categories[index].image),
+                                  //       fit: BoxFit.fill,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ),
                                 const SizedBox(height: 5),
                                 SizedBox(

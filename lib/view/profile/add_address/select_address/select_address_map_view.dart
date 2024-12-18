@@ -21,13 +21,15 @@ class SelectAddressMapView extends StatefulWidget {
   bool? isFromEdit;
   bool? isFromCart;
   final LatLng? selectedPlace;
+  final String? addressId;
   final String? addressType;
   final String? houseNo;
   final String? roadName;
 
   SelectAddressMapView(
-      {this.selectedPlace,
-      required this.isFromEdit,
+      {required this.isFromEdit,
+      this.selectedPlace,
+      this.addressId,
       this.isFromCart,
       this.addressType,
       this.houseNo,
@@ -438,6 +440,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                     print("Full Address: $_currentAddress");
                                     push(
                                       EditAddressView(
+                                        addressId: widget.addressId,
                                         latitude:
                                             _currentPosition?.latitude ?? 0,
                                         longitude:

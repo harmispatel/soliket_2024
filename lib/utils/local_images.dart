@@ -20,6 +20,8 @@ class LocalImages {
   static const String speakingGif = 'assets/images/speaking.gif';
   static const String noProductGif = 'assets/images/no_product.gif';
   static const String img_notification = 'assets/images/img_notification.png';
+  static const String img_no_notification =
+      'assets/images/img_no_notification.png';
   static const String img_app_logo = 'assets/images/img_app_logo.png';
   static const String img_delivery_boy = 'assets/images/img_delivery_boy.png';
   static const String img_stores = 'assets/images/img_stores.png';
@@ -35,6 +37,9 @@ class LocalImages {
   static const String img_up_side_arrow = 'assets/images/img_up_side_arrow.png';
   static const String img_cash_on_del = 'assets/images/img_cash_on_del.png';
   static const String img_razor_pay = 'assets/images/img_razor_pay.png';
+  static const String img_no_product = 'assets/images/img_no_product.png';
+  static const String img_applied_coupon =
+      'assets/images/img_applied_coupon.png';
   static const String img_delivery_boy_2 =
       'assets/images/img_delivery_boy_2.png';
   static const String img_order_not_found =

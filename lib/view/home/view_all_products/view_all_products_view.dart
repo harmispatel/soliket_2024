@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/home/search/search_view_model.dart';
 import 'package:solikat_2024/view/home/view_all_products/view_all_products_view_model.dart';
 
@@ -682,11 +683,7 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.network(
-                          height: 240,
-                          "https://cdn3d.iconscout.com/3d/premium/thumb/courier-guy-wearing-facemask-and-carrying-packages-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--delivery-man-medical-mask-pack-e-commerce-shopping-illustrations-4054667.png"
-                          // "https://cdn3d.iconscout.com/3d/premium/thumb/no-results-found-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--empty-box-result-not-connection-timeout-pack-miscellaneous-illustrations-4812665.png?f=webp",
-                          ),
+                      Image.asset(height: 240, LocalImages.img_no_product),
                       kCommonSpaceV10,
                       Text(
                         "Product not found!",
@@ -741,26 +738,33 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                             color: CommonColors.mGrey500),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: homeViewModel
-                                                .cartDataList[reverseIndex]
-                                                .image ??
+                                      child: FancyShimmerImage(
+                                        shimmerBaseColor: Colors.white30,
+                                        imageUrl: mHomeViewModel
+                                                .cartDataList[index].image ??
                                             '',
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                          child: SizedBox(
-                                            height: 10,
-                                            width: 10,
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                          Icons.error_outline,
-                                          color: Colors.red,
-                                        ),
+                                        boxFit: BoxFit.cover,
                                       ),
+                                      // CachedNetworkImage(
+                                      //   imageUrl: homeViewModel
+                                      //           .cartDataList[reverseIndex]
+                                      //           .image ??
+                                      //       '',
+                                      //   fit: BoxFit.cover,
+                                      //   placeholder: (context, url) =>
+                                      //       const Center(
+                                      //     child: SizedBox(
+                                      //       height: 10,
+                                      //       width: 10,
+                                      //       child: CircularProgressIndicator(),
+                                      //     ),
+                                      //   ),
+                                      //   errorWidget: (context, url, error) =>
+                                      //       const Icon(
+                                      //     Icons.error_outline,
+                                      //     color: Colors.red,
+                                      //   ),
+                                      // ),
                                     ),
                                   );
                                 },
@@ -1244,58 +1248,72 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                CachedNetworkImage(
+                                                                FancyShimmerImage(
                                                                   height: 60,
                                                                   width: 70,
+                                                                  shimmerBaseColor:
+                                                                      Colors
+                                                                          .white30,
                                                                   imageUrl: mHomeViewModel
                                                                           .cartDataList[
                                                                               index]
                                                                           .image ??
                                                                       '',
-                                                                  imageBuilder:
-                                                                      (context,
-                                                                              imageProvider) =>
-                                                                          Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      image:
-                                                                          DecorationImage(
-                                                                        image:
-                                                                            imageProvider,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  placeholder: (context,
-                                                                          url) =>
-                                                                      const Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            12.0),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        strokeWidth:
-                                                                            2,
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      const Center(
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .error_outline,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                                  ),
+                                                                  boxFit: BoxFit
+                                                                      .contain,
                                                                 ),
+                                                                // CachedNetworkImage(
+                                                                //   height: 60,
+                                                                //   width: 70,
+                                                                //   imageUrl: mHomeViewModel
+                                                                //           .cartDataList[
+                                                                //               index]
+                                                                //           .image ??
+                                                                //       '',
+                                                                //   imageBuilder:
+                                                                //       (context,
+                                                                //               imageProvider) =>
+                                                                //           Container(
+                                                                //     decoration:
+                                                                //         BoxDecoration(
+                                                                //       image:
+                                                                //           DecorationImage(
+                                                                //         image:
+                                                                //             imageProvider,
+                                                                //         fit: BoxFit
+                                                                //             .contain,
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                //   placeholder: (context,
+                                                                //           url) =>
+                                                                //       const Padding(
+                                                                //     padding:
+                                                                //         EdgeInsets.all(
+                                                                //             12.0),
+                                                                //     child:
+                                                                //         Center(
+                                                                //       child:
+                                                                //           CircularProgressIndicator(
+                                                                //         strokeWidth:
+                                                                //             2,
+                                                                //         color: Colors
+                                                                //             .black,
+                                                                //       ),
+                                                                //     ),
+                                                                //   ),
+                                                                //   errorWidget: (context,
+                                                                //           url,
+                                                                //           error) =>
+                                                                //       const Center(
+                                                                //     child: Icon(
+                                                                //       Icons
+                                                                //           .error_outline,
+                                                                //       color: Colors
+                                                                //           .red,
+                                                                //     ),
+                                                                //   ),
+                                                                // ),
                                                                 const SizedBox(
                                                                     width: 14),
                                                                 Expanded(
@@ -1551,35 +1569,47 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                               8),
                                                                 ),
                                                                 child:
-                                                                    CachedNetworkImage(
+                                                                    //     CachedNetworkImage(
+                                                                    //   imageUrl: mHomeViewModel
+                                                                    //           .cartDataList[
+                                                                    //               reverseIndex]
+                                                                    //           .image ??
+                                                                    //       '',
+                                                                    //   fit: BoxFit
+                                                                    //       .cover,
+                                                                    //   placeholder: (context,
+                                                                    //           url) =>
+                                                                    //       const Center(
+                                                                    //     child:
+                                                                    //         SizedBox(
+                                                                    //       height:
+                                                                    //           10,
+                                                                    //       width: 10,
+                                                                    //       child:
+                                                                    //           CircularProgressIndicator(),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    //   errorWidget: (context,
+                                                                    //           url,
+                                                                    //           error) =>
+                                                                    //       const Icon(
+                                                                    //     Icons
+                                                                    //         .error_outline,
+                                                                    //     color: Colors
+                                                                    //         .red,
+                                                                    //   ),
+                                                                    // ),
+                                                                    FancyShimmerImage(
+                                                                  shimmerBaseColor:
+                                                                      Colors
+                                                                          .white30,
                                                                   imageUrl: mHomeViewModel
                                                                           .cartDataList[
                                                                               reverseIndex]
                                                                           .image ??
                                                                       '',
-                                                                  fit: BoxFit
+                                                                  boxFit: BoxFit
                                                                       .cover,
-                                                                  placeholder: (context,
-                                                                          url) =>
-                                                                      const Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                      width: 10,
-                                                                      child:
-                                                                          CircularProgressIndicator(),
-                                                                    ),
-                                                                  ),
-                                                                  errorWidget: (context,
-                                                                          url,
-                                                                          error) =>
-                                                                      const Icon(
-                                                                    Icons
-                                                                        .error_outline,
-                                                                    color: Colors
-                                                                        .red,
-                                                                  ),
                                                                 ),
                                                               ),
                                                             );

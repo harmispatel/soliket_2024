@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:solikat_2024/utils/constant.dart';
+import 'package:solikat_2024/utils/local_images.dart';
 import 'package:solikat_2024/view/cart/coupon/coupon_view_model.dart';
 
 import '../../../utils/common_colors.dart';
@@ -172,11 +174,20 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                               if (mViewModel.couponList[index]
                                                       .isEnabled ==
                                                   "y")
-                                                Image.network(
-                                                  mViewModel.couponList[index]
+                                                // Image.network(
+                                                //   mViewModel.couponList[index]
+                                                //           .icon ??
+                                                //       '',
+                                                //   height: 40,
+                                                // ),
+                                                FancyShimmerImage(
+                                                  height: 40,
+                                                  shimmerBaseColor:
+                                                      Colors.white30,
+                                                  imageUrl: mViewModel
+                                                          .couponList[index]
                                                           .icon ??
                                                       '',
-                                                  height: 40,
                                                 ),
                                               if (mViewModel.couponList[index]
                                                       .isEnabled ==
@@ -190,12 +201,22 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                       BlendMode
                                                           .srcOver, // Blend mode for overlay
                                                     ),
-                                                    child: Image.network(
-                                                      mViewModel
+                                                    child:
+                                                        // Image.network(
+                                                        //   mViewModel
+                                                        //           .couponList[index]
+                                                        //           .icon ??
+                                                        //       '',
+                                                        //   height: 40,
+                                                        // ),
+                                                        FancyShimmerImage(
+                                                      height: 40,
+                                                      shimmerBaseColor:
+                                                          Colors.white30,
+                                                      imageUrl: mViewModel
                                                               .couponList[index]
                                                               .icon ??
                                                           '',
-                                                      height: 40,
                                                     ),
                                                   ),
                                                 ),
@@ -432,9 +453,7 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                       fontSize: 18),
                 ),
                 kCommonSpaceV10,
-                Image.network(
-                    height: 80,
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaysv5S3umspA7i8mwLxeDL7ZtZF9jtgAmHkBUpQOHI63iNGb7H5jENnmMtO-DIIrCD1k&usqp=CAU"),
+                Image.asset(height: 80, LocalImages.img_applied_coupon),
                 kCommonSpaceV20,
                 Text(
                   "$message",

@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -75,11 +76,19 @@ class _ProfileViewState extends State<ProfileView> {
                 ? Row(
                     children: [
                       ClipOval(
-                        child: Image.network(
-                          mViewModel.profileData?.profile ?? '',
+                        child:
+                            // Image.network(
+                            //   mViewModel.profileData?.profile ?? '',
+                            //   width: 60,
+                            //   height: 60,
+                            //   fit: BoxFit.cover,
+                            // ),
+                            FancyShimmerImage(
                           width: 60,
                           height: 60,
-                          fit: BoxFit.cover,
+                          shimmerBaseColor: Colors.white30,
+                          imageUrl: mViewModel.profileData?.profile ?? '',
+                          boxFit: BoxFit.cover,
                         ),
                       ),
                       kCommonSpaceH15,

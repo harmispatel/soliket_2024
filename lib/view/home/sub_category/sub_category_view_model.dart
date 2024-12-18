@@ -67,7 +67,7 @@ class SubCategoryViewModel with ChangeNotifier {
           existingIds.add(item.subCategoryId);
         }
       }
-      if (selectedIndexCategoryId == 0) {
+      if (selectedIndexCategoryId == 0 && subCategoryList.isNotEmpty) {
         selectedIndexCategoryId = subCategoryList.first.subCategoryId ?? 0;
       }
     }

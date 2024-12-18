@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -88,10 +89,10 @@ class _HomeViewState extends State<HomeView> {
       if (!mViewModel.isPageFinish) {
         mViewModel.getHomePageApi(latitude: gUserLat, longitude: gUserLong);
       }
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {});
-        //checkProfileDone();
-      });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   setState(() {});
+      //   //checkProfileDone();
+      // });
       _scrollController.addListener(
         () {
           if (_scrollController.offset > 80 && !_isStickyVisible) {
@@ -1214,56 +1215,69 @@ class _HomeViewState extends State<HomeView> {
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    CachedNetworkImage(
+                                                                    FancyShimmerImage(
                                                                       height:
                                                                           60,
                                                                       width: 70,
+                                                                      shimmerBaseColor:
+                                                                          Colors
+                                                                              .white30,
                                                                       imageUrl:
                                                                           mViewModel.cartDataList[index].image ??
                                                                               '',
-                                                                      imageBuilder:
-                                                                          (context, imageProvider) =>
-                                                                              Container(
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          image:
-                                                                              DecorationImage(
-                                                                            image:
-                                                                                imageProvider,
-                                                                            fit:
-                                                                                BoxFit.contain,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      placeholder:
-                                                                          (context, url) =>
-                                                                              const Padding(
-                                                                        padding:
-                                                                            EdgeInsets.all(12.0),
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              CircularProgressIndicator(
-                                                                            strokeWidth:
-                                                                                2,
-                                                                            color:
-                                                                                Colors.black,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          const Center(
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .error_outline,
-                                                                          color:
-                                                                              Colors.red,
-                                                                        ),
-                                                                      ),
+                                                                      boxFit: BoxFit
+                                                                          .contain,
                                                                     ),
+                                                                    // CachedNetworkImage(
+                                                                    //   height:
+                                                                    //       60,
+                                                                    //   width: 70,
+                                                                    //   imageUrl:
+                                                                    //       mViewModel.cartDataList[index].image ??
+                                                                    //           '',
+                                                                    //   imageBuilder:
+                                                                    //       (context, imageProvider) =>
+                                                                    //           Container(
+                                                                    //     decoration:
+                                                                    //         BoxDecoration(
+                                                                    //       image:
+                                                                    //           DecorationImage(
+                                                                    //         image:
+                                                                    //             imageProvider,
+                                                                    //         fit:
+                                                                    //             BoxFit.contain,
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    //   placeholder:
+                                                                    //       (context, url) =>
+                                                                    //           const Padding(
+                                                                    //     padding:
+                                                                    //         EdgeInsets.all(12.0),
+                                                                    //     child:
+                                                                    //         Center(
+                                                                    //       child:
+                                                                    //           CircularProgressIndicator(
+                                                                    //         strokeWidth:
+                                                                    //             2,
+                                                                    //         color:
+                                                                    //             Colors.black,
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    //   errorWidget: (context,
+                                                                    //           url,
+                                                                    //           error) =>
+                                                                    //       const Center(
+                                                                    //     child:
+                                                                    //         Icon(
+                                                                    //       Icons
+                                                                    //           .error_outline,
+                                                                    //       color:
+                                                                    //           Colors.red,
+                                                                    //     ),
+                                                                    //   ),
+                                                                    // ),
                                                                     const SizedBox(
                                                                         width:
                                                                             14),
@@ -1370,7 +1384,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                       },
                                                                                       child: const Icon(
                                                                                         Icons.remove,
-                                                                                        size: 16,
+                                                                                        size: 17,
                                                                                         color: Colors.white,
                                                                                       ),
                                                                                     ),
@@ -1389,7 +1403,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                       },
                                                                                       child: const Icon(
                                                                                         Icons.add,
-                                                                                        size: 16,
+                                                                                        size: 17,
                                                                                         color: Colors.white,
                                                                                       ),
                                                                                     ),
@@ -1502,35 +1516,46 @@ class _HomeViewState extends State<HomeView> {
                                                                               8),
                                                                     ),
                                                                     child:
-                                                                        CachedNetworkImage(
+                                                                        FancyShimmerImage(
+                                                                      shimmerBaseColor:
+                                                                          Colors
+                                                                              .white30,
                                                                       imageUrl:
                                                                           mViewModel.cartDataList[reverseIndex].image ??
                                                                               '',
-                                                                      fit: BoxFit
+                                                                      boxFit: BoxFit
                                                                           .cover,
-                                                                      placeholder:
-                                                                          (context, url) =>
-                                                                              const Center(
-                                                                        child:
-                                                                            SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                          width:
-                                                                              10,
-                                                                          child:
-                                                                              CircularProgressIndicator(),
-                                                                        ),
-                                                                      ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .error_outline,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      ),
                                                                     ),
+
+                                                                    //     CachedNetworkImage(
+                                                                    //   imageUrl:
+                                                                    //       mViewModel.cartDataList[reverseIndex].image ??
+                                                                    //           '',
+                                                                    //   fit: BoxFit
+                                                                    //       .cover,
+                                                                    //   placeholder:
+                                                                    //       (context, url) =>
+                                                                    //           const Center(
+                                                                    //     child:
+                                                                    //         SizedBox(
+                                                                    //       height:
+                                                                    //           10,
+                                                                    //       width:
+                                                                    //           10,
+                                                                    //       child:
+                                                                    //           CircularProgressIndicator(),
+                                                                    //     ),
+                                                                    //   ),
+                                                                    //   errorWidget: (context,
+                                                                    //           url,
+                                                                    //           error) =>
+                                                                    //       const Icon(
+                                                                    //     Icons
+                                                                    //         .error_outline,
+                                                                    //     color: Colors
+                                                                    //         .red,
+                                                                    //   ),
+                                                                    // ),
                                                                   ),
                                                                 );
                                                               },
@@ -2060,7 +2085,7 @@ class _HomeViewState extends State<HomeView> {
                                             },
                                             child: const Icon(
                                               Icons.remove,
-                                              size: 16,
+                                              size: 17,
                                               color: Colors.white,
                                             ),
                                           ),
@@ -2135,7 +2160,7 @@ class _HomeViewState extends State<HomeView> {
                                             // },
                                             child: const Icon(
                                               Icons.add,
-                                              size: 16,
+                                              size: 17,
                                               color: Colors.white,
                                             ),
                                           ),

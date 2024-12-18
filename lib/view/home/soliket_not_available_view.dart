@@ -6,6 +6,7 @@ import 'package:solikat_2024/utils/constant.dart';
 import 'package:solikat_2024/view/location/location_donNot_allow_view.dart';
 
 import '../../utils/global_variables.dart';
+import '../../utils/local_images.dart';
 import '../../widget/primary_button.dart';
 import '../profile/profile_view_model.dart';
 
@@ -96,9 +97,9 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
               ),
               Spacer(),
               Center(
-                child: Image.network(
+                child: Image.asset(
                   // LocalImages.img_location_disable,
-                  "https://cdn3d.iconscout.com/3d/premium/thumb/location-not-found-9180275-7590823.png?f=webp",
+                  LocalImages.img_location_disable,
                   height: 160,
                 ),
               ),

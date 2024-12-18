@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -355,17 +356,26 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                 horizontal: 5.0, vertical: 0),
                             child: Row(
                               children: [
-                                Container(
+                                // Container(
+                                //   width: 70,
+                                //   height: 70,
+                                //   decoration: BoxDecoration(
+                                //     image: DecorationImage(
+                                //       image: NetworkImage(mViewModel
+                                //               .orderItemList[index].image ??
+                                //           ''),
+                                //       fit: BoxFit.fill,
+                                //     ),
+                                //   ),
+                                // ),
+                                FancyShimmerImage(
                                   width: 70,
                                   height: 70,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(mViewModel
-                                              .orderItemList[index].image ??
-                                          ''),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
+                                  shimmerBaseColor: Colors.white30,
+                                  imageUrl:
+                                      mViewModel.orderItemList[index].image ??
+                                          '',
+                                  boxFit: BoxFit.fill,
                                 ),
                                 kCommonSpaceH10,
                                 Expanded(

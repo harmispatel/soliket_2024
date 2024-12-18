@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -285,15 +285,26 @@ class _MyCartViewState extends State<MyCartView> {
                                                 padding:
                                                     const EdgeInsets.all(16),
                                                 child: Center(
-                                                  child: Image.network(
-                                                    mViewModel
+                                                  child: FancyShimmerImage(
+                                                    height: 150,
+                                                    shimmerBaseColor:
+                                                        Colors.white30,
+                                                    imageUrl: mViewModel
                                                             .dealProductList[
                                                                 index]
                                                             .image ??
                                                         '',
-                                                    fit: BoxFit.contain,
-                                                    height: 150,
+                                                    boxFit: BoxFit.fill,
                                                   ),
+                                                  // Image.network(
+                                                  //   mViewModel
+                                                  //           .dealProductList[
+                                                  //               index]
+                                                  //           .image ??
+                                                  //       '',
+                                                  //   fit: BoxFit.contain,
+                                                  //   height: 150,
+                                                  // ),
                                                 ),
                                               ),
                                               GestureDetector(
@@ -1280,33 +1291,40 @@ class _MyCartListState extends State<MyCartList> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CachedNetworkImage(
+                    // CachedNetworkImage(
+                    //   height: 60,
+                    //   width: 70,
+                    //   imageUrl: cartListDate.image ?? "",
+                    //   imageBuilder: (context, imageProvider) => Container(
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         image: imageProvider,
+                    //         fit: BoxFit.contain,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   placeholder: (context, url) => const Padding(
+                    //     padding: EdgeInsets.all(12.0),
+                    //     child: Center(
+                    //       child: CircularProgressIndicator(
+                    //         strokeWidth: 2,
+                    //         color: Colors.black,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   errorWidget: (context, url, error) => const Center(
+                    //     child: Icon(
+                    //       Icons.error_outline,
+                    //       color: Colors.red,
+                    //     ),
+                    //   ),
+                    // ),
+                    FancyShimmerImage(
                       height: 60,
                       width: 70,
+                      shimmerBaseColor: Colors.white30,
                       imageUrl: cartListDate.image ?? "",
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => const Center(
-                        child: Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                        ),
-                      ),
+                      boxFit: BoxFit.contain,
                     ),
                     kCommonSpaceH5,
                     kCommonSpaceH2,
@@ -1381,7 +1399,7 @@ class _MyCartListState extends State<MyCartList> {
                                       onTap: () => decrementItem(index),
                                       child: const Icon(
                                         Icons.remove,
-                                        size: 16,
+                                        size: 17,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -1398,7 +1416,7 @@ class _MyCartListState extends State<MyCartList> {
                                       onTap: () => incrementItem(index),
                                       child: const Icon(
                                         Icons.add,
-                                        size: 16,
+                                        size: 17,
                                         color: Colors.white,
                                       ),
                                     ),

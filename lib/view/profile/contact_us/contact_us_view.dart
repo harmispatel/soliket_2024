@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -106,10 +107,18 @@ class _ContactUsViewState extends State<ContactUsView> {
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               children: [
-                                Image.network(
-                                    height: 35,
-                                    width: 35,
-                                    mViewModel.contactUsList[index].icon ?? ''),
+                                // Image.network(
+                                //     height: 35,
+                                //     width: 35,
+                                //     mViewModel.contactUsList[index].icon ?? ''),
+                                FancyShimmerImage(
+                                  height: 35,
+                                  width: 35,
+                                  shimmerBaseColor: Colors.white30,
+                                  imageUrl:
+                                      mViewModel.contactUsList[index].icon ??
+                                          '',
+                                ),
                                 kCommonSpaceH10,
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

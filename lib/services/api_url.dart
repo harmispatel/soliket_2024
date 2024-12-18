@@ -58,6 +58,7 @@ class ApiUrl {
   static const String GET_TRANSACTION_HISTORY =
       "${BASE_URL}get_transaction_list";
   static const String GET_APP_VERSION = "${BASE_URL}get_app_version";
+  static const String CHECK_OUT_DETAILS = "${BASE_URL}checkout";
   static const String GET_APP_CREDENSIALS =
       "${BASE_URL}get_soliket_credensials";
 }

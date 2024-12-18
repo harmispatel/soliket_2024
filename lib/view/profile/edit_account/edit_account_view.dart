@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: CommonAppBar(
           title: "Edit Profile",
@@ -118,7 +120,13 @@ class _EditAccountViewState extends State<EditAccountView> {
                           fit: BoxFit.contain,
                         );
                       } else {
-                        return Image.network(
+                        return FancyShimmerImage(
+                          shimmerBaseColor: Colors.white30,
+                          imageUrl: widget.profileImage ?? '',
+                          boxFit: BoxFit.contain,
+                        );
+
+                        Image.network(
                           widget.profileImage ?? '',
                           fit: BoxFit.contain,
                         );

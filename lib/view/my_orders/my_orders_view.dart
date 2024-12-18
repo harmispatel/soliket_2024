@@ -377,28 +377,32 @@ class _MyOrdersViewState extends State<MyOrdersView>
                                                     .orderStatus ==
                                                 "Returned"
                                         ? Expanded(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  height: 40,
-                                                  width: 70,
-                                                  child: Image.asset(LocalImages
-                                                      .img_delivered),
-                                                ),
-                                                Text(
-                                                  mViewModel.orderList[index]
-                                                          .orderStatus ??
-                                                      '',
-                                                  style: GoogleFonts
-                                                      .eduNswActFoundation(
-                                                          color: CommonColors
-                                                              .primaryColor,
-                                                          fontSize: 21,
-                                                          height: 1.1,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                )
-                                              ],
+                                            child: FittedBox(
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 40,
+                                                    width: 70,
+                                                    child: Image.asset(
+                                                        LocalImages
+                                                            .img_delivered),
+                                                  ),
+                                                  Text(
+                                                    mViewModel.orderList[index]
+                                                            .orderStatus ??
+                                                        '',
+                                                    style: GoogleFonts
+                                                        .eduNswActFoundation(
+                                                            color: CommonColors
+                                                                .primaryColor,
+                                                            fontSize: 21,
+                                                            height: 1.1,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           )
                                         : Expanded(

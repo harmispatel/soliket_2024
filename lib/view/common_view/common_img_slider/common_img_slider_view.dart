@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:flutter/material.dart';
 
 class CommonImgSliderView extends StatefulWidget {
   final List<String> imgUrls;
@@ -15,7 +16,13 @@ class _CommonImgSliderViewState extends State<CommonImgSliderView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> imageSliders = widget.imgUrls.map((item) {
-      return CachedNetworkImage(
+      return FancyShimmerImage(
+        shimmerBaseColor: Colors.white30,
+        imageUrl: item,
+        boxFit: BoxFit.cover,
+      );
+
+      CachedNetworkImage(
         imageUrl: item,
         fit: BoxFit.cover,
         placeholder: (context, url) => const Center(

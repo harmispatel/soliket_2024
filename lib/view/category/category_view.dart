@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -78,6 +79,7 @@ class _CategoryViewState extends State<CategoryView> {
             )
           : GridView.builder(
               padding: kCommonScreenPadding,
+              cacheExtent: 9999.0,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 crossAxisSpacing: 12.0,
@@ -110,18 +112,26 @@ class _CategoryViewState extends State<CategoryView> {
                             color: Colors.orange.shade100.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(mViewModel
-                                        .categoryListData[index]
-                                        .categoryImage ??
-                                    ''),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
+                          child: FancyShimmerImage(
+                            shimmerBaseColor: Colors.white30,
+                            imageUrl: mViewModel
+                                    .categoryListData[index].categoryImage ??
+                                '',
+                            boxFit: BoxFit.fill,
                           ),
+
+                          // Container(
+                          //   clipBehavior: Clip.antiAlias,
+                          //   decoration: BoxDecoration(
+                          //     image: DecorationImage(
+                          //       image: NetworkImage(mViewModel
+                          //               .categoryListData[index]
+                          //               .categoryImage ??
+                          //           ''),
+                          //       fit: BoxFit.fill,
+                          //     ),
+                          //   ),
+                          // ),
                         ),
                       ),
                       const SizedBox(height: 5),

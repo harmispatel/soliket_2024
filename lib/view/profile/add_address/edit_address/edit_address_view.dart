@@ -80,7 +80,6 @@ class _EditAddressViewState extends State<EditAddressView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<EditAddressViewModel>(context);
-
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -143,6 +142,7 @@ class _EditAddressViewState extends State<EditAddressView> {
                         print(latLng.longitude);
                         push(
                           SelectAddressMapView(
+                            addressId: widget.addressId,
                             selectedPlace: latLng,
                             isFromEdit: true,
                             addressType: widget.addressType,

@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:solikat_2024/utils/common_colors.dart';
 import 'package:solikat_2024/utils/constant.dart';
@@ -65,10 +66,17 @@ class _ProductContainerState extends State<ProductContainer> {
                     children: [
                       if (widget.stock != 0)
                         Center(
-                          child: Image.network(
-                            widget.imgUrl,
-                            fit: BoxFit.contain,
+                          child:
+                              // Image.network(
+                              //   widget.imgUrl,
+                              //   fit: BoxFit.contain,
+                              //   height: 170,
+                              // ),
+                              FancyShimmerImage(
                             height: 170,
+                            shimmerBaseColor: Colors.white30,
+                            imageUrl: widget.imgUrl,
+                            boxFit: BoxFit.contain,
                           ),
                         ),
                       if (widget.stock == 0)
@@ -78,11 +86,17 @@ class _ProductContainerState extends State<ProductContainer> {
                               Colors.white.withOpacity(0.5),
                               BlendMode.srcOver, // Blend mode for overlay
                             ),
-                            child: Image.network(
-                              widget.imgUrl,
-                              fit: BoxFit.contain,
+                            child: FancyShimmerImage(
                               height: 170,
+                              shimmerBaseColor: Colors.white30,
+                              imageUrl: widget.imgUrl,
+                              boxFit: BoxFit.contain,
                             ),
+                            // Image.network(
+                            //   widget.imgUrl,
+                            //   fit: BoxFit.contain,
+                            //   height: 170,
+                            // ),
                           ),
                         ),
                     ],

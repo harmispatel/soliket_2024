@@ -96,9 +96,9 @@ class _NotificationViewState extends State<NotificationView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.network(
+                          Image.asset(
                             height: 180,
-                            "https://cdni.iconscout.com/illustration/premium/thumb/no-notifications-illustration-download-in-svg-png-gif-file-formats--notification-mail-empty-state-pack-design-development-illustrations-4841580.png",
+                            LocalImages.img_no_notification,
                           ),
                           kCommonSpaceV20,
                           Text(

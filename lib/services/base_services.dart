@@ -19,6 +19,7 @@ import '../models/common_master.dart';
 import '../models/confirm_location_master.dart';
 import '../models/contact_us_master.dart';
 import '../models/faq_master.dart';
+import '../models/get_check_out_details_master.dart';
 import '../models/get_info_master.dart';
 import '../models/get_order_master.dart';
 import '../models/home_master.dart';
@@ -193,4 +194,6 @@ abstract class BaseServices {
   Future<CommonMaster?> cancelOrder({
     required Map<String, dynamic> params,
   });
+
+  Future<GetCheckOutDetailsMaster?> getCheckOutDetails();
 }
