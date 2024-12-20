@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -72,8 +73,8 @@ class _SearchViewState extends State<SearchView> {
   @override
   void dispose() {
     _scrollController.dispose();
-    mViewModel.currentPage = 1;
-    mViewModel.isPageFinish = false;
+    // mViewModel.currentPage = 1;
+    // mViewModel.isPageFinish = false;
     mViewModel.productList.clear();
     searchController.clear();
     super.dispose();
@@ -82,8 +83,7 @@ class _SearchViewState extends State<SearchView> {
   void _scrollListener() {
     final mViewModel = context.read<SearchViewModel>();
     if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
-        !mViewModel.isPageFinish) {
+        _scrollController.position.maxScrollExtent) {
       mViewModel.getSearchDataApi(
         latitude: gUserLat,
         longitude: gUserLong,
@@ -232,7 +232,7 @@ class _SearchViewState extends State<SearchView> {
             isIconButton: true,
             onEditComplete: (value) {
               if (value.length >= 3) {
-                mViewModel.currentPage = 1;
+                // mViewModel.currentPage = 1;
                 mViewModel.productList.clear();
                 mViewModel.getSearchDataApi(
                   latitude: gUserLat,
@@ -247,12 +247,60 @@ class _SearchViewState extends State<SearchView> {
             },
           )),
       body: mViewModel.productList.isEmpty
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Image.asset(height: 350, LocalImages.noProductGif),
-              ),
-            )
+          ? searchController.text.length <= 2
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(height: 150, LocalImages.img_search_boy),
+                    Center(
+                      child: Text(
+                        "Start Your Shopping Journey",
+                        style: getAppStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      ),
+                    ),
+                    kCommonSpaceV5,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15, left: 15),
+                      child: Center(
+                        child: DefaultTextStyle(
+                          style:
+                              getAppStyle(fontSize: 16.0, color: Colors.black),
+                          child: AnimatedTextKit(
+                            totalRepeatCount: 1,
+                            animatedTexts: [
+                              TypewriterAnimatedText(
+                                  'Looking for something? Use the search bar to explore our products.',
+                                  speed: Duration(milliseconds: 50)),
+                            ],
+                            onTap: () {
+                              print("Tap Event");
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(height: 240, LocalImages.img_no_product),
+                      kCommonSpaceV10,
+                      Text(
+                        "Product not found!",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                )
           : GridView.builder(
               padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
               shrinkWrap: true,

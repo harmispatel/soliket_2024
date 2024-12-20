@@ -27,66 +27,64 @@ class _PoliciesViewState extends State<PoliciesView> {
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: const CommonAppBar(
-          title: "Policies",
-          isShowShadow: true,
-          isTitleBold: true,
-          iconTheme: IconThemeData(color: CommonColors.blackColor),
-        ),
-        body: ListView.builder(
-          padding: kCommonScreenPadding + const EdgeInsets.only(top: 10),
-          itemCount: policiesOptions.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                print(index);
-                if (index == 0) {
-                  push(const PrivacyPolicyView());
-                } else if (index == 1) {
-                  push(const TermsAndConditionsView());
-                } else if (index == 2) {
-                  push(const ShippingPolicyView());
-                } else if (index == 3) {
-                  push(const ReturnPolicyView());
-                } else if (index == 4) {
-                  push(const CancellationPolicyView());
-                }
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        policiesOptions[index]["title"],
-                        style: getAppStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: const CommonAppBar(
+        title: "Policies",
+        isShowShadow: true,
+        isTitleBold: true,
+        iconTheme: IconThemeData(color: CommonColors.blackColor),
+      ),
+      body: ListView.builder(
+        padding: kCommonScreenPadding + const EdgeInsets.only(top: 10),
+        itemCount: policiesOptions.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              print(index);
+              if (index == 0) {
+                push(const PrivacyPolicyView());
+              } else if (index == 1) {
+                push(const TermsAndConditionsView());
+              } else if (index == 2) {
+                push(const ShippingPolicyView());
+              } else if (index == 3) {
+                push(const ReturnPolicyView());
+              } else if (index == 4) {
+                push(const CancellationPolicyView());
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      policiesOptions[index]["title"],
+                      style: getAppStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
-                      const Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 18,
-                        color: CommonColors.mGrey500,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Divider(color: CommonColors.mGrey300),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 18,
+                      color: CommonColors.mGrey500,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(color: CommonColors.mGrey300),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

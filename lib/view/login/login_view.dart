@@ -62,117 +62,115 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<LoginViewModel>(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: const CommonAppBar(
-          title: "SOLIKET",
-          isTitleBold: true,
-          isShowShadow: true,
-        ),
-        body: SingleChildScrollView(
-          padding: kCommonScreenPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Enter Your Phone Number",
-                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
-              ),
-              kCommonSpaceV15,
-              LabeledTextField(
-                hintText: "Phone Number",
-                inputType: TextInputType.number,
-                maxLength: 10,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 13, left: 12),
-                  child: Text(
-                    "+91",
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+    return Scaffold(
+      appBar: const CommonAppBar(
+        title: "SOLIKET",
+        isTitleBold: true,
+        isShowShadow: true,
+      ),
+      body: SingleChildScrollView(
+        padding: kCommonScreenPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Enter Your Phone Number",
+              style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
+            ),
+            kCommonSpaceV15,
+            LabeledTextField(
+              hintText: "Phone Number",
+              inputType: TextInputType.number,
+              maxLength: 10,
+              suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(top: 13, left: 12),
+                child: Text(
+                  "+91",
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                controller: phoneController,
-                inputFormatters: [
-                  // This formatter ensures "+91 " cannot be deleted
-                  FilteringTextInputFormatter.allow(RegExp(r'(\d|\+| )')),
-                ],
               ),
-              kCommonSpaceV30,
-              PrimaryButton(
-                height: 55,
-                label: "CONTINUE",
-                buttonColor: buttonColor,
-                labelColor: labelColor,
-                onPress: () {
-                  if (phoneController.text.length == 10) {
-                    mViewModel.loginApi(
-                        country_code: "91",
-                        mobile_no: phoneController.text.trim().toString());
-                  }
-                },
-              ),
-              kCommonSpaceV5,
-              kCommonSpaceV3,
-              Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "By clicking, I accept the ",
-                        style: getAppStyle(fontSize: 12),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          push(TermsAndConditionsView());
-                        },
-                        child: Text(
-                          "Terms & Conditions",
-                          style: getAppStyle(
-                            fontSize: 12,
-                            color: CommonColors.primaryColor,
-                            decoration: TextDecoration.underline,
-                            textDecorationColor: CommonColors.primaryColor,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        " and ",
+              controller: phoneController,
+              inputFormatters: [
+                // This formatter ensures "+91 " cannot be deleted
+                FilteringTextInputFormatter.allow(RegExp(r'(\d|\+| )')),
+              ],
+            ),
+            kCommonSpaceV30,
+            PrimaryButton(
+              height: 55,
+              label: "CONTINUE",
+              buttonColor: buttonColor,
+              labelColor: labelColor,
+              onPress: () {
+                if (phoneController.text.length == 10) {
+                  mViewModel.loginApi(
+                      country_code: "91",
+                      mobile_no: phoneController.text.trim().toString());
+                }
+              },
+            ),
+            kCommonSpaceV5,
+            kCommonSpaceV3,
+            Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "By clicking, I accept the ",
+                      style: getAppStyle(fontSize: 12),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        push(TermsAndConditionsView());
+                      },
+                      child: Text(
+                        "Terms & Conditions",
                         style: getAppStyle(
                           fontSize: 12,
+                          color: CommonColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          textDecorationColor: CommonColors.primaryColor,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          push(PrivacyPolicyView());
-                        },
-                        child: Text(
-                          "Privacy Policy",
-                          style: getAppStyle(
-                            fontSize: 12,
-                            color: CommonColors.primaryColor,
-                            decoration: TextDecoration.underline,
-                            textDecorationColor: CommonColors.primaryColor,
-                          ),
+                    ),
+                    Text(
+                      " and ",
+                      style: getAppStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        push(PrivacyPolicyView());
+                      },
+                      child: Text(
+                        "Privacy Policy",
+                        style: getAppStyle(
+                          fontSize: 12,
+                          color: CommonColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          textDecorationColor: CommonColors.primaryColor,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              // kCommonSpaceV100,
-              // kCommonSpaceV20,
-              // Padding(
-              //   padding: const EdgeInsets.all(25.0),
-              //   child: Image.asset(LocalImages.img_splash_logo),
-              // ),
-            ],
-          ),
+            ),
+            // kCommonSpaceV100,
+            // kCommonSpaceV20,
+            // Padding(
+            //   padding: const EdgeInsets.all(25.0),
+            //   child: Image.asset(LocalImages.img_splash_logo),
+            // ),
+          ],
         ),
       ),
     );

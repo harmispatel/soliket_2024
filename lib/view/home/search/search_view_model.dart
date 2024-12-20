@@ -9,8 +9,8 @@ import '../../../utils/common_utils.dart';
 class SearchViewModel with ChangeNotifier {
   late BuildContext context;
   final services = Services();
-  int currentPage = 1;
-  bool isPageFinish = false;
+  // int currentPage = 1;
+  // bool isPageFinish = false;
   bool isInitialLoading = true;
   List<ProductData> productList = [];
 
@@ -25,7 +25,7 @@ class SearchViewModel with ChangeNotifier {
     required String keyWord,
   }) async {
     Map<String, dynamic> params = <String, dynamic>{
-      ApiParams.page: currentPage.toString(),
+      // ApiParams.page: currentPage.toString(),
       ApiParams.latitude: latitude,
       ApiParams.longitude: longitude,
       ApiParams.keyword: keyWord,
@@ -48,11 +48,11 @@ class SearchViewModel with ChangeNotifier {
     // print(".................... page : ${currentPage} ................");
 
     if (master.status == true) {
-      if (currentPage == master.totalPage!) {
-        isPageFinish = true;
-      } else {
-        currentPage++;
-      }
+      // if (currentPage == master.totalPage!) {
+      //   isPageFinish = true;
+      // } else {
+      //   currentPage++;
+      // }
       // productList = master.data ?? [];
       productList.addAll(master.data ?? []);
     }

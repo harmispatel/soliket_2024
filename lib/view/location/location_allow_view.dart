@@ -137,276 +137,273 @@ class _LocationAllowViewState extends State<LocationAllowView> {
   Widget build(BuildContext context) {
     mViewModel = Provider.of<LocationViewModel>(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: CommonAppBar(
-          title: "Confirm Delivery Location",
-          isTitleBold: true,
-          isShowShadow: true,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        body: Stack(
-          children: [
-            if (_currentPosition != null)
-              GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _currentPosition!,
-                  zoom: 15.0,
-                ),
-                onCameraMove: _onCameraMove,
-                onCameraIdle: _onCameraIdle,
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: "Confirm Delivery Location",
+        isTitleBold: true,
+        isShowShadow: true,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: Stack(
+        children: [
+          if (_currentPosition != null)
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _currentPosition!,
+                zoom: 15.0,
               ),
-            if (_isLoading)
-              Center(
-                child: CircularProgressIndicator(),
+              onCameraMove: _onCameraMove,
+              onCameraIdle: _onCameraIdle,
+            ),
+          if (_isLoading)
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+          if (!_isLoading && _locationError.isEmpty) ...[
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: ShapeDecoration(
+                      color: CommonColors.primaryColor,
+                      shape: TooltipShapeBorder(arrowArc: 0.2),
+                      shadows: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 4.0,
+                            offset: Offset(2, 2))
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Order will be delivered here',
+                            style: getAppStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                height: 1),
+                          ),
+                          Text(
+                            'Place the pin accurately on the map',
+                            style:
+                                getAppStyle(color: Colors.white, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            if (!_isLoading && _locationError.isEmpty) ...[
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: ShapeDecoration(
-                        color: CommonColors.primaryColor,
-                        shape: TooltipShapeBorder(arrowArc: 0.2),
-                        shadows: [
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _getUserLocation();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CommonColors.mWhite,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
                           BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4.0,
-                              offset: Offset(2, 2))
+                            color: Colors.black26,
+                            blurRadius: 6,
+                            offset: Offset(2, 5), // Shadow position
+                          ),
                         ],
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
+                        padding: const EdgeInsets.only(
+                            top: 12, bottom: 12, left: 15, right: 15),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              'Order will be delivered here',
-                              style: getAppStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1),
+                            Icon(
+                              Icons.my_location,
+                              color: CommonColors.primaryColor,
                             ),
+                            kCommonSpaceH10,
                             Text(
-                              'Place the pin accurately on the map',
+                              "Locate Me",
                               style: getAppStyle(
-                                  color: Colors.white, fontSize: 13),
+                                  color: CommonColors.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _getUserLocation();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: CommonColors.mWhite,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                              offset: Offset(2, 5), // Shadow position
+                  ),
+                  kCommonSpaceV15,
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: CommonColors.primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: CommonColors.primaryColor.withOpacity(0.3),
+                              width: 1.0,
                             ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 12, bottom: 12, left: 15, right: 15),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.my_location,
-                                color: CommonColors.primaryColor,
-                              ),
-                              kCommonSpaceH10,
-                              Text(
-                                "Locate Me",
-                                style: getAppStyle(
-                                    color: CommonColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
-                              ),
-                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: CommonColors.primaryColor
+                                          .withOpacity(0.5),
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      size: 17,
+                                      color: CommonColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                kCommonSpaceH15,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _mainArea,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      kCommonSpaceV3,
+                                      Text(
+                                        _currentAddress,
+                                        style:
+                                            TextStyle(fontSize: 13, height: 1),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    var status =
+                                        await Permission.location.status;
+                                    bool isHavePermission = false;
+
+                                    if (status.isGranted) {
+                                      isHavePermission = true;
+                                    }
+                                    push(LocationDoNotAllowView());
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: CommonColors.mWhite,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: CommonColors.primaryColor
+                                            .withOpacity(0.3),
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Text(
+                                        "Change",
+                                        style: getAppStyle(
+                                            color: CommonColors.primaryColor,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    kCommonSpaceV15,
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: CommonColors.primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
+                        SizedBox(height: 16),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: CommonColors.primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(6),
+                                topRight: Radius.circular(6)),
+                            border: Border(
+                              top: BorderSide(
                                 color:
                                     CommonColors.primaryColor.withOpacity(0.3),
                                 width: 1.0,
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(
-                                        color: CommonColors.primaryColor
-                                            .withOpacity(0.5),
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        size: 17,
-                                        color: CommonColors.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  kCommonSpaceH15,
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          _mainArea,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        kCommonSpaceV3,
-                                        Text(
-                                          _currentAddress,
-                                          style: TextStyle(
-                                              fontSize: 13, height: 1),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      var status =
-                                          await Permission.location.status;
-                                      bool isHavePermission = false;
-
-                                      if (status.isGranted) {
-                                        isHavePermission = true;
-                                      }
-                                      push(LocationDoNotAllowView());
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: CommonColors.mWhite,
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          color: CommonColors.primaryColor
-                                              .withOpacity(0.3),
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            top: 5,
-                                            bottom: 5),
-                                        child: Text(
-                                          "Change",
-                                          style: getAppStyle(
-                                              color: CommonColors.primaryColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              left: BorderSide(
+                                color:
+                                    CommonColors.primaryColor.withOpacity(0.3),
+                                width: 1.0,
                               ),
+                              right: BorderSide(
+                                color:
+                                    CommonColors.primaryColor.withOpacity(0.3),
+                                width: 1.0,
+                              ),
+                              // No bottom border
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: CommonColors.primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(6),
-                                  topRight: Radius.circular(6)),
-                              border: Border(
-                                top: BorderSide(
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.3),
-                                  width: 1.0,
-                                ),
-                                left: BorderSide(
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.3),
-                                  width: 1.0,
-                                ),
-                                right: BorderSide(
-                                  color: CommonColors.primaryColor
-                                      .withOpacity(0.3),
-                                  width: 1.0,
-                                ),
-                                // No bottom border
-                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: PrimaryButton(
+                              height: 55,
+                              label: "Confirm Location",
+                              lblSize: 18,
+                              onPress: () {
+                                mViewModel.confirmLocationApi(
+                                    latitude:
+                                        _currentPosition?.latitude.toString() ??
+                                            '',
+                                    longitude: _currentPosition?.longitude
+                                            .toString() ??
+                                        '',
+                                    location: _currentAddress);
+                              },
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: PrimaryButton(
-                                height: 55,
-                                label: "Confirm Location",
-                                lblSize: 18,
-                                onPress: () {
-                                  mViewModel.confirmLocationApi(
-                                      latitude: _currentPosition?.latitude
-                                              .toString() ??
-                                          '',
-                                      longitude: _currentPosition?.longitude
-                                              .toString() ??
-                                          '',
-                                      location: _currentAddress);
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-            if (_locationError.isNotEmpty)
-              Center(
-                child: Text(
-                  _locationError,
-                  style: TextStyle(color: Colors.red, fontSize: 18),
-                ),
-              ),
+            ),
           ],
-        ),
+          if (_locationError.isNotEmpty)
+            Center(
+              child: Text(
+                _locationError,
+                style: TextStyle(color: Colors.red, fontSize: 18),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -182,6 +182,7 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                 // ),
                                                 FancyShimmerImage(
                                                   height: 40,
+                                                  width: 40,
                                                   shimmerBaseColor:
                                                       Colors.white30,
                                                   imageUrl: mViewModel
@@ -211,6 +212,7 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                         // ),
                                                         FancyShimmerImage(
                                                       height: 40,
+                                                      width: 40,
                                                       shimmerBaseColor:
                                                           Colors.white30,
                                                       imageUrl: mViewModel
@@ -222,7 +224,6 @@ class _CouponsOffersViewState extends State<CouponsOffersView> {
                                                 ),
                                             ],
                                           ),
-                                          const SizedBox(width: 10),
                                           GestureDetector(
                                             onTap: () {
                                               debugPrint("OnTap Apply");

@@ -14,11 +14,20 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
+  // // Initialize Firebase
+  // await Firebase.initializeApp(
+  //   options: FirebaseOptions(
+  //     apiKey: "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc",
+  //     appId: "1:921695559318:android:97d1fdfdd8893728946cb7",
+  //     messagingSenderId: "921695559318",
+  //     projectId: "soliket-df75a",
+  //   ),
+  // );
+
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc",
-      appId: "1:921695559318:android:97d1fdfdd8893728946cb7",
+      apiKey: "AIzaSyC1DnyTa806ZUP8QQbvkjdI51xE4Sdv_jw",
+      appId: "1:921695559318:ios:f1edd354958a2297946cb7",
       messagingSenderId: "921695559318",
       projectId: "soliket-df75a",
     ),
@@ -40,10 +49,17 @@ Future<void> main() async {
   // Initialize local notifications
   var androidInitialize =
       const AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  var iosInitialize = DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
   // var iosInitialize = const IOSInitializationSettings();
   var initSettings = InitializationSettings(
     android: androidInitialize,
-    // iOS: iosInitialize,
+    iOS: iosInitialize,
   );
   await flutterLocalNotificationsPlugin.initialize(initSettings);
 
@@ -110,5 +126,3 @@ Future<void> onSelectNotification(String? payload) async {
   // You can navigate to a specific screen if required
   // Example: Navigator.pushNamed(context, '/someScreen');
 }
-
-/// Full App Development Done - 9-12-24

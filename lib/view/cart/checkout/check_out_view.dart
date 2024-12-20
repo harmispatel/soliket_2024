@@ -84,7 +84,6 @@ class _CheckOutViewState extends State<CheckOutView>
         mainNavKey.currentContext!
             .read<BottomNavbarViewModel>()
             .onMenuTapped(3);
-
         Navigator.of(context).pushAndRemoveUntil(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
@@ -279,7 +278,12 @@ class _CheckOutViewState extends State<CheckOutView>
                                                                     .whenComplete(
                                                                         () {
                                                                   mViewModel
-                                                                      .getCheckOutDetailsApi();
+                                                                      .getCheckOutDetailsApi()
+                                                                      .whenComplete(
+                                                                          () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  });
                                                                 });
                                                               },
                                                             ),

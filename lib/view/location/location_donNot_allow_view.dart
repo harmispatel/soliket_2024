@@ -138,192 +138,187 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: CommonAppBar(
-          title: "Search Delivery Location",
-          isTitleBold: true,
-          isShowShadow: true,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        body: Column(
-          children: [
-            kCommonSpaceV15,
-            Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
-              child: LabeledTextField(
-                hintText: "Search your location",
-                onEditComplete: _onSearchChanged,
-                prefixIcon:
-                    Icon(Icons.search, color: CommonColors.primaryColor),
-                controller: searchController,
-              ),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: "Search Delivery Location",
+        isTitleBold: true,
+        isShowShadow: true,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: Column(
+        children: [
+          kCommonSpaceV15,
+          Padding(
+            padding: const EdgeInsets.only(right: 15, left: 15),
+            child: LabeledTextField(
+              hintText: "Search your location",
+              onEditComplete: _onSearchChanged,
+              prefixIcon: Icon(Icons.search, color: CommonColors.primaryColor),
+              controller: searchController,
             ),
-            kCommonSpaceV10,
-            Container(
-              height: 4,
-              color: CommonColors.mGrey200.withOpacity(0.5),
-            ),
-            kCommonSpaceV15,
-            isHavePermission
-                ? GestureDetector(
-                    onTap: () {
-                      push(LocationAllowView());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 15, left: 15),
-                      child: Container(
-                        color: Colors.white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.my_location,
-                              color: CommonColors.primaryColor,
-                            ),
-                            kCommonSpaceH10,
-                            Text(
-                              "Use current location",
-                              style: getAppStyle(
-                                  color: CommonColors.primaryColor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: CommonColors.primaryColor,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Padding(
+          ),
+          kCommonSpaceV10,
+          Container(
+            height: 4,
+            color: CommonColors.mGrey200.withOpacity(0.5),
+          ),
+          kCommonSpaceV15,
+          isHavePermission
+              ? GestureDetector(
+                  onTap: () {
+                    push(LocationAllowView());
+                  },
+                  child: Padding(
                     padding: const EdgeInsets.only(right: 15, left: 15),
                     child: Container(
                       color: Colors.white,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(
                             Icons.my_location,
                             color: CommonColors.primaryColor,
                           ),
                           kCommonSpaceH10,
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Location Permission is off",
-                                  style: getAppStyle(
-                                      color: CommonColors.primaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15),
-                                ),
-                                kCommonSpaceV3,
-                                Text(
-                                  "please location permission for the best delivery experience",
-                                  style: getAppStyle(height: 1, fontSize: 13),
-                                ),
-                              ],
-                            ),
+                          Text(
+                            "Use current location",
+                            style: getAppStyle(
+                                color: CommonColors.primaryColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15),
                           ),
-                          kCommonSpaceH10,
-                          PrimaryButton(
-                            height: 35,
-                            width: 90,
-                            label: "Grant",
-                            onPress: () {
-                              _showAlertDialog(context);
-                            },
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: CommonColors.primaryColor,
+                            size: 18,
                           ),
                         ],
                       ),
                     ),
                   ),
-            kCommonSpaceV15,
-            Container(
-              height: 4,
-              color: CommonColors.mGrey200.withOpacity(0.5),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _suggestions.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: Text(
-                              _suggestions[index]['structured_formatting']
-                                  ['main_text'],
-                              style: getAppStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          subtitle: Text(
-                            _suggestions[index]['description'],
-                            style: getAppStyle(height: 1.1),
-                          ),
-                          leading: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color:
-                                    CommonColors.primaryColor.withOpacity(0.3),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Icon(
-                                Icons.location_on,
-                                size: 17,
-                                color: CommonColors.primaryColor,
-                              ),
-                            ),
-                          ),
-                          onTap: () async {
-                            final placeId = _suggestions[index]['place_id'];
-                            if (placeId != null) {
-                              // Make a separate API call to get details about this place
-                              final response = await fetchPlaceDetails(placeId);
-                              if (response != null &&
-                                  response['geometry'] != null) {
-                                final location =
-                                    response['geometry']['location'];
-                                final latLng = LatLng(
-                                  location['lat'],
-                                  location['lng'],
-                                );
-                                push(LocationAllowView(selectedPlace: latLng));
-                              } else {
-                                // Handle case where location data is still missing
-                                print(
-                                    'Location data is still missing after API call.');
-                                // Optionally show an alert or a Snackbar
-                              }
-                            } else {
-                              print('Place ID is missing.');
-                              // Handle the case where place ID is not available
-                            }
-                          }),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: Container(
-                          height: 1,
-                          color: CommonColors.mGrey300,
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  child: Container(
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.my_location,
+                          color: CommonColors.primaryColor,
                         ),
+                        kCommonSpaceH10,
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Location Permission is off",
+                                style: getAppStyle(
+                                    color: CommonColors.primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15),
+                              ),
+                              kCommonSpaceV3,
+                              Text(
+                                "please location permission for the best delivery experience",
+                                style: getAppStyle(height: 1, fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ),
+                        kCommonSpaceH10,
+                        PrimaryButton(
+                          height: 35,
+                          width: 90,
+                          label: "Grant",
+                          onPress: () {
+                            _showAlertDialog(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+          kCommonSpaceV15,
+          Container(
+            height: 4,
+            color: CommonColors.mGrey200.withOpacity(0.5),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _suggestions.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            _suggestions[index]['structured_formatting']
+                                ['main_text'],
+                            style: getAppStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        subtitle: Text(
+                          _suggestions[index]['description'],
+                          style: getAppStyle(height: 1.1),
+                        ),
+                        leading: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: CommonColors.primaryColor.withOpacity(0.3),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Icon(
+                              Icons.location_on,
+                              size: 17,
+                              color: CommonColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                        onTap: () async {
+                          final placeId = _suggestions[index]['place_id'];
+                          if (placeId != null) {
+                            // Make a separate API call to get details about this place
+                            final response = await fetchPlaceDetails(placeId);
+                            if (response != null &&
+                                response['geometry'] != null) {
+                              final location = response['geometry']['location'];
+                              final latLng = LatLng(
+                                location['lat'],
+                                location['lng'],
+                              );
+                              push(LocationAllowView(selectedPlace: latLng));
+                            } else {
+                              // Handle case where location data is still missing
+                              print(
+                                  'Location data is still missing after API call.');
+                              // Optionally show an alert or a Snackbar
+                            }
+                          } else {
+                            print('Place ID is missing.');
+                            // Handle the case where place ID is not available
+                          }
+                        }),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      child: Container(
+                        height: 1,
+                        color: CommonColors.mGrey300,
                       ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                  ],
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

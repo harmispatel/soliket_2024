@@ -34,64 +34,62 @@ class _ShippingPolicyViewState extends State<ShippingPolicyView> {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<ShippingPolicyViewModel>(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: CommonAppBar(
-          title: "Shipping Policy",
-          isShowShadow: true,
-          isTitleBold: true,
-          iconTheme: IconThemeData(color: CommonColors.blackColor),
-        ),
-        body: SingleChildScrollView(
-          padding: kCommonScreenPadding,
-          child: Column(
-            children: [
-              if (mViewModel.isInitialLoading)
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  enabled: true,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 300.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            color: Colors.white,
-                          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: CommonAppBar(
+        title: "Shipping Policy",
+        isShowShadow: true,
+        isTitleBold: true,
+        iconTheme: IconThemeData(color: CommonColors.blackColor),
+      ),
+      body: SingleChildScrollView(
+        padding: kCommonScreenPadding,
+        child: Column(
+          children: [
+            if (mViewModel.isInitialLoading)
+              Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                enabled: true,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 300.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Colors.white,
                         ),
-                        kCommonSpaceV15,
-                        ListView.builder(
-                          itemCount: 10,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6),
-                              child: Container(
-                                height: 50.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: Colors.white,
-                                ),
+                      ),
+                      kCommonSpaceV15,
+                      ListView.builder(
+                        itemCount: 10,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            child: Container(
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12.0),
+                                color: Colors.white,
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              if (!mViewModel.isInitialLoading) ...[
-                HtmlWidget(
-                  mViewModel.shippingPolicyList[0].description ?? '',
-                  textStyle: getAppStyle(),
-                ),
-              ]
-            ],
-          ),
+              ),
+            if (!mViewModel.isInitialLoading) ...[
+              HtmlWidget(
+                mViewModel.shippingPolicyList[0].description ?? '',
+                textStyle: getAppStyle(),
+              ),
+            ]
+          ],
         ),
       ),
     );

@@ -66,114 +66,112 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
   @override
   Widget build(BuildContext context) {
     mViewModel = Provider.of<OtpViewModel>(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: CommonAppBar(
-          title: appName,
-          isTitleBold: true,
-          isShowShadow: true,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        body: SingleChildScrollView(
-          padding: kCommonScreenPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Enter Your OTP",
-                style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
-              ),
-              kCommonSpaceV20,
-              Row(
-                children: [
-                  Text(
-                    "OTP has been sent to +91${widget.mobileNo} ",
-                    style: getAppStyle(fontSize: 14),
+    return Scaffold(
+      appBar: CommonAppBar(
+        title: appName,
+        isTitleBold: true,
+        isShowShadow: true,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: SingleChildScrollView(
+        padding: kCommonScreenPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Enter Your OTP",
+              style: getAppStyle(fontWeight: FontWeight.w500, fontSize: 19),
+            ),
+            kCommonSpaceV20,
+            Row(
+              children: [
+                Text(
+                  "OTP has been sent to +91${widget.mobileNo} ",
+                  style: getAppStyle(fontSize: 14),
+                ),
+                Icon(
+                  Icons.edit_outlined,
+                  color: CommonColors.primaryColor,
+                  size: 18,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Edit",
+                    style: getAppStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        color: CommonColors.primaryColor),
                   ),
-                  Icon(
-                    Icons.edit_outlined,
-                    color: CommonColors.primaryColor,
-                    size: 18,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Edit",
-                      style: getAppStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: CommonColors.primaryColor),
+                ),
+              ],
+            ),
+            kCommonSpaceV20,
+            otpPinWidget(),
+            kCommonSpaceV30,
+            mViewModel.second == 0
+                ? Center(
+                    child: InkWell(
+                      onTap: () {
+                        mViewModel
+                            .reSendOtpApi(user_id: gUserId)
+                            .whenComplete(() => mViewModel.startTimer());
+                      },
+                      child: Text(
+                        "Resend OTP",
+                        style: getAppStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: CommonColors.primaryColor),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              kCommonSpaceV20,
-              otpPinWidget(),
-              kCommonSpaceV30,
-              mViewModel.second == 0
-                  ? Center(
-                      child: InkWell(
-                        onTap: () {
-                          mViewModel
-                              .reSendOtpApi(user_id: gUserId)
-                              .whenComplete(() => mViewModel.startTimer());
-                        },
-                        child: Text(
-                          "Resend OTP",
-                          style: getAppStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: CommonColors.primaryColor),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Request for new OTP after",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: CommonColors.blackColor,
                         ),
                       ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Request for new OTP after",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: CommonColors.blackColor,
-                          ),
+                      Text(
+                        " ${mViewModel.second} seconds",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: CommonColors.primaryColor,
                         ),
-                        Text(
-                          " ${mViewModel.second} seconds",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: CommonColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-              kCommonSpaceV50,
-              PrimaryButton(
-                height: 50,
-                label: "Verify and Proceed",
-                lblSize: 18,
-                onPress: () {
-                  if (otpController.text.length != 6) {
-                    CommonUtils.showCustomToast(
-                        context, "Please enter 6 digits otp");
-                  } else {
-                    mViewModel.otpVerifyApi(
-                      user_id: gUserId,
-                      otp: otpController.text,
-                      device_token: deviceToken ?? 'no device',
-                      device_type: deviceType,
-                    );
-                  }
-                },
-              ),
-              kCommonSpaceV30
-            ],
-          ),
+                      ),
+                    ],
+                  ),
+            kCommonSpaceV50,
+            PrimaryButton(
+              height: 50,
+              label: "Verify and Proceed",
+              lblSize: 18,
+              onPress: () {
+                if (otpController.text.length != 6) {
+                  CommonUtils.showCustomToast(
+                      context, "Please enter 6 digits otp");
+                } else {
+                  mViewModel.otpVerifyApi(
+                    user_id: gUserId,
+                    otp: otpController.text,
+                    device_token: deviceToken ?? 'no device',
+                    device_type: deviceType,
+                  );
+                }
+              },
+            ),
+            kCommonSpaceV30
+          ],
         ),
       ),
     );
