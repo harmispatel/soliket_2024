@@ -547,12 +547,38 @@ class _HomeViewState extends State<HomeView> {
                             isPrefixIconButton: true,
                             suffixIcon: Icons.mic,
                             readOnly: true,
-                            onSuffixIconPressed: () {
+                            onSuffixIconPressed: () async {
                               if (_isListening) {
                                 _stopListening();
                               } else {
                                 _startListening();
                               }
+
+                              // final status = await Permission.microphone.status;
+                              // if (status.isGranted) {
+                              //   if (_isListening) {
+                              //     _stopListening();
+                              //   } else {
+                              //     _startListening();
+                              //   }
+                              // } else if (status.isDenied) {
+                              //   // Request permission if it's denied but not permanently denied
+                              //   final result =
+                              //       await Permission.microphone.request();
+                              //   if (result.isGranted) {
+                              //     if (_isListening) {
+                              //       _stopListening();
+                              //     } else {
+                              //       _startListening();
+                              //     }
+                              //   } else {
+                              //     // Show a dialog if the user denies again
+                              //     openAppSettings();
+                              //   }
+                              // } else if (status.isPermanentlyDenied) {
+                              //   // Show a dialog guiding the user to the app settings
+                              //   openAppSettings();
+                              // }
                             },
                             onTap: () {
                               push(SearchView(
@@ -683,7 +709,7 @@ class _HomeViewState extends State<HomeView> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  void incrementItem(int index) {
+                                  Future<void> incrementItem(int index) async {
                                     if ((homeViewModel.cartDataList[index]
                                                 .cartCount ??
                                             0) <
@@ -817,7 +843,7 @@ class _HomeViewState extends State<HomeView> {
                                     }
                                   }
 
-                                  void decrementItem(int index) {
+                                  Future<void> decrementItem(int index) async {
                                     if ((homeViewModel.cartDataList[index]
                                                 .cartCount ??
                                             0) >
@@ -1062,6 +1088,24 @@ class _HomeViewState extends State<HomeView> {
                                       }
                                     }
                                   }
+
+                                  double total = mViewModel.cartDataList
+                                      .map((product) {
+                                    double discountPrice = double.tryParse(
+                                            product.discountPrice ?? '0') ??
+                                        0;
+                                    int cartCount = product.cartCount ?? 0;
+                                    return discountPrice * cartCount;
+                                  }).fold(
+                                          0.0,
+                                          (previousValue, element) =>
+                                              previousValue + element);
+
+                                  setState(() {
+                                    mViewModel.cartTotalPrice = total % 1 == 0
+                                        ? total.toInt().toString()
+                                        : total.toString();
+                                  });
 
                                   showModalBottomSheet(
                                     context: context,
@@ -1344,8 +1388,17 @@ class _HomeViewState extends State<HomeView> {
                                                                         mViewModel.cartDataList[index].isDeal ==
                                                                                 "y"
                                                                             ? GestureDetector(
-                                                                                onTap: () {
-                                                                                  decrementItem(index);
+                                                                                onTap: () async {
+                                                                                  await decrementItem(index);
+                                                                                  double total = mViewModel.cartDataList.map((product) {
+                                                                                    double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                    int cartCount = product.cartCount ?? 0;
+                                                                                    return discountPrice * cartCount;
+                                                                                  }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                  setState(() {
+                                                                                    mViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                  });
                                                                                   setState(() {});
                                                                                 },
                                                                                 child: Container(
@@ -1378,8 +1431,19 @@ class _HomeViewState extends State<HomeView> {
                                                                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                                   children: [
                                                                                     GestureDetector(
-                                                                                      onTap: () {
-                                                                                        decrementItem(index);
+                                                                                      onTap: () async {
+                                                                                        await decrementItem(index);
+
+                                                                                        double total = mViewModel.cartDataList.map((product) {
+                                                                                          double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                          int cartCount = product.cartCount ?? 0;
+                                                                                          return discountPrice * cartCount;
+                                                                                        }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                        setState(() {
+                                                                                          mViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                        });
+
                                                                                         setState(() {});
                                                                                       },
                                                                                       child: const Icon(
@@ -1397,8 +1461,19 @@ class _HomeViewState extends State<HomeView> {
                                                                                       ),
                                                                                     ),
                                                                                     GestureDetector(
-                                                                                      onTap: () {
-                                                                                        incrementItem(index);
+                                                                                      onTap: () async {
+                                                                                        await incrementItem(index);
+
+                                                                                        double total = mViewModel.cartDataList.map((product) {
+                                                                                          double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                          int cartCount = product.cartCount ?? 0;
+                                                                                          return discountPrice * cartCount;
+                                                                                        }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                        setState(() {
+                                                                                          mViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                        });
+
                                                                                         setState(() {});
                                                                                       },
                                                                                       child: const Icon(

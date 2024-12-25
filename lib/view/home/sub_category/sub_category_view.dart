@@ -62,16 +62,17 @@ class _SubCategoryViewState extends State<SubCategoryView> {
       mViewModel.getCategoryProductApi(
           latitude: gUserLat,
           longitude: gUserLong,
-          categoryId: widget.categoryId.toString());
+          categoryId: widget.categoryId.toString(),
+          isReset: true);
     });
   }
 
   @override
   void dispose() {
+    super.dispose();
     _scrollController.dispose();
     mViewModel.resetPage();
     mViewModel.subCategoryList.clear();
-    super.dispose();
   }
 
   void _scrollListener() {
@@ -85,6 +86,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
         categoryId: mViewModel.selectedIndexCategoryId == 0
             ? widget.categoryId.toString()
             : mViewModel.selectedIndexCategoryId.toString(),
+        isReset: false,
       );
     }
   }
@@ -213,6 +215,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                               categoryId: mViewModel
                                   .subCategoryList[index].subCategoryId
                                   .toString(),
+                              isReset: false,
                             );
                           },
                           child: Column(
@@ -1395,6 +1398,24 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                 }
                               }
 
+                              double total = homeViewModel.cartDataList
+                                  .map((product) {
+                                double discountPrice = double.tryParse(
+                                        product.discountPrice ?? '0') ??
+                                    0;
+                                int cartCount = product.cartCount ?? 0;
+                                return discountPrice * cartCount;
+                              }).fold(
+                                      0.0,
+                                      (previousValue, element) =>
+                                          previousValue + element);
+
+                              setState(() {
+                                homeViewModel.cartTotalPrice = total % 1 == 0
+                                    ? total.toInt().toString()
+                                    : total.toString();
+                              });
+
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.white,
@@ -1672,6 +1693,15 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                             onTap:
                                                                                 () {
                                                                               decrementItem(index);
+                                                                              double total = homeViewModel.cartDataList.map((product) {
+                                                                                double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                int cartCount = product.cartCount ?? 0;
+                                                                                return discountPrice * cartCount;
+                                                                              }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                              setState(() {
+                                                                                homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                              });
                                                                               setState(() {});
                                                                             },
                                                                             child:
@@ -1713,6 +1743,15 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     decrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(
@@ -1732,6 +1771,15 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     incrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(

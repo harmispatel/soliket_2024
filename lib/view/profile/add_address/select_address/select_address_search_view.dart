@@ -12,7 +12,6 @@ import '../../../../../utils/common_utils.dart';
 import '../../../../../widget/common_appbar.dart';
 import '../../../../../widget/common_text_field.dart';
 import '../../../../../widget/primary_button.dart';
-import '../../../location/location_allow_view.dart';
 
 class PlacesService {
   final String apiKey;
@@ -38,11 +37,13 @@ class SelectAddressSearchView extends StatefulWidget {
   final bool isFromEdit;
   bool? isFromCart;
   final String? addressType;
+  final String? addressId;
   final String? houseNo;
   final String? roadName;
   SelectAddressSearchView(
       {super.key,
       required this.isFromEdit,
+      required this.addressId,
       this.isFromCart,
       this.addressType,
       this.houseNo,
@@ -182,7 +183,16 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
             isHavePermission
                 ? GestureDetector(
                     onTap: () {
-                      push(LocationAllowView());
+                      push(
+                        SelectAddressMapView(
+                          addressId: widget.addressId,
+                          isFromEdit: widget.isFromEdit,
+                          isFromCart: widget.isFromCart,
+                          roadName: widget.roadName,
+                          houseNo: widget.houseNo,
+                          addressType: widget.addressType,
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 15, left: 15),
@@ -314,6 +324,7 @@ class _SelectAddressSearchViewViewState extends State<SelectAddressSearchView>
                                 push(
                                   SelectAddressMapView(
                                     selectedPlace: latLng,
+                                    addressId: widget.addressId,
                                     isFromEdit: widget.isFromEdit,
                                     isFromCart: widget.isFromCart,
                                     roadName: widget.roadName,

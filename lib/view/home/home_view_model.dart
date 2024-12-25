@@ -222,7 +222,7 @@ class HomeViewModel with ChangeNotifier {
 
   void attachedContext(BuildContext context) {
     this.context = context;
-    cartTotalPrice = AppPreferences.instance.getCartTotal();
+    // cartTotalPrice = AppPreferences.instance.getCartTotal();
     loginViewModel = LoginViewModel();
     if (currentPage == 1) {
       loginViewModel.getAppVersionApi().then((_) {
@@ -497,12 +497,12 @@ class HomeViewModel with ChangeNotifier {
       //   Provider.of<CartViewModel>(context, listen: false).getCartApi();
       // });
       cartDataList = master.data?.product ?? [];
-      cartTotalPrice = master.data?.total?.totalAmount.toString() ?? '';
-      String totalAmount = master.data?.total?.totalAmount.toString() ?? "";
-      AppPreferences.instance.setCartTotal(totalAmount);
-      print("Total Amount: $totalAmount");
-      String storedAmount = AppPreferences.instance.getCartTotal();
-      print("Stored Total Amount from SharedPreferences: $storedAmount");
+      // cartTotalPrice = master.data?.total?.totalAmount.toString() ?? '';
+      // String totalAmount = master.data?.total?.totalAmount.toString() ?? '';
+      // AppPreferences.instance.setCartTotal(totalAmount);
+      // print("Total Amount: $totalAmount");
+      // String storedAmount = AppPreferences.instance.getCartTotal();
+      // print("Stored Total Amount from SharedPreferences: $storedAmount");
     }
     notifyListeners();
   }

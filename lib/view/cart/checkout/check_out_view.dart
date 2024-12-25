@@ -49,6 +49,9 @@ class _CheckOutViewState extends State<CheckOutView>
           } else if (mViewModel.isOnlineAvailable == "y" &&
               mViewModel.isCodAvailable == "n") {
             selectedPayment = 'online';
+          } else if (mViewModel.isOnlineAvailable == "n" &&
+              mViewModel.isCodAvailable == "y") {
+            selectedPayment = 'cod';
           }
 
           if (mSavedAddressViewModel.addressList.isNotEmpty) {

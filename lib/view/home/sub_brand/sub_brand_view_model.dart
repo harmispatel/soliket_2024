@@ -20,10 +20,19 @@ class SubBrandViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getBrandProductApi(
-      {required String latitude,
-      required String longitude,
-      required String brandId}) async {
+  Future<void> getBrandProductApi({
+    required String latitude,
+    required String longitude,
+    required String brandId,
+    required bool isReset,
+  }) async {
+    if (isReset) {
+      currentPage = 1;
+      isPageFinish = false;
+      isInitialLoading = true;
+      brandProductList.clear();
+    }
+
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.page: currentPage.toString(),
       ApiParams.latitude: latitude,

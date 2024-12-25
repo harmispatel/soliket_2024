@@ -36,129 +36,134 @@ class _SoliketNotAvailableViewState extends State<SoliketNotAvailableView> {
           statusBarIconBrightness: Brightness.dark,
           systemNavigationBarColor: CommonColors.grayShade200),
     );
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: kCommonScreenPadding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Service Unavailable!",
-                          style: getAppStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              height: 1.2),
-                        ),
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                gUserLocation,
-                                maxLines: 1,
-                                style: getAppStyle(
-                                    fontSize: 14,
-                                    height: 1.2,
-                                    color: CommonColors.black54),
+    return Container(
+      color: CommonColors.mWhite,
+      child: SafeArea(
+        child: Scaffold(
+          body: Padding(
+            padding: kCommonScreenPadding,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Service Unavailable!",
+                            style: getAppStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                height: 1.2),
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  gUserLocation,
+                                  maxLines: 1,
+                                  style: getAppStyle(
+                                      fontSize: 14,
+                                      height: 1.2,
+                                      color: CommonColors.black54),
+                                ),
                               ),
-                            ),
-                            Icon(Icons.keyboard_arrow_down,
-                                color: CommonColors.black54),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // push(ProfileView());
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: CommonColors.mGrey200),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.person_2_outlined,
-                          color: CommonColors.black54,
-                          size: 22,
-                        ),
+                              Icon(Icons.keyboard_arrow_down,
+                                  color: CommonColors.black54),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  )
-                ],
-              ),
-              Spacer(),
-              Center(
-                child: Image.asset(
-                  // LocalImages.img_location_disable,
-                  LocalImages.img_location_disable,
-                  height: 160,
-                ),
-              ),
-              Text(
-                "Service Unavailable!",
-                style: getAppStyle(fontWeight: FontWeight.w600, fontSize: 22),
-              ),
-              kCommonSpaceV10,
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  textAlign: TextAlign.center,
-                  "Soliket is not available at this location, We will be soon there",
-                  style: getAppStyle(
-                      fontSize: 16, height: 1.2, color: CommonColors.black54),
-                ),
-              ),
-              kCommonSpaceV20,
-              PrimaryButton(
-                height: 50,
-                width: kDeviceWidth / 1.5,
-                lblSize: 16,
-                label: "Try Different Location",
-                onPress: () {
-                  push(LocationDoNotAllowView());
-                },
-              ),
-              Spacer(),
-
-              // Spacer(),
-              GestureDetector(
-                onTap: () {
-                  showConfirmationBottomSheet(
-                    title: "Logout",
-                    message: "Are you sure you want to logout of your account?",
-                    onConfirm: () {
-                      ProfileViewModel().logOutApi();
-                    },
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.red,
-                      size: 18,
-                    ),
-                    Text(
-                      " Logout",
-                      style: getAppStyle(
-                          fontSize: 18,
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500),
-                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // push(ProfileView());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: CommonColors.mGrey200),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.person_2_outlined,
+                            color: CommonColors.black54,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
+                Spacer(),
+                Center(
+                  child: Image.asset(
+                    // LocalImages.img_location_disable,
+                    LocalImages.img_location_disable,
+                    height: 160,
+                  ),
+                ),
+                Text(
+                  "Service Unavailable!",
+                  style: getAppStyle(fontWeight: FontWeight.w600, fontSize: 22),
+                ),
+                kCommonSpaceV10,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    "Soliket is not available at this location, We will be soon there",
+                    style: getAppStyle(
+                        fontSize: 16, height: 1.2, color: CommonColors.black54),
+                  ),
+                ),
+                kCommonSpaceV20,
+                PrimaryButton(
+                  height: 50,
+                  width: kDeviceWidth / 1.5,
+                  lblSize: 16,
+                  label: "Try Different Location",
+                  onPress: () {
+                    push(LocationDoNotAllowView());
+                  },
+                ),
+                Spacer(),
+
+                // Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    showConfirmationBottomSheet(
+                      title: "Logout",
+                      message:
+                          "Are you sure you want to logout of your account?",
+                      onConfirm: () {
+                        ProfileViewModel().logOutApi();
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        color: Colors.red,
+                        size: 18,
+                      ),
+                      Text(
+                        " Logout",
+                        style: getAppStyle(
+                            fontSize: 18,
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

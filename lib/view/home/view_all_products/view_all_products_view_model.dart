@@ -19,10 +19,19 @@ class ViewAllProductsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getViewAllProductApi(
-      {required String latitude,
-      required String longitude,
-      required String productId}) async {
+  Future<void> getViewAllProductApi({
+    required String latitude,
+    required String longitude,
+    required String productId,
+    required bool isReset,
+  }) async {
+    if (isReset) {
+      currentPage = 1;
+      isPageFinish = false;
+      isInitialLoading = true;
+      viewAllProductList.clear();
+    }
+
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.page: currentPage.toString(),
       ApiParams.latitude: latitude,

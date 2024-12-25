@@ -130,60 +130,63 @@ class LoginViewModel with ChangeNotifier {
         ),
       ),
       builder: (_) {
-        return IntrinsicHeight(
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20) +
-                    const EdgeInsets.only(top: 22, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(14),
-                      child: Image.asset(
-                        LocalImages.img_splash_logo,
-                        height: 70,
-                        width: 70,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    kCommonSpaceV20,
-                    Text(
-                      "New Update Available",
-                      style: getAppStyle(
-                        color: CommonColors.blackColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 26),
-                      child: Text(
-                        "Update your Soliket app for a seamless experience with new features. You can keep using the app while we update in the background.",
-                        overflow: TextOverflow.clip,
-                        style: getAppStyle(
-                          color: Colors.black.withOpacity(0.6),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: IntrinsicHeight(
+            child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20) +
+                      const EdgeInsets.only(top: 22, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Image.asset(
+                          LocalImages.img_splash_logo,
+                          height: 70,
+                          width: 70,
+                          fit: BoxFit.fill,
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: PrimaryButton(
-                        height: 55,
-                        label: "Update App",
-                        buttonColor: CommonColors.primaryColor,
-                        labelColor: CommonColors.mWhite,
-                        onPress: () {
-                          openStoreListing();
-                        },
+                      kCommonSpaceV20,
+                      Text(
+                        "New Update Available",
+                        style: getAppStyle(
+                          color: CommonColors.blackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 26),
+                        child: Text(
+                          "Update your Soliket app for a seamless experience with new features. You can keep using the app while we update in the background.",
+                          overflow: TextOverflow.clip,
+                          style: getAppStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: PrimaryButton(
+                          height: 55,
+                          label: "Update App",
+                          buttonColor: CommonColors.primaryColor,
+                          labelColor: CommonColors.mWhite,
+                          onPress: () {
+                            openStoreListing();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         );
       },

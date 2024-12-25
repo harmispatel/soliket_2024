@@ -61,37 +61,37 @@ class _MyCartViewState extends State<MyCartView> {
               ),
             )
           : mViewModel.cartList.isEmpty
-              ? Padding(
+              ? SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 15) +
                       const EdgeInsets.only(top: 150, bottom: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        height: 240,
-                        LocalImages.img_cart_empty,
-                      ),
-                      kCommonSpaceV10,
-                      Text(
-                        "Your cart is empty",
-                        textAlign: TextAlign.center,
-                        style: getAppStyle(
-                            fontSize: 22, fontWeight: FontWeight.w500),
-                      ),
-                      const Spacer(),
-                      PrimaryButton(
-                        height: 55,
-                        label: "CONTINUE SHOPPING",
-                        buttonColor: CommonColors.primaryColor,
-                        labelColor: CommonColors.mWhite,
-                        onPress: () {
-                          mainNavKey.currentContext!
-                              .read<BottomNavbarViewModel>()
-                              .onMenuTapped(0);
-                        },
-                      ),
-                    ],
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          height: 240,
+                          LocalImages.img_cart_empty,
+                        ),
+                        kCommonSpaceV10,
+                        Text(
+                          "Your cart is empty",
+                          textAlign: TextAlign.center,
+                          style: getAppStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                        // PrimaryButton(
+                        //   height: 55,
+                        //   label: "CONTINUE SHOPPING",
+                        //   buttonColor: CommonColors.primaryColor,
+                        //   labelColor: CommonColors.mWhite,
+                        //   onPress: () {
+                        //     mainNavKey.currentContext!
+                        //         .read<BottomNavbarViewModel>()
+                        //         .onMenuTapped(0);
+                        //   },
+                        // ),
+                      ],
+                    ),
                   ),
                 )
               : SingleChildScrollView(
@@ -958,7 +958,20 @@ class _MyCartViewState extends State<MyCartView> {
                   ),
                 ),
       bottomNavigationBar: mViewModel.cartList.isEmpty
-          ? null
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PrimaryButton(
+                height: 55,
+                label: "CONTINUE SHOPPING",
+                buttonColor: CommonColors.primaryColor,
+                labelColor: CommonColors.mWhite,
+                onPress: () {
+                  mainNavKey.currentContext!
+                      .read<BottomNavbarViewModel>()
+                      .onMenuTapped(0);
+                },
+              ),
+            )
           : GestureDetector(
               onTap: () {
                 debugPrint("OnTap Schedule Delivery");

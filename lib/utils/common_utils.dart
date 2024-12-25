@@ -451,28 +451,32 @@ class CommonUtils {
     Widget toast = Padding(
       padding: const EdgeInsets.only(bottom: 18, right: 15, left: 15),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Color(0xfffddcbb),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              LocalImages.img_app_logo,
-              width: 34.0,
-              height: 34.0,
-              fit: BoxFit.fill,
-            ),
-            const SizedBox(width: 5.0),
-            Flexible(
-              child: Text(
-                msg ?? '',
-                style: getAppStyle(color: Colors.black),
+        color: Colors.white,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.0),
+            // color: Color(0xfffddcbb),
+            color: CommonColors.primaryColor.withOpacity(0.3),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                LocalImages.img_app_logo,
+                width: 34.0,
+                height: 34.0,
+                fit: BoxFit.fill,
               ),
-            ),
-          ],
+              const SizedBox(width: 5.0),
+              Flexible(
+                child: Text(
+                  msg ?? '',
+                  style: getAppStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

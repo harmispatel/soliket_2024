@@ -56,7 +56,10 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
       mSearchViewModel.attachedContext(context);
       _scrollController.addListener(_scrollListener);
       mViewModel.getViewAllProductApi(
-          latitude: gUserLat, longitude: gUserLong, productId: widget.id);
+          latitude: gUserLat,
+          longitude: gUserLong,
+          productId: widget.id,
+          isReset: true);
     });
   }
 
@@ -75,7 +78,8 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
       mViewModel.getViewAllProductApi(
           latitude: gUserLat,
           longitude: gUserLong,
-          productId: widget.id.toString());
+          productId: widget.id.toString(),
+          isReset: false);
     }
   }
 
@@ -631,50 +635,54 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                   ),
                   itemCount: mViewModel.viewAllProductList.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ProductContainer(
-                        onTapProduct: () async {
-                          var variantId =
-                              mViewModel.viewAllProductList[index].variantId;
-                          if (!isBottomSheetOpen) {
-                            isBottomSheetOpen = true;
-                            await mHomeViewModel.getProductDetailsApi(
-                              variantId: variantId?.toString() ?? '',
-                            );
-                            if (mHomeViewModel.productDetailsData != null) {
-                              productDetailsBottomSheet(variantId!);
+                    return FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: ProductContainer(
+                          onTapProduct: () async {
+                            var variantId =
+                                mViewModel.viewAllProductList[index].variantId;
+                            if (!isBottomSheetOpen) {
+                              isBottomSheetOpen = true;
+                              await mHomeViewModel.getProductDetailsApi(
+                                variantId: variantId?.toString() ?? '',
+                              );
+                              if (mHomeViewModel.productDetailsData != null) {
+                                productDetailsBottomSheet(variantId!);
+                              }
                             }
-                          }
-                        },
-                        imgUrl:
-                            mViewModel.viewAllProductList[index].image ?? '',
-                        productName:
-                            mViewModel.viewAllProductList[index].productName ??
-                                '',
-                        onIncrement: () => incrementItem(index),
-                        onDecrement: () => decrementItem(index),
-                        stock: mViewModel.viewAllProductList[index].stock ?? 0,
-                        variantName:
-                            mViewModel.viewAllProductList[index].variantName ??
-                                '',
-                        discountPrice: mViewModel
-                                .viewAllProductList[index].discountPrice ??
-                            0,
-                        productPrice:
-                            mViewModel.viewAllProductList[index].productPrice ??
-                                0,
-                        discountPer:
-                            mViewModel.viewAllProductList[index].discountPer ??
-                                0,
-                        cartCount:
-                            mViewModel.viewAllProductList[index].cartCount ?? 0,
-                        productId: mViewModel
-                            .viewAllProductList[index].productId
-                            .toString(),
-                        variantId: mViewModel
-                            .viewAllProductList[index].variantId
-                            .toString(),
+                          },
+                          imgUrl:
+                              mViewModel.viewAllProductList[index].image ?? '',
+                          productName: mViewModel
+                                  .viewAllProductList[index].productName ??
+                              '',
+                          onIncrement: () => incrementItem(index),
+                          onDecrement: () => decrementItem(index),
+                          stock:
+                              mViewModel.viewAllProductList[index].stock ?? 0,
+                          variantName: mViewModel
+                                  .viewAllProductList[index].variantName ??
+                              '',
+                          discountPrice: mViewModel
+                                  .viewAllProductList[index].discountPrice ??
+                              0,
+                          productPrice: mViewModel
+                                  .viewAllProductList[index].productPrice ??
+                              0,
+                          discountPer: mViewModel
+                                  .viewAllProductList[index].discountPer ??
+                              0,
+                          cartCount:
+                              mViewModel.viewAllProductList[index].cartCount ??
+                                  0,
+                          productId: mViewModel
+                              .viewAllProductList[index].productId
+                              .toString(),
+                          variantId: mViewModel
+                              .viewAllProductList[index].variantId
+                              .toString(),
+                        ),
                       ),
                     );
                   },
@@ -1110,6 +1118,24 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                 }
                               }
 
+                              double total = homeViewModel.cartDataList
+                                  .map((product) {
+                                double discountPrice = double.tryParse(
+                                        product.discountPrice ?? '0') ??
+                                    0;
+                                int cartCount = product.cartCount ?? 0;
+                                return discountPrice * cartCount;
+                              }).fold(
+                                      0.0,
+                                      (previousValue, element) =>
+                                          previousValue + element);
+
+                              setState(() {
+                                homeViewModel.cartTotalPrice = total % 1 == 0
+                                    ? total.toInt().toString()
+                                    : total.toString();
+                              });
+
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.white,
@@ -1386,6 +1412,15 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                             onTap:
                                                                                 () {
                                                                               decrementItem(index);
+                                                                              double total = homeViewModel.cartDataList.map((product) {
+                                                                                double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                int cartCount = product.cartCount ?? 0;
+                                                                                return discountPrice * cartCount;
+                                                                              }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                              setState(() {
+                                                                                homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                              });
                                                                               setState(() {});
                                                                             },
                                                                             child:
@@ -1427,6 +1462,15 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     decrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(
@@ -1446,6 +1490,15 @@ class _ViewAllProductsViewState extends State<ViewAllProductsView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     incrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(

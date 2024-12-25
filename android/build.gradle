@@ -1,16 +1,31 @@
-allprojects {
-    ext.kotlin_version = '2.0.20'
+// android/build.gradle
+
+buildscript {
+    ext.kotlin_version = '2.0.20' // This should be inside the buildscript block
     repositories {
         google()
         mavenCentral()
     }
+    dependencies {
+        // Place the classpath here, inside the buildscript block
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 
 rootProject.buildDir = "../build"
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }

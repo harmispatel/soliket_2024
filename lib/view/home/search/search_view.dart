@@ -222,12 +222,36 @@ class _SearchViewState extends State<SearchView> {
               Navigator.pop(context);
             },
             suffixIcon: Icons.mic,
-            onSuffixIconPressed: () {
+            onSuffixIconPressed: () async {
               if (_isListening) {
                 _stopListening();
               } else {
                 _startListening();
               }
+
+              // final status = await Permission.microphone.status;
+              // print("Microphone permission status: $status");
+              //
+              // if (status.isGranted) {
+              //   if (_isListening) {
+              //     _stopListening();
+              //   } else {
+              //     _startListening();
+              //   }
+              // } else if (status.isDenied) {
+              //   final result = await Permission.microphone.request();
+              //   if (result.isGranted) {
+              //     if (_isListening) {
+              //       _stopListening();
+              //     } else {
+              //       _startListening();
+              //     }
+              //   } else {
+              //     openAppSettings();
+              //   }
+              // } else if (status.isPermanentlyDenied) {
+              //   openAppSettings();
+              // }
             },
             isIconButton: true,
             onEditComplete: (value) {
@@ -765,6 +789,24 @@ class _SearchViewState extends State<SearchView> {
                                 }
                               }
 
+                              double total = homeViewModel.cartDataList
+                                  .map((product) {
+                                double discountPrice = double.tryParse(
+                                        product.discountPrice ?? '0') ??
+                                    0;
+                                int cartCount = product.cartCount ?? 0;
+                                return discountPrice * cartCount;
+                              }).fold(
+                                      0.0,
+                                      (previousValue, element) =>
+                                          previousValue + element);
+
+                              setState(() {
+                                homeViewModel.cartTotalPrice = total % 1 == 0
+                                    ? total.toInt().toString()
+                                    : total.toString();
+                              });
+
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.white,
@@ -1042,6 +1084,15 @@ class _SearchViewState extends State<SearchView> {
                                                                             onTap:
                                                                                 () {
                                                                               decrementItem(index);
+                                                                              double total = homeViewModel.cartDataList.map((product) {
+                                                                                double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                int cartCount = product.cartCount ?? 0;
+                                                                                return discountPrice * cartCount;
+                                                                              }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                              setState(() {
+                                                                                homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                              });
                                                                               setState(() {});
                                                                             },
                                                                             child:
@@ -1083,6 +1134,15 @@ class _SearchViewState extends State<SearchView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     decrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(
@@ -1102,6 +1162,15 @@ class _SearchViewState extends State<SearchView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     incrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(

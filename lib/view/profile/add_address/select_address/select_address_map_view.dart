@@ -144,7 +144,6 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
   void _onCameraIdle() {
     if (_mapCenter != null) {
       _getAddressFromLatLng(_mapCenter!);
-      // Update _currentPosition to the new map center when the camera stops moving
       setState(() {
         _currentPosition = _mapCenter;
       });
@@ -350,6 +349,7 @@ class _SelectAddressMapViewState extends State<SelectAddressMapView> {
                                           roadName: widget.roadName,
                                           houseNo: widget.houseNo,
                                           addressType: widget.addressType,
+                                          addressId: widget.addressId,
                                         ),
                                       );
                                     },

@@ -123,7 +123,7 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
               automaticallyImplyLeading: false,
               isTitleBold: true,
             ),
-            body: Padding(
+            body: SingleChildScrollView(
               padding: const EdgeInsets.only(
                   left: 16, right: 16, top: 140, bottom: 30),
               child: Column(
@@ -161,35 +161,42 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                       ),
                     ),
                   ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      mainNavKey.currentContext!
-                          .read<BottomNavbarViewModel>()
-                          .onMenuTapped(2);
-                      pushReplacement(BottomNavBarView());
-                    },
-                    child: Column(
-                      children: [
-                        Text(
-                          "My Order",
-                          textAlign: TextAlign.center,
-                          style: getAppStyle(
-                            color: CommonColors.primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          height: 1,
-                          width: 70,
+                ],
+              ),
+            ),
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    mainNavKey.currentContext!
+                        .read<BottomNavbarViewModel>()
+                        .onMenuTapped(2);
+                    pushReplacement(BottomNavBarView());
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        "My Order",
+                        textAlign: TextAlign.center,
+                        style: getAppStyle(
                           color: CommonColors.primaryColor,
-                        )
-                      ],
-                    ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: 70,
+                        color: CommonColors.primaryColor,
+                      )
+                    ],
                   ),
-                  kCommonSpaceV10,
-                  PrimaryButton(
+                ),
+                kCommonSpaceV10,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PrimaryButton(
                     height: 55,
                     label: "Home",
                     buttonColor: CommonColors.primaryColor,
@@ -201,8 +208,8 @@ class _OrderSuccessViewState extends State<OrderSuccessView> {
                       pushAndRemoveUntil(BottomNavBarView());
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Align(

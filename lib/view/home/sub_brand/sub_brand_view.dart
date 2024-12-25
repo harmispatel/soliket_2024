@@ -59,7 +59,8 @@ class _SubBrandViewState extends State<SubBrandView> {
       mViewModel.getBrandProductApi(
           latitude: gUserLat,
           longitude: gUserLong,
-          brandId: widget.brandId.toString());
+          brandId: widget.brandId.toString(),
+          isReset: true);
     });
   }
 
@@ -79,7 +80,8 @@ class _SubBrandViewState extends State<SubBrandView> {
       mViewModel.getBrandProductApi(
           latitude: gUserLat,
           longitude: gUserLong,
-          brandId: widget.brandId.toString());
+          brandId: widget.brandId.toString(),
+          isReset: false);
     }
   }
 
@@ -184,7 +186,8 @@ class _SubBrandViewState extends State<SubBrandView> {
                           mViewModel.getBrandProductApi(
                               latitude: gUserLat,
                               longitude: gUserLong,
-                              brandId: widget.brandId.toString());
+                              brandId: widget.brandId.toString(),
+                              isReset: false);
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5),
@@ -1287,6 +1290,24 @@ class _SubBrandViewState extends State<SubBrandView> {
                                 }
                               }
 
+                              double total = homeViewModel.cartDataList
+                                  .map((product) {
+                                double discountPrice = double.tryParse(
+                                        product.discountPrice ?? '0') ??
+                                    0;
+                                int cartCount = product.cartCount ?? 0;
+                                return discountPrice * cartCount;
+                              }).fold(
+                                      0.0,
+                                      (previousValue, element) =>
+                                          previousValue + element);
+
+                              setState(() {
+                                homeViewModel.cartTotalPrice = total % 1 == 0
+                                    ? total.toInt().toString()
+                                    : total.toString();
+                              });
+
                               showModalBottomSheet(
                                 context: context,
                                 backgroundColor: Colors.white,
@@ -1563,6 +1584,15 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                                             onTap:
                                                                                 () {
                                                                               decrementItem(index);
+                                                                              double total = homeViewModel.cartDataList.map((product) {
+                                                                                double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                int cartCount = product.cartCount ?? 0;
+                                                                                return discountPrice * cartCount;
+                                                                              }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                              setState(() {
+                                                                                homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                              });
                                                                               setState(() {});
                                                                             },
                                                                             child:
@@ -1604,6 +1634,15 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     decrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(
@@ -1623,6 +1662,15 @@ class _SubBrandViewState extends State<SubBrandView> {
                                                                                 GestureDetector(
                                                                                   onTap: () {
                                                                                     incrementItem(index);
+                                                                                    double total = homeViewModel.cartDataList.map((product) {
+                                                                                      double discountPrice = double.tryParse(product.discountPrice ?? '0') ?? 0;
+                                                                                      int cartCount = product.cartCount ?? 0;
+                                                                                      return discountPrice * cartCount;
+                                                                                    }).fold(0.0, (previousValue, element) => previousValue + element);
+
+                                                                                    setState(() {
+                                                                                      homeViewModel.cartTotalPrice = total % 1 == 0 ? total.toInt().toString() : total.toString();
+                                                                                    });
                                                                                     setState(() {});
                                                                                   },
                                                                                   child: const Icon(

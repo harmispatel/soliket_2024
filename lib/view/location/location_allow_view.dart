@@ -34,7 +34,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
   late LocationViewModel mViewModel;
 
   LatLng? _mapCenter;
-  String _locationError = '';
+  // String _locationError = '';
   bool _isAddressFetching = false;
 
   @override
@@ -55,7 +55,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
   Future<void> _getUserLocation() async {
     setState(() {
       _isLoading = true;
-      _locationError = ''; // Reset error message
+      // _locationError = '';
     });
 
     if (await Permission.location.request().isGranted) {
@@ -79,15 +79,17 @@ class _LocationAllowViewState extends State<LocationAllowView> {
         _getAddressFromLatLng(_currentPosition!);
       } catch (e) {
         setState(() {
-          _locationError = 'Failed to get your location. Please try again.';
+          // _locationError = 'Failed to get your location. Please try again.';
           _isLoading = false;
         });
+        pushAndRemoveUntil(LocationDoNotAllowView());
       }
     } else {
       setState(() {
-        _locationError = 'Location permission not granted.';
+        // _locationError = 'Location permission not granted.';
         _isLoading = false;
       });
+      pushAndRemoveUntil(LocationDoNotAllowView());
     }
   }
 
@@ -160,7 +162,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
             Center(
               child: CircularProgressIndicator(),
             ),
-          if (!_isLoading && _locationError.isEmpty) ...[
+          if (!_isLoading) ...[
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -396,13 +398,13 @@ class _LocationAllowViewState extends State<LocationAllowView> {
               ),
             ),
           ],
-          if (_locationError.isNotEmpty)
-            Center(
-              child: Text(
-                _locationError,
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-            ),
+          // if (_locationError.isNotEmpty)
+          //   Center(
+          //     child: Text(
+          //       _locationError,
+          //       style: TextStyle(color: Colors.red, fontSize: 18),
+          //     ),
+          //   ),
         ],
       ),
     );

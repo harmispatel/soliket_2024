@@ -30,8 +30,32 @@ class _SplashViewState extends State<SplashView> {
     });
   }
 
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  Future<void> requestNotificationPermission() async {
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
   Future<void> getDeviceDetails() async {
     try {
+      await requestNotificationPermission();
       deviceToken = await FirebaseMessaging.instance.getToken();
       if (Platform.isAndroid) {
         deviceType = 'android';

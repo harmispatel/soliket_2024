@@ -22,10 +22,21 @@ class SubCategoryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCategoryProductApi(
-      {required String latitude,
-      required String longitude,
-      required String categoryId}) async {
+  Future<void> getCategoryProductApi({
+    required String latitude,
+    required String longitude,
+    required String categoryId,
+    required bool isReset,
+  }) async {
+    if (isReset) {
+      currentPage = 1;
+      selectedIndexCategoryId = 0;
+      isPageFinish = false;
+      isInitialLoading = true;
+      categoryProductList.clear();
+      notifyListeners();
+    }
+
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.page: currentPage.toString(),
       ApiParams.latitude: latitude,
@@ -74,7 +85,7 @@ class SubCategoryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetPage() {
+  Future<void> resetPage() async {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       currentPage = 1;
       selectedIndexCategoryId = 0;
@@ -82,6 +93,11 @@ class SubCategoryViewModel with ChangeNotifier {
       isInitialLoading = true;
       categoryProductList.clear();
       // subCategoryList.clear();
+      print("Current page ........ $currentPage");
+      print("SelectedIndexCategoryId ........ $selectedIndexCategoryId");
+      print("isPageFinish ........ $isPageFinish");
+      print("isInitialLoading ........ $isInitialLoading");
+      print("categoryProductList ........ $categoryProductList");
       notifyListeners();
     });
   }

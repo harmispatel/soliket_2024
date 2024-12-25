@@ -20,10 +20,19 @@ class SubOfferViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getOfferProductApi(
-      {required String latitude,
-      required String longitude,
-      required String offerId}) async {
+  Future<void> getOfferProductApi({
+    required String latitude,
+    required String longitude,
+    required String offerId,
+    required bool isReset,
+  }) async {
+    if (isReset) {
+      currentPage = 1;
+      isPageFinish = false;
+      isInitialLoading = true;
+      offerProductList.clear();
+    }
+
     Map<String, dynamic> params = <String, dynamic>{
       ApiParams.page: currentPage.toString(),
       ApiParams.latitude: latitude,

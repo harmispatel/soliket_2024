@@ -120,22 +120,25 @@ class _ContactUsViewState extends State<ContactUsView> {
                                           '',
                                 ),
                                 kCommonSpaceH10,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      mViewModel.contactUsList[index].title ??
-                                          '',
-                                      style: getAppStyle(
-                                          fontSize: 12,
-                                          color: CommonColors.black54),
-                                    ),
-                                    Text(
-                                      mViewModel.contactUsList[index].value ??
-                                          '',
-                                      style: getAppStyle(fontSize: 16),
-                                    )
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        mViewModel.contactUsList[index].title ??
+                                            '',
+                                        style: getAppStyle(
+                                            fontSize: 12,
+                                            color: CommonColors.black54),
+                                      ),
+                                      Text(
+                                        mViewModel.contactUsList[index].value ??
+                                            '',
+                                        style: getAppStyle(fontSize: 16),
+                                      )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
