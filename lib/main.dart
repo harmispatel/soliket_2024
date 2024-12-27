@@ -14,24 +14,26 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // // Initialize Firebase
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc",
+      appId: "1:921695559318:android:97d1fdfdd8893728946cb7",
+      messagingSenderId: "921695559318",
+      projectId: "soliket-df75a",
+    ),
+  );
+
   // await Firebase.initializeApp(
   //   options: FirebaseOptions(
-  //     apiKey: "AIzaSyDw5SH6yvHgoNhezjf4WcutgyILIPd7kzc",
-  //     appId: "1:921695559318:android:97d1fdfdd8893728946cb7",
+  //     apiKey: "AIzaSyC1DnyTa806ZUP8QQbvkjdI51xE4Sdv_jw",
+  //     appId: "1:921695559318:ios:f1edd354958a2297946cb7",
   //     messagingSenderId: "921695559318",
   //     projectId: "soliket-df75a",
   //   ),
   // );
 
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyC1DnyTa806ZUP8QQbvkjdI51xE4Sdv_jw",
-      appId: "1:921695559318:ios:f1edd354958a2297946cb7",
-      messagingSenderId: "921695559318",
-      projectId: "soliket-df75a",
-    ),
-  );
+  // await Firebase.initializeApp();
 
   // Initialize SharedPreferences
   await AppPreferences.initPref();
@@ -61,20 +63,37 @@ Future<void> main() async {
     android: androidInitialize,
     iOS: iosInitialize,
   );
+
   await flutterLocalNotificationsPlugin.initialize(initSettings);
 
-  // Handle notifications when app is in the foreground
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     print("Notification received: ${message.notification?.title}");
 
-    // Show notification
-    var androidDetails = const AndroidNotificationDetails(
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'channel_id',
       'channel_name',
+      description: 'This channel is used for notifications.',
+      importance: Importance.max,
+    );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    var androidDetails = AndroidNotificationDetails(
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
       importance: Importance.max,
       priority: Priority.high,
     );
-    var notificationDetails = NotificationDetails(android: androidDetails);
+
+    var iosDetails = const DarwinNotificationDetails();
+    var notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
     flutterLocalNotificationsPlugin.show(
       0,
       message.notification?.title,
