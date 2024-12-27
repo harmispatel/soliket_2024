@@ -64,7 +64,6 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
-      // Check location permission when the app is resumed
       _checkLocationPermission();
     }
   }
@@ -109,6 +108,7 @@ class _LocationDoNotAllowViewState extends State<LocationDoNotAllowView>
 
   final PlacesService _placesService =
       PlacesService('AIzaSyBuZVlcMCQy7Y8rRfhYEXSODG0_Ryx14R8');
+
   List<dynamic> _suggestions = [];
 
   void _onSearchChanged(String value) async {

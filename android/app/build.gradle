@@ -45,7 +45,7 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
+        versionCode = 18
         versionName = flutterVersionName
     }
 
@@ -61,12 +61,11 @@ android {
     buildTypes {
         release {
             // Signing with the debug keys for now, so `flutter run --release` works.
-//                signingConfig signingConfigs.debug
+//          signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
-            minifyEnabled true // Enable code shrinking
-            shrinkResources true // Enable resource shrinking
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // Add proguard rules if needed
-
         }
     }
 }

@@ -24,48 +24,46 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app requires access to your location at all times, even when the app is in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app requires access to your location at all times.</string>
+	<string>Your message explaining why you need location access even when the app is in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires access to your location while it is in use.</string>
+	<string>Your message explaining why you need location access.</string>
 	<key>NSMicrophoneUsageDescription</key>
-    <string>We need access to your microphone for voice input.</string>
-	<key>aps-environment</key>
-    <string>development</string> <!-- or "production" depending on the environment -->
+	<string>We need access to your microphone for voice input.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to your photo library to allow users to upload images.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This app requires access to speech recognition to enable voice-based features.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We need your permission to send you notifications.</string>
+	<key>SMS</key>
+	<string>com.apple.sms</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Assets/Fonts/Roboto-Regular.ttf</string>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
-	<key>NSUserNotificationUsageDescription</key>
-    <string>We need your permission to send you notifications.</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>This app requires access to speech recognition to enable voice-based features.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to your photo library to allow users to upload images.</string>
-    <key>UIAppFonts</key>
-    <array>
-        <string>Assets/Fonts/Roboto-Regular.ttf</string>
-    </array>
-
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-    <key>SMS</key>
-    <string>com.apple.sms</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-    <string>0</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -78,6 +76,12 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>aps-environment</key>
+	<string>development</string>
+	<key>com.apple.developer.user-interaction</key>
+	<array>
+		<string>SMS</string>
 	</array>
 </dict>
 </plist>

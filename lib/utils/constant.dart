@@ -35,6 +35,8 @@ const String appPackageName = 'com.soliket.customerapp&pcampaignid=web_share';
 const String playStoreUrl =
     'https://play.google.com/store/apps/details?id=$appPackageName';
 
+const String appStoreUrl = 'https://apps.apple.com/in/app/soliket/id6478860593';
+
 final kSmallCircular = Transform.scale(
   scale: 0.7,
   child: const CircularProgressIndicator(

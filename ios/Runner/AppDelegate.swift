@@ -1,23 +1,8 @@
-//import Flutter
-//import UIKit
-//
-//@main
-//@objc class AppDelegate: FlutterAppDelegate {
-//  override func application(
-//    _ application: UIApplication,
-//    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-//  ) -> Bool {
-//    GMSServices.provideAPIKey("AIzaSyBuZVlcMCQy7Y8rRfhYEXSODG0_Ryx14R8")
-//    GeneratedPluginRegistrant.register(with: self)
-//    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-//  }
-//}
-
-
 import Flutter
 import UIKit
-import GoogleMaps  // Import Google Maps
-import Firebase  // Import Firebase
+import GoogleMaps
+import Firebase
+import UserNotifications
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -31,8 +16,10 @@ import Firebase  // Import Firebase
     // Initialize Firebase
     FirebaseApp.configure()
 
+    UNUserNotificationCenter.current().delegate = self
+    application.registerForRemoteNotifications()
+
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
-

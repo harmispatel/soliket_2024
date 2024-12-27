@@ -100,7 +100,9 @@ class OtpViewModel with ChangeNotifier {
   }
 
   Future<void> requestLocationPermission() async {
-    var status = await Permission.location.status;
+    print(".......... Enter in to Ios Iphone 15 ..........");
+
+    var status = await Permission.locationWhenInUse.status;
 
     print(status);
 
@@ -120,7 +122,7 @@ class OtpViewModel with ChangeNotifier {
       await openAppSettings();
     } else {
       // Request permission
-      var result = await Permission.location.request();
+      var result = await Permission.locationWhenInUse.request();
 
       if (result.isGranted) {
         print("Location permission granted.");

@@ -279,15 +279,28 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<void> _rateUsURL() async {
-    if (await canLaunch(playStoreUrl)) {
-      await launch(playStoreUrl);
-    } else {
-      throw 'Could not launch $playStoreUrl';
+    print("called........1");
+    if (deviceType == "android") {
+      if (await canLaunch(playStoreUrl)) {
+        await launch(playStoreUrl);
+        print("called........2");
+      } else {
+        throw 'Could not launch $playStoreUrl';
+      }
+    } else if (deviceType == "iOS") {
+      print("called........3");
+      if (await canLaunch(appStoreUrl)) {
+        await launch(appStoreUrl);
+        print("called........4");
+      } else {
+        throw 'Could not launch $appStoreUrl';
+      }
     }
   }
 
   void _shareText() {
-    Share.share('Check out this amazing Flutter app!');
+    String url = "${deviceType == "android" ? playStoreUrl : appStoreUrl}";
+    Share.share('Take a Look at Soliket : \n $url');
   }
 
   void showConfirmationBottomSheet({

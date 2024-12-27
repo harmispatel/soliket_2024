@@ -269,7 +269,7 @@ class _OtpViewState extends State<OtpView> with CodeAutoFill {
       submittedPinTheme: submittedPinTheme,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
-      androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+      // androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
       // onCompleted: (pin) async {
       //   mViewModel.otpVerifyApi(
       //     user_id: gUserId,

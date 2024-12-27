@@ -45,9 +45,9 @@ class _LoginViewState extends State<LoginView> {
               ? CommonColors.mWhite
               : Colors.black26;
 
-          if (phoneController.text.length == 10) {
-            FocusScope.of(context).unfocus();
-          }
+          // if (phoneController.text.length == 10) {
+          //   FocusScope.of(context).unfocus();
+          // }
         });
       });
     });

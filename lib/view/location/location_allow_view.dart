@@ -48,6 +48,7 @@ class _LocationAllowViewState extends State<LocationAllowView> {
         _mapCenter = _currentPosition;
       } else {
         _getUserLocation();
+        print("..............Getting Current location................");
       }
     });
   }
